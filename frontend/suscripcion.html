@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Suscripción · Yoga Tierra Viva</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Raleway:wght@300;400&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="images/favicon.svg" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo">Yoga Tierra Viva</a>
+    <ul class="nav-links">
+      <li><a href="index.html#inicio">Inicio</a></li>
+      <li><a href="clases-online.html">Clases Online</a></li>
+      <li><a href="index.html#sobre-mi">Qué es Yoga Tierra</a></li>
+      <li><a href="index.html#contacto">Contacto</a></li>
+      <li><a href="suscripcion.html" class="nav-active">Suscripción</a></li>
+    </ul>
+    <div class="nav-actions" id="navActions"></div>
+    <button class="nav-toggle" aria-label="Abrir menú">&#9776;</button>
+  </nav>
+
+  <!-- CABECERA -->
+  <header class="page-header page-header-pricing">
+    <p class="hero-eyebrow">Acceso completo</p>
+    <h1>Tu práctica <em>sin límites</em></h1>
+    <p>Una suscripción. Todas las clases. A tu ritmo.</p>
+  </header>
+
+  <!-- SECCIÓN DE PRECIOS -->
+  <section class="pricing-section">
+
+    <!-- BENEFICIOS -->
+    <div class="pricing-features">
+      <h3>¿Qué incluye?</h3>
+      <ul>
+        <li>Acceso ilimitado a todas las clases</li>
+        <li>Clases de pranayama y meditación</li>
+        <li>Clases de asanas y movimientos</li>
+        <li>Niveles 1, 2 y 3: de principiante a avanzado</li>
+        <li>Nuevas clases cada mes</li>
+        <li>Practica desde cualquier dispositivo</li>
+        <li>Cancela cuando quieras, sin compromiso</li>
+      </ul>
+    </div>
+
+    <!-- TARJETA DE PRECIO -->
+    <div class="pricing-card">
+      <div class="pricing-amount">
+        <span class="price">17€</span>
+        <span class="price-period">&nbsp;/ mes</span>
+      </div>
+
+      <!-- Estado: ya suscrita -->
+      <div id="alreadySubscribed" style="display:none" class="already-sub">
+        <div class="success-icon">✓</div>
+        <p>¡Hola, <strong class="ya-nombre"></strong>! Ya eres parte de Yoga Tierra Viva.</p>
+        <a href="clases-online.html" class="btn" style="margin-top:1rem">Ver mis clases →</a>
+      </div>
+
+      <!-- Estado: logada sin suscripción -->
+      <div id="activateOnly" style="display:none" class="already-sub">
+        <p>Hola, <strong class="ya-nombre"></strong>. Activa tu suscripción por <strong>17€/mes</strong>.</p>
+        <button id="activateBtn" class="btn" style="margin-top:1rem;width:100%">Activar suscripción</button>
+        <p class="pricing-note" style="margin-top:0.75rem">Sin compromiso · Cancela cuando quieras</p>
+      </div>
+
+      <!-- Formulario de suscripción (nueva cuenta) -->
+      <form id="subscribeForm">
+
+        <!-- Datos personales -->
+        <p class="form-section-label">Datos personales</p>
+        <input type="text"  name="nombre"   placeholder="Nombre completo"  required autocomplete="name" />
+        <input type="email" name="email"    placeholder="Email"             required autocomplete="email" />
+        <input type="tel"   name="telefono" placeholder="Teléfono (opcional)" autocomplete="tel" />
+
+        <!-- Acceso -->
+        <p class="form-section-label" style="margin-top:0.5rem">Acceso a tu cuenta</p>
+        <div class="input-pw-wrap">
+          <input type="password" name="password" placeholder="Crea una contraseña (mín. 8 caracteres)" required autocomplete="new-password" />
+          <button type="button" class="pw-toggle" onclick="togglePw(this)" aria-label="Mostrar contraseña">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <div class="input-pw-wrap">
+          <input type="password" name="password_confirm" placeholder="Confirma tu contraseña" required autocomplete="new-password" />
+          <button type="button" class="pw-toggle" onclick="togglePw(this)" aria-label="Mostrar contraseña">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+
+        <!-- Pago -->
+        <p class="form-section-label" style="margin-top:0.5rem">Pago</p>
+        <div class="payment-placeholder">
+          <span class="payment-placeholder-icon">💳</span>
+          <p>Pasarela de pago segura<br><small>Integración con Stripe próximamente</small></p>
+        </div>
+
+        <!-- Legal -->
+        <div class="check-group">
+          <label class="check-label">
+            <input type="checkbox" name="terminos" required />
+            <span>Acepto los <a href="#" class="link-legal">Términos y condiciones</a></span>
+          </label>
+          <label class="check-label">
+            <input type="checkbox" name="privacidad" required />
+            <span>He leído la <a href="#" class="link-legal">Política de privacidad</a></span>
+          </label>
+        </div>
+
+        <p class="sub-error" style="color:#b04040;font-size:0.85rem;min-height:1.2em;text-align:center"></p>
+        <button type="submit" class="btn" style="width:100%">Empezar ahora · 17€/mes</button>
+        <p class="pricing-note">Sin permanencia · Cancela cuando quieras</p>
+      </form>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>&copy; 2026 Yoga Tierra Viva</p>
+    <div class="footer-links">
+      <a href="#">Instagram</a>
+      <a href="#">WhatsApp</a>
+    </div>
+  </footer>
+
+  <script src="js/auth.js"></script>
+  <script src="js/suscripcion.js"></script>
+</body>
+</html>

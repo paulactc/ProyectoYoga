@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mi cuenta · Yoga Tierra Viva</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Raleway:wght@300;400&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="images/favicon.svg" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo">Yoga Tierra Viva</a>
+    <ul class="nav-links">
+      <li><a href="index.html#inicio">Inicio</a></li>
+      <li><a href="clases-online.html">Clases Online</a></li>
+      <li><a href="index.html#sobre-mi">Qué es Yoga Tierra</a></li>
+      <li><a href="index.html#contacto">Contacto</a></li>
+      <li><a href="suscripcion.html">Suscripción</a></li>
+    </ul>
+    <div class="nav-actions" id="navActions"></div>
+    <button class="nav-toggle" aria-label="Abrir menú">&#9776;</button>
+  </nav>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="cuenta-main" id="cuentaMain">
+
+    <!-- Estado: no logado -->
+    <div id="cuentaLogin" style="display:none" class="cuenta-login-wrap">
+      <p class="hero-eyebrow">Mi cuenta</p>
+      <h1>Inicia sesión para continuar</h1>
+      <p class="cuenta-login-sub">Accede a tu cuenta para ver tus pedidos, suscripción y detalles.</p>
+      <button class="btn" onclick="openLoginModal()">Iniciar sesión</button>
+      <p class="auth-modal-foot" style="margin-top:1.5rem">¿Aún no tienes cuenta? <a href="suscripcion.html">Prueba gratuita →</a></p>
+    </div>
+
+    <!-- Estado: logado -->
+    <div id="cuentaDashboard" style="display:none" class="cuenta-layout">
+
+      <!-- Sidebar -->
+      <aside class="cuenta-sidebar">
+        <nav class="cuenta-nav">
+          <a href="#escritorio" class="cuenta-nav-item cuenta-nav-active" data-panel="escritorio">Escritorio</a>
+          <a href="#pedidos" class="cuenta-nav-item" data-panel="pedidos">Pedidos</a>
+          <a href="#suscripciones" class="cuenta-nav-item" data-panel="suscripciones">Suscripciones</a>
+          <a href="#descargas" class="cuenta-nav-item" data-panel="descargas">Descargas</a>
+          <a href="#direccion" class="cuenta-nav-item" data-panel="direccion">Dirección</a>
+          <a href="#metodos-pago" class="cuenta-nav-item" data-panel="metodos-pago">Métodos de pago</a>
+          <a href="#detalles" class="cuenta-nav-item" data-panel="detalles">Detalles de la cuenta</a>
+          <button class="cuenta-nav-item cuenta-nav-salir" onclick="logout()">Salir</button>
+        </nav>
+      </aside>
+
+      <!-- Panel principal -->
+      <section class="cuenta-panel">
+
+        <!-- Escritorio -->
+        <div id="panel-escritorio" class="cuenta-panel-content active">
+          <p class="cuenta-saludo" id="cuentaSaludo"></p>
+          <p class="cuenta-desc">Desde el escritorio de tu cuenta puedes ver tus pedidos recientes, gestionar tu dirección de facturación y editar tu contraseña y los detalles de tu cuenta.</p>
+        </div>
+
+        <!-- Pedidos -->
+        <div id="panel-pedidos" class="cuenta-panel-content">
+          <h2>Pedidos</h2>
+          <p class="cuenta-empty">Todavía no has realizado ningún pedido.</p>
+        </div>
+
+        <!-- Suscripciones -->
+        <div id="panel-suscripciones" class="cuenta-panel-content">
+          <h2>Suscripciones</h2>
+          <p class="cuenta-empty" id="suscripcionEstado"></p>
+        </div>
+
+        <!-- Descargas -->
+        <div id="panel-descargas" class="cuenta-panel-content">
+          <h2>Descargas</h2>
+          <p class="cuenta-empty">No hay descargas disponibles.</p>
+        </div>
+
+        <!-- Dirección -->
+        <div id="panel-direccion" class="cuenta-panel-content">
+          <h2>Dirección</h2>
+          <p class="cuenta-empty">Aún no tienes ninguna dirección guardada.</p>
+        </div>
+
+        <!-- Métodos de pago -->
+        <div id="panel-metodos-pago" class="cuenta-panel-content">
+          <h2>Métodos de pago</h2>
+          <p class="cuenta-empty">No tienes ningún método de pago guardado.</p>
+        </div>
+
+        <!-- Detalles de la cuenta -->
+        <div id="panel-detalles" class="cuenta-panel-content">
+          <h2>Detalles de la cuenta</h2>
+          <form class="cuenta-form" id="detallesForm">
+            <div class="cuenta-form-row">
+              <label>Nombre</label>
+              <input type="text" id="detNombre" autocomplete="name" />
+            </div>
+            <div class="cuenta-form-row">
+              <label>Email</label>
+              <input type="email" id="detEmail" autocomplete="email" />
+            </div>
+            <button type="submit" class="btn">Guardar cambios</button>
+          </form>
+        </div>
+
+      </section>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>&copy; 2026 Yoga Tierra Viva</p>
+    <div class="footer-links">
+      <a href="#">Instagram</a>
+      <a href="#">WhatsApp</a>
+    </div>
+  </footer>
+
+  <script src="js/auth.js"></script>
+  <script src="js/mi-cuenta.js"></script>
+</body>
+</html>

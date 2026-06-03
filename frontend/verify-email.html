@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Verificando cuenta · Yoga Tierra Viva</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Raleway:wght@300;400&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="images/favicon.svg" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo">Yoga Tierra Viva</a>
+    <ul class="nav-links">
+      <li><a href="index.html#inicio">Inicio</a></li>
+      <li><a href="clases-online.html">Clases Online</a></li>
+      <li><a href="index.html#sobre-mi">Qué es Yoga Tierra</a></li>
+      <li><a href="index.html#contacto">Contacto</a></li>
+      <li><a href="suscripcion.html">Suscripción</a></li>
+    </ul>
+    <div class="nav-actions" id="navActions"></div>
+    <button class="nav-toggle" aria-label="Abrir menú">&#9776;</button>
+  </nav>
+
+  <main style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:6rem 2rem 4rem">
+    <div style="max-width:480px;width:100%;text-align:center" id="verifyBox">
+      <p style="font-size:2.5rem;margin-bottom:1rem">🌿</p>
+      <h1 style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:400;margin-bottom:0.75rem">Verificando tu cuenta…</h1>
+      <p style="color:#6b6b6b">Un momento, por favor.</p>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2026 Yoga Tierra Viva</p>
+  </footer>
+
+  <script src="js/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const box   = document.getElementById('verifyBox');
+      const token = new URLSearchParams(window.location.search).get('token');
+
+      if (!token) {
+        box.innerHTML = `
+          <p style="font-size:2rem;margin-bottom:1rem">❌</p>
+          <h1 style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:400;margin-bottom:0.75rem">Enlace no válido</h1>
+          <p style="color:#6b6b6b;margin-bottom:2rem">El enlace de verificación no es correcto.</p>
+          <a href="suscripcion.html" class="btn">Volver a registrarse</a>`;
+        return;
+      }
+
+      try {
+        const res  = await fetch('http://localhost:3000/api/auth/verify-email', {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify({ token }),
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          saveAuth(data.data.token, { ...data.data.user, subscribed: false });
+          box.innerHTML = `
+            <div class="success-icon" style="margin:0 auto 1.5rem">✓</div>
+            <h1 style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:400;margin-bottom:0.75rem">¡Cuenta confirmada!</h1>
+            <p style="color:#6b6b6b;margin-bottom:2rem">Ya puedes activar tu suscripción y empezar a practicar.</p>
+            <a href="suscripcion.html" class="btn">Activar suscripción →</a>`;
+        } else {
+          box.innerHTML = `
+            <p style="font-size:2rem;margin-bottom:1rem">⚠️</p>
+            <h1 style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:400;margin-bottom:0.75rem">Enlace expirado</h1>
+            <p style="color:#6b6b6b;margin-bottom:2rem">${data.message || 'El enlace ya no es válido. Vuelve a registrarte.'}</p>
+            <a href="suscripcion.html" class="btn">Volver a registrarse</a>`;
+        }
+      } catch {
+        box.innerHTML = `
+          <p style="font-size:2rem;margin-bottom:1rem">⚠️</p>
+          <h1 style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:400;margin-bottom:0.75rem">Error de conexión</h1>
+          <p style="color:#6b6b6b;margin-bottom:2rem">No se pudo conectar con el servidor. Inténtalo de nuevo.</p>
+          <a href="suscripcion.html" class="btn">Volver</a>`;
+      }
+    });
+  </script>
+</body>
+</html>
