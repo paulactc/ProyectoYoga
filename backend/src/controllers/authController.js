@@ -35,8 +35,8 @@ class AuthController {
         [tokenHash, email, nombre, telefono || null, hashed, expiresAt]
       );
 
-      const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5500';
-      const verifyUrl   = `${frontendUrl}/verify-email.html?token=${rawToken}`;
+      const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+      const verifyUrl   = `${frontendUrl}/verify-email?token=${rawToken}`;
 
       try {
         await sendVerificationEmail(email, nombre, verifyUrl);
