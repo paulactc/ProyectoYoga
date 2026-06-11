@@ -58,7 +58,7 @@ export default function VerifyEmailPage() {
           <>
             <p style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>🌿</p>
             <h1 style={h1Style}>Verificando tu cuenta…</h1>
-            <p style={{ color: '#6b6b6b' }}>Un momento, por favor.</p>
+            <p style={{ color: 'var(--muted)' }}>Un momento, por favor.</p>
           </>
         )}
 
@@ -66,7 +66,7 @@ export default function VerifyEmailPage() {
           <>
             <div className="success-icon" style={{ margin: '0 auto 1.5rem' }}>✓</div>
             <h1 style={h1Style}>¡Cuenta confirmada!</h1>
-            <p style={{ color: '#6b6b6b', marginBottom: '2rem' }}>Ya puedes activar tu suscripción y empezar a practicar.</p>
+            <p style={{ color: 'var(--muted)', marginBottom: '2rem' }}>Ya puedes activar tu suscripción y empezar a practicar.</p>
             <Link to="/suscripcion" className="btn">Activar suscripción →</Link>
           </>
         )}
@@ -75,7 +75,7 @@ export default function VerifyEmailPage() {
           <>
             <p style={{ fontSize: '2rem', marginBottom: '1rem' }}>❌</p>
             <h1 style={h1Style}>Enlace no válido</h1>
-            <p style={{ color: '#6b6b6b', marginBottom: '2rem' }}>El enlace de verificación no es correcto.</p>
+            <p style={{ color: 'var(--muted)', marginBottom: '2rem' }}>El enlace de verificación no es correcto.</p>
             <Link to="/suscripcion" className="btn">Volver a registrarse</Link>
           </>
         )}
@@ -84,7 +84,7 @@ export default function VerifyEmailPage() {
           <>
             <p style={{ fontSize: '2rem', marginBottom: '1rem' }}>⚠️</p>
             <h1 style={h1Style}>{status === 'error' ? 'Error de conexión' : 'Enlace expirado'}</h1>
-            <p style={{ color: '#6b6b6b', marginBottom: '2rem' }}>
+            <p style={{ color: 'var(--muted)', marginBottom: '2rem' }}>
               {status === 'error' ? 'No se pudo conectar con el servidor. Inténtalo de nuevo.' : message}
             </p>
             <Link to="/suscripcion" className="btn">Volver a registrarse</Link>

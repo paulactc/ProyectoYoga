@@ -51,11 +51,11 @@ export default function HomePage() {
       <section id="inicio" className="hero" ref={heroSectionRef}>
         <div className="hero-content">
           <p className="hero-eyebrow">Movilidad como terapia natural</p>
-          <h1><em>Despierta.</em><br />Siente.<br /><em>Brilla.</em></h1>
+          <h1><em>Despierta.</em> <span className="hero-h1-main">Siente.</span> <em>Brilla.</em></h1>
           <p className="hero-sub">Construye espacios y caminos a nivel físico y mental, fuera y dentro de la esterilla.</p>
           <div className="hero-cta">
             <Link to="/suscripcion" className="btn btn-hero-primary">Prueba 7 días gratis</Link>
-            <a href="#clases" className="btn btn-hero-secondary">Ver clases</a>
+            <Link to="/clases-online" className="btn btn-hero-secondary">Ver clases</Link>
           </div>
         </div>
         <div className="hero-image">
@@ -72,13 +72,15 @@ export default function HomePage() {
         <p className="clases-desc-eyebrow">Lo que practicamos</p>
         <div className="clases-desc-grid">
           <div className="clases-desc-item">
-            <span className="clases-desc-tag">Yoga Vinyasa</span>
+            <div className="clases-desc-tags">
+              <span className="clases-desc-tag">Yoga Vinyasa</span>
+              <span className="clases-desc-tag">Yin Yoga</span>
+            </div>
             <h3>Movimiento y exploración</h3>
             <p>Una práctica fundamental de cuidado y autoconocimiento. Un espacio de disfrute y exploración donde reencontrarte a través del cuerpo y volver a ti.</p>
           </div>
           <div className="clases-desc-divider" />
           <div className="clases-desc-item">
-            <span className="clases-desc-tag">Yin Yoga</span>
             <h3>Pranayama y meditación</h3>
             <p>Para profundizar en estados más inconscientes, reequilibrar el sistema y descubrir una herramienta de autorregulación y foco en uno mism@.</p>
           </div>
@@ -88,7 +90,7 @@ export default function HomePage() {
       {/* CLASES ONLINE — diseño profesional split */}
       <section className="online-teaser">
         <div className="online-teaser-img">
-          <img src="/images/yoga-36.jpg" alt="Clase de yoga online" />
+          <img src="/images/yoga-18.jpg" alt="Clase de yoga online" />
         </div>
         <div className="online-teaser-text">
           <p className="hero-eyebrow">Clases Online</p>
