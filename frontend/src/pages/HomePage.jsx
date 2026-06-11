@@ -54,8 +54,7 @@ export default function HomePage() {
           <h1><em>Despierta.</em> <span className="hero-h1-main">Siente.</span> <em>Brilla.</em></h1>
           <p className="hero-sub">Construye espacios y caminos a nivel físico y mental, fuera y dentro de la esterilla.</p>
           <div className="hero-cta">
-            <Link to="/suscripcion" className="btn btn-hero-primary">Prueba 7 días gratis</Link>
-            <Link to="/clases-online" className="btn btn-hero-secondary">Ver clases</Link>
+            <Link to="/aula-online" className="btn btn-hero-secondary">Aula Online</Link>
           </div>
         </div>
         <div className="hero-image">
@@ -93,7 +92,7 @@ export default function HomePage() {
           <img src="/images/yoga-18.jpg" alt="Clase de yoga online" />
         </div>
         <div className="online-teaser-text">
-          <p className="hero-eyebrow">Clases Online</p>
+          <p className="hero-eyebrow">Aula Online</p>
           <h2>Practica donde quieras,<br /><em>cuando quieras</em></h2>
           <p className="online-teaser-desc">
             Yoga y pranayama en vídeo bajo demanda. A tu ritmo, sin horarios fijos, desde cualquier dispositivo.

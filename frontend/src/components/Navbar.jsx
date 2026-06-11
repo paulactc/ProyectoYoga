@@ -1,26 +1,13 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
 export default function Navbar({ onOpenLogin }) {
   const [menuOpen, setMenuOpen] = useState(false)
-  const [dropdownOpen, setDropdownOpen] = useState(false)
-  const { user, isSubscribed, logout } = useAuth()
+  const { user, logout } = useAuth()
   const location = useLocation()
-  const dropdownRef = useRef(null)
 
   const isActive = (path) => location.pathname === path ? 'nav-active' : ''
-
-  useEffect(() => {
-    if (!dropdownOpen) return
-    function handleClick(e) {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-        setDropdownOpen(false)
-      }
-    }
-    document.addEventListener('click', handleClick)
-    return () => document.removeEventListener('click', handleClick)
-  }, [dropdownOpen])
 
   function closeMenu() { setMenuOpen(false) }
 
@@ -30,27 +17,25 @@ export default function Navbar({ onOpenLogin }) {
 
       <ul className={`nav-links${menuOpen ? ' open' : ''}`}>
         <li><a href="/#inicio" onClick={closeMenu}>Inicio</a></li>
-        <li><Link to="/clases-online" className={isActive('/clases-online')} onClick={closeMenu}>Clases Online</Link></li>
+        <li><Link to="/aula-online" className={isActive('/aula-online')} onClick={closeMenu}>Aula Online</Link></li>
         <li><a href="/#sobre-mi" onClick={closeMenu}>Qué es Yoga Tierra</a></li>
         <li><a href="/#contacto" onClick={closeMenu}>Contacto</a></li>
         <li><Link to="/suscripcion" className={isActive('/suscripcion')} onClick={closeMenu}>Suscripción</Link></li>
+        {user && (
+          <li>
+            <Link to="/mi-cuenta" className={isActive('/mi-cuenta')} onClick={closeMenu}>Mi cuenta</Link>
+          </li>
+        )}
       </ul>
 
       <div className="nav-actions">
         {user ? (
-          <div className="mi-cuenta-wrap" ref={dropdownRef}>
-            <button className="btn btn-sm btn-outline" onClick={() => setDropdownOpen(o => !o)}>
-              Mi cuenta <span className="dropdown-arrow">▾</span>
-            </button>
-            {dropdownOpen && (
-              <div className="mi-cuenta-dropdown open">
-                <p className="dropdown-name">Hola, <strong>{user.nombre.split(' ')[0]}</strong></p>
-                {isSubscribed && <span className="dropdown-tag">Activa ✓</span>}
-                <Link to="/mi-cuenta" className="dropdown-item" onClick={() => setDropdownOpen(false)}>Mi cuenta</Link>
-                <button className="dropdown-item dropdown-item-danger" onClick={logout}>Cerrar sesión</button>
-              </div>
-            )}
-          </div>
+          <>
+            <Link to="/mi-cuenta" className={`btn btn-sm btn-outline${location.pathname === '/mi-cuenta' ? ' btn-outline-active' : ''}`}>
+              Mi cuenta
+            </Link>
+            <button className="btn btn-sm btn-ghost" onClick={logout}>Salir</button>
+          </>
         ) : (
           <>
             <button className="btn btn-sm btn-ghost" onClick={onOpenLogin}>Iniciar sesión</button>

@@ -244,7 +244,7 @@ export default function SuscripcionPage() {
           <p style={{ color: 'var(--muted)', marginBottom: '1.25rem' }}>
             ¡Hola, <strong>{user.nombre.split(' ')[0]}</strong>! Ya eres parte de Yoga Tierra Viva.
           </p>
-          <Link to="/clases-online" className="btn">Ver mis clases →</Link>
+          <Link to="/aula-online" className="btn">Ver mis clases →</Link>
         </section>
         <FaqAccordion />
       </>

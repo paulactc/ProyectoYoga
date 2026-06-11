@@ -165,7 +165,7 @@ class AuthController {
   static async verifyToken(req, res) {
     try {
       const result = await executeQuery(
-        'SELECT id, nombre, email, rol FROM usuarios WHERE id = ? AND activo = TRUE',
+        'SELECT id, nombre, apellidos, email, rol FROM usuarios WHERE id = ? AND activo = TRUE',
         [req.user.id]
       );
 
@@ -214,8 +214,12 @@ class AuthController {
         [email, tokenHash, expiresAt]
       );
 
-      // TODO: enviar email con nodemailer/Resend usando resetToken
-      console.log('Reset URL:', `${process.env.FRONTEND_URL}/reset-password/${resetToken}`);
+      const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/reset-password?token=${resetToken}`;
+      try {
+        await sendPasswordResetEmail(email, resetUrl);
+      } catch (emailErr) {
+        console.error('Error enviando email de recuperación:', emailErr.message);
+      }
 
       res.json(genericResponse);
     } catch (err) {
@@ -226,7 +230,7 @@ class AuthController {
 
   static async updateProfile(req, res) {
     try {
-      const { nombre, email } = req.body;
+      const { nombre, apellidos, email } = req.body;
       if (!nombre || !email) {
         return res.status(400).json({ success: false, message: 'Nombre y email requeridos' });
       }
@@ -238,10 +242,14 @@ class AuthController {
         return res.status(409).json({ success: false, message: 'Ese email ya está en uso' });
       }
       await executeQuery(
-        'UPDATE usuarios SET nombre = ?, email = ? WHERE id = ?',
-        [nombre, email, req.user.id]
+        'UPDATE usuarios SET nombre = ?, apellidos = ?, email = ? WHERE id = ?',
+        [nombre, apellidos || null, email, req.user.id]
       );
-      res.json({ success: true, message: 'Perfil actualizado' });
+      const updated = await executeQuery(
+        'SELECT id, nombre, apellidos, email, rol FROM usuarios WHERE id = ?',
+        [req.user.id]
+      );
+      res.json({ success: true, message: 'Perfil actualizado', data: { user: updated.data[0] } });
     } catch (err) {
       console.error('Error en updateProfile:', err);
       res.status(500).json({ success: false, message: 'Error interno del servidor' });

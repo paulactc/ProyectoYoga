@@ -18,6 +18,15 @@ export function AuthProvider({ children }) {
     setAuth(data)
   }
 
+  function updateUser(fields) {
+    setAuth(prev => {
+      if (!prev) return prev
+      const updated = { ...prev, user: { ...prev.user, ...fields } }
+      localStorage.setItem(AUTH_KEY, JSON.stringify(updated))
+      return updated
+    })
+  }
+
   function logout() {
     localStorage.removeItem(AUTH_KEY)
     setAuth(null)
@@ -43,10 +52,10 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     refreshSubscription()
-  }, [])
+  }, [refreshSubscription])
 
   return (
-    <AuthContext.Provider value={{ user, token, isSubscribed, saveAuth, logout, refreshSubscription }}>
+    <AuthContext.Provider value={{ user, token, isSubscribed, saveAuth, updateUser, logout, refreshSubscription }}>
       {children}
     </AuthContext.Provider>
   )

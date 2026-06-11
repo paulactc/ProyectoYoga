@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
@@ -14,10 +14,14 @@ const CLASES = [
 const NIVEL_LABEL = { 1: 'Principiante', 2: 'Intermedio', 3: 'Avanzado' }
 
 export default function ClasesOnlinePage() {
-  const { isSubscribed } = useAuth()
+  const { isSubscribed, refreshSubscription, user } = useAuth()
   const [filtroDuracion, setFiltroDuracion] = useState('todos')
   const [filtroNivel, setFiltroNivel] = useState('todos')
   const [modalClase, setModalClase] = useState(null)
+
+  useEffect(() => {
+    if (user) refreshSubscription()
+  }, [user])
 
   const visibles = CLASES.filter(c => {
     const okDur = filtroDuracion === 'todos' || String(c.duracion) === filtroDuracion
@@ -35,8 +39,8 @@ export default function ClasesOnlinePage() {
       )}
 
       <header className="page-header">
-        <p className="hero-eyebrow">Aula online</p>
-        <h1>Clases <em>Online</em></h1>
+        <p className="hero-eyebrow">Tu espacio de práctica</p>
+        <h1>Aula <em>Online</em></h1>
         <p>Tu práctica, a tu ritmo, donde quieras</p>
       </header>
 
