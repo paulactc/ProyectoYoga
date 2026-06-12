@@ -159,6 +159,12 @@ class CuentaController {
   static async saveDireccion(req, res) {
     try {
       const { nombre, apellidos, nif, calle, ciudad, provincia, cp, pais } = req.body;
+      if (nif && !/^(\d{8}[A-Z]|[XYZ]\d{7}[A-Z]|[A-Z]\d{7}[0-9A-Z])$/i.test(nif.trim())) {
+        return res.status(400).json({ success: false, message: 'El formato del NIF/NIE/CIF no es válido' });
+      }
+      if (cp && !/^\d{4,10}$/.test(cp.trim())) {
+        return res.status(400).json({ success: false, message: 'El código postal no es válido' });
+      }
       await executeQuery(
         `INSERT INTO direcciones (usuario_id, nombre, apellidos, nif, calle, ciudad, provincia, cp, pais)
          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -197,6 +203,16 @@ class CuentaController {
       }
       if (!/^\d{4}$/.test(ultimos_cuatro)) {
         return res.status(400).json({ success: false, message: 'Los últimos 4 dígitos no son válidos' });
+      }
+      const TIPOS_VALIDOS = ['visa', 'mastercard', 'amex', 'maestro'];
+      if (tipo && !TIPOS_VALIDOS.includes(tipo)) {
+        return res.status(400).json({ success: false, message: 'Tipo de tarjeta no válido' });
+      }
+      const mesNum = parseInt(mes_expiry);
+      const anioNum = parseInt(anio_expiry);
+      const anioActual = new Date().getFullYear();
+      if (!mesNum || mesNum < 1 || mesNum > 12 || !anioNum || anioNum < anioActual || anioNum > anioActual + 20) {
+        return res.status(400).json({ success: false, message: 'Fecha de expiración no válida' });
       }
       const count = await executeQuery(
         'SELECT COUNT(*) as total FROM metodos_pago WHERE usuario_id = ?',

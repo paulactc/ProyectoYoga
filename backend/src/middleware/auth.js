@@ -29,11 +29,8 @@ const verifyToken = async (req, res, next) => {
     req.user = { id: user.id, nombre: user.nombre, email: user.email, rol: user.rol };
     next();
   } catch (err) {
-    if (err.name === 'JsonWebTokenError') {
-      return res.status(401).json({ success: false, message: 'Token inválido' });
-    }
-    if (err.name === 'TokenExpiredError') {
-      return res.status(401).json({ success: false, message: 'Token expirado' });
+    if (err.name === 'JsonWebTokenError' || err.name === 'TokenExpiredError') {
+      return res.status(401).json({ success: false, message: 'Sesión no válida. Inicia sesión de nuevo.' });
     }
     console.error('Error en middleware auth:', err);
     res.status(500).json({ success: false, message: 'Error interno del servidor' });

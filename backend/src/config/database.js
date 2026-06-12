@@ -166,6 +166,9 @@ async function runMigrations() {
   await runSafeMigration('Usuario admin por defecto', async () => {
     const [rows] = await pool.execute("SELECT id FROM usuarios WHERE rol = 'admin' LIMIT 1");
     if (rows.length === 0) {
+      if (!process.env.ADMIN_PASSWORD) {
+        console.warn('⚠️  ADMIN_PASSWORD no está configurado en .env — cambia la contraseña admin inmediatamente en producción.');
+      }
       const bcrypt = require('bcryptjs');
       const hashed = await bcrypt.hash(process.env.ADMIN_PASSWORD || 'Admin1234.', 12);
       await pool.execute(

@@ -66,6 +66,37 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* TIERRA EN CALMA — showcase */}
+      <section className="tq-showcase">
+        <div className="tq-showcase-bg" />
+        <div className="tq-showcase-inner">
+          <div className="tq-showcase-text">
+            <span className="tq-badge">Gratis · Sin registro</span>
+            <h2 className="tq-titulo">Tierra <em>en Calma</em></h2>
+            <p className="tq-desc">
+              ¿La cabeza no para? ¿Te cuesta dormir?<br />
+              Aquí tienes audios de Yoga Nidra y meditaciones guiadas
+              para soltar el día y recuperar calma — completamente gratis.
+            </p>
+            <Link to="/audios" className="tq-cta">
+              Escuchar ahora — es gratis <span>→</span>
+            </Link>
+          </div>
+          <div className="tq-showcase-cards">
+            <div className="tq-card tq-card--nidra">
+              <span className="tq-card-icono">◎</span>
+              <p className="tq-card-nombre">Yoga Nidra</p>
+              <p className="tq-card-hint">El sueño consciente · 20–45 min</p>
+            </div>
+            <div className="tq-card tq-card--sleep">
+              <span className="tq-card-icono">☽</span>
+              <p className="tq-card-nombre">Antes de dormir</p>
+              <p className="tq-card-hint">Cierra el día con calma · 8–12 min</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* LO QUE PRACTICAMOS */}
       <section id="clases" className="clases-desc-section">
         <p className="clases-desc-eyebrow">Lo que practicamos</p>

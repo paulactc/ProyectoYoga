@@ -10,14 +10,25 @@ const transporter = nodemailer.createTransport({
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
   },
-  tls: { rejectUnauthorized: false },
+  // rejectUnauthorized solo se deshabilita en desarrollo local
+  tls: process.env.NODE_ENV === 'production' ? {} : { rejectUnauthorized: false },
   connectionTimeout: 5000,
   socketTimeout:     5000,
 });
 
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 const FROM = process.env.SMTP_FROM || process.env.SMTP_USER;
 
 async function sendVerificationEmail(email, nombre, verifyUrl) {
+  const safeName = escapeHtml(nombre);
   await transporter.sendMail({
     from:    `"Yoga Tierra Viva" <${FROM}>`,
     to:      email,
@@ -26,7 +37,7 @@ async function sendVerificationEmail(email, nombre, verifyUrl) {
       <div style="font-family:Georgia,serif;max-width:560px;margin:0 auto;padding:32px 24px;color:#2c2c2c;">
         <h1 style="font-size:1.8rem;font-weight:400;color:#8b5e3c;margin-bottom:0.25rem">Yoga Tierra Viva</h1>
         <hr style="border:none;border-top:1px solid #e8e2da;margin:1rem 0 2rem"/>
-        <p style="font-size:1.05rem;margin-bottom:0.5rem">Hola, <strong>${nombre}</strong> 🌿</p>
+        <p style="font-size:1.05rem;margin-bottom:0.5rem">Hola, <strong>${safeName}</strong> 🌿</p>
         <p style="color:#555;line-height:1.7;margin-bottom:2rem">
           Gracias por unirte a Yoga Tierra Viva. Haz clic en el botón para confirmar tu cuenta y activar tu suscripción.
         </p>

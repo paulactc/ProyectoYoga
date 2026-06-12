@@ -11,6 +11,9 @@ class AuthController {
       if (!nombre || !email || !password) {
         return res.status(400).json({ success: false, message: 'Todos los campos son obligatorios' });
       }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        return res.status(400).json({ success: false, message: 'El formato del email no es válido' });
+      }
       if (password.length < 8) {
         return res.status(400).json({ success: false, message: 'La contraseña debe tener al menos 8 caracteres' });
       }
@@ -132,17 +135,20 @@ class AuthController {
       );
 
       if (!result.success || result.data.length === 0) {
+        console.warn(`[LOGIN FALLIDO] Email no encontrado: ${email} — IP: ${req.ip}`);
         return res.status(401).json({ success: false, message: 'Email o contraseña incorrectos' });
       }
 
       const user = result.data[0];
 
       if (!user.activo) {
+        console.warn(`[LOGIN FALLIDO] Cuenta desactivada: ${email} — IP: ${req.ip}`);
         return res.status(401).json({ success: false, message: 'Cuenta desactivada' });
       }
 
       const valid = await bcrypt.compare(password, user.password);
       if (!valid) {
+        console.warn(`[LOGIN FALLIDO] Contraseña incorrecta para: ${email} — IP: ${req.ip}`);
         return res.status(401).json({ success: false, message: 'Email o contraseña incorrectos' });
       }
 
@@ -261,6 +267,9 @@ class AuthController {
       const { token, newPassword } = req.body;
       if (!token || !newPassword) {
         return res.status(400).json({ success: false, message: 'Token y nueva contraseña requeridos' });
+      }
+      if (newPassword.length < 8) {
+        return res.status(400).json({ success: false, message: 'La contraseña debe tener al menos 8 caracteres' });
       }
 
       const tokenHash = crypto.createHash('sha256').update(token).digest('hex');

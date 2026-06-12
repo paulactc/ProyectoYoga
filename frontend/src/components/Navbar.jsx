@@ -17,6 +17,11 @@ export default function Navbar({ onOpenLogin }) {
 
       <ul className={`nav-links${menuOpen ? ' open' : ''}`}>
         <li><a href="/#inicio" onClick={closeMenu}>Inicio</a></li>
+        <li>
+          <Link to="/audios" className={`nav-audios-link${isActive('/audios') ? ' nav-active' : ''}`} onClick={closeMenu}>
+            Tierra en Calma
+          </Link>
+        </li>
         <li><Link to="/aula-online" className={isActive('/aula-online')} onClick={closeMenu}>Aula Online</Link></li>
         <li><a href="/#sobre-mi" onClick={closeMenu}>Qué es Yoga Tierra</a></li>
         <li><a href="/#contacto" onClick={closeMenu}>Contacto</a></li>
