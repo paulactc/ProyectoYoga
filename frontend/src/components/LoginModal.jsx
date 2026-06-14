@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
@@ -21,9 +21,27 @@ function EyeIcon({ open }) {
   )
 }
 
-export default function LoginModal({ isOpen, onClose }) {
+function PwInput({ value, onChange, show, setShow, placeholder, autoComplete }) {
+  return (
+    <div className="input-pw-wrap">
+      <input
+        type={show ? 'text' : 'password'}
+        placeholder={placeholder}
+        required
+        autoComplete={autoComplete}
+        value={value}
+        onChange={e => onChange(e.target.value)}
+      />
+      <button type="button" className="pw-toggle" onClick={() => setShow(v => !v)} aria-label="Mostrar contraseña">
+        <EyeIcon open={show} />
+      </button>
+    </div>
+  )
+}
+
+export default function LoginModal({ isOpen, onClose, initialView = 'login' }) {
   const { saveAuth, refreshSubscription } = useAuth()
-  const [view, setView] = useState('login') // 'login' | 'forgot' | 'sent'
+  const [view, setView] = useState(initialView)
 
   // login
   const [email, setEmail] = useState('')
@@ -37,12 +55,26 @@ export default function LoginModal({ isOpen, onClose }) {
   const [forgotLoading, setForgotLoading] = useState(false)
   const [forgotError, setForgotError] = useState('')
 
+  // register
+  const [regForm, setRegForm] = useState({ nombre: '', email: '', telefono: '', password: '', password_confirm: '' })
+  const [showRegPw, setShowRegPw] = useState(false)
+  const [showRegPw2, setShowRegPw2] = useState(false)
+  const [regError, setRegError] = useState('')
+  const [regLoading, setRegLoading] = useState(false)
+  const [regSuccessEmail, setRegSuccessEmail] = useState(null)
+
+  useEffect(() => {
+    if (isOpen) setView(initialView)
+  }, [isOpen, initialView])
+
   function handleClose() {
     onClose()
     setTimeout(() => {
       setView('login')
       setEmail(''); setPassword(''); setLoginError('')
       setForgotEmail(''); setForgotError('')
+      setRegForm({ nombre: '', email: '', telefono: '', password: '', password_confirm: '' })
+      setRegError(''); setRegSuccessEmail(null)
     }, 200)
   }
 
@@ -92,6 +124,37 @@ export default function LoginModal({ isOpen, onClose }) {
     setForgotLoading(false)
   }
 
+  async function handleRegister(e) {
+    e.preventDefault()
+    setRegError('')
+    if (regForm.password.length < 8) { setRegError('La contraseña debe tener al menos 8 caracteres'); return }
+    if (regForm.password !== regForm.password_confirm) { setRegError('Las contraseñas no coinciden'); return }
+    setRegLoading(true)
+    try {
+      const res = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nombre: regForm.nombre,
+          email: regForm.email,
+          telefono: regForm.telefono || null,
+          password: regForm.password,
+          plan: null,
+        })
+      })
+      const data = await res.json()
+      if (data.success || data.pending) {
+        setRegSuccessEmail(regForm.email)
+        setView('register-success')
+      } else {
+        setRegError(data.message || 'Error al crear la cuenta')
+      }
+    } catch {
+      setRegError('No se pudo conectar con el servidor')
+    }
+    setRegLoading(false)
+  }
+
   if (!isOpen) return null
 
   return (
@@ -128,8 +191,76 @@ export default function LoginModal({ isOpen, onClose }) {
               </button>
             </form>
             <p className="auth-modal-foot">
-              ¿Aún no tienes cuenta? <Link to="/suscripcion" onClick={handleClose}>Suscribirme →</Link>
+              ¿Aún no tienes cuenta? <button type="button" className="forgot-link" onClick={() => setView('register')}>Crear cuenta gratis →</button>
             </p>
+          </>
+        )}
+
+        {view === 'register' && (
+          <>
+            <h3>Crea tu cuenta gratuita</h3>
+            <p className="forgot-desc">Accede a <strong>Tierra en Calma</strong> · 100% gratuito, siempre.</p>
+            <form onSubmit={handleRegister}>
+              <input
+                type="text" placeholder="Nombre completo" required autoComplete="name"
+                value={regForm.nombre} onChange={e => setRegForm(f => ({ ...f, nombre: e.target.value }))}
+              />
+              <input
+                type="email" placeholder="Email" required autoComplete="email"
+                value={regForm.email} onChange={e => setRegForm(f => ({ ...f, email: e.target.value }))}
+              />
+              <input
+                type="tel" placeholder="Teléfono (opcional)" autoComplete="tel"
+                value={regForm.telefono} onChange={e => setRegForm(f => ({ ...f, telefono: e.target.value }))}
+              />
+              <PwInput
+                value={regForm.password}
+                onChange={v => setRegForm(f => ({ ...f, password: v }))}
+                show={showRegPw} setShow={setShowRegPw}
+                placeholder="Crea una contraseña (mín. 8 caracteres)"
+                autoComplete="new-password"
+              />
+              <PwInput
+                value={regForm.password_confirm}
+                onChange={v => setRegForm(f => ({ ...f, password_confirm: v }))}
+                show={showRegPw2} setShow={setShowRegPw2}
+                placeholder="Confirma tu contraseña"
+                autoComplete="new-password"
+              />
+              <div className="check-group">
+                <label className="check-label">
+                  <input type="checkbox" required />
+                  <span>Acepto los <Link to="/aviso-legal" onClick={handleClose} className="link-legal">Términos y condiciones</Link></span>
+                </label>
+                <label className="check-label">
+                  <input type="checkbox" required />
+                  <span>He leído la <Link to="/politica-privacidad" onClick={handleClose} className="link-legal">Política de privacidad</Link></span>
+                </label>
+              </div>
+              <p style={{ color: '#b04040', fontSize: '0.85rem', minHeight: '1.2em', textAlign: 'center' }}>{regError}</p>
+              <button type="submit" className="btn" style={{ width: '100%' }} disabled={regLoading}>
+                {regLoading ? 'Creando cuenta…' : 'Crear cuenta gratis'}
+              </button>
+            </form>
+            <p className="auth-modal-foot">
+              ¿Ya tienes cuenta? <button type="button" className="forgot-link" onClick={() => setView('login')}>Iniciar sesión →</button>
+            </p>
+          </>
+        )}
+
+        {view === 'register-success' && (
+          <>
+            <div className="forgot-sent-icon">📧</div>
+            <h3>Revisa tu email</h3>
+            <p className="forgot-desc">
+              Hemos enviado un enlace de confirmación a <strong>{regSuccessEmail}</strong>.
+            </p>
+            <p className="forgot-desc" style={{ fontSize: '0.82rem', color: 'var(--muted)' }}>
+              Haz clic en el enlace para activar tu cuenta. Revisa también la carpeta de spam.
+            </p>
+            <button className="btn" style={{ width: '100%', marginTop: '1rem' }} onClick={handleClose}>
+              Cerrar
+            </button>
           </>
         )}
 

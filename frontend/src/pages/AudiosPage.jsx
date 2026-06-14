@@ -1,150 +1,147 @@
 import { useState, useRef, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
 
-const CATEGORIAS = [
-  {
-    id: 'nidra',
-    nombre: 'Yoga Nidra',
-    tagline: 'El sueño consciente',
-    descripcion: 'Una práctica milenaria que induce un estado entre vigilia y sueño. Profundamente regeneradora — 30 minutos equivalen a 2-3 horas de descanso.',
-    color: '#1a1030',
-    acento: '#9b7fd4',
-    icono: '◎',
-    audios: [
-      {
-        id: 'n1',
-        titulo: 'Cuerpo sin Peso',
-        duracion: 30,
-        descripcion: 'La práctica completa. Recorre cada parte del cuerpo hasta disolverlo en silencio.',
-        disponible: true,
-      },
-      {
-        id: 'n2',
-        titulo: 'El Lago en Calma',
-        duracion: 20,
-        descripcion: 'Una visualización guiada para soltar el día y encontrar la quietud interior.',
-        disponible: true,
-      },
-      {
-        id: 'n3',
-        titulo: 'Descanso Profundo',
-        duracion: 45,
-        descripcion: 'La sesión larga. Para cuando necesitas una recuperación completa del cuerpo y la mente.',
-        disponible: false,
-      },
-    ],
-  },
-  {
-    id: 'dormir',
-    nombre: 'Antes de dormir',
-    tagline: 'Cierra el día con calma',
-    descripcion: 'Audios cortos y directos para apagar el ruido mental, soltar las tensiones del día y preparar el cuerpo para un sueño reparador.',
-    color: '#0f1a14',
-    acento: '#6aab7e',
-    icono: '☽',
-    audios: [
-      {
-        id: 'd1',
-        titulo: 'Apaga el Ruido',
-        duracion: 10,
-        descripcion: 'Para cuando los pensamientos no paran. Una técnica simple para vaciar la mente.',
-        disponible: true,
-      },
-      {
-        id: 'd2',
-        titulo: 'Respiración 4-7-8',
-        duracion: 8,
-        descripcion: 'La técnica de respiración más eficaz para conciliar el sueño. Guiada segundo a segundo.',
-        disponible: true,
-      },
-      {
-        id: 'd3',
-        titulo: 'Gratitud Nocturna',
-        duracion: 12,
-        descripcion: 'Un cierre suave y consciente para el día. Para irse a la cama con ligereza.',
-        disponible: false,
-      },
-    ],
-  },
-]
+export default function AudiosPage({ onOpenLogin, onOpenRegister }) {
+  const { user, token } = useAuth()
+  const [series, setSeries] = useState([])
+  const [loading, setLoading] = useState(true)
 
-export default function AudiosPage() {
+  useEffect(() => {
+    fetch('/api/meditaciones/series')
+      .then(r => r.json())
+      .then(d => { if (d.success) setSeries(d.data) })
+      .catch(() => {})
+      .finally(() => setLoading(false))
+  }, [])
+
+  const totalMeds = series.reduce((sum, s) => sum + (s.meditaciones?.length || 0), 0)
+
   return (
     <div className="audios-page">
-      <HeroAudios />
-      {CATEGORIAS.map(cat => (
-        <CategoriaSection key={cat.id} categoria={cat} />
-      ))}
+      <HeroAudios
+        isLoggedIn={!!user}
+        onOpenLogin={onOpenLogin}
+        onOpenRegister={onOpenRegister}
+        totalMeds={totalMeds}
+        totalSeries={series.length}
+      />
+      <div id="audios-contenido">
+        {loading ? (
+          <div className="audios-loading">
+            <span>Cargando meditaciones...</span>
+          </div>
+        ) : (
+          series.map(serie => (
+            <SerieSection
+              key={serie.id}
+              serie={serie}
+              isLoggedIn={!!user}
+              token={token}
+              onOpenLogin={onOpenLogin}
+              onOpenRegister={onOpenRegister}
+            />
+          ))
+        )}
+      </div>
       <CtaSection />
     </div>
   )
 }
 
-function HeroAudios() {
+function HeroAudios({ isLoggedIn, onOpenLogin, onOpenRegister, totalMeds, totalSeries }) {
   return (
     <section className="audios-hero">
       <div className="audios-hero-bg" />
       <div className="audios-hero-content">
-        <span className="audios-gratis-badge">100% gratuito · Sin registro</span>
+        <span className="audios-gratis-badge">
+          {isLoggedIn ? '✓ Acceso libre · 100% gratuito' : 'Gratuito · Registro en 1 minuto'}
+        </span>
         <h1 className="audios-hero-title">
           Tierra<br />
           <em>en Calma</em>
         </h1>
         <p className="audios-hero-sub">
-          Audios de Yoga Nidra y meditaciones guiadas para dormir mejor,
-          reducir el estrés y encontrar calma en cualquier momento del día.
+          Series de meditación guiada para dormir mejor,
+          reducir el estrés y volver a ti en cualquier momento del día.
         </p>
-        <div className="audios-hero-stats">
-          <div className="audios-stat">
-            <span className="audios-stat-num">6</span>
-            <span className="audios-stat-label">audios disponibles</span>
-          </div>
-          <div className="audios-stat-sep" />
-          <div className="audios-stat">
-            <span className="audios-stat-num">0€</span>
-            <span className="audios-stat-label">coste total</span>
-          </div>
-          <div className="audios-stat-sep" />
-          <div className="audios-stat">
-            <span className="audios-stat-num">2</span>
-            <span className="audios-stat-label">categorías</span>
-          </div>
+        <div className="audios-hero-claims">
+          <span className="audios-claim">Dormir mejor</span>
+          <span className="audios-claim-sep">✦</span>
+          <span className="audios-claim">Soltar el ruido mental</span>
+          <span className="audios-claim-sep">✦</span>
+          <span className="audios-claim">Volver a ti</span>
         </div>
-        <a href="#audios-contenido" className="audios-hero-cta">
-          Escuchar ahora
-          <span className="audios-hero-arrow">↓</span>
-        </a>
+        {isLoggedIn ? (
+          <a href="#audios-contenido" className="audios-hero-cta">
+            Escuchar ahora
+            <span className="audios-hero-arrow">↓</span>
+          </a>
+        ) : (
+          <button className="audios-hero-cta" onClick={onOpenRegister}>
+            Crear cuenta gratis
+            <span className="audios-hero-arrow">↓</span>
+          </button>
+        )}
       </div>
       <div className="audios-hero-scroll-hint" />
     </section>
   )
 }
 
-function CategoriaSection({ categoria: cat }) {
+function SerieSection({ serie, isLoggedIn, token, onOpenLogin, onOpenRegister }) {
+  const acento = '#9b7fd4'
+  const bgColor = '#1a1030'
+
   return (
     <section
-      id={cat.id === 'nidra' ? 'audios-contenido' : undefined}
       className="audios-categoria"
-      style={{ '--cat-acento': cat.acento, '--cat-bg': cat.color }}
+      style={{ '--cat-acento': acento, '--cat-bg': bgColor }}
     >
       <div className="audios-categoria-header">
-        <span className="audios-cat-icono">{cat.icono}</span>
+        <span className="audios-cat-icono">☽</span>
         <div>
-          <p className="audios-cat-tagline">{cat.tagline}</p>
-          <h2 className="audios-cat-titulo">{cat.nombre}</h2>
-          <p className="audios-cat-desc">{cat.descripcion}</p>
+          <p className="audios-cat-tagline">
+            Serie · {serie.meditaciones?.length || 0} meditaciones
+          </p>
+          <h2 className="audios-cat-titulo">{serie.titulo}</h2>
+          <p className="audios-cat-desc">{serie.descripcion}</p>
         </div>
       </div>
+
+      {!isLoggedIn && (
+        <div className="audios-gate">
+          <div className="audios-gate-inner">
+            <svg className="audios-gate-icono" viewBox="0 0 24 24" fill="currentColor" width="28" height="28">
+              <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+            </svg>
+            <div>
+              <p className="audios-gate-titulo">Crea tu cuenta gratuita para escuchar</p>
+              <p className="audios-gate-sub">Tierra en Calma es completamente gratuito. Solo necesitas una cuenta.</p>
+            </div>
+            <button className="btn" onClick={onOpenRegister}>Registrarse gratis →</button>
+          </div>
+        </div>
+      )}
+
       <div className="audios-grid">
-        {cat.audios.map(audio => (
-          <AudioCard key={audio.id} audio={audio} acento={cat.acento} />
+        {serie.meditaciones?.map((med, i) => (
+          <AudioCard
+            key={med.id}
+            audio={med}
+            acento={acento}
+            isLoggedIn={isLoggedIn}
+            token={token}
+            onOpenLogin={onOpenLogin}
+            numero={i + 1}
+          />
         ))}
       </div>
     </section>
   )
 }
 
-function AudioCard({ audio, acento }) {
+function AudioCard({ audio, acento, isLoggedIn, token, onOpenLogin, numero }) {
   const [jugando, setJugando] = useState(false)
   const [progreso, setProgreso] = useState(0)
   const audioRef = useRef(null)
@@ -156,13 +153,20 @@ function AudioCard({ audio, acento }) {
     el.addEventListener('timeupdate', () => {
       if (el.duration) setProgreso(el.currentTime / el.duration)
     })
-    el.addEventListener('ended', () => { setJugando(false); setProgreso(0) })
+    el.addEventListener('ended', () => {
+      setJugando(false)
+      setProgreso(0)
+    })
     return () => { el.pause(); el.src = '' }
   }, [audio.src])
 
   function handlePlay() {
     if (!audio.disponible) return
-    if (!audio.src) { setJugando(j => !j); return }
+    if (!isLoggedIn) { onOpenLogin?.(); return }
+    if (!audio.src) {
+      setJugando(v => !v)
+      return
+    }
     const el = audioRef.current
     if (jugando) { el.pause(); setJugando(false) }
     else { el.play(); setJugando(true) }
@@ -176,20 +180,57 @@ function AudioCard({ audio, acento }) {
     setProgreso(ratio)
   }
 
+  async function handleFeedbackSubmit(e) {
+    e.preventDefault()
+    if (!feedbackText.trim() || enviando) return
+    setFeedbackError('')
+    setEnviando(true)
+    try {
+      const res = await fetch(`/api/meditaciones/${audio.id}/feedback`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ texto: feedbackText.trim() }),
+      })
+      const d = await res.json()
+      if (d.success) {
+        setFeedbackEnviado(true)
+        const r2 = await fetch(`/api/meditaciones/${audio.id}/feedback`)
+        const d2 = await r2.json()
+        if (d2.success) setFeedbacks(d2.data)
+      } else {
+        setFeedbackError(d.message || 'Error al enviar')
+      }
+    } catch {
+      setFeedbackError('Error de conexión. Inténtalo de nuevo.')
+    } finally {
+      setEnviando(false)
+    }
+  }
+
   return (
     <article className={`audio-card${!audio.disponible ? ' audio-card--pronto' : ''}`}>
-      {!audio.disponible && (
-        <span className="audio-pronto-badge">Próximamente</span>
-      )}
+      {!audio.disponible && <span className="audio-pronto-badge">Próximamente</span>}
+      <span className="audio-card-num">Meditación {numero}</span>
+
       <div className="audio-card-top">
         <button
           className={`audio-play-btn${jugando ? ' playing' : ''}`}
           style={{ '--acento': acento }}
           onClick={handlePlay}
-          aria-label={jugando ? 'Pausar' : 'Reproducir'}
+          aria-label={
+            !audio.disponible ? 'Próximamente'
+            : !isLoggedIn ? 'Inicia sesión para escuchar'
+            : jugando ? 'Pausar'
+            : 'Reproducir'
+          }
           disabled={!audio.disponible}
+          title={!isLoggedIn && audio.disponible ? 'Regístrate para escuchar' : undefined}
         >
-          {jugando ? (
+          {!isLoggedIn && audio.disponible ? (
+            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+              <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+            </svg>
+          ) : jugando ? (
             <span className="audio-pause-icon"><span /><span /></span>
           ) : (
             <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
@@ -202,8 +243,10 @@ function AudioCard({ audio, acento }) {
           {jugando && <span className="audio-en-curso">reproduciendo</span>}
         </div>
       </div>
+
       <h3 className="audio-titulo">{audio.titulo}</h3>
       <p className="audio-desc">{audio.descripcion}</p>
+
       {jugando && (
         <>
           <div className="audio-wave">
@@ -218,6 +261,7 @@ function AudioCard({ audio, acento }) {
           )}
         </>
       )}
+
     </article>
   )
 }

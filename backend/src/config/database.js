@@ -163,6 +163,86 @@ async function runMigrations() {
     `)
   );
 
+  await runSafeMigration('Tabla series_meditacion', () =>
+    pool.execute(`
+      CREATE TABLE IF NOT EXISTS series_meditacion (
+        id          INT AUTO_INCREMENT PRIMARY KEY,
+        titulo      VARCHAR(200) NOT NULL,
+        descripcion TEXT,
+        slug        VARCHAR(100) NOT NULL UNIQUE,
+        orden       INT DEFAULT 0,
+        activa      BOOLEAN DEFAULT TRUE,
+        created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `)
+  );
+
+  await runSafeMigration('Tabla meditaciones', () =>
+    pool.execute(`
+      CREATE TABLE IF NOT EXISTS meditaciones (
+        id          INT AUTO_INCREMENT PRIMARY KEY,
+        serie_id    INT NOT NULL,
+        titulo      VARCHAR(200) NOT NULL,
+        descripcion TEXT,
+        duracion    INT NOT NULL DEFAULT 15,
+        orden       INT DEFAULT 0,
+        src         VARCHAR(500) NULL,
+        disponible  BOOLEAN DEFAULT FALSE,
+        created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (serie_id) REFERENCES series_meditacion(id) ON DELETE CASCADE,
+        INDEX idx_med_serie (serie_id)
+      )
+    `)
+  );
+
+  await runSafeMigration('Tabla feedback_meditacion', () =>
+    pool.execute(`
+      CREATE TABLE IF NOT EXISTS feedback_meditacion (
+        id            INT AUTO_INCREMENT PRIMARY KEY,
+        usuario_id    INT NOT NULL,
+        meditacion_id INT NOT NULL,
+        texto         TEXT NOT NULL,
+        visible       BOOLEAN DEFAULT TRUE,
+        created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+        FOREIGN KEY (meditacion_id) REFERENCES meditaciones(id) ON DELETE CASCADE,
+        UNIQUE KEY uk_feedback_u_m (usuario_id, meditacion_id),
+        INDEX idx_fb_meditacion (meditacion_id)
+      )
+    `)
+  );
+
+  await runSafeMigration('Seed serie Volver a ti', async () => {
+    const [[{ cnt }]] = await pool.execute(
+      `SELECT COUNT(*) as cnt FROM series_meditacion WHERE slug = 'volver-a-ti'`
+    );
+    if (cnt === 0) {
+      const [serie] = await pool.execute(
+        `INSERT INTO series_meditacion (titulo, descripcion, slug, orden) VALUES (?, ?, ?, ?)`,
+        [
+          'Volver a ti',
+          '¿Te acuerdas de cuando dormías de un tirón? Tu cuerpo también. Esta serie te ayuda a volver ahí.',
+          'volver-a-ti',
+          1,
+        ]
+      );
+      const serieId = serie.insertId;
+      const meds = [
+        ['Volver al cuerpo', 'El primer paso: notar que tienes un cuerpo que quiere descansar. Una práctica suave para soltar la tensión acumulada.', 15, 1, true],
+        ['La respiración que calma', 'Técnicas de pranayama adaptadas para el momento previo al sueño. Sencillas y efectivas.', 12, 2, false],
+        ['Soltar el día', 'Una exploración consciente para cerrar el día y dejar ir todo lo que no te pertenece.', 18, 3, false],
+        ['El peso que te sostiene', 'Conecta con la tierra bajo tu cuerpo. Una práctica de enraizamiento profundo.', 20, 4, false],
+        ['Dormir de un tirón', 'La práctica completa de la serie. Para cuando el cuerpo ya sabe el camino.', 25, 5, false],
+      ];
+      for (const [titulo, descripcion, duracion, orden, disponible] of meds) {
+        await pool.execute(
+          `INSERT INTO meditaciones (serie_id, titulo, descripcion, duracion, orden, disponible) VALUES (?, ?, ?, ?, ?, ?)`,
+          [serieId, titulo, descripcion, duracion, orden, disponible ? 1 : 0]
+        );
+      }
+    }
+  });
+
   await runSafeMigration('Usuario admin por defecto', async () => {
     const [rows] = await pool.execute("SELECT id FROM usuarios WHERE rol = 'admin' LIMIT 1");
     if (rows.length === 0) {

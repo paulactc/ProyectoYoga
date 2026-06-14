@@ -13,7 +13,7 @@ export default function Navbar({ onOpenLogin }) {
 
   return (
     <nav className="navbar">
-      <Link to="/" className="nav-logo">Yoga Tierra Viva</Link>
+      <a href="/#inicio" className="nav-logo" onClick={closeMenu}>Yoga Tierra Viva</a>
 
       <ul className={`nav-links${menuOpen ? ' open' : ''}`}>
         <li><a href="/#inicio" onClick={closeMenu}>Inicio</a></li>
@@ -26,10 +26,13 @@ export default function Navbar({ onOpenLogin }) {
         <li><a href="/#sobre-mi" onClick={closeMenu}>Qué es Yoga Tierra</a></li>
         <li><a href="/#contacto" onClick={closeMenu}>Contacto</a></li>
         <li><Link to="/suscripcion" className={isActive('/suscripcion')} onClick={closeMenu}>Suscripción</Link></li>
-        {user && (
-          <li>
-            <Link to="/mi-cuenta" className={isActive('/mi-cuenta')} onClick={closeMenu}>Mi cuenta</Link>
-          </li>
+        {user ? (
+          <>
+            <li><Link to="/mi-cuenta" className={isActive('/mi-cuenta')} onClick={closeMenu}>Mi cuenta</Link></li>
+            <li><button className="nav-link-btn" onClick={() => { logout(); closeMenu() }}>Cerrar sesión</button></li>
+          </>
+        ) : (
+          <li><button className="nav-link-btn" onClick={() => { onOpenLogin(); closeMenu() }}>Iniciar sesión</button></li>
         )}
       </ul>
 
@@ -49,8 +52,12 @@ export default function Navbar({ onOpenLogin }) {
         )}
       </div>
 
-      <button className="nav-toggle" aria-label="Abrir menú" onClick={() => setMenuOpen(o => !o)}>
-        &#9776;
+      <button
+        className="nav-toggle"
+        aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
+        onClick={() => setMenuOpen(o => !o)}
+      >
+        {menuOpen ? '✕' : '☰'}
       </button>
     </nav>
   )

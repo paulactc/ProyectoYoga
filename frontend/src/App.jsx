@@ -30,16 +30,20 @@ import AudiosPage from './pages/AudiosPage'
 
 export default function App() {
   const [loginOpen, setLoginOpen] = useState(false)
+  const [loginInitialView, setLoginInitialView] = useState('login')
+
+  function openLogin() { setLoginInitialView('login'); setLoginOpen(true) }
+  function openRegister() { setLoginInitialView('register'); setLoginOpen(true) }
 
   return (
     <AuthProvider>
       <ScrollToTop />
-      <Navbar onOpenLogin={() => setLoginOpen(true)} />
-      <LoginModal isOpen={loginOpen} onClose={() => setLoginOpen(false)} />
+      <Navbar onOpenLogin={openLogin} />
+      <LoginModal isOpen={loginOpen} onClose={() => setLoginOpen(false)} initialView={loginInitialView} />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/aula-online" element={<ClasesOnlinePage />} />
-        <Route path="/audios" element={<AudiosPage />} />
+        <Route path="/audios" element={<AudiosPage onOpenLogin={openLogin} onOpenRegister={openRegister} />} />
         <Route path="/suscripcion" element={<SuscripcionPage />} />
         <Route path="/mi-cuenta" element={<MiCuentaPage onOpenLogin={() => setLoginOpen(true)} />} />
         <Route path="/verify-email" element={<VerifyEmailPage />} />

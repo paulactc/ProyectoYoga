@@ -45,8 +45,9 @@ const apiLimiter = rateLimit({
 app.use('/api/auth',        authLimiter,    require('./routes/auth'));
 app.use('/api/suscripcion', apiLimiter,     require('./routes/suscripcion'));
 app.use('/api/cuenta',      apiLimiter,     require('./routes/cuenta'));
-app.use('/api/clases',      apiLimiter,     require('./routes/clases'));
-app.use('/api/contact',     contactLimiter, require('./routes/contact'));
+app.use('/api/clases',        apiLimiter,     require('./routes/clases'));
+app.use('/api/meditaciones', apiLimiter,     require('./routes/meditaciones'));
+app.use('/api/contact',      contactLimiter, require('./routes/contact'));
 
 // Serve compiled frontend in production
 const distPath = path.join(__dirname, '../../frontend/dist');

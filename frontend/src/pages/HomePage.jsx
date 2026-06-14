@@ -71,7 +71,7 @@ export default function HomePage() {
         <div className="tq-showcase-bg" />
         <div className="tq-showcase-inner">
           <div className="tq-showcase-text">
-            <span className="tq-badge">Gratis · Sin registro</span>
+            <span className="tq-badge">Gratuito · Crea tu cuenta</span>
             <h2 className="tq-titulo">Tierra <em>en Calma</em></h2>
             <p className="tq-desc">
               ¿La cabeza no para? ¿Te cuesta dormir?<br />
@@ -97,21 +97,17 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* LO QUE PRACTICAMOS */}
+      {/* NUESTRA FORMA DE PRACTICAR */}
       <section id="clases" className="clases-desc-section">
-        <p className="clases-desc-eyebrow">Lo que practicamos</p>
+        <p className="clases-desc-eyebrow">Nuestra forma de practicar</p>
         <div className="clases-desc-grid">
           <div className="clases-desc-item">
-            <div className="clases-desc-tags">
-              <span className="clases-desc-tag">Yoga Vinyasa</span>
-              <span className="clases-desc-tag">Yin Yoga</span>
-            </div>
-            <h3>Movimiento y exploración</h3>
+            <h3>El cuerpo como camino</h3>
             <p>Una práctica fundamental de cuidado y autoconocimiento. Un espacio de disfrute y exploración donde reencontrarte a través del cuerpo y volver a ti.</p>
           </div>
           <div className="clases-desc-divider" />
           <div className="clases-desc-item">
-            <h3>Pranayama y meditación</h3>
+            <h3>La respiración y la mente</h3>
             <p>Para profundizar en estados más inconscientes, reequilibrar el sistema y descubrir una herramienta de autorregulación y foco en uno mism@.</p>
           </div>
         </div>
@@ -126,15 +122,33 @@ export default function HomePage() {
           <p className="hero-eyebrow">Aula Online</p>
           <h2>Practica donde quieras,<br /><em>cuando quieras</em></h2>
           <p className="online-teaser-desc">
-            Yoga y pranayama en vídeo bajo demanda. A tu ritmo, sin horarios fijos, desde cualquier dispositivo.
+            Yoga, meditación y pranayama en vídeo bajo demanda.<br />
+            A tu ritmo, sin horarios fijos, desde cualquier dispositivo.
           </p>
-          <ul className="teaser-feature-list">
-            <li>Clases de 30 y 60 minutos</li>
-            <li>Niveles 1, 2 y 3: principiante a avanzado</li>
-            <li>Asanas, movimiento libre y pranayama</li>
-            <li>Nuevas clases incorporadas cada mes</li>
-            <li>Compatible con móvil, tablet y ordenador</li>
-          </ul>
+          <div className="teaser-disciplinas">
+            <div className="teaser-disciplina">
+              <p className="teaser-disc-nombre">Vinyasa</p>
+              <p className="teaser-disc-desc">Secuencias dinámicas que conectan respiración y movimiento, ideales para activar el cuerpo y la mente</p>
+            </div>
+            <div className="teaser-disciplina">
+              <p className="teaser-disc-nombre">Yin Yoga</p>
+              <p className="teaser-disc-desc">Posturas pasivas y de larga duración para soltar tensiones profundas y calmar el sistema nervioso</p>
+            </div>
+            <div className="teaser-disciplina">
+              <p className="teaser-disc-nombre">Meditación</p>
+              <p className="teaser-disc-desc">Prácticas guiadas para entrenar la atención, reducir el estrés y conectar contigo</p>
+            </div>
+            <div className="teaser-disciplina">
+              <p className="teaser-disc-nombre">Pranayama</p>
+              <p className="teaser-disc-desc">Técnicas de respiración consciente para regular la energía y equilibrar el estado emocional</p>
+            </div>
+          </div>
+          <div className="teaser-pills">
+            <span className="teaser-pill">Clases de 30 y 60 min</span>
+            <span className="teaser-pill">Niveles 1, 2 y 3</span>
+            <span className="teaser-pill">Clases nuevas cada mes</span>
+            <span className="teaser-pill">Móvil, tablet y ordenador</span>
+          </div>
           <div className="teaser-price-hint">
             Desde <strong>12€/mes</strong> · 7 días de prueba gratuita
           </div>
