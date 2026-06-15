@@ -250,6 +250,15 @@ async function runMigrations() {
     );
   });
 
+  await runSafeMigration('Audio src meditacion Volver al cuerpo', async () => {
+    await pool.execute(
+      `UPDATE meditaciones SET src = '/audios/volver-al-cuerpo.mp3', disponible = 1
+       WHERE titulo = 'Volver al cuerpo'
+         AND serie_id = (SELECT id FROM series_meditacion WHERE slug = 'volver-a-ti')`,
+      []
+    );
+  });
+
   await runSafeMigration('Usuario admin por defecto', async () => {
     const [rows] = await pool.execute("SELECT id FROM usuarios WHERE rol = 'admin' LIMIT 1");
     if (rows.length === 0) {
