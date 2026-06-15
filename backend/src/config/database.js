@@ -270,7 +270,7 @@ async function runMigrations() {
       [1, 'El arte de no hacer absolutamente nada'],
       [2, 'El abrazo frío que te inspira y revitaliza'],
       [3, 'Una noche de confidencias bajo las estrellas'],
-      [4, 'Caminar para llegar a ti'],
+      [4, 'Caminar sin rumbo para llegar a ti'],
       [5, 'El refugio donde aprendiste a descansar'],
     ];
     for (const [orden, titulo] of titulos) {
