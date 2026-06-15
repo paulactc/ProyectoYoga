@@ -245,7 +245,6 @@ function AudioCard({ audio, acento, isLoggedIn, token, onOpenLogin, numero }) {
       </div>
 
       <h3 className="audio-titulo">{audio.titulo}</h3>
-      <p className="audio-desc">{audio.descripcion}</p>
 
       {jugando && (
         <>

@@ -2613,15 +2613,53 @@ a.nav-logo {
 .tq-showcase {
   position: relative;
   overflow: hidden;
-  padding: 5rem 2rem;
+  padding: 4rem 2rem 5rem;
+}
+/* thin amber line at the very top — marks section start */
+.tq-showcase::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent 5%, rgba(212,160,96,0.45) 35%, rgba(212,160,96,0.45) 65%, transparent 95%);
+  z-index: 10;
 }
 .tq-showcase-bg {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(80,50,140,0.35) 0%, transparent 70%),
+    linear-gradient(to bottom, #000000 0%, rgba(0,0,0,0) 22%),
+    radial-gradient(ellipse 80% 60% at 50% 30%, rgba(80,50,140,0.45) 0%, transparent 70%),
     radial-gradient(ellipse 60% 40% at 80% 80%, rgba(30,90,60,0.2) 0%, transparent 60%),
     #080b14;
+}
+/* eyebrow label with flanking lines */
+.tq-showcase-eyebrow {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  max-width: 420px;
+  margin: 0 auto 2.75rem;
+}
+.tq-showcase-eyebrow span {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(212,160,96,0.38));
+}
+.tq-showcase-eyebrow span:last-child {
+  background: linear-gradient(to left, transparent, rgba(212,160,96,0.38));
+}
+.tq-showcase-eyebrow em {
+  font-style: normal;
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(212,160,96,0.65);
+  white-space: nowrap;
+  font-family: var(--font-body);
 }
 .tq-showcase-bg::after {
   content: '';
@@ -2948,38 +2986,40 @@ a.nav-logo {
 
 /* Audio card */
 .audio-card {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.09);
+  background: #ffffff;
+  border: 1px solid rgba(212,160,96,0.18);
+  border-top: 3px solid #d4a060;
   border-radius: 18px;
   padding: 1.75rem 1.5rem 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
   position: relative;
-  transition: transform 0.2s, border-color 0.2s;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .audio-card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(255,255,255,0.18);
+  transform: translateY(-4px);
+  box-shadow: 0 14px 36px rgba(0,0,0,0.13);
 }
 
 .audio-card--pronto {
-  opacity: 0.55;
+  opacity: 0.6;
+  border-top-color: #8a857f;
 }
 
 .audio-pronto-badge {
   position: absolute;
   top: 1rem;
   right: 1rem;
-  background: rgba(255,255,255,0.08);
-  color: rgba(255,255,255,0.45);
+  background: rgba(138,133,127,0.1);
+  color: #8a857f;
   font-size: 0.68rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   padding: 0.25rem 0.7rem;
   border-radius: 50px;
-  border: 1px solid rgba(255,255,255,0.12);
+  border: 1px solid rgba(138,133,127,0.25);
 }
 
 .audio-card-top {
@@ -3010,8 +3050,8 @@ a.nav-logo {
 }
 
 .audio-play-btn:disabled {
-  background: rgba(255,255,255,0.1);
-  color: rgba(255,255,255,0.25);
+  background: rgba(138,133,127,0.12);
+  color: #8a857f;
   cursor: not-allowed;
   box-shadow: none;
 }
@@ -3043,7 +3083,7 @@ a.nav-logo {
 .audio-duracion {
   font-family: var(--font-heading);
   font-size: 1.4rem;
-  color: #fff;
+  color: #d4a060;
   line-height: 1;
 }
 
@@ -3058,15 +3098,8 @@ a.nav-logo {
   font-family: var(--font-heading);
   font-size: 1.3rem;
   font-weight: 500;
-  color: #fff;
-  line-height: 1.2;
-}
-
-.audio-desc {
-  font-size: 0.85rem;
-  color: rgba(255,255,255,0.5);
-  line-height: 1.65;
-  flex: 1;
+  color: #1e1b18;
+  line-height: 1.25;
 }
 
 /* Onda animada al reproducir */
@@ -3094,7 +3127,7 @@ a.nav-logo {
 
 .audio-progress {
   height: 3px;
-  background: rgba(255,255,255,0.1);
+  background: rgba(212,160,96,0.15);
   border-radius: 3px;
   cursor: pointer;
   margin-top: 0.25rem;
@@ -3163,7 +3196,7 @@ a.nav-logo {
   font-size: 0.68rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.3);
+  color: #d4a060;
 }
 
 /* Formulario de feedback */

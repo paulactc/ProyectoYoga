@@ -256,13 +256,30 @@ async function runMigrations() {
     );
   });
 
-  await runSafeMigration('Audio src meditacion Volver al cuerpo', async () => {
+  await runSafeMigration('Audio src meditacion 1 Volver a ti', async () => {
     await pool.execute(
       `UPDATE meditaciones SET src = '/audios/volver-al-cuerpo.mp3', disponible = 1
-       WHERE titulo = 'Volver al cuerpo'
+       WHERE orden = 1
          AND serie_id = (SELECT id FROM series_meditacion WHERE slug = 'volver-a-ti')`,
       []
     );
+  });
+
+  await runSafeMigration('Actualizar titulos meditaciones Volver a ti', async () => {
+    const titulos = [
+      [1, 'El arte de no hacer absolutamente nada'],
+      [2, 'El abrazo frío que te inspira y revitaliza'],
+      [3, 'Una noche de confidencias bajo las estrellas'],
+      [4, 'Caminar para llegar a ti'],
+      [5, 'El refugio donde aprendiste a descansar'],
+    ];
+    for (const [orden, titulo] of titulos) {
+      await pool.execute(
+        `UPDATE meditaciones SET titulo = ?
+         WHERE orden = ? AND serie_id = (SELECT id FROM series_meditacion WHERE slug = 'volver-a-ti')`,
+        [titulo, orden]
+      );
+    }
   });
 
   await runSafeMigration('Usuario admin por defecto', async () => {
