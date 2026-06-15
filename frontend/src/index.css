@@ -867,6 +867,41 @@ a.nav-logo {
 .sub-banner .btn { background: var(--white); color: var(--sage); }
 .sub-banner .btn:hover { background: #f5f5f5; transform: none; }
 
+/* Banner "en proceso" */
+.en-proceso-banner {
+  margin-top: 64px;
+  background: linear-gradient(135deg, #fdf6ec 0%, #fef9f4 100%);
+  border-bottom: 2px solid rgba(212,160,96,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  padding: 1.1rem 2rem;
+  flex-wrap: wrap;
+  text-align: center;
+}
+.en-proceso-icono {
+  color: #d4a060;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+.en-proceso-banner > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.en-proceso-banner strong {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  color: #1e1b18;
+  font-weight: 500;
+}
+.en-proceso-banner span {
+  font-size: 0.85rem;
+  color: #6a6560;
+  letter-spacing: 0.01em;
+}
+
 /* ── Filtros ── */
 .filtros-section {
   padding: 1.25rem 2rem;

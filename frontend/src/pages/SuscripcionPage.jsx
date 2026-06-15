@@ -282,6 +282,14 @@ export default function SuscripcionPage() {
 
   return (
     <>
+      <div className="en-proceso-banner">
+        <span className="en-proceso-icono">✦</span>
+        <div>
+          <strong>Suscripción próximamente disponible</strong>
+          <span>Estamos preparando el Aula Online. Cuando las clases estén listas, podrás activar tu plan aquí.</span>
+        </div>
+      </div>
+
       <PageHeader />
       <PlanCards onSelect={selectPlan} />
 

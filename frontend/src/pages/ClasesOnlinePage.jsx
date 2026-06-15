@@ -31,12 +31,13 @@ export default function ClasesOnlinePage() {
 
   return (
     <>
-      {!isSubscribed && (
-        <div className="sub-banner">
-          <p>Activa tu suscripción mensual para acceder a todas las clases</p>
-          <Link to="/suscripcion" className="btn btn-sm">Ver plan →</Link>
+      <div className="en-proceso-banner">
+        <span className="en-proceso-icono">✦</span>
+        <div>
+          <strong>Estamos grabando las clases</strong>
+          <span>El Aula Online estará disponible en breve. ¡Gracias por tu paciencia!</span>
         </div>
-      )}
+      </div>
 
       <header className="page-header">
         <p className="hero-eyebrow">Tu espacio de práctica</p>
