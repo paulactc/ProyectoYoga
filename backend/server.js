@@ -4,8 +4,8 @@ const app = require('./src/app');
 
 const PORT = process.env.PORT || 3000;
 
-testConnection().then(() => {
-  app.listen(PORT, () => {
-    console.log(`Servidor corriendo en http://localhost:${PORT}`);
-  });
+// Start serving immediately so Railway health checks pass
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+  testConnection();
 });

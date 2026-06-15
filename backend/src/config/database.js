@@ -221,7 +221,7 @@ async function runMigrations() {
         `INSERT INTO series_meditacion (titulo, descripcion, slug, orden) VALUES (?, ?, ?, ?)`,
         [
           'Volver a ti',
-          '¿Te acuerdas de cuando dormías de un tirón? Tu cuerpo también. Esta serie te ayuda a volver ahí.',
+          '5 meditaciones guiadas que usan la memoria sensorial para relajar cuerpo y mente, regular el sistema nervioso y facilitar un sueño profundo y reparador.',
           'volver-a-ti',
           1,
         ]
@@ -243,6 +243,13 @@ async function runMigrations() {
     }
   });
 
+  await runSafeMigration('Actualizar descripcion serie Volver a ti', async () => {
+    await pool.execute(
+      `UPDATE series_meditacion SET descripcion = ? WHERE slug = 'volver-a-ti'`,
+      ['5 meditaciones guiadas que usan la memoria sensorial para relajar cuerpo y mente, regular el sistema nervioso y facilitar un sueño profundo y reparador.']
+    );
+  });
+
   await runSafeMigration('Usuario admin por defecto', async () => {
     const [rows] = await pool.execute("SELECT id FROM usuarios WHERE rol = 'admin' LIMIT 1");
     if (rows.length === 0) {
@@ -260,16 +267,22 @@ async function runMigrations() {
   });
 }
 
-async function testConnection() {
-  try {
-    const conn = await pool.getConnection();
-    console.log('Conexión a MySQL establecida');
-    conn.release();
-    await runMigrations();
-  } catch (err) {
-    console.error('Error conectando a MySQL:', err.message);
-    process.exit(1);
+async function testConnection(retries = 5, delay = 3000) {
+  for (let i = 0; i < retries; i++) {
+    try {
+      const conn = await pool.getConnection();
+      console.log('Conexión a MySQL establecida');
+      conn.release();
+      await runMigrations();
+      return;
+    } catch (err) {
+      console.error(`Error conectando a MySQL (intento ${i + 1}/${retries}):`, err.message);
+      if (i < retries - 1) {
+        await new Promise(r => setTimeout(r, delay));
+      }
+    }
   }
+  console.error('No se pudo conectar a MySQL tras varios intentos. Las rutas de API fallarán hasta que la BD esté disponible.');
 }
 
 async function executeQuery(sql, params = []) {
