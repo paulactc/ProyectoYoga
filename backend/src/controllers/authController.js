@@ -38,7 +38,9 @@ class AuthController {
         [tokenHash, email, nombre, telefono || null, hashed, expiresAt]
       );
 
-      const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+      const frontendUrl = process.env.FRONTEND_URL
+        || (process.env.RAILWAY_PUBLIC_DOMAIN ? `https://${process.env.RAILWAY_PUBLIC_DOMAIN}` : null)
+        || 'http://localhost:5173';
       const verifyUrl   = `${frontendUrl}/verify-email?token=${rawToken}`;
 
       try {
@@ -220,7 +222,10 @@ class AuthController {
         [email, tokenHash, expiresAt]
       );
 
-      const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/reset-password?token=${resetToken}`;
+      const frontendBase = process.env.FRONTEND_URL
+        || (process.env.RAILWAY_PUBLIC_DOMAIN ? `https://${process.env.RAILWAY_PUBLIC_DOMAIN}` : null)
+        || 'http://localhost:5173';
+      const resetUrl = `${frontendBase}/reset-password?token=${resetToken}`;
       try {
         await sendPasswordResetEmail(email, resetUrl);
       } catch (emailErr) {

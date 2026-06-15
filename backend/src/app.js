@@ -9,9 +9,19 @@ const app = express();
 // Security headers
 app.use(helmet());
 
-// CORS: only allow the configured frontend origin
+// CORS: allow configured frontend URL, Railway public domain, and localhost dev
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  process.env.RAILWAY_PUBLIC_DOMAIN ? `https://${process.env.RAILWAY_PUBLIC_DOMAIN}` : null,
+  'http://localhost:5173',
+].filter(Boolean);
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  origin: (origin, cb) => {
+    // allow server-to-server calls (no origin) and any listed origin
+    if (!origin || allowedOrigins.includes(origin)) return cb(null, true);
+    cb(new Error(`CORS: origin not allowed — ${origin}`));
+  },
   credentials: true,
 }));
 
