@@ -7,6 +7,7 @@ const path       = require('path');
 const app = express();
 
 // Security headers
+app.set('trust proxy', 1);
 app.use(helmet());
 
 // CORS: allow configured frontend URL, Railway public domain, and localhost dev
