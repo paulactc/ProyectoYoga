@@ -45,7 +45,7 @@ document.getElementById('contactForm').addEventListener('submit', async function
   btn.disabled = true; btn.textContent = 'Enviando…';
 
   try {
-    const res  = await fetch('http://localhost:3000/api/contact', {
+    const res  = await fetch('/api/contact', {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
       body:    JSON.stringify({ nombre, email, mensaje }),
