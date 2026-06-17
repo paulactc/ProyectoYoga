@@ -44,6 +44,16 @@ body {
   font-weight: 600;
   color: var(--tierra);
   letter-spacing: 0.04em;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.nav-logo-icon {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  color: var(--tierra);
 }
 
 .nav-links {
