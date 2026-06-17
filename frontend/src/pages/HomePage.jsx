@@ -71,7 +71,6 @@ export default function HomePage() {
         <div className="tq-showcase-bg" />
         <div className="tq-showcase-inner">
           <div className="tq-showcase-text">
-            <span className="tq-badge">Gratuito · Crea tu cuenta</span>
             <h2 className="tq-titulo">Tierra <em>en Calma</em></h2>
             <Link to="/audios" className="tq-cta">
               Escuchar ahora — es gratis <span>→</span>
