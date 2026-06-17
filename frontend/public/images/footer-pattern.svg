@@ -1,28 +1,58 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">
-  <defs>
-    <!-- planta base: tierra, tallo, hojas, brote -->
-    <g id="planta">
-      <path d="M-14 10 Q0 8 14 10" stroke="rgba(212,160,96,0.55)" stroke-width="1.2" stroke-linecap="round" fill="none"/>
-      <line x1="0" y1="10" x2="0" y2="0" stroke="rgba(212,160,96,0.55)" stroke-width="1.2" stroke-linecap="round"/>
-      <path d="M0 6 C-4 2 -9 4 -7 8" stroke="rgba(212,160,96,0.45)" stroke-width="1.1" stroke-linecap="round" fill="none"/>
-      <path d="M0 3 C4 -1 9 1 7 5" stroke="rgba(212,160,96,0.45)" stroke-width="1.1" stroke-linecap="round" fill="none"/>
-      <path d="M0 0 C-0.5 -3 -2 -5 0 -6 C2 -5 0.5 -3 0 0" stroke="rgba(212,160,96,0.5)" stroke-width="1.1" stroke-linecap="round" fill="none"/>
-    </g>
-  </defs>
-
-  <!-- fila 1 -->
-  <use href="#planta" transform="translate(30,45) scale(1.6)"/>
-  <use href="#planta" transform="translate(100,30) scale(1.1) rotate(8,0,0)"/>
-  <use href="#planta" transform="translate(170,50) scale(1.4) rotate(-6,0,0)"/>
-
-  <!-- fila 2 -->
-  <use href="#planta" transform="translate(15,115) scale(1.0) rotate(5,0,0)"/>
-  <use href="#planta" transform="translate(70,130) scale(1.8)"/>
-  <use href="#planta" transform="translate(145,105) scale(1.2) rotate(-10,0,0)"/>
-  <use href="#planta" transform="translate(195,130) scale(0.9) rotate(4,0,0)"/>
-
-  <!-- fila 3 -->
-  <use href="#planta" transform="translate(45,185) scale(1.3) rotate(-5,0,0)"/>
-  <use href="#planta" transform="translate(120,175) scale(1.0) rotate(7,0,0)"/>
-  <use href="#planta" transform="translate(185,190) scale(1.5)"/>
+  <!-- planta 1 - grande, centro izquierda -->
+  <g transform="translate(32,50) scale(1.7)" stroke="rgba(212,160,96,0.5)" stroke-linecap="round" fill="none">
+    <path d="M-13 10 Q0 8 13 10" stroke-width="1.2"/>
+    <line x1="0" y1="10" x2="0" y2="0" stroke-width="1.2"/>
+    <path d="M0 6 C-4 2 -8 3 -6 7" stroke-width="1.1"/>
+    <path d="M0 3 C4 -1 8 0 6 4" stroke-width="1.1"/>
+    <path d="M0 0 C-0.5 -2.5 -1.8 -5 0 -6 C1.8 -5 0.5 -2.5 0 0" stroke-width="1.1"/>
+  </g>
+  <!-- planta 2 - pequeña, arriba derecha -->
+  <g transform="translate(155,28) scale(1.1) rotate(8)" stroke="rgba(212,160,96,0.4)" stroke-linecap="round" fill="none">
+    <path d="M-13 10 Q0 8 13 10" stroke-width="1.2"/>
+    <line x1="0" y1="10" x2="0" y2="0" stroke-width="1.2"/>
+    <path d="M0 6 C-4 2 -8 3 -6 7" stroke-width="1.1"/>
+    <path d="M0 3 C4 -1 8 0 6 4" stroke-width="1.1"/>
+    <path d="M0 0 C-0.5 -2.5 -1.8 -5 0 -6 C1.8 -5 0.5 -2.5 0 0" stroke-width="1.1"/>
+  </g>
+  <!-- planta 3 - mediana, arriba izquierda -->
+  <g transform="translate(88,22) scale(0.95) rotate(-6)" stroke="rgba(212,160,96,0.38)" stroke-linecap="round" fill="none">
+    <path d="M-13 10 Q0 8 13 10" stroke-width="1.2"/>
+    <line x1="0" y1="10" x2="0" y2="0" stroke-width="1.2"/>
+    <path d="M0 6 C-4 2 -8 3 -6 7" stroke-width="1.1"/>
+    <path d="M0 3 C4 -1 8 0 6 4" stroke-width="1.1"/>
+    <path d="M0 0 C-0.5 -2.5 -1.8 -5 0 -6 C1.8 -5 0.5 -2.5 0 0" stroke-width="1.1"/>
+  </g>
+  <!-- planta 4 - grande, centro -->
+  <g transform="translate(105,125) scale(1.85)" stroke="rgba(212,160,96,0.52)" stroke-linecap="round" fill="none">
+    <path d="M-13 10 Q0 8 13 10" stroke-width="1.2"/>
+    <line x1="0" y1="10" x2="0" y2="0" stroke-width="1.2"/>
+    <path d="M0 6 C-4 2 -8 3 -6 7" stroke-width="1.1"/>
+    <path d="M0 3 C4 -1 8 0 6 4" stroke-width="1.1"/>
+    <path d="M0 0 C-0.5 -2.5 -1.8 -5 0 -6 C1.8 -5 0.5 -2.5 0 0" stroke-width="1.1"/>
+  </g>
+  <!-- planta 5 - pequeña, izquierda abajo -->
+  <g transform="translate(18,148) scale(0.9) rotate(5)" stroke="rgba(212,160,96,0.36)" stroke-linecap="round" fill="none">
+    <path d="M-13 10 Q0 8 13 10" stroke-width="1.2"/>
+    <line x1="0" y1="10" x2="0" y2="0" stroke-width="1.2"/>
+    <path d="M0 6 C-4 2 -8 3 -6 7" stroke-width="1.1"/>
+    <path d="M0 3 C4 -1 8 0 6 4" stroke-width="1.1"/>
+    <path d="M0 0 C-0.5 -2.5 -1.8 -5 0 -6 C1.8 -5 0.5 -2.5 0 0" stroke-width="1.1"/>
+  </g>
+  <!-- planta 6 - mediana, derecha abajo -->
+  <g transform="translate(178,160) scale(1.3) rotate(-8)" stroke="rgba(212,160,96,0.44)" stroke-linecap="round" fill="none">
+    <path d="M-13 10 Q0 8 13 10" stroke-width="1.2"/>
+    <line x1="0" y1="10" x2="0" y2="0" stroke-width="1.2"/>
+    <path d="M0 6 C-4 2 -8 3 -6 7" stroke-width="1.1"/>
+    <path d="M0 3 C4 -1 8 0 6 4" stroke-width="1.1"/>
+    <path d="M0 0 C-0.5 -2.5 -1.8 -5 0 -6 C1.8 -5 0.5 -2.5 0 0" stroke-width="1.1"/>
+  </g>
+  <!-- planta 7 - pequeña, fondo centro-derecha -->
+  <g transform="translate(148,82) scale(0.8) rotate(12)" stroke="rgba(212,160,96,0.30)" stroke-linecap="round" fill="none">
+    <path d="M-13 10 Q0 8 13 10" stroke-width="1.2"/>
+    <line x1="0" y1="10" x2="0" y2="0" stroke-width="1.2"/>
+    <path d="M0 6 C-4 2 -8 3 -6 7" stroke-width="1.1"/>
+    <path d="M0 3 C4 -1 8 0 6 4" stroke-width="1.1"/>
+    <path d="M0 0 C-0.5 -2.5 -1.8 -5 0 -6 C1.8 -5 0.5 -2.5 0 0" stroke-width="1.1"/>
+  </g>
 </svg>
