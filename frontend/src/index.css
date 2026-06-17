@@ -676,7 +676,11 @@ body {
 
 /* ── Footer ── */
 .footer {
+  position: relative;
   background: var(--dark);
+  background-image: url('/images/footer-pattern.svg');
+  background-size: 160px 160px;
+  background-repeat: repeat;
   color: rgba(255,255,255,0.6);
   text-align: center;
   padding: 2.5rem 2rem 2rem;
