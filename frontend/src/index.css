@@ -210,6 +210,7 @@ body {
 
 .online-teaser .hero-eyebrow {
   font-size: 1.56rem;
+  text-align: center;
 }
 
 .hero .hero-eyebrow {
@@ -1232,6 +1233,8 @@ a.nav-logo {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 .online-teaser-text h2 {
