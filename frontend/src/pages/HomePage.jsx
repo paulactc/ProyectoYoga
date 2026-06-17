@@ -82,17 +82,12 @@ export default function HomePage() {
               Escuchar ahora — es gratis <span>→</span>
             </Link>
           </div>
-          <div className="tq-showcase-cards">
-            <div className="tq-card tq-card--nidra">
-              <span className="tq-card-icono">◎</span>
-              <p className="tq-card-nombre">Yoga Nidra</p>
-              <p className="tq-card-hint">El sueño consciente · 20–45 min</p>
-            </div>
-            <div className="tq-card tq-card--sleep">
-              <span className="tq-card-icono">☽</span>
-              <p className="tq-card-nombre">Antes de dormir</p>
-              <p className="tq-card-hint">Cierra el día con calma · 8–12 min</p>
-            </div>
+          <div className="tq-feature">
+            <div className="tq-feature-glow" />
+            <span className="tq-feature-moon">☽</span>
+            <p className="tq-feature-nombre">Antes de dormir</p>
+            <p className="tq-feature-desc">Una meditación guiada para soltar la tensión del día, calmar el sistema nervioso y preparar el cuerpo y la mente para el descanso.</p>
+            <p className="tq-feature-hint">Cierra el día con calma · 15–20 min</p>
           </div>
         </div>
       </section>
@@ -143,15 +138,6 @@ export default function HomePage() {
               <p className="teaser-disc-desc">Técnicas de respiración consciente para regular la energía y equilibrar el estado emocional</p>
             </div>
           </div>
-          <div className="teaser-pills">
-            <span className="teaser-pill">Clases de 30 y 60 min</span>
-            <span className="teaser-pill">Niveles 1, 2 y 3</span>
-            <span className="teaser-pill">Clases nuevas cada mes</span>
-            <span className="teaser-pill">Móvil, tablet y ordenador</span>
-          </div>
-          <div className="teaser-price-hint">
-            Desde <strong>12€/mes</strong> · 7 días de prueba gratuita
-          </div>
           <Link to="/suscripcion" className="btn">Ver planes →</Link>
         </div>
       </section>
@@ -186,6 +172,7 @@ export default function HomePage() {
               </svg>
             </span>
             <span className="stat-label">Todos los niveles</span>
+            <span className="stat-detail">Principiante · Medio · Avanzado</span>
           </div>
 
           <div className="stat-item">
@@ -196,6 +183,7 @@ export default function HomePage() {
               </svg>
             </span>
             <span className="stat-label">+30 clases grabadas</span>
+            <span className="stat-detail">de 30 y 60 minutos</span>
           </div>
 
           <div className="stat-item">
@@ -206,6 +194,7 @@ export default function HomePage() {
               </svg>
             </span>
             <span className="stat-label">Contenido nuevo</span>
+            <span className="stat-detail">cada mes</span>
           </div>
 
           <div className="stat-item">
@@ -216,6 +205,7 @@ export default function HomePage() {
               </svg>
             </span>
             <span className="stat-label">Desde casa, cuando quieras</span>
+            <span className="stat-detail">móvil, tablet y ordenador</span>
           </div>
 
         </div>
