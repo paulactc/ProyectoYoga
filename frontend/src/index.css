@@ -3567,6 +3567,10 @@ a.nav-logo {
   padding: 4rem 2rem;
   background: #fff;
 }
+.sobre-bio-inner--full {
+  grid-template-columns: 1fr;
+  max-width: 680px;
+}
 .sobre-bio-inner {
   max-width: 860px;
   margin: 0 auto;

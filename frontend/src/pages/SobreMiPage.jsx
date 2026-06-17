@@ -2,19 +2,19 @@ export default function SobreMiPage() {
   return (
     <div className="sobre-page">
 
+      <header className="sobre-hero">
+        <div className="sobre-hero-bg" />
+        <div className="sobre-hero-content">
+          <p className="sobre-eyebrow">Yoga Tierra Viva</p>
+          <h1 className="sobre-titulo">Paula <em>Castillo</em></h1>
+          <p className="sobre-subtitulo">Instructora y profesora de yoga · Madrid</p>
+        </div>
+      </header>
+
       <section className="sobre-bio">
-        <div className="sobre-bio-inner">
-          <div className="sobre-bio-foto">
-            <img src="/images/yo.jpg" alt="Paula Castillo, instructora de yoga" />
-          </div>
+        <div className="sobre-bio-inner sobre-bio-inner--full">
           <div className="sobre-bio-texto">
-            <p className="sobre-eyebrow" style={{ color: '#8b5e3c', marginBottom: '0.5rem' }}>Yoga Tierra Viva</p>
-            <h1 className="sobre-titulo" style={{ fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', color: '#2c2c2c', marginBottom: '0.25rem' }}>
-              Paula <em>Castillo</em>
-            </h1>
-            <p className="sobre-subtitulo" style={{ color: '#999', marginBottom: '1.5rem' }}>
-              Instructora y profesora de yoga · Madrid
-            </p>
+            <h2>Qué es <em>Yoga Tierra Viva</em></h2>
             <p>
               El yoga te despierta, te hace sentirte y aprender de ti mismo.
               Mi camino en él nació de la necesidad de escucharme, y hoy acompaño
@@ -45,7 +45,7 @@ export default function SobreMiPage() {
               <div className="sobre-timeline-anno">2016</div>
               <div className="sobre-timeline-card">
                 <h3>Hatha Yoga Nivel I · <span style={{ fontWeight: 400, fontSize: '0.95em' }}>Instructor</span></h3>
-                <p className="sobre-timeline-horas">200 h · Escuela Internacional del Yoga · Madrid</p>
+                <p className="sobre-timeline-horas">200 h · Escuela Internacional del Yoga</p>
                 <div className="sobre-reconocimientos">
                   <span>European Yoga Federation</span>
                   <span>FEDEFY</span>
@@ -57,7 +57,7 @@ export default function SobreMiPage() {
               <div className="sobre-timeline-anno">2017</div>
               <div className="sobre-timeline-card">
                 <h3>Hatha Yoga Nivel II · <span style={{ fontWeight: 400, fontSize: '0.95em' }}>Profesor</span></h3>
-                <p className="sobre-timeline-horas">200 h · Escuela Internacional del Yoga · Madrid</p>
+                <p className="sobre-timeline-horas">200 h · Escuela Internacional del Yoga</p>
                 <div className="sobre-reconocimientos">
                   <span>European Yoga Federation</span>
                   <span>FEDEFY</span>
@@ -69,7 +69,7 @@ export default function SobreMiPage() {
               <div className="sobre-timeline-anno">2018</div>
               <div className="sobre-timeline-card">
                 <h3>Vinyasa Flow Yoga · <span style={{ fontWeight: 400, fontSize: '0.95em' }}>con Vidya J. Heisel</span></h3>
-                <p className="sobre-timeline-horas">200 h YTT · Madrid</p>
+                <p className="sobre-timeline-horas">200 h YTT · con Vidya J. Heisel</p>
                 <div className="sobre-reconocimientos">
                   <span>Yoga Alliance</span>
                   <span>FEDEFY</span>
@@ -81,9 +81,9 @@ export default function SobreMiPage() {
               <div className="sobre-timeline-anno">2019</div>
               <div className="sobre-timeline-card">
                 <h3>Clases presenciales en centros</h3>
-                <p className="sobre-timeline-horas">Madrid · en activo</p>
+                <p className="sobre-timeline-horas">En activo</p>
                 <p className="sobre-timeline-desc">
-                  Impartiendo clases en diferentes centros de yoga de Madrid,
+                  Impartiendo clases en diferentes centros de yoga,
                   con metodología adaptada a cada grupo.
                 </p>
               </div>
