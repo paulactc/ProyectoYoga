@@ -2474,15 +2474,17 @@ a.nav-logo {
 /* ── Pricing form section ── */
 .suscripcion-aviso {
   padding: 3rem 2rem 4rem;
-  background: #fdf9f5;
+  background:
+    linear-gradient(to bottom, rgba(26,16,8,0.72) 0%, rgba(26,16,8,0.65) 100%),
+    url('/images/saltamontes.jpg') center 40% / cover no-repeat;
 }
 
 .suscripcion-aviso-inner {
   max-width: 520px;
   margin: 0 auto;
-  background: #fff;
-  border: 1px solid rgba(139,94,60,0.15);
-  border-top: 3px solid var(--tierra);
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-top: 3px solid #d4a060;
   border-radius: 18px;
   padding: 2.5rem 2rem;
   display: flex;
@@ -2490,11 +2492,12 @@ a.nav-logo {
   align-items: center;
   text-align: center;
   gap: 1rem;
+  backdrop-filter: blur(8px);
 }
 
 .suscripcion-aviso-icono {
   font-size: 2.8rem;
-  color: var(--tierra);
+  color: #d4a060;
   line-height: 1;
 }
 
@@ -2502,13 +2505,13 @@ a.nav-logo {
   font-family: var(--font-heading);
   font-size: 1.6rem;
   font-weight: 400;
-  color: #2c2c2c;
+  color: #fff;
   line-height: 1.2;
 }
 
 .suscripcion-aviso-inner p {
   font-size: 0.92rem;
-  color: var(--muted);
+  color: rgba(255,255,255,0.7);
   line-height: 1.8;
   max-width: 400px;
 }
@@ -2516,7 +2519,7 @@ a.nav-logo {
 .suscripcion-aviso-volver {
   background: none;
   border: none;
-  color: var(--muted);
+  color: rgba(255,255,255,0.45);
   font-size: 0.82rem;
   cursor: pointer;
   padding: 0.25rem 0;
