@@ -101,11 +101,8 @@ function PlanCards({ onSelect, disableSelect }) {
           <div key={key} className={`plan-card${plan.featured ? ' plan-card-featured' : ''}`}>
             <span className={`plan-badge${plan.featured ? '' : ' plan-badge-popular'}`}>{plan.badge}</span>
             <p className="plan-name">{plan.label}</p>
-            <div className="plan-price">
-              <span className="plan-amount">{plan.amount ?? '— €'}</span>
-              <span className="plan-period">{plan.period}</span>
-            </div>
-            <p className="plan-billing plan-billing--pronto">{plan.billing} · precio por confirmar</p>
+            <p className="plan-precio-pronto">Precio por confirmar</p>
+            <p className="plan-billing">{plan.billing}</p>
             {plan.save && <span className="plan-save">{plan.save}</span>}
             <div className="plan-divider" />
             <ul className="plan-features">

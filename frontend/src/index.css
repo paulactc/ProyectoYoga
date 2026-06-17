@@ -2411,7 +2411,15 @@ a.nav-logo {
 .plan-period { color: var(--muted); font-size: 1rem; margin-left: 0.1rem; }
 
 .plan-billing { font-size: 0.82rem; color: var(--muted); margin-bottom: 0.7rem; }
-.plan-billing--pronto { font-style: italic; opacity: 0.7; }
+
+.plan-precio-pronto {
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  font-style: italic;
+  color: var(--muted);
+  opacity: 0.6;
+  margin-bottom: 0.25rem;
+}
 
 .plan-save {
   display: inline-block;
