@@ -516,7 +516,17 @@ body {
 }
 
 /* ── Contacto ── */
-.contacto { background: var(--sand); max-width: 100%; padding: 5rem 2rem; }
+.contacto {
+  max-width: 100%;
+  padding: 5rem 2rem;
+  position: relative;
+  background:
+    linear-gradient(to bottom, rgba(0,0,0,0.52) 0%, rgba(0,0,0,0.45) 100%),
+    url('/images/saltamontes.jpg') center/cover no-repeat;
+  color: #fff;
+}
+.contacto h2, .contacto .section-sub { color: #fff; }
+.contacto .section-sub { color: rgba(255,255,255,0.75); }
 
 .contact-form {
   display: flex;
