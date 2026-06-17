@@ -1,13 +1,6 @@
-const { Resend } = require('resend');
-
-function getResend() {
-  if (!process.env.RESEND_API_KEY) {
-    throw new Error('RESEND_API_KEY no está configurada en las variables de entorno');
-  }
-  return new Resend(process.env.RESEND_API_KEY);
-}
-
-const FROM = process.env.SMTP_FROM || 'onboarding@resend.dev';
+const BREVO_API_KEY = process.env.BREVO_API_KEY;
+const FROM_EMAIL = process.env.SMTP_FROM || 'paulact39@gmail.com';
+const FROM_NAME  = 'Yoga Tierra Viva';
 
 function escapeHtml(str) {
   return String(str)
@@ -18,12 +11,31 @@ function escapeHtml(str) {
     .replace(/'/g, '&#39;');
 }
 
+async function sendBrevo({ to, subject, html }) {
+  const res = await fetch('https://api.brevo.com/v3/smtp/email', {
+    method:  'POST',
+    headers: {
+      'api-key':      BREVO_API_KEY,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      sender:      { name: FROM_NAME, email: FROM_EMAIL },
+      to:          [{ email: to }],
+      subject,
+      htmlContent: html,
+    }),
+  });
+
+  if (!res.ok) {
+    const body = await res.text();
+    throw new Error(`Brevo error ${res.status}: ${body}`);
+  }
+}
+
 async function sendVerificationEmail(email, nombre, verifyUrl) {
-  const resend = getResend();
   const safeName = escapeHtml(nombre);
-  const { error } = await resend.emails.send({
-    from: `Yoga Tierra Viva <${FROM}>`,
-    to: email,
+  await sendBrevo({
+    to:      email,
     subject: 'Confirma tu cuenta · Yoga Tierra Viva',
     html: `
       <div style="font-family:Georgia,serif;max-width:560px;margin:0 auto;padding:32px 24px;color:#2c2c2c;">
@@ -49,15 +61,12 @@ async function sendVerificationEmail(email, nombre, verifyUrl) {
       </div>
     `,
   });
-  if (error) throw new Error(error.message);
   console.log('Email de verificación enviado a:', email);
 }
 
 async function sendPasswordResetEmail(email, resetUrl) {
-  const resend = getResend();
-  const { error } = await resend.emails.send({
-    from: `Yoga Tierra Viva <${FROM}>`,
-    to: email,
+  await sendBrevo({
+    to:      email,
     subject: 'Recuperar contraseña · Yoga Tierra Viva',
     html: `
       <div style="font-family:Georgia,serif;max-width:560px;margin:0 auto;padding:32px 24px;color:#2c2c2c;">
@@ -78,7 +87,6 @@ async function sendPasswordResetEmail(email, resetUrl) {
       </div>
     `,
   });
-  if (error) throw new Error(error.message);
   console.log('Email de recuperación enviado a:', email);
 }
 
