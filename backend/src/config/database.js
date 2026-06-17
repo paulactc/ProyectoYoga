@@ -276,6 +276,15 @@ async function runMigrations() {
     );
   });
 
+  await runSafeMigration('Audio src meditacion 2 Volver a ti', async () => {
+    await pool.execute(
+      `UPDATE meditaciones SET src = '/audios/meditacion2abrazofrio.mp3', disponible = 1
+       WHERE orden = 2
+         AND serie_id = (SELECT id FROM series_meditacion WHERE slug = 'volver-a-ti')`,
+      []
+    );
+  });
+
   await runSafeMigration('Actualizar titulos meditaciones Volver a ti', async () => {
     const titulos = [
       [1, 'El arte de no hacer absolutamente nada'],
