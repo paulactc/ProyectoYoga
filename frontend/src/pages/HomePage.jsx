@@ -187,7 +187,7 @@ export default function HomePage() {
       {/* TESTIMONIOS */}
       <section className="testimonios">
         <p className="clases-desc-eyebrow">Lo que dicen</p>
-        <h2 className="testimonios-titulo">Ellas ya lo sienten</h2>
+        <h2 className="testimonios-titulo">Cuando compartimos energía,<br /><em>las distancias desaparecen</em></h2>
         <div className="testimonios-grid">
           {[
             { texto: 'Desde que empecé con Yoga Tierra Viva noto que mi cuerpo responde diferente. Llevo tres meses y ya no entiendo mis mañanas sin esta práctica.', nombre: 'Laura M.', detalle: '3 meses practicando' },
