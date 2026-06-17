@@ -180,6 +180,7 @@ body {
   position: absolute;
   top: 0;
   left: 0;
+  z-index: 0;
   filter: brightness(0.85) saturate(0.8);
 }
 
@@ -517,12 +518,15 @@ body {
 
 /* ── Contacto ── */
 .contacto {
-  max-width: 100%;
+  max-width: 100% !important;
+  width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
   padding: 5rem 2rem;
   position: relative;
   background:
-    linear-gradient(to bottom, rgba(0,0,0,0.52) 0%, rgba(0,0,0,0.45) 100%),
-    url('/images/saltamontes.jpg') center/cover no-repeat;
+    linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.48) 100%),
+    url('/images/saltamontes.jpg') center 30%/cover no-repeat;
   color: #fff;
 }
 .contacto h2, .contacto .section-sub { color: #fff; }

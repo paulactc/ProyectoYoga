@@ -65,6 +65,7 @@ export default function HomePage() {
             loop
             playsInline
             className="hero-video"
+            poster="/images/saltamontes.jpg"
           >
             <source src="/images/hero-video.mp4" type="video/mp4" />
           </video>
