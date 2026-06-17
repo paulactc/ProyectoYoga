@@ -234,15 +234,22 @@ export default function HomePage() {
       </section>
 
       {/* CONTACTO */}
-      <section id="contacto" className="section contacto">
-        <h2>Contáctame</h2>
-        <p className="section-sub">Da el primer paso. Tu camino empieza aquí.</p>
-        <form className="contact-form" onSubmit={handleContact}>
-          <input type="text" placeholder="Tu nombre" required value={form.nombre} onChange={e => setForm(f => ({ ...f, nombre: e.target.value }))} />
-          <input type="email" placeholder="Tu email" required value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} />
-          <textarea rows={5} placeholder="Tu mensaje" required value={form.mensaje} onChange={e => setForm(f => ({ ...f, mensaje: e.target.value }))} />
-          <button type="submit" className="btn" disabled={contactStatus === 'loading'}>{contactBtnText}</button>
-        </form>
+      <section id="contacto" className="contacto">
+        <div className="contacto-inner">
+          <div className="contacto-img">
+            <img src="/images/saltamontes.jpg" alt="Yoga Tierra Viva" />
+          </div>
+          <div className="contacto-form-wrap">
+            <h2>Contáctame</h2>
+            <p className="contacto-sub">Da el primer paso. Tu camino empieza aquí.</p>
+            <form className="contact-form" onSubmit={handleContact}>
+              <input type="text" placeholder="Tu nombre" required value={form.nombre} onChange={e => setForm(f => ({ ...f, nombre: e.target.value }))} />
+              <input type="email" placeholder="Tu email" required value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} />
+              <textarea rows={5} placeholder="Tu mensaje" required value={form.mensaje} onChange={e => setForm(f => ({ ...f, mensaje: e.target.value }))} />
+              <button type="submit" className="btn" disabled={contactStatus === 'loading'}>{contactBtnText}</button>
+            </form>
+          </div>
+        </div>
       </section>
     </>
   )
