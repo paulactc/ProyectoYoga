@@ -539,19 +539,27 @@ body {
 .contact-form input,
 .contact-form textarea {
   padding: 0.85rem 1.2rem;
-  border: 1px solid #ddd;
+  border: 1px solid rgba(255,255,255,0.35);
   border-radius: var(--radius);
   font-family: var(--font-body);
   font-size: 0.95rem;
-  background: var(--white);
-  transition: border-color 0.2s;
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  transition: border-color 0.2s, background 0.2s;
   resize: none;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: rgba(255,255,255,0.55);
 }
 
 .contact-form input:focus,
 .contact-form textarea:focus {
   outline: none;
-  border-color: var(--sage);
+  border-color: rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.18);
 }
 
 .contact-form .btn { align-self: center; }
