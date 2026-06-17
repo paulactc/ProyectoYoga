@@ -1224,37 +1224,55 @@ a.nav-logo {
 
 /* Grid de disciplinas 2x2 */
 .teaser-disciplinas {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem;
   margin-bottom: 2rem;
-  border-top: 1px solid rgba(140,78,47,0.15);
+  counter-reset: disciplina;
 }
 
 .teaser-disciplina {
-  display: grid;
-  grid-template-columns: 130px 1fr;
-  gap: 1.5rem;
-  padding: 1.1rem 0;
-  border-bottom: 1px solid rgba(140,78,47,0.15);
-  align-items: start;
+  counter-increment: disciplina;
+  position: relative;
+  background: rgba(140,78,47,0.04);
+  border: 1px solid rgba(140,78,47,0.14);
+  border-radius: 14px;
+  padding: 1.4rem 1.25rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: border-color 0.22s, background 0.22s, transform 0.22s;
+}
+
+.teaser-disciplina:hover {
+  border-color: rgba(140,78,47,0.32);
+  background: rgba(140,78,47,0.08);
+  transform: translateY(-3px);
+}
+
+.teaser-disciplina::before {
+  content: counter(disciplina, decimal-leading-zero);
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  color: var(--tierra);
+  opacity: 0.45;
+  font-family: var(--font-body);
+  margin-bottom: 0.35rem;
 }
 
 .teaser-disc-nombre {
   font-family: var(--font-heading);
-  font-size: 1rem;
+  font-size: 1.25rem;
   font-style: italic;
-  font-weight: 600;
+  font-weight: 400;
   color: var(--tierra);
-  letter-spacing: 0;
-  text-transform: none;
-  margin-bottom: 0;
-  padding-top: 0.05rem;
+  line-height: 1.15;
 }
 
 .teaser-disc-desc {
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   color: var(--muted);
-  line-height: 1.75;
+  line-height: 1.72;
 }
 
 /* Pills de características */
@@ -2634,8 +2652,8 @@ a.nav-logo {
     min-height: auto;
   }
   .online-teaser-img { height: 55vw; min-height: 260px; }
-  .teaser-disciplina { grid-template-columns: 1fr; gap: 0.25rem; }
-  .teaser-disc-nombre { padding-top: 0; }
+  .teaser-disciplinas { grid-template-columns: 1fr; }
+  .teaser-disciplina { padding: 1.1rem 1rem; }
   .online-teaser-text {
     padding: 3rem 1.75rem;
   }
