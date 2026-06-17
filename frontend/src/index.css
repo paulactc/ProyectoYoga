@@ -763,8 +763,9 @@ body {
   position: relative;
   background: var(--dark);
   background-image: url('/images/footer-pattern.svg');
-  background-size: 200px 200px;
+  background-size: 180px 180px;
   background-repeat: repeat;
+  background-position: 20px 10px;
   color: rgba(255,255,255,0.6);
   text-align: center;
   padding: 2.5rem 2rem 2rem;
