@@ -73,11 +73,6 @@ export default function HomePage() {
           <div className="tq-showcase-text">
             <span className="tq-badge">Gratuito · Crea tu cuenta</span>
             <h2 className="tq-titulo">Tierra <em>en Calma</em></h2>
-            <p className="tq-desc">
-              ¿La cabeza no para? ¿Te cuesta dormir?<br />
-              Aquí tienes audios de Yoga Nidra y meditaciones guiadas
-              para soltar el día y recuperar calma — completamente gratis.
-            </p>
             <Link to="/audios" className="tq-cta">
               Escuchar ahora — es gratis <span>→</span>
             </Link>
