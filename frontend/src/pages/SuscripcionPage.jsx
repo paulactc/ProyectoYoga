@@ -40,27 +40,23 @@ const PLANS = {
     label: 'Plan Anual',
     badge: 'El más elegido',
     featured: true,
-    amount: '12€',
+    amount: null,
     period: '/mes',
-    billing: 'Facturado como 144€/año',
-    save: 'Ahorra un 29%',
+    billing: 'Facturado anualmente',
+    save: 'Máximo ahorro',
     btnText: 'Disponible próximamente',
     note: 'Mientras tanto, accede gratis a Tierra en Calma',
-    formTitle: 'Plan Anual — 12€/mes',
-    formSub: 'Facturado como 144€/año · 7 días gratis',
   },
   monthly: {
     label: 'Plan Mensual',
     badge: 'Popular',
     featured: false,
-    amount: '17€',
+    amount: null,
     period: '/mes',
     billing: 'Facturado mensualmente',
     save: null,
     btnText: 'Disponible próximamente',
     note: 'Mientras tanto, accede gratis a Tierra en Calma',
-    formTitle: 'Plan Mensual — 17€/mes',
-    formSub: 'Facturado mensualmente · 7 días gratis',
   },
 }
 
@@ -106,10 +102,10 @@ function PlanCards({ onSelect, disableSelect }) {
             <span className={`plan-badge${plan.featured ? '' : ' plan-badge-popular'}`}>{plan.badge}</span>
             <p className="plan-name">{plan.label}</p>
             <div className="plan-price">
-              <span className="plan-amount">{plan.amount}</span>
+              <span className="plan-amount">{plan.amount ?? '— €'}</span>
               <span className="plan-period">{plan.period}</span>
             </div>
-            <p className="plan-billing">{plan.billing}</p>
+            <p className="plan-billing plan-billing--pronto">{plan.billing} · precio por confirmar</p>
             {plan.save && <span className="plan-save">{plan.save}</span>}
             <div className="plan-divider" />
             <ul className="plan-features">
