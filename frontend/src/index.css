@@ -679,7 +679,7 @@ body {
   position: relative;
   background: var(--dark);
   background-image: url('/images/footer-pattern.svg');
-  background-size: 160px 160px;
+  background-size: 200px 200px;
   background-repeat: repeat;
   color: rgba(255,255,255,0.6);
   text-align: center;
