@@ -39,54 +39,46 @@ export default function SobreMiPage() {
           <p className="sobre-section-eyebrow">Trayectoria</p>
           <h2 className="sobre-section-titulo">Formación <em>académica</em></h2>
 
-          <div className="sobre-timeline">
+          <div className="sobre-cert-grid">
 
-            <div className="sobre-timeline-item">
-              <div className="sobre-timeline-anno">2016</div>
-              <div className="sobre-timeline-card">
-                <h3>Hatha Yoga Nivel I · <span style={{ fontWeight: 400, fontSize: '0.95em' }}>Instructor</span></h3>
-                <p className="sobre-timeline-horas">200 h · Escuela Internacional del Yoga</p>
-                <div className="sobre-reconocimientos">
-                  <span>European Yoga Federation</span>
-                  <span>FEDEFY</span>
-                </div>
+            <div className="sobre-cert-card">
+              <span className="sobre-cert-anno">2016</span>
+              <h3 className="sobre-cert-titulo">Hatha Yoga <em>Nivel I</em></h3>
+              <p className="sobre-cert-rol">Instructor</p>
+              <p className="sobre-cert-escuela">200 h · Escuela Internacional del Yoga</p>
+              <div className="sobre-reconocimientos">
+                <span>European Yoga Federation</span>
+                <span>FEDEFY</span>
               </div>
             </div>
 
-            <div className="sobre-timeline-item">
-              <div className="sobre-timeline-anno">2017</div>
-              <div className="sobre-timeline-card">
-                <h3>Hatha Yoga Nivel II · <span style={{ fontWeight: 400, fontSize: '0.95em' }}>Profesor</span></h3>
-                <p className="sobre-timeline-horas">200 h · Escuela Internacional del Yoga</p>
-                <div className="sobre-reconocimientos">
-                  <span>European Yoga Federation</span>
-                  <span>FEDEFY</span>
-                </div>
+            <div className="sobre-cert-card">
+              <span className="sobre-cert-anno">2017</span>
+              <h3 className="sobre-cert-titulo">Hatha Yoga <em>Nivel II</em></h3>
+              <p className="sobre-cert-rol">Profesor</p>
+              <p className="sobre-cert-escuela">200 h · Escuela Internacional del Yoga</p>
+              <div className="sobre-reconocimientos">
+                <span>European Yoga Federation</span>
+                <span>FEDEFY</span>
               </div>
             </div>
 
-            <div className="sobre-timeline-item">
-              <div className="sobre-timeline-anno">2018</div>
-              <div className="sobre-timeline-card">
-                <h3>Vinyasa Flow Yoga · <span style={{ fontWeight: 400, fontSize: '0.95em' }}>con Vidya J. Heisel</span></h3>
-                <p className="sobre-timeline-horas">200 h YTT · con Vidya J. Heisel</p>
-                <div className="sobre-reconocimientos">
-                  <span>Yoga Alliance</span>
-                  <span>FEDEFY</span>
-                </div>
+            <div className="sobre-cert-card">
+              <span className="sobre-cert-anno">2018</span>
+              <h3 className="sobre-cert-titulo">Vinyasa <em>Flow Yoga</em></h3>
+              <p className="sobre-cert-rol">200 h YTT</p>
+              <p className="sobre-cert-escuela">con Vidya J. Heisel</p>
+              <div className="sobre-reconocimientos">
+                <span>Yoga Alliance</span>
+                <span>FEDEFY</span>
               </div>
             </div>
 
-            <div className="sobre-timeline-item">
-              <div className="sobre-timeline-anno">2019</div>
-              <div className="sobre-timeline-card">
-                <h3>Clases presenciales en centros</h3>
-                <p className="sobre-timeline-horas">En activo</p>
-                <p className="sobre-timeline-desc">
-                  Impartiendo clases en diferentes centros de yoga,
-                  con metodología adaptada a cada grupo.
-                </p>
-              </div>
+            <div className="sobre-cert-card sobre-cert-card--activo">
+              <span className="sobre-cert-anno">2019</span>
+              <h3 className="sobre-cert-titulo">Clases <em>presenciales</em></h3>
+              <p className="sobre-cert-rol">En activo</p>
+              <p className="sobre-cert-escuela">Diferentes centros de yoga, metodología adaptada a cada grupo.</p>
             </div>
 
           </div>
