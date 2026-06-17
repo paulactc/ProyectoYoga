@@ -59,10 +59,15 @@ export default function HomePage() {
         </div>
         <div className="hero-image">
           <div className="hero-overlay" />
-          <picture>
-            <source media="(max-width: 768px)" srcSet="/images/saltamontes.jpg" />
-            <img ref={heroImgRef} src="/images/saltamontes.jpg" alt="Yoga" />
-          </picture>
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="hero-video"
+          >
+            <source src="/images/hero-video.mp4" type="video/mp4" />
+          </video>
         </div>
       </section>
 
