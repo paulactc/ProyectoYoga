@@ -146,7 +146,7 @@ export default function HomePage() {
             <p>El yoga te despierta, te hace sentirte y aprender de ti mismo. Esa es mi filosofía y el motor de cada clase que imparto.</p>
             <p>Mi camino en el yoga nació de la necesidad de escucharme. Hoy acompaño a otros a descubrir que el brillo siempre va desde dentro hacia fuera, y que la esterilla es solo el comienzo.</p>
             <p>Una metodología flexible capaz de adaptarse a tu ritmo de vida.</p>
-            <Link to="/sobre-mi" className="btn btn-outline" style={{ marginTop: '1rem', display: 'inline-block' }}>Saber más</Link>
+            <Link to="/sobre-mi" className="btn btn-outline" style={{ marginTop: '1rem', display: 'inline-block', alignSelf: 'center' }}>Saber más</Link>
           </div>
           <div className="sobre-mi-img">
             <img src="/images/yo.jpg" alt="Instructora de yoga" />
