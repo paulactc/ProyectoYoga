@@ -220,47 +220,83 @@ function AudioCard({ audio, acento, isLoggedIn, token, onOpenLogin, numero }) {
     }
   }
 
+  const numPad = String(numero).padStart(2, '0')
+
+  const ICONOS = [
+    <svg key="1" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M32 24a12 12 0 1 1-12-12 9.5 9.5 0 0 0 12 12z" fill="rgba(212,160,96,0.08)"/>
+      <circle cx="36" cy="14" r="1.2" fill="currentColor" stroke="none"/>
+      <circle cx="30" cy="10" r="0.8" fill="currentColor" stroke="none"/>
+      <circle cx="38" cy="20" r="0.8" fill="currentColor" stroke="none"/>
+    </svg>,
+    <svg key="2" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
+      <path d="M4 24 Q10 16 16 24 Q22 32 28 24 Q34 16 44 24"/>
+      <path d="M4 32 Q10 24 16 32 Q22 40 28 32 Q34 24 44 32" opacity="0.4"/>
+      <path d="M4 16 Q10 8 16 16 Q22 24 28 16 Q34 8 44 16" opacity="0.2"/>
+    </svg>,
+    <svg key="3" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M24 36 C24 36 12 28 12 20 C12 14 18 10 24 14 C30 10 36 14 36 20 C36 28 24 36 24 36z" fill="rgba(212,160,96,0.08)"/>
+      <path d="M24 36 C20 30 14 26 16 18" opacity="0.5"/>
+      <path d="M24 36 C28 30 34 26 32 18" opacity="0.5"/>
+      <line x1="24" y1="36" x2="24" y2="42"/>
+    </svg>,
+    <svg key="4" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M24 38 C24 38 10 30 10 18 C10 10 18 6 24 10 C30 6 38 10 38 18 C38 30 24 38 24 38z" fill="rgba(212,160,96,0.08)"/>
+      <line x1="24" y1="38" x2="24" y2="44"/>
+      <path d="M24 28 L24 14" opacity="0.5"/>
+      <path d="M24 22 L18 17" opacity="0.4"/>
+      <path d="M24 22 L30 17" opacity="0.4"/>
+    </svg>,
+    <svg key="5" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
+      <path d="M24 24 C24 22 26 20 28 22 C30 24 28 28 24 28 C20 28 16 24 16 20 C16 14 22 10 28 12 C36 14 40 22 38 30 C36 38 28 42 20 40"/>
+    </svg>,
+  ]
+  const icono = ICONOS[(numero - 1) % ICONOS.length]
+
   return (
     <article className={`audio-card${!audio.disponible ? ' audio-card--pronto' : ''}`}>
       {!audio.disponible && <span className="audio-pronto-badge">Próximamente</span>}
-      <span className="audio-card-num">Meditación {numero}</span>
+      <span className="audio-card-num" aria-hidden="true">{numPad}</span>
 
-      <div className="audio-card-top">
-        <button
-          className={`audio-play-btn${jugando ? ' playing' : ''}`}
-          style={{ '--acento': acento }}
-          onClick={handlePlay}
-          aria-label={
-            !audio.disponible ? 'Próximamente'
-            : !isLoggedIn ? 'Inicia sesión para escuchar'
-            : jugando ? 'Pausar'
-            : 'Reproducir'
-          }
-          disabled={!audio.disponible}
-          title={!isLoggedIn && audio.disponible ? 'Regístrate para escuchar' : undefined}
-        >
-          {!isLoggedIn && audio.disponible ? (
-            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
-              <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
-            </svg>
-          ) : jugando ? (
-            <span className="audio-pause-icon"><span /><span /></span>
-          ) : (
-            <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
-              <path d="M8 5v14l11-7z" />
-            </svg>
-          )}
-        </button>
-        <div className="audio-card-meta">
-          <span className="audio-duracion">{audio.duracion} min</span>
+      <div className="audio-card-main">
+        <div className="audio-card-icono" aria-hidden="true">{icono}</div>
+        <div className="audio-card-info">
+          <p className="audio-card-label">Meditación {numero}</p>
+          <h3 className="audio-titulo">{audio.titulo}</h3>
           {jugando && <span className="audio-en-curso">reproduciendo</span>}
+        </div>
+        <div className="audio-card-actions">
+          <button
+            className={`audio-play-btn${jugando ? ' playing' : ''}`}
+            style={{ '--acento': acento }}
+            onClick={handlePlay}
+            aria-label={
+              !audio.disponible ? 'Próximamente'
+              : !isLoggedIn ? 'Inicia sesión para escuchar'
+              : jugando ? 'Pausar'
+              : 'Reproducir'
+            }
+            disabled={!audio.disponible}
+            title={!isLoggedIn && audio.disponible ? 'Regístrate para escuchar' : undefined}
+          >
+            {!isLoggedIn && audio.disponible ? (
+              <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+              </svg>
+            ) : jugando ? (
+              <span className="audio-pause-icon"><span /><span /></span>
+            ) : (
+              <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            )}
+          </button>
+          <span className="audio-duracion">{audio.duracion} min</span>
         </div>
       </div>
 
-      <h3 className="audio-titulo">{audio.titulo}</h3>
-
       {jugando && (
-        <>
+        <div className="audio-card-playing">
           <div className="audio-wave">
             {Array.from({ length: 28 }).map((_, i) => (
               <span key={i} className="audio-wave-bar" style={{ animationDelay: `${(i * 0.07).toFixed(2)}s` }} />
@@ -271,7 +307,7 @@ function AudioCard({ audio, acento, isLoggedIn, token, onOpenLogin, numero }) {
               <div className="audio-progress-bar" style={{ width: `${progreso * 100}%`, background: acento }} />
             </div>
           )}
-        </>
+        </div>
       )}
 
       {audio.disponible && (
@@ -285,7 +321,6 @@ function AudioCard({ audio, acento, isLoggedIn, token, onOpenLogin, numero }) {
               ))}
             </ul>
           )}
-
           {isLoggedIn && (
             feedbackEnviado ? (
               <p className="audio-feedback-gracias">¡Gracias por compartir tu experiencia! 🌿</p>
@@ -313,7 +348,6 @@ function AudioCard({ audio, acento, isLoggedIn, token, onOpenLogin, numero }) {
           )}
         </div>
       )}
-
     </article>
   )
 }

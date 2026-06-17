@@ -3062,44 +3062,44 @@ a.nav-logo {
 }
 
 .audios-categoria-header {
-  max-width: 900px;
+  max-width: 700px;
   margin: 0 auto 3.5rem;
   display: flex;
-  align-items: flex-start;
-  gap: 2rem;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.75rem;
 }
 
 .audios-cat-icono {
-  font-size: 3rem;
+  font-size: 3.5rem;
   line-height: 1;
   color: var(--cat-acento);
-  flex-shrink: 0;
-  margin-top: 0.2rem;
+  margin-bottom: 0.5rem;
 }
 
 .audios-cat-tagline {
-  font-size: 0.75rem;
-  letter-spacing: 0.25em;
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
   color: var(--cat-acento);
-  margin-bottom: 0.5rem;
   font-family: var(--font-body);
+  opacity: 0.8;
 }
 
 .audios-cat-titulo {
   font-family: var(--font-heading);
-  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-size: clamp(2.8rem, 7vw, 5rem);
   font-weight: 400;
   color: #fff;
-  line-height: 1.1;
-  margin-bottom: 0.75rem;
+  line-height: 1.05;
 }
 
 .audios-cat-desc {
-  color: rgba(255,255,255,0.55);
-  font-size: 0.95rem;
-  line-height: 1.75;
-  max-width: 560px;
+  color: rgba(255,255,255,0.5);
+  font-size: 0.92rem;
+  line-height: 1.8;
+  max-width: 480px;
 }
 
 /* Grid de audios */
@@ -3194,46 +3194,111 @@ a.nav-logo {
 }
 
 .audio-card {
-  background: #ffffff;
-  border: 1px solid rgba(212,160,96,0.18);
-  border-top: 3px solid #d4a060;
+  background: #fdf9f5;
+  border: 1px solid rgba(139,94,60,0.12);
   border-radius: 18px;
-  padding: 1.75rem 1.5rem 1.5rem;
+  padding: 2rem 2rem 1.75rem;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 1rem;
   position: relative;
-  transition: transform 0.2s, box-shadow 0.2s;
+  overflow: hidden;
+  transition: box-shadow 0.25s, transform 0.25s, border-color 0.25s;
 }
 
 .audio-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 14px 36px rgba(0,0,0,0.13);
+  box-shadow: 0 10px 36px rgba(0,0,0,0.09);
+  transform: translateY(-3px);
+  border-color: rgba(139,94,60,0.22);
 }
 
 .audio-card--pronto {
-  opacity: 0.6;
-  border-top-color: #8a857f;
+  opacity: 0.55;
 }
 
 .audio-pronto-badge {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  top: 1.1rem;
+  left: 2rem;
   background: rgba(138,133,127,0.1);
   color: #8a857f;
-  font-size: 0.68rem;
+  font-size: 0.65rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  padding: 0.25rem 0.7rem;
+  padding: 0.2rem 0.65rem;
   border-radius: 50px;
-  border: 1px solid rgba(138,133,127,0.25);
+  border: 1px solid rgba(138,133,127,0.2);
 }
 
-.audio-card-top {
+.audio-card-num {
+  position: absolute;
+  top: 0.3rem;
+  right: 1.25rem;
+  font-family: var(--font-heading);
+  font-size: 7rem;
+  font-weight: 700;
+  color: rgba(212,160,96,0.28);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  pointer-events: none;
+  user-select: none;
+}
+
+.audio-card-main {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.25rem;
+  justify-content: space-between;
+}
+
+.audio-card-icono {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  color: var(--tierra);
+  opacity: 0.8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.audio-card-icono svg { width: 100%; height: 100%; }
+
+.audio-card-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.audio-card-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--tierra);
+  opacity: 0.75;
+  font-family: var(--font-body);
+}
+
+.audio-titulo {
+  font-family: var(--font-heading);
+  font-size: 1.75rem;
+  font-weight: 400;
+  color: #2c2c2c;
+  line-height: 1.15;
+}
+
+.audio-card-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+  flex-shrink: 0;
+}
+
+.audio-card-playing {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .audio-play-btn {
@@ -3242,19 +3307,19 @@ a.nav-logo {
   border-radius: 50%;
   border: none;
   background: var(--acento, #d4a060);
-  color: #0d0f1a;
+  color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   flex-shrink: 0;
-  transition: transform 0.15s, background 0.2s, box-shadow 0.2s;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  transition: transform 0.15s, box-shadow 0.2s;
+  box-shadow: 0 4px 16px rgba(212,160,96,0.35);
 }
 
 .audio-play-btn:not(:disabled):hover {
   transform: scale(1.08);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+  box-shadow: 0 6px 24px rgba(212,160,96,0.5);
 }
 
 .audio-play-btn:disabled {
@@ -3265,7 +3330,7 @@ a.nav-logo {
 }
 
 .audio-play-btn.playing {
-  box-shadow: 0 0 0 6px rgba(var(--acento-rgb, 212,160,96), 0.2);
+  box-shadow: 0 0 0 5px rgba(212,160,96,0.18), 0 4px 16px rgba(212,160,96,0.35);
 }
 
 .audio-pause-icon {
@@ -3282,32 +3347,20 @@ a.nav-logo {
   border-radius: 2px;
 }
 
-.audio-card-meta {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-}
-
 .audio-duracion {
-  font-family: var(--font-heading);
-  font-size: 1.4rem;
-  color: #d4a060;
-  line-height: 1;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  text-align: center;
 }
 
 .audio-en-curso {
-  font-size: 0.7rem;
-  letter-spacing: 0.15em;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--cat-acento, #d4a060);
-}
-
-.audio-titulo {
-  font-family: var(--font-heading);
-  font-size: 1.3rem;
-  font-weight: 500;
-  color: #1e1b18;
-  line-height: 1.25;
+  color: var(--tierra);
+  opacity: 0.7;
+  margin-top: 0.1rem;
 }
 
 /* Onda animada al reproducir */
@@ -3399,13 +3452,6 @@ a.nav-logo {
   flex-shrink: 0;
 }
 
-/* Número de meditación en la card */
-.audio-card-num {
-  font-size: 0.68rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: #d4a060;
-}
 
 /* Formulario de feedback */
 .audio-feedback-form {
