@@ -116,10 +116,6 @@ export default function HomePage() {
         <div className="online-teaser-text">
           <p className="hero-eyebrow">Aula Online</p>
           <h2>Practica donde quieras,<br /><em>cuando quieras</em></h2>
-          <p className="online-teaser-desc">
-            Yoga, meditación y pranayama en vídeo bajo demanda.<br />
-            A tu ritmo, sin horarios fijos, desde cualquier dispositivo.
-          </p>
           <div className="teaser-disciplinas">
             <div className="teaser-disciplina">
               <p className="teaser-disc-nombre">Vinyasa</p>
