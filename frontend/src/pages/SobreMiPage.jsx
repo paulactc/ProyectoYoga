@@ -7,7 +7,7 @@ export default function SobreMiPage() {
         <div className="sobre-hero-content">
           <p className="sobre-eyebrow">Yoga Tierra Viva</p>
           <h1 className="sobre-titulo">Paula <em>Castillo</em></h1>
-          <p className="sobre-subtitulo">Instructora y profesora de yoga · Madrid</p>
+          <p className="sobre-subtitulo">Instructora y profesora de yoga</p>
         </div>
       </header>
 
@@ -27,7 +27,7 @@ export default function SobreMiPage() {
             </p>
             <p>
               Desde <strong>2019</strong> imparto clases presenciales en distintos
-              centros de Madrid, combinando metodología Hatha y Vinyasa adaptada
+              centros, combinando metodología Hatha y Vinyasa adaptada
               a cada grupo y ritmo de vida.
             </p>
           </div>
