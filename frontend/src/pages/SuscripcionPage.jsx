@@ -99,7 +99,7 @@ function PlanCards({ onSelect, disableSelect }) {
     <section className="plans-section">
       <p className="clases-desc-eyebrow">Elige tu plan</p>
       <h2 className="plans-title">Empieza con <em>7 días gratis</em></h2>
-      <p className="plans-subtitle">Sin tarjeta de crédito. Cancela cuando quieras.</p>
+      <p className="plans-subtitle">Cancela cuando quieras.</p>
       <div className="plans-grid">
         {Object.entries(PLANS).map(([key, plan]) => (
           <div key={key} className={`plan-card${plan.featured ? ' plan-card-featured' : ''}`}>
@@ -354,7 +354,7 @@ export default function SuscripcionPage() {
 
       <div className="cta-final-banner">
         <h2>Empieza hoy.<br /><em>7 días gratis.</em></h2>
-        <p>Sin tarjeta de crédito requerida. Sin permanencia. Solo yoga.</p>
+        <p>Sin permanencia. Solo yoga.</p>
         <a href="#top" className="btn" onClick={e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }) }}>
           Comenzar prueba gratuita
         </a>
