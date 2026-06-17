@@ -3513,3 +3513,205 @@ a.nav-logo {
   .audios-gate-inner { flex-direction: column; align-items: flex-start; gap: 1rem; }
   .audios-gate-inner .btn { width: 100%; text-align: center; margin-left: 0; }
 }
+
+/* ── Página Sobre mí ── */
+.sobre-page { min-height: 100vh; }
+
+.sobre-hero {
+  position: relative;
+  min-height: 42vh;
+  display: flex;
+  align-items: flex-end;
+  padding: 5rem 2rem 3rem;
+  overflow: hidden;
+}
+.sobre-hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.2) 100%),
+    url('/images/yo.jpg') center/cover no-repeat;
+  z-index: 0;
+}
+.sobre-hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 860px;
+  margin: 0 auto;
+  width: 100%;
+  color: #fff;
+}
+.sobre-eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.65);
+  margin-bottom: 0.5rem;
+  font-family: var(--font-body);
+}
+.sobre-titulo {
+  font-family: var(--font-heading);
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  font-weight: 400;
+  margin: 0 0 0.4rem;
+  color: #fff;
+}
+.sobre-titulo em { color: #d4a060; font-style: normal; }
+.sobre-subtitulo {
+  font-size: 1rem;
+  color: rgba(255,255,255,0.7);
+  margin: 0;
+}
+
+.sobre-bio {
+  padding: 4rem 2rem;
+  background: #fff;
+}
+.sobre-bio-inner {
+  max-width: 860px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+.sobre-bio-foto img {
+  width: 100%;
+  border-radius: 18px;
+  object-fit: cover;
+  aspect-ratio: 3/4;
+  display: block;
+}
+.sobre-bio-texto h2 {
+  font-family: var(--font-heading);
+  font-size: 1.9rem;
+  font-weight: 400;
+  color: #2c2c2c;
+  margin: 0 0 1.25rem;
+}
+.sobre-bio-texto h2 em { color: #8b5e3c; font-style: normal; }
+.sobre-bio-texto p {
+  color: #555;
+  line-height: 1.8;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.sobre-formacion {
+  padding: 4rem 2rem 5rem;
+  background: #fdf9f5;
+}
+.sobre-formacion-inner {
+  max-width: 760px;
+  margin: 0 auto;
+}
+.sobre-section-eyebrow {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #8b5e3c;
+  margin-bottom: 0.4rem;
+  font-family: var(--font-body);
+}
+.sobre-section-titulo {
+  font-family: var(--font-heading);
+  font-size: 1.9rem;
+  font-weight: 400;
+  color: #2c2c2c;
+  margin: 0 0 2.5rem;
+}
+.sobre-section-titulo em { color: #8b5e3c; font-style: normal; }
+
+.sobre-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  position: relative;
+}
+.sobre-timeline::before {
+  content: '';
+  position: absolute;
+  left: 52px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(139,94,60,0.2);
+}
+.sobre-timeline-item {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+.sobre-timeline-anno {
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  color: #8b5e3c;
+  font-weight: 600;
+  padding-top: 0.9rem;
+  text-align: right;
+  letter-spacing: 0.04em;
+}
+.sobre-timeline-card {
+  background: #fff;
+  border: 1px solid rgba(139,94,60,0.15);
+  border-left: 3px solid #d4a060;
+  border-radius: 14px;
+  padding: 1.25rem 1.5rem;
+}
+.sobre-timeline-badge {
+  display: inline-block;
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: rgba(139,94,60,0.1);
+  color: #8b5e3c;
+  border-radius: 20px;
+  padding: 0.2rem 0.7rem;
+  margin-bottom: 0.6rem;
+  font-family: var(--font-body);
+}
+.sobre-timeline-badge--alliance {
+  background: rgba(80,50,140,0.1);
+  color: #50328c;
+}
+.sobre-timeline-card h3 {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: #2c2c2c;
+  margin: 0 0 0.3rem;
+}
+.sobre-timeline-horas {
+  font-size: 0.8rem;
+  color: #999;
+  margin: 0 0 0.5rem;
+}
+.sobre-timeline-desc {
+  font-size: 0.88rem;
+  color: #666;
+  margin: 0 0 0.75rem;
+  line-height: 1.6;
+}
+.sobre-reconocimientos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.sobre-reconocimientos span {
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  color: #8b5e3c;
+  border: 1px solid rgba(139,94,60,0.3);
+  border-radius: 20px;
+  padding: 0.15rem 0.6rem;
+  font-family: var(--font-body);
+}
+
+@media (max-width: 640px) {
+  .sobre-bio-inner { grid-template-columns: 1fr; }
+  .sobre-bio-foto img { aspect-ratio: 4/3; max-height: 280px; }
+  .sobre-timeline::before { left: 40px; }
+  .sobre-timeline-item { grid-template-columns: 56px 1fr; gap: 1rem; }
+  .sobre-timeline-anno { font-size: 0.75rem; }
+}

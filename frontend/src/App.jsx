@@ -27,6 +27,7 @@ import PoliticaCookiesPage from './pages/PoliticaCookiesPage'
 import AvisoLegalPage from './pages/AvisoLegalPage'
 import PoliticaPrivacidadPage from './pages/PoliticaPrivacidadPage'
 import AudiosPage from './pages/AudiosPage'
+import SobreMiPage from './pages/SobreMiPage'
 
 export default function App() {
   const [loginOpen, setLoginOpen] = useState(false)
@@ -51,6 +52,7 @@ export default function App() {
         <Route path="/politica-cookies" element={<PoliticaCookiesPage />} />
         <Route path="/aviso-legal" element={<AvisoLegalPage />} />
         <Route path="/politica-privacidad" element={<PoliticaPrivacidadPage />} />
+        <Route path="/sobre-mi" element={<SobreMiPage />} />
       </Routes>
       <Footer />
     </AuthProvider>
