@@ -1,20 +1,7 @@
-const nodemailer = require('nodemailer');
+const { Resend } = require('resend');
 
-const smtpPort = parseInt(process.env.SMTP_PORT) || 587;
-
-const transporter = nodemailer.createTransport({
-  host:   process.env.SMTP_HOST || 'smtp.gmail.com',
-  port:   smtpPort,
-  secure: smtpPort === 465,
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS || process.env.SMTP_PASSWORD,
-  },
-  // rejectUnauthorized solo se deshabilita en desarrollo local
-  tls: process.env.NODE_ENV === 'production' ? {} : { rejectUnauthorized: false },
-  connectionTimeout: 5000,
-  socketTimeout:     5000,
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
+const FROM = process.env.SMTP_FROM || 'onboarding@resend.dev';
 
 function escapeHtml(str) {
   return String(str)
@@ -25,13 +12,11 @@ function escapeHtml(str) {
     .replace(/'/g, '&#39;');
 }
 
-const FROM = process.env.SMTP_FROM || process.env.SMTP_USER;
-
 async function sendVerificationEmail(email, nombre, verifyUrl) {
   const safeName = escapeHtml(nombre);
-  await transporter.sendMail({
-    from:    `"Yoga Tierra Viva" <${FROM}>`,
-    to:      email,
+  const { error } = await resend.emails.send({
+    from: `Yoga Tierra Viva <${FROM}>`,
+    to: email,
     subject: 'Confirma tu cuenta · Yoga Tierra Viva',
     html: `
       <div style="font-family:Georgia,serif;max-width:560px;margin:0 auto;padding:32px 24px;color:#2c2c2c;">
@@ -57,13 +42,14 @@ async function sendVerificationEmail(email, nombre, verifyUrl) {
       </div>
     `,
   });
+  if (error) throw new Error(error.message);
   console.log('Email de verificación enviado a:', email);
 }
 
 async function sendPasswordResetEmail(email, resetUrl) {
-  await transporter.sendMail({
-    from:    `"Yoga Tierra Viva" <${FROM}>`,
-    to:      email,
+  const { error } = await resend.emails.send({
+    from: `Yoga Tierra Viva <${FROM}>`,
+    to: email,
     subject: 'Recuperar contraseña · Yoga Tierra Viva',
     html: `
       <div style="font-family:Georgia,serif;max-width:560px;margin:0 auto;padding:32px 24px;color:#2c2c2c;">
@@ -84,6 +70,7 @@ async function sendPasswordResetEmail(email, resetUrl) {
       </div>
     `,
   });
+  if (error) throw new Error(error.message);
   console.log('Email de recuperación enviado a:', email);
 }
 
