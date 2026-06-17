@@ -227,9 +227,9 @@ export default function HomePage() {
         <h2 className="testimonios-titulo">Cuando compartimos energía,<br /><em>las distancias desaparecen</em></h2>
         <div className="testimonios-grid">
           {[
-            { texto: 'Llevo años con Paula y cada clase es un regalo. Llego con la cabeza llena y salgo en otro estado. Ha transformado mi relación con mi cuerpo y conmigo misma.', nombre: 'Laura M.', detalle: 'Alumna desde 2021' },
-            { texto: 'Paula tiene una forma de enseñar muy especial. Nunca me había sentido tan segura en una clase de yoga. Cada movimiento tiene sentido y lo explica con una calma que se contagia.', nombre: 'Sofía R.', detalle: 'Alumna desde 2022' },
-            { texto: 'Las clases de pranayama me cambiaron la vida. Yo era muy escéptica pero después de la primera sesión ya no pude parar. La recomiendo a cualquier persona, venga de donde venga.', nombre: 'Ana P.', detalle: 'Alumna desde 2023' },
+            { texto: 'Yo nunca había hecho yoga en mi vida y la verdad es que me dio un poco de miedo al principio. Pero con Paula desde el primer día me sentí en casa. Ahora no me la quita nadie.', nombre: 'Laura M.', detalle: 'Alumna desde 2021' },
+            { texto: 'Vine porque tenía la espalda fatal y me quedé por todo lo demás. Paula te escucha, adapta la clase a cómo estás ese día y encima te lo pasas bien. Eso no lo encuentras en todos lados.', nombre: 'Sofía R.', detalle: 'Alumna desde 2022' },
+            { texto: 'Lo de la respiración me parecía un rollo hasta que lo probé. Salí de esa clase sin ansiedad por primera vez en meses. No sé cómo explicarlo pero funciona, y Paula sabe muy bien lo que hace.', nombre: 'Ana P.', detalle: 'Alumna desde 2023' },
           ].map(({ texto, nombre, detalle }) => (
             <div className="testimonio-card" key={nombre}>
               <div className="testimonio-stars">★★★★★</div>
