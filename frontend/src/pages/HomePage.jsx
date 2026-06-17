@@ -227,9 +227,9 @@ export default function HomePage() {
         <h2 className="testimonios-titulo">Cuando compartimos energía,<br /><em>las distancias desaparecen</em></h2>
         <div className="testimonios-grid">
           {[
-            { texto: 'Desde que empecé con Yoga Tierra Viva noto que mi cuerpo responde diferente. Llevo tres meses y ya no entiendo mis mañanas sin esta práctica.', nombre: 'Laura M.', detalle: '3 meses practicando' },
-            { texto: 'Lo que más me sorprendió fue lo flexible que es todo. Puedo practicar cuando quiero, al ritmo que necesito. Encaja perfectamente con mi vida.', nombre: 'Sofía R.', detalle: '5 meses practicando' },
-            { texto: 'Las clases de pranayama cambiaron mi relación con el estrés. Nunca pensé que la respiración pudiera ser tan poderosa. Lo recomiendo a todo el mundo.', nombre: 'Ana P.', detalle: '2 meses practicando' },
+            { texto: 'Llevo años con Paula y cada clase es un regalo. Llego con la cabeza llena y salgo en otro estado. Ha transformado mi relación con mi cuerpo y conmigo misma.', nombre: 'Laura M.', detalle: 'Alumna desde 2021' },
+            { texto: 'Paula tiene una forma de enseñar muy especial. Nunca me había sentido tan segura en una clase de yoga. Cada movimiento tiene sentido y lo explica con una calma que se contagia.', nombre: 'Sofía R.', detalle: 'Alumna desde 2022' },
+            { texto: 'Las clases de pranayama me cambiaron la vida. Yo era muy escéptica pero después de la primera sesión ya no pude parar. La recomiendo a cualquier persona, venga de donde venga.', nombre: 'Ana P.', detalle: 'Alumna desde 2023' },
           ].map(({ texto, nombre, detalle }) => (
             <div className="testimonio-card" key={nombre}>
               <div className="testimonio-stars">★★★★★</div>
