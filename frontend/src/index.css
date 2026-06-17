@@ -3009,6 +3009,87 @@ a.nav-logo {
 }
 
 /* Audio card */
+.audio-feedback-area {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(212,160,96,0.18);
+}
+.audio-feedback-lista {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.audio-feedback-item {
+  font-size: 0.82rem;
+  color: #555;
+  line-height: 1.5;
+}
+.audio-feedback-item strong {
+  color: #3a2a1a;
+}
+.audio-feedback-item em {
+  font-style: italic;
+}
+.audio-feedback-label {
+  display: block;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: #8b5e3c;
+  margin-bottom: 0.4rem;
+  font-family: var(--font-body);
+}
+.audio-feedback-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.audio-feedback-textarea {
+  width: 100%;
+  border: 1px solid rgba(139,94,60,0.3);
+  border-radius: 10px;
+  padding: 0.6rem 0.75rem;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  color: #2c2c2c;
+  resize: vertical;
+  background: #fdf9f5;
+  box-sizing: border-box;
+}
+.audio-feedback-textarea:focus {
+  outline: none;
+  border-color: #8b5e3c;
+}
+.audio-feedback-btn {
+  align-self: flex-end;
+  background: #8b5e3c;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 0.4rem 1.1rem;
+  font-size: 0.78rem;
+  font-family: var(--font-body);
+  cursor: pointer;
+  letter-spacing: 0.04em;
+}
+.audio-feedback-btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.audio-feedback-error {
+  font-size: 0.78rem;
+  color: #c0392b;
+  margin: 0;
+}
+.audio-feedback-gracias {
+  font-size: 0.82rem;
+  color: #8b5e3c;
+  margin: 0;
+  font-style: italic;
+}
+
 .audio-card {
   background: #ffffff;
   border: 1px solid rgba(212,160,96,0.18);

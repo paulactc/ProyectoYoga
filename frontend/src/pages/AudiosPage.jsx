@@ -145,6 +145,18 @@ function AudioCard({ audio, acento, isLoggedIn, token, onOpenLogin, numero }) {
   const [jugando, setJugando] = useState(false)
   const [progreso, setProgreso] = useState(0)
   const audioRef = useRef(null)
+  const [feedbackText, setFeedbackText] = useState('')
+  const [enviando, setEnviando] = useState(false)
+  const [feedbackError, setFeedbackError] = useState('')
+  const [feedbackEnviado, setFeedbackEnviado] = useState(false)
+  const [feedbacks, setFeedbacks] = useState([])
+
+  useEffect(() => {
+    fetch(`/api/meditaciones/${audio.id}/feedback`)
+      .then(r => r.json())
+      .then(d => { if (d.success) setFeedbacks(d.data) })
+      .catch(() => {})
+  }, [audio.id])
 
   useEffect(() => {
     if (!audio.src) return
@@ -194,6 +206,7 @@ function AudioCard({ audio, acento, isLoggedIn, token, onOpenLogin, numero }) {
       const d = await res.json()
       if (d.success) {
         setFeedbackEnviado(true)
+        setFeedbackText('')
         const r2 = await fetch(`/api/meditaciones/${audio.id}/feedback`)
         const d2 = await r2.json()
         if (d2.success) setFeedbacks(d2.data)
@@ -259,6 +272,46 @@ function AudioCard({ audio, acento, isLoggedIn, token, onOpenLogin, numero }) {
             </div>
           )}
         </>
+      )}
+
+      {audio.disponible && (
+        <div className="audio-feedback-area">
+          {feedbacks.length > 0 && (
+            <ul className="audio-feedback-lista">
+              {feedbacks.map(fb => (
+                <li key={fb.id} className="audio-feedback-item">
+                  <strong>{fb.nombre}</strong> — <em>{fb.texto}</em>
+                </li>
+              ))}
+            </ul>
+          )}
+
+          {isLoggedIn && (
+            feedbackEnviado ? (
+              <p className="audio-feedback-gracias">¡Gracias por compartir tu experiencia! 🌿</p>
+            ) : (
+              <form className="audio-feedback-form" onSubmit={handleFeedbackSubmit}>
+                <label className="audio-feedback-label">¿Qué te ha parecido?</label>
+                <textarea
+                  className="audio-feedback-textarea"
+                  value={feedbackText}
+                  onChange={e => setFeedbackText(e.target.value)}
+                  placeholder="Comparte tu experiencia con esta meditación..."
+                  rows={2}
+                  maxLength={1000}
+                />
+                {feedbackError && <p className="audio-feedback-error">{feedbackError}</p>}
+                <button
+                  type="submit"
+                  className="audio-feedback-btn"
+                  disabled={enviando || !feedbackText.trim()}
+                >
+                  {enviando ? 'Enviando…' : 'Compartir'}
+                </button>
+              </form>
+            )
+          )}
+        </div>
       )}
 
     </article>
