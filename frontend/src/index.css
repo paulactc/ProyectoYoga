@@ -3277,8 +3277,8 @@ a.nav-logo {
 
 .audio-card {
   background: #fdf9f5;
-  border: 1px solid rgba(212,160,96,0.25);
-  border-top: 2px solid rgba(212,160,96,0.55);
+  border: 1.5px solid rgba(212,160,96,0.55);
+  border-top: 3px solid #d4a060;
   border-radius: 18px;
   padding: 2rem 2rem 1.75rem;
   display: flex;
@@ -3287,14 +3287,14 @@ a.nav-logo {
   position: relative;
   overflow: hidden;
   transition: box-shadow 0.25s, transform 0.25s, border-color 0.25s;
-  box-shadow: 0 2px 12px rgba(212,160,96,0.08), inset 0 0 0 1px rgba(255,255,255,0.6);
+  box-shadow: 0 2px 16px rgba(212,160,96,0.12);
 }
 
 .audio-card:hover {
-  box-shadow: 0 10px 36px rgba(212,160,96,0.14), inset 0 0 0 1px rgba(255,255,255,0.6);
+  box-shadow: 0 10px 36px rgba(212,160,96,0.22);
   transform: translateY(-3px);
-  border-color: rgba(212,160,96,0.45);
-  border-top-color: rgba(212,160,96,0.8);
+  border-color: rgba(212,160,96,0.8);
+  border-top-color: #c8903a;
 }
 
 .audio-card--pronto {
