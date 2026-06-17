@@ -276,6 +276,15 @@ async function runMigrations() {
     );
   });
 
+  await runSafeMigration('Audio src meditacion 3 Volver a ti', async () => {
+    await pool.execute(
+      `UPDATE meditaciones SET src = '/audios/unanoche.mp3', disponible = 1
+       WHERE orden = 3
+         AND serie_id = (SELECT id FROM series_meditacion WHERE slug = 'volver-a-ti')`,
+      []
+    );
+  });
+
   await runSafeMigration('Audio src meditacion 2 Volver a ti', async () => {
     await pool.execute(
       `UPDATE meditaciones SET src = '/audios/meditacion2abrazofrio.mp3', disponible = 1
