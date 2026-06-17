@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
 const FAQS = [
@@ -44,8 +44,8 @@ const PLANS = {
     period: '/mes',
     billing: 'Facturado como 144€/año',
     save: 'Ahorra un 29%',
-    btnText: 'Empezar prueba gratuita',
-    note: '7 días gratis · 144€/año · Cancela cuando quieras',
+    btnText: 'Disponible próximamente',
+    note: 'Mientras tanto, accede gratis a Tierra en Calma',
     formTitle: 'Plan Anual — 12€/mes',
     formSub: 'Facturado como 144€/año · 7 días gratis',
   },
@@ -57,8 +57,8 @@ const PLANS = {
     period: '/mes',
     billing: 'Facturado mensualmente',
     save: null,
-    btnText: 'Empezar prueba gratuita',
-    note: '7 días gratis · Sin permanencia · Cancela cuando quieras',
+    btnText: 'Disponible próximamente',
+    note: 'Mientras tanto, accede gratis a Tierra en Calma',
     formTitle: 'Plan Mensual — 17€/mes',
     formSub: 'Facturado mensualmente · 7 días gratis',
   },
@@ -164,74 +164,13 @@ function PwInput({ value, onChange, show, setShow, placeholder, autoComplete }) 
 }
 
 export default function SuscripcionPage() {
-  const { user, isSubscribed, token, refreshSubscription } = useAuth()
-  const [selectedPlan, setSelectedPlan] = useState(null)
-  const [form, setForm] = useState({ nombre: '', email: '', telefono: '', password: '', password_confirm: '' })
-  const [showPw, setShowPw] = useState(false)
-  const [showPw2, setShowPw2] = useState(false)
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [successEmail, setSuccessEmail] = useState(null)
-  const [activating, setActivating] = useState(false)
-  const formRef = useRef(null)
+  const { user, isSubscribed } = useAuth()
+  const [showAviso, setShowAviso] = useState(false)
+  const avisoRef = useRef(null)
 
-  function selectPlan(plan) {
-    setSelectedPlan(plan)
-    setTimeout(() => formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80)
-  }
-
-  async function handleActivate() {
-    setActivating(true)
-    try {
-      const res = await fetch('/api/suscripcion/activar', {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }
-      })
-      const data = await res.json()
-      if (data.success) {
-        await refreshSubscription()
-      } else {
-        alert(data.message || 'Error al activar la suscripción')
-        setActivating(false)
-      }
-    } catch {
-      alert('No se pudo conectar con el servidor')
-      setActivating(false)
-    }
-  }
-
-  async function handleSubmit(e) {
-    e.preventDefault()
-    setError('')
-    if (form.password.length < 8) { setError('La contraseña debe tener al menos 8 caracteres'); return }
-    if (form.password !== form.password_confirm) { setError('Las contraseñas no coinciden'); return }
-
-    setLoading(true)
-    try {
-      const res = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          nombre: form.nombre,
-          email: form.email,
-          telefono: form.telefono || null,
-          password: form.password,
-          plan: selectedPlan,
-        })
-      })
-      const data = await res.json()
-      if (!data.success) {
-        setError(data.message || 'Error al crear la cuenta')
-        setLoading(false)
-        return
-      }
-      if (data.pending) {
-        setSuccessEmail(form.email)
-      }
-    } catch {
-      setError('No se pudo conectar con el servidor')
-      setLoading(false)
-    }
+  function selectPlan() {
+    setShowAviso(true)
+    setTimeout(() => avisoRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 80)
   }
 
   if (user && isSubscribed) {
@@ -251,113 +190,48 @@ export default function SuscripcionPage() {
     )
   }
 
-  if (user && !isSubscribed) {
-    return (
-      <>
-        <PageHeader />
-        <PlanCards onSelect={selectPlan} />
-        {selectedPlan && (
-          <section ref={formRef} className="pricing-form-section">
-            <div className="pricing-form-header">
-              <p className="hero-eyebrow">{PLANS[selectedPlan].label}</p>
-              <h2>Activa tu <em>suscripción</em></h2>
-              <p>{PLANS[selectedPlan].formSub}</p>
-            </div>
-            <div className="pricing-form-card">
-              <div className="already-sub">
-                <p>Hola, <strong>{user.nombre.split(' ')[0]}</strong>. Activa por <strong>{PLANS[selectedPlan].amount}{PLANS[selectedPlan].period}</strong>.</p>
-                <button className="btn" style={{ marginTop: '1rem', width: '100%' }} onClick={handleActivate} disabled={activating}>
-                  {activating ? 'Activando…' : 'Activar suscripción'}
-                </button>
-                <p className="pricing-note" style={{ marginTop: '0.75rem' }}>Sin compromiso · Cancela cuando quieras</p>
-              </div>
-            </div>
-            <button className="btn-change-plan" onClick={() => setSelectedPlan(null)}>← Cambiar plan</button>
-          </section>
-        )}
-        <FaqAccordion />
-      </>
-    )
-  }
-
   return (
     <>
       <div className="en-proceso-banner">
         <span className="en-proceso-icono">✦</span>
         <div>
           <strong>Suscripción próximamente disponible</strong>
-          <span>Estamos preparando el Aula Online. Cuando las clases estén listas, podrás activar tu plan aquí.</span>
+          <span>Estamos preparando el Aula Online. Mientras tanto, accede gratis a <Link to="/audios" style={{ color: 'inherit', textDecoration: 'underline' }}>Tierra en Calma</Link>.</span>
         </div>
       </div>
 
       <PageHeader />
       <PlanCards onSelect={selectPlan} />
 
-      {selectedPlan && (
-        <section ref={formRef} className="pricing-form-section">
-          <div className="pricing-form-header">
-            <p className="hero-eyebrow">{PLANS[selectedPlan].label}</p>
-            <h2>Empieza tu prueba <em>gratuita</em></h2>
-            <p>{PLANS[selectedPlan].formSub}</p>
+      {showAviso && (
+        <section ref={avisoRef} className="suscripcion-aviso">
+          <div className="suscripcion-aviso-inner">
+            <span className="suscripcion-aviso-icono">☽</span>
+            <h3>El Aula Online está en construcción</h3>
+            <p>
+              Estamos preparando las clases con todo el cuidado que merecen.
+              Mientras tanto, te invitamos a crear tu <strong>cuenta gratuita</strong> y
+              disfrutar de <em>Tierra en Calma</em> — meditaciones guiadas disponibles ya.
+            </p>
+            <Link to="/audios" className="btn" style={{ marginTop: '0.5rem' }}>
+              Crear cuenta gratuita →
+            </Link>
+            <button
+              className="suscripcion-aviso-volver"
+              onClick={() => { setShowAviso(false); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+            >
+              ← Volver a los planes
+            </button>
           </div>
-          <div className="pricing-form-card">
-            {successEmail ? (
-              <div className="subscribe-success">
-                <div className="success-icon" style={{ fontSize: '1.6rem' }}>📧</div>
-                <h3>Revisa tu email</h3>
-                <p>Hemos enviado un enlace de confirmación a <strong>{successEmail}</strong>.</p>
-                <p style={{ fontSize: '0.85rem' }}>Haz clic en el enlace para activar tu cuenta y completar la suscripción.</p>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit}>
-                <p className="form-section-label">Datos personales</p>
-                <input type="text" placeholder="Nombre completo" required autoComplete="name" value={form.nombre} onChange={e => setForm(f => ({ ...f, nombre: e.target.value }))} />
-                <input type="email" placeholder="Email" required autoComplete="email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} />
-                <input type="tel" placeholder="Teléfono (opcional)" autoComplete="tel" value={form.telefono} onChange={e => setForm(f => ({ ...f, telefono: e.target.value }))} />
-
-                <p className="form-section-label" style={{ marginTop: '0.5rem' }}>Acceso a tu cuenta</p>
-                <PwInput value={form.password} onChange={v => setForm(f => ({ ...f, password: v }))} show={showPw} setShow={setShowPw} placeholder="Crea una contraseña (mín. 8 caracteres)" autoComplete="new-password" />
-                <PwInput value={form.password_confirm} onChange={v => setForm(f => ({ ...f, password_confirm: v }))} show={showPw2} setShow={setShowPw2} placeholder="Confirma tu contraseña" autoComplete="new-password" />
-
-                <p className="form-section-label" style={{ marginTop: '0.5rem' }}>Pago</p>
-                <div className="payment-placeholder">
-                  <span className="payment-placeholder-icon">💳</span>
-                  <p>Pasarela de pago segura<br /><small>Integración con Stripe próximamente</small></p>
-                </div>
-
-                <div className="check-group">
-                  <label className="check-label">
-                    <input type="checkbox" required />
-                    <span>Acepto los <a href="#" className="link-legal">Términos y condiciones</a></span>
-                  </label>
-                  <label className="check-label">
-                    <input type="checkbox" required />
-                    <span>He leído la <a href="#" className="link-legal">Política de privacidad</a></span>
-                  </label>
-                </div>
-
-                <p style={{ color: '#b04040', fontSize: '0.85rem', minHeight: '1.2em', textAlign: 'center' }}>{error}</p>
-                <button type="submit" className="btn" style={{ width: '100%' }} disabled={loading}>
-                  {loading ? 'Procesando…' : `7 días gratis · Luego ${PLANS[selectedPlan].amount}${PLANS[selectedPlan].period}`}
-                </button>
-                <p className="pricing-note">7 días de prueba gratuita · Sin permanencia · Cancela cuando quieras</p>
-              </form>
-            )}
-          </div>
-          <button className="btn-change-plan" onClick={() => { setSelectedPlan(null); window.scrollTo({ top: 0, behavior: 'smooth' }) }}>
-            ← Cambiar plan
-          </button>
         </section>
       )}
 
       <FaqAccordion />
 
       <div className="cta-final-banner">
-        <h2>Empieza hoy.<br /><em>7 días gratis.</em></h2>
-        <p>Sin permanencia. Solo yoga.</p>
-        <a href="#top" className="btn" onClick={e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }) }}>
-          Comenzar prueba gratuita
-        </a>
+        <h2>Empieza hoy.<br /><em>Es gratis.</em></h2>
+        <p>Accede a Tierra en Calma sin coste. El Aula Online llegará pronto.</p>
+        <Link to="/audios" className="btn">Crear cuenta gratuita →</Link>
       </div>
     </>
   )
