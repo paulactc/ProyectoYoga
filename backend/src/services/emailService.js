@@ -1,6 +1,12 @@
 const { Resend } = require('resend');
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+function getResend() {
+  if (!process.env.RESEND_API_KEY) {
+    throw new Error('RESEND_API_KEY no está configurada en las variables de entorno');
+  }
+  return new Resend(process.env.RESEND_API_KEY);
+}
+
 const FROM = process.env.SMTP_FROM || 'onboarding@resend.dev';
 
 function escapeHtml(str) {
@@ -13,6 +19,7 @@ function escapeHtml(str) {
 }
 
 async function sendVerificationEmail(email, nombre, verifyUrl) {
+  const resend = getResend();
   const safeName = escapeHtml(nombre);
   const { error } = await resend.emails.send({
     from: `Yoga Tierra Viva <${FROM}>`,
@@ -47,6 +54,7 @@ async function sendVerificationEmail(email, nombre, verifyUrl) {
 }
 
 async function sendPasswordResetEmail(email, resetUrl) {
+  const resend = getResend();
   const { error } = await resend.emails.send({
     from: `Yoga Tierra Viva <${FROM}>`,
     to: email,
