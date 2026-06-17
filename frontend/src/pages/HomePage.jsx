@@ -170,17 +170,49 @@ export default function HomePage() {
       {/* STATS */}
       <div className="stats-bar">
         <div className="stats-bar-inner">
-          {[
-            { number: '+200', unit: '', label: 'alumnas activas' },
-            { number: '4.9', unit: '★', label: 'valoración media' },
-            { number: '+30', unit: '', label: 'clases en biblioteca' },
-            { number: '7', unit: '', label: 'días de prueba gratis' },
-          ].map(({ number, unit, label }) => (
-            <div className="stat-item" key={label}>
-              <span className="stat-number">{number}<em>{unit}</em></span>
-              <span className="stat-label">{label}</span>
-            </div>
-          ))}
+
+          <div className="stat-item">
+            <span className="stat-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" width="28" height="28">
+                <path d="M18 11V6.5a1.5 1.5 0 0 0-3 0V11"/>
+                <path d="M15 11V5a1.5 1.5 0 0 0-3 0v6"/>
+                <path d="M12 11V6.5a1.5 1.5 0 0 0-3 0V15"/>
+                <path d="M9 11.5a1.5 1.5 0 0 0-3 0V17a6 6 0 0 0 12 0v-2a1.5 1.5 0 0 0-3 0"/>
+              </svg>
+            </span>
+            <span className="stat-label">Todos los niveles</span>
+          </div>
+
+          <div className="stat-item">
+            <span className="stat-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" width="28" height="28">
+                <path d="M15 10l4.553-2.277A1 1 0 0 1 21 8.618v6.764a1 1 0 0 1-1.447.894L15 14"/>
+                <rect x="2" y="6" width="13" height="12" rx="2"/>
+              </svg>
+            </span>
+            <span className="stat-label">+30 clases grabadas</span>
+          </div>
+
+          <div className="stat-item">
+            <span className="stat-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" width="28" height="28">
+                <circle cx="12" cy="12" r="10"/>
+                <polygon points="10,8 16,12 10,16" fill="currentColor" stroke="none"/>
+              </svg>
+            </span>
+            <span className="stat-label">Contenido nuevo</span>
+          </div>
+
+          <div className="stat-item">
+            <span className="stat-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" width="28" height="28">
+                <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/>
+                <path d="M9 21V12h6v9"/>
+              </svg>
+            </span>
+            <span className="stat-label">Desde casa, cuando quieras</span>
+          </div>
+
         </div>
       </div>
 
