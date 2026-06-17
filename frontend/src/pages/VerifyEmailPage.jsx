@@ -66,8 +66,8 @@ export default function VerifyEmailPage() {
           <>
             <div className="success-icon" style={{ margin: '0 auto 1.5rem' }}>✓</div>
             <h1 style={h1Style}>¡Cuenta confirmada!</h1>
-            <p style={{ color: 'var(--muted)', marginBottom: '2rem' }}>Ya puedes activar tu suscripción y empezar a practicar.</p>
-            <Link to="/suscripcion" className="btn">Activar suscripción →</Link>
+            <p style={{ color: 'var(--muted)', marginBottom: '2rem' }}>Tu cuenta está lista. ¡Empieza a practicar!</p>
+            <Link to="/aula-online" className="btn">Ir al Aula Online →</Link>
           </>
         )}
 
