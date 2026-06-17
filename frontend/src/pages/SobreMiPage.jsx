@@ -74,6 +74,13 @@ export default function SobreMiPage() {
               </div>
             </div>
 
+            <div className="sobre-cert-card">
+              <span className="sobre-cert-anno">2019</span>
+              <h3 className="sobre-cert-titulo">Biomecánica <em>del cuerpo</em></h3>
+              <p className="sobre-cert-rol">Formación</p>
+              <p className="sobre-cert-escuela">BSMT Yoga</p>
+            </div>
+
             <div className="sobre-cert-card sobre-cert-card--activo">
               <span className="sobre-cert-anno">2019</span>
               <h3 className="sobre-cert-titulo">Clases <em>presenciales</em></h3>
