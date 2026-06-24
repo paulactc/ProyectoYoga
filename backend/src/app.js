@@ -8,7 +8,15 @@ const app = express();
 
 // Security headers
 app.set('trust proxy', 1);
-app.use(helmet());
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+      'frame-src':  ["'self'", 'https://player.vimeo.com'],
+      'script-src': ["'self'", "'unsafe-inline'", 'https://player.vimeo.com', 'https://f.vimeocdn.com'],
+    },
+  },
+}));
 
 // CORS: allow configured frontend URL, Railway public domain, and localhost dev
 const allowedOrigins = [

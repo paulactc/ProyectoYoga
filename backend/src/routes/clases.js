@@ -1,7 +1,23 @@
-const express = require('express');
-const router = express.Router();
+const express    = require('express');
+const router     = express.Router();
 const { verifyToken } = require('../middleware/auth');
+const { pool }   = require('../config/database');
 
+// Clases por grupo (desde BD, incluye vimeo_id)
+router.get('/grupo/:grupoId', async (req, res) => {
+  try {
+    const [rows] = await pool.execute(
+      `SELECT id, titulo, descripcion, duracion, nivel, imagen, vimeo_id, disponible
+       FROM clases WHERE grupo_id = ? ORDER BY orden`,
+      [req.params.grupoId]
+    );
+    res.json({ success: true, data: rows });
+  } catch (err) {
+    res.status(500).json({ success: false, message: 'Error al obtener clases del grupo' });
+  }
+});
+
+// Listado general (hardcoded, compatibilidad)
 const CLASES = [
   { id: 1, titulo: 'Vinyasa Despertar',    duracion: 30, nivel: 1, descripcion: 'Activa el cuerpo con suavidad. Perfecta para comenzar el día o cuando el tiempo escasea.' },
   { id: 2, titulo: 'Flow Profundo',        duracion: 60, nivel: 2, descripcion: 'Secuencia fluida que trabaja la fuerza, la flexibilidad y la presencia plena.' },

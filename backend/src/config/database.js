@@ -311,6 +311,46 @@ async function runMigrations() {
     }
   });
 
+  await runSafeMigration('Tabla clases', () =>
+    pool.execute(`
+      CREATE TABLE IF NOT EXISTS clases (
+        id          INT AUTO_INCREMENT PRIMARY KEY,
+        grupo_id    INT NOT NULL DEFAULT 1,
+        titulo      VARCHAR(300) NOT NULL,
+        descripcion TEXT,
+        duracion    INT NOT NULL DEFAULT 30,
+        nivel       TINYINT NOT NULL DEFAULT 1,
+        imagen      VARCHAR(300) NULL,
+        vimeo_id    VARCHAR(50) NULL,
+        orden       INT DEFAULT 0,
+        disponible  BOOLEAN DEFAULT FALSE,
+        created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        INDEX idx_clases_grupo (grupo_id)
+      )
+    `)
+  );
+
+  await runSafeMigration('Seed clases grupo 1 Movilidad Funcional', async () => {
+    const [[{ cnt }]] = await pool.execute(
+      `SELECT COUNT(*) as cnt FROM clases WHERE grupo_id = 1`
+    );
+    if (cnt === 0) {
+      const clases = [
+        ['Despierta tu columna: movimiento desde adentro',       'Activa y moviliza la columna vertebral con movimientos suaves y conscientes que parten del centro hacia fuera.', 25, 1, '/images/yoga3.jpg',   '1204272676', 1, 1],
+        ['Caderas libres: el movimiento que cambia todo',         'Abre y libera las caderas para transformar tu forma de moverte en el día a día. La articulación más influyente del cuerpo.',              30, 1, '/images/yoga1.jpg',   null,         2, 0],
+        ['Suelta el peso que llevas en los hombros, ¡literalmente!', 'Libera la tensión acumulada en cuello, hombros y zona cervical. Especialmente para quienes pasan horas frente a una pantalla.',      20, 1, '/images/yoga4.jpg',   null,         3, 0],
+        ['La base que lo sostiene todo: despierta tus pies',     'Trabaja la conexión con el suelo activando tobillos, arcos plantares y la cadena de movimiento que empieza en los pies.',                25, 1, '/images/yoga2.jpg',   null,         4, 0],
+        ['Cuando todo se conecta — la clase que lo une todo',    'Una secuencia integradora que recorre todos los patrones del grupo. El cierre perfecto para sentir el cuerpo como una unidad.',           30, 1, '/images/yoga-36.jpg', null,         5, 0],
+      ];
+      for (const [titulo, descripcion, duracion, nivel, imagen, vimeo_id, orden, disponible] of clases) {
+        await pool.execute(
+          `INSERT INTO clases (grupo_id, titulo, descripcion, duracion, nivel, imagen, vimeo_id, orden, disponible) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          [1, titulo, descripcion, duracion, nivel, imagen, vimeo_id, orden, disponible]
+        );
+      }
+    }
+  });
+
   await runSafeMigration('Usuario admin por defecto', async () => {
     const [rows] = await pool.execute("SELECT id FROM usuarios WHERE rol = 'admin' LIMIT 1");
     if (rows.length === 0) {

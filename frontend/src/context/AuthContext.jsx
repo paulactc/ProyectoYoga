@@ -10,7 +10,7 @@ export function AuthProvider({ children }) {
 
   const user = auth?.user || null
   const token = auth?.token || null
-  const isSubscribed = !!user?.subscribed
+  const isSubscribed = !!user?.subscribed || user?.rol === 'admin'
 
   function saveAuth(token, user) {
     const data = { token, user }
