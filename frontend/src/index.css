@@ -954,7 +954,7 @@ a.nav-logo {
 .page-header--aula {
   background:
     linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.35)),
-    url('/images/yoga5.jpg') center center / cover no-repeat;
+    url('/images/yoga5.jpg') center bottom / cover no-repeat;
 }
 .page-header--aula .hero-eyebrow { color: rgba(255,255,255,0.85); }
 .page-header--aula h1            { color: #fff; }

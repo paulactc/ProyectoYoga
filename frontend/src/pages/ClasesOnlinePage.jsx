@@ -203,7 +203,7 @@ export default function ClasesOnlinePage() {
             {modalClase.vimeo_id ? (
               <div className="video-embed-wrap">
                 <iframe
-                  src={`https://player.vimeo.com/video/${modalClase.vimeo_id}?autoplay=1&title=0&byline=0&portrait=0`}
+                  src={`https://player.vimeo.com/video/${modalClase.vimeo_id}?title=0&byline=0&portrait=0&dnt=1`}
                   className="video-embed"
                   allow="autoplay; fullscreen; picture-in-picture"
                   allowFullScreen
