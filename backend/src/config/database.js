@@ -351,6 +351,28 @@ async function runMigrations() {
     }
   });
 
+  await runSafeMigration('Suscripcion cuentas de prueba emrider', async () => {
+    const emails = ['emridermotorgarage@gmail.com'];
+    for (const email of emails) {
+      const [[user]] = await pool.execute(
+        `SELECT id FROM usuarios WHERE email = ? LIMIT 1`, [email]
+      );
+      if (!user) continue;
+      const [[{ cnt }]] = await pool.execute(
+        `SELECT COUNT(*) as cnt FROM suscripciones WHERE usuario_id = ? AND estado = 'activa' AND fecha_fin >= CURDATE()`,
+        [user.id]
+      );
+      if (cnt > 0) continue;
+      const fechaInicio = new Date().toISOString().slice(0, 10);
+      const fechaFin = '2026-12-31';
+      await pool.execute(
+        `INSERT INTO suscripciones (usuario_id, estado, fecha_inicio, fecha_fin, importe) VALUES (?, 'activa', ?, ?, 0)`,
+        [user.id, fechaInicio, fechaFin]
+      );
+      console.log(`Suscripción activada para cuenta de prueba: ${email}`);
+    }
+  });
+
   await runSafeMigration('Usuario admin por defecto', async () => {
     const [rows] = await pool.execute("SELECT id FROM usuarios WHERE rol = 'admin' LIMIT 1");
     if (rows.length === 0) {

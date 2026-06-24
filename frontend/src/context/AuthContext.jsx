@@ -38,6 +38,12 @@ export function AuthProvider({ children }) {
       const res = await fetch('/api/suscripcion/estado', {
         headers: { Authorization: `Bearer ${token}` }
       })
+      if (res.status === 401) {
+        // Token expirado o inválido → cerrar sesión automáticamente
+        localStorage.removeItem(AUTH_KEY)
+        setAuth(null)
+        return
+      }
       const data = await res.json()
       if (data.success) {
         setAuth(prev => {
@@ -47,7 +53,7 @@ export function AuthProvider({ children }) {
           return updated
         })
       }
-    } catch { /* sin conexión */ }
+    } catch { /* sin conexión, mantener sesión */ }
   }, [token])
 
   useEffect(() => {
