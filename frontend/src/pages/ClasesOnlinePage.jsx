@@ -8,7 +8,6 @@ const CLASES = [
   { id: 3, titulo: 'Pranayama y Silencio', duracion: 30, nivel: 1, descripcion: 'Respiración consciente y meditación guiada para calmar la mente y centrar la energía.',               imagen: '/images/yoga2.jpg' },
   { id: 4, titulo: 'Vinyasa Avanzado',     duracion: 60, nivel: 3, descripcion: 'Posturas desafiantes y transiciones avanzadas para quienes quieren profundizar.',                      imagen: '/images/yoga4.jpg' },
   { id: 5, titulo: 'Movilidad y Cuidado',  duracion: 30, nivel: 1, descripcion: 'Cuida tus articulaciones y mejora el rango de movimiento. Ideal para todas las edades.',               imagen: '/images/yoga-36.jpg' },
-  { id: 6, titulo: 'Yang & Yin',           duracion: 60, nivel: 2, descripcion: 'Combina movimiento dinámico con posturas pasivas sostenidas para un equilibrio total.',                imagen: '/images/yoga-37.jpg' },
 ]
 
 const GRUPO_ICONOS = {
@@ -50,12 +49,12 @@ const NIVEL_LABEL = { 1: 'Principiante', 2: 'Intermedio', 3: 'Avanzado' }
 
 // ── Zonas del camino (sistema de chakras) ─────────────────────────────────
 const PATH_ZONES = [
-  { desde: 1,  hasta: 8,  nombre: 'El Despertar',     subtitulo: 'Muladhara · Raíz',    color: '#8c4e2f', bg: 'rgba(140,78,47,0.06)',    particle: '#d4a060' },
-  { desde: 9,  hasta: 16, nombre: 'Raíces Profundas', subtitulo: 'Svadhisthana · Agua',  color: '#b85c2a', bg: 'rgba(184,92,42,0.06)',    particle: '#e07a40' },
-  { desde: 17, hasta: 25, nombre: 'Fuego Interior',   subtitulo: 'Manipura · Fuego',     color: '#b8882a', bg: 'rgba(184,136,42,0.06)',   particle: '#d4b060' },
-  { desde: 26, hasta: 33, nombre: 'El Corazón Verde', subtitulo: 'Anahata · Corazón',    color: '#4a8a58', bg: 'rgba(74,138,88,0.06)',    particle: '#6aaa78' },
-  { desde: 34, hasta: 41, nombre: 'Lago de Silencio', subtitulo: 'Vishuddha · Garganta', color: '#2a6882', bg: 'rgba(42,104,130,0.06)',   particle: '#4a88a2' },
-  { desde: 42, hasta: 50, nombre: 'Cielo Abierto',   subtitulo: 'Sahasrara · Corona',   color: '#6a4a8a', bg: 'rgba(106,74,138,0.06)',   particle: '#8a6aaa' },
+  { desde: 1,  hasta: 8,  nombre: 'El Despertar',     subtitulo: 'Muladhara · Raíz',    color: '#c4784a', bg: 'rgba(140,78,47,0.14)',    particle: '#d4a060' },
+  { desde: 9,  hasta: 16, nombre: 'Raíces Profundas', subtitulo: 'Svadhisthana · Agua',  color: '#d4724a', bg: 'rgba(184,92,42,0.14)',    particle: '#e08050' },
+  { desde: 17, hasta: 25, nombre: 'Fuego Interior',   subtitulo: 'Manipura · Fuego',     color: '#d4a840', bg: 'rgba(184,136,42,0.14)',   particle: '#d4b060' },
+  { desde: 26, hasta: 33, nombre: 'El Corazón Verde', subtitulo: 'Anahata · Corazón',    color: '#5aaa68', bg: 'rgba(74,138,88,0.14)',    particle: '#6aaa78' },
+  { desde: 34, hasta: 41, nombre: 'Lago de Silencio', subtitulo: 'Vishuddha · Garganta', color: '#4a98b8', bg: 'rgba(42,104,130,0.14)',   particle: '#5aa8c2' },
+  { desde: 42, hasta: 50, nombre: 'Cielo Abierto',    subtitulo: 'Sahasrara · Corona',   color: '#9a7aba', bg: 'rgba(106,74,138,0.14)',   particle: '#9a7aba' },
 ]
 
 // ── Iconos tarjetas de métodos ──────────────────────────────────────────────
@@ -421,30 +420,110 @@ function PathRow({ slots, reversed, onOpen }) {
   )
 }
 
+// ── Conector curvo entre filas (estilo TravesiaMapDecor) ─────────────────
+function PathTurn({ reversed }) {
+  // reversed=true → la fila que acaba de terminar iba de derecha a izquierda
+  // → el giro está en el lado IZQUIERDO
+  const turnLeft = reversed
+
+  // Curva amplia — control points lejos del borde para que el arco respire
+  const curve = turnLeft
+    ? 'M30 5 C-14 5 -18 105 30 105'
+    : 'M290 5 C334 5 338 105 290 105'
+
+  const mtn1 = turnLeft
+    ? 'M35 110 L35 0 L55 34 L95 14 L145 40 L195 16 L245 42 L285 22 L320 46 L320 110 Z'
+    : 'M285 110 L285 0 L265 34 L225 14 L175 40 L125 16 L75 42 L35 22 L0 46 L0 110 Z'
+  const mtn2 = turnLeft
+    ? 'M35 110 L35 0 L60 50 L105 62 L148 42 L188 60 L228 44 L265 58 L300 48 L320 58 L320 110 Z'
+    : 'M285 110 L285 0 L260 50 L215 62 L172 42 L132 60 L92 44 L55 58 L20 48 L0 58 L0 110 Z'
+
+  // Puntos de luz (estrellas) en la zona central
+  const stars = turnLeft
+    ? [[110,12],[160,7],[195,24],[168,44],[215,58],[248,32],[230,72],[145,76],[178,92],[255,88]]
+    : [[70,12],[120,7],[125,24],[102,44],[65,58],[32,32],[50,72],[135,76],[92,92],[45,88]]
+
+  // Símbolo ✦ decorativo (posición central del conector)
+  const sx = turnLeft ? 195 : 125
+
+  // Posiciones de huellas a lo largo del giro
+  const fps = turnLeft
+    ? [{ x: 13, y: 26, r: 82 }, { x: 4, y: 55, r: 0 }, { x: 13, y: 84, r: -82 }]
+    : [{ x: 307, y: 26, r: -82 }, { x: 316, y: 55, r: 180 }, { x: 307, y: 84, r: 82 }]
+
+  return (
+    <div className="path-turn" aria-hidden="true">
+      <svg viewBox="0 0 320 110" className="path-turn-svg" preserveAspectRatio="none">
+        <path d={mtn1} fill="rgba(255,255,255,0.055)"/>
+        <path d={mtn2} fill="rgba(255,255,255,0.03)"/>
+        {stars.map(([x, y], i) => (
+          <circle key={i} cx={x} cy={y} r={i % 3 === 0 ? 1.8 : 1.0} fill="rgba(255,255,255,0.38)"/>
+        ))}
+        <g transform={`translate(${sx},55)`} opacity="0.52">
+          <path d="M0-9 L2 0 L0 9 L-2 0Z" fill="rgba(255,255,255,0.75)"/>
+          <path d="M-9 0 L0 2 L9 0 L0-2Z" fill="rgba(255,255,255,0.75)"/>
+        </g>
+        <path d={curve}
+          stroke="rgba(255,255,255,0.34)"
+          strokeWidth="2.2"
+          strokeDasharray="10 7"
+          strokeLinecap="round"
+          fill="none"/>
+        {fps.map(({ x, y, r }, i) => (
+          <g key={i} transform={`translate(${x},${y}) rotate(${r})`} opacity={0.42 - i * 0.04}>
+            <ellipse cx="0" cy="6" rx="4.5" ry="7" fill="#d4a060"/>
+            <circle cx="-3" cy="-3" r="2" fill="#d4a060"/>
+            <circle cx="0" cy="-7" r="2.2" fill="#d4a060"/>
+            <circle cx="3.5" cy="-4.5" r="1.8" fill="#d4a060"/>
+          </g>
+        ))}
+      </svg>
+    </div>
+  )
+}
+
 // ── Vista del camino completo (50 clases) ─────────────────────────────────
 function TravesiaPathView({ progress, isSubscribed, onNodeClick }) {
   const TOTAL = 50
 
-  const slots = Array.from({ length: TOTAL }, (_, i) => {
-    const n = i + 1
-    const clase = i < CLASES.length ? CLASES[i] : null
-    const isComingSoon = i >= CLASES.length
-    const isCompleted  = clase ? progress.includes(clase.id) : false
-    const prevDone     = i === 0 ? true : (i < CLASES.length ? progress.includes(CLASES[i-1].id) : false)
-    const isUnlocked   = !isComingSoon && isSubscribed && prevDone && !isCompleted
-    return { n, clase, isCompleted, isUnlocked, isComingSoon }
-  })
-
   const completadas = progress.filter(id => CLASES.some(c => c.id === id)).length
 
-  // Rows of 5
-  const rows = []
-  for (let i = 0; i < TOTAL; i += 5) {
-    rows.push({ slots: slots.slice(i, i+5), reversed: Math.floor(i/5) % 2 === 1 })
-  }
+  const SVG_W   = 320
+  const SPACING = 52
+  const PAD_TOP = 68
+  const PAD_BOT = 80
+  const SVG_H   = PAD_TOP + (TOTAL - 1) * SPACING + PAD_BOT
 
   const getZone = (n) => PATH_ZONES.find(z => n >= z.desde && n <= z.hasta)
-  const isZoneStart = (rowFirstN) => PATH_ZONES.some(z => z.desde === rowFirstN)
+
+  // Onda sinusoidal horizontal para las posiciones x (período = 14 nodos)
+  const slots = Array.from({ length: TOTAL }, (_, i) => {
+    const n            = i + 1
+    const clase        = i < CLASES.length ? CLASES[i] : null
+    const isComingSoon = i >= CLASES.length
+    const isCompleted  = clase ? progress.includes(clase.id) : false
+    const prevDone     = i === 0 ? true : (i < CLASES.length ? progress.includes(CLASES[i - 1].id) : false)
+    const isUnlocked   = !isComingSoon && isSubscribed && prevDone && !isCompleted
+    const x = SVG_W / 2 + 88 * Math.sin(i * Math.PI / 7)
+    const y = PAD_TOP + i * SPACING
+    return { n, clase, isCompleted, isUnlocked, isComingSoon, x, y }
+  })
+
+  // Trazo SVG: curvas cúbicas suaves entre nodos
+  const t = SPACING * 0.4
+  const pathD = slots.map((s, i) => {
+    if (i === 0) return `M${s.x.toFixed(1)},${s.y}`
+    const p = slots[i - 1]
+    return `C${p.x.toFixed(1)},${p.y + t} ${s.x.toFixed(1)},${s.y - t} ${s.x.toFixed(1)},${s.y}`
+  }).join(' ')
+
+  // Campo de estrellas
+  const stars = Array.from({ length: 55 }, (_, i) => ({
+    cx: (i * 71 + 31) % SVG_W,
+    cy: (i * 137 + 53) % SVG_H,
+    r:  i % 7 === 0 ? 2 : i % 3 === 0 ? 1.3 : 0.7,
+    op: i % 5 === 0 ? 0.5 : 0.28,
+  }))
 
   return (
     <div className="path-world">
@@ -456,24 +535,110 @@ function TravesiaPathView({ progress, isSubscribed, onNodeClick }) {
         <span className="path-world-label">{completadas}<span>/</span>{TOTAL}</span>
       </div>
 
-      {rows.map((row, rowIdx) => {
-        const firstN = row.slots[0].n
-        const zone   = getZone(firstN)
-        const showBanner = isZoneStart(firstN)
-        return (
-          <div key={rowIdx} className="path-section" style={{ '--zone-bg': zone?.bg || 'transparent', '--zone-p': zone?.particle || '#d4a060' }}>
-            {showBanner && zone && (
-              <>
-                <ZoneBanner zone={zone} />
-                <ZoneParticles color={zone.particle} />
-              </>
-            )}
-            <PathRow slots={row.slots} reversed={row.reversed} onOpen={onNodeClick} />
-          </div>
-        )
-      })}
+      {/* Contenedor del camino vertical */}
+      <div className="path-vertical" style={{ height: SVG_H }}>
 
-      {/* Meta final */}
+        {/* SVG de fondo */}
+        <svg className="path-vertical-svg"
+          viewBox={`0 0 ${SVG_W} ${SVG_H}`}
+          preserveAspectRatio="none"
+          aria-hidden="true">
+
+          {/* Bandas de color por zona */}
+          {PATH_ZONES.map(zone => {
+            const y1 = slots[zone.desde - 1].y - SPACING / 2
+            const y2 = slots[Math.min(zone.hasta, TOTAL) - 1].y + SPACING / 2
+            return <rect key={zone.nombre} x={0} y={y1} width={SVG_W} height={y2 - y1} fill={zone.bg}/>
+          })}
+
+          {/* Silueta de montañas — dos capas */}
+          <path
+            d={`M0,${SVG_H} L0,${SVG_H*0.12} L${SVG_W*0.1},${SVG_H*0.06} L${SVG_W*0.22},${SVG_H*0.13} L${SVG_W*0.34},${SVG_H*0.03} L${SVG_W*0.47},${SVG_H*0.1} L${SVG_W*0.58},${SVG_H*0.01} L${SVG_W*0.7},${SVG_H*0.09} L${SVG_W*0.82},${SVG_H*0.04} L${SVG_W*0.93},${SVG_H*0.11} L${SVG_W},${SVG_H*0.06} L${SVG_W},${SVG_H} Z`}
+            fill="rgba(255,255,255,0.04)"/>
+          <path
+            d={`M0,${SVG_H} L0,${SVG_H*0.2} L${SVG_W*0.15},${SVG_H*0.16} L${SVG_W*0.28},${SVG_H*0.24} L${SVG_W*0.4},${SVG_H*0.12} L${SVG_W*0.52},${SVG_H*0.21} L${SVG_W*0.63},${SVG_H*0.14} L${SVG_W*0.75},${SVG_H*0.22} L${SVG_W*0.88},${SVG_H*0.13} L${SVG_W},${SVG_H*0.18} L${SVG_W},${SVG_H} Z`}
+            fill="rgba(255,255,255,0.025)"/>
+
+          {/* Estrellas de fondo */}
+          {stars.map((s, i) => (
+            <circle key={i} cx={s.cx} cy={s.cy} r={s.r} fill={`rgba(255,255,255,${s.op})`}/>
+          ))}
+
+          {/* Trazo del camino */}
+          <path d={pathD}
+            stroke="rgba(255,255,255,0.34)"
+            strokeWidth="2.4"
+            strokeDasharray="10 7"
+            strokeLinecap="round"
+            fill="none"/>
+
+          {/* ✦ en los cambios de zona */}
+          {PATH_ZONES.slice(0, -1).map(zone => {
+            const last = slots[zone.hasta - 1]
+            const next = slots[zone.hasta]
+            const mx   = (last.x + next.x) / 2
+            const my   = (last.y + next.y) / 2
+            return (
+              <g key={zone.nombre} transform={`translate(${mx.toFixed(1)},${my})`} opacity="0.5">
+                <path d="M0-7 L1.5 0 L0 7 L-1.5 0Z" fill="rgba(255,255,255,0.8)"/>
+                <path d="M-7 0 L0 1.5 L7 0 L0-1.5Z" fill="rgba(255,255,255,0.8)"/>
+              </g>
+            )
+          })}
+        </svg>
+
+        {/* Banners de zona (HTML sobre SVG) */}
+        {PATH_ZONES.map(zone => (
+          <div key={zone.nombre}
+            className="zone-banner zone-banner-v"
+            style={{ top: slots[zone.desde - 1].y - SPACING * 0.72, '--zc': zone.color }}>
+            <div className="zone-banner-line"/>
+            <div className="zone-banner-content">
+              <span className="zone-banner-name">{zone.nombre}</span>
+              <span className="zone-banner-sub">{zone.subtitulo}</span>
+            </div>
+            <div className="zone-banner-line"/>
+          </div>
+        ))}
+
+        {/* Nodos del camino */}
+        {slots.map(slot => {
+          const { n, clase, isCompleted, isUnlocked, isComingSoon, x, y } = slot
+          const state    = isCompleted ? 'done' : isUnlocked ? 'active' : isComingSoon ? 'soon' : 'locked'
+          const clickable = state === 'done' || state === 'active'
+          return (
+            <div key={n}
+              className={`pnode pnode--${state} pnode-v`}
+              style={{ left: `${(x / SVG_W) * 100}%`, top: y }}
+              onClick={clickable ? () => onNodeClick(slot) : undefined}
+              title={clase?.titulo || `Clase ${n} · Próximamente`}
+              role={clickable ? 'button' : undefined}>
+              <div className="pnode-inner">
+                {state === 'done' && (
+                  <>
+                    <svg className="pnode-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.8"><polyline points="20,6 9,17 4,12"/></svg>
+                    <div className="pnode-lotus"><LotusDecor /></div>
+                  </>
+                )}
+                {state === 'active' && <span className="pnode-num">{n}</span>}
+                {state === 'locked' && (
+                  <svg className="pnode-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2"/>
+                    <path d="M7 11V7a5 5 0 0110 0v4"/>
+                  </svg>
+                )}
+                {state === 'soon' && <span className="pnode-dots">···</span>}
+              </div>
+              {state === 'active' && clase && (
+                <div className="pnode-title">{clase.titulo.split(':')[0].trim().slice(0, 22)}</div>
+              )}
+              {state === 'done' && <div className="pnode-num-small">{n}</div>}
+            </div>
+          )
+        })}
+      </div>
+
+      {/* Meta al fondo */}
       <div className="path-finish">
         <div className="path-finish-om" aria-hidden="true">ॐ</div>
         <p>La cima de tu travesía te espera</p>
@@ -489,7 +654,6 @@ function MetodoCard({ tipo, badge, titulo, subtitulo, descripcion, cta, icon, de
       {badge && <span className="metodo-badge">{badge}</span>}
       <div className="metodo-card-content">
         <div className="metodo-card-left">
-          <div className="metodo-icon">{icon}</div>
           <h3 className="metodo-titulo">{titulo}</h3>
           <p className="metodo-subtitulo">{subtitulo}</p>
           <p className="metodo-desc">{descripcion}</p>

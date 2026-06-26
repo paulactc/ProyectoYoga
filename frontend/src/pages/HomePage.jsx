@@ -117,21 +117,17 @@ export default function HomePage() {
           <p className="hero-eyebrow">Aula Online</p>
           <h2>Practica donde quieras,<br /><em>cuando quieras</em></h2>
           <div className="teaser-disciplinas">
-            <div className="teaser-disciplina">
-              <p className="teaser-disc-nombre">Vinyasa</p>
-              <p className="teaser-disc-desc">Secuencias dinámicas que conectan respiración y movimiento, ideales para activar el cuerpo y la mente</p>
+            <div className="teaser-disciplina teaser-disciplina--highlight">
+              <p className="teaser-disc-nombre">✦ La Travesía</p>
+              <p className="teaser-disc-desc">50 clases que se desbloquean etapa a etapa, siguiendo el camino de los chakras. Una experiencia única: avanzas cuando tu cuerpo y tu práctica lo merecen de verdad.</p>
             </div>
             <div className="teaser-disciplina">
-              <p className="teaser-disc-nombre">Yin Yoga</p>
-              <p className="teaser-disc-desc">Posturas pasivas y de larga duración para soltar tensiones profundas y calmar el sistema nervioso</p>
+              <p className="teaser-disc-nombre">Explora a tu aire</p>
+              <p className="teaser-disc-desc">Elige la clase que necesitas hoy. Filtra por duración, nivel o tipo de práctica y conecta con tu cuerpo a tu propio ritmo.</p>
             </div>
             <div className="teaser-disciplina">
-              <p className="teaser-disc-nombre">Meditación</p>
-              <p className="teaser-disc-desc">Prácticas guiadas para entrenar la atención, reducir el estrés y conectar contigo</p>
-            </div>
-            <div className="teaser-disciplina">
-              <p className="teaser-disc-nombre">Pranayama</p>
-              <p className="teaser-disc-desc">Técnicas de respiración consciente para regular la energía y equilibrar el estado emocional</p>
+              <p className="teaser-disc-nombre">Grupos de Clases</p>
+              <p className="teaser-disc-desc">Series temáticas con un objetivo claro: movilidad, fuerza, respiración... Sigue el programa y nota la diferencia semana a semana.</p>
             </div>
           </div>
           <Link to="/suscripcion" className="btn">Ver planes →</Link>

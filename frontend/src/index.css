@@ -1423,10 +1423,43 @@ a.nav-logo {
    PATH WORLD — El camino de 50 clases
    ═══════════════════════════════════════════════════════ */
 
+/* ── Camino de la Travesía — estilo mapa oscuro (TravesiaMapDecor) ── */
 .path-world {
   max-width: 640px;
-  margin: 0 auto;
-  padding: 1rem 0.5rem 4rem;
+  margin: 0.5rem auto 2rem;
+  padding: 0 0 2rem;
+  background: linear-gradient(180deg, #1a1008 0%, #14100a 60%, #1a1008 100%);
+  border-radius: 20px;
+  border: 1px solid rgba(212,160,96,0.14);
+  position: relative;
+  overflow: hidden;
+}
+.path-world::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(212,160,96,0.6), transparent);
+  border-radius: 20px 20px 0 0;
+}
+
+/* Cima / sol en la parte superior */
+.path-world-peak {
+  text-align: center;
+  padding: 1.5rem 1rem 0;
+}
+.path-peak-svg {
+  width: 120px;
+  height: 48px;
+  display: block;
+  margin: 0 auto 0.4rem;
+}
+.path-peak-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(212,160,96,0.45);
+  font-family: var(--font-heading);
 }
 
 /* Barra de progreso global */
@@ -1434,35 +1467,63 @@ a.nav-logo {
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 0 1.5rem;
-  margin-bottom: 0.5rem;
+  padding: 0.8rem 1.5rem;
 }
 .path-world-progress {
   flex: 1;
-  height: 5px;
-  background: rgba(0,0,0,0.08);
+  height: 4px;
+  background: rgba(255,255,255,0.1);
   border-radius: 100px;
   overflow: hidden;
 }
 .path-world-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--tierra), var(--accent));
+  background: linear-gradient(90deg, rgba(140,78,47,0.9), var(--accent));
   border-radius: 100px;
   transition: width 0.6s ease;
 }
 .path-world-label {
-  font-size: 0.75rem;
-  color: var(--muted);
-  letter-spacing: 0.04em;
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.45);
+  letter-spacing: 0.06em;
   white-space: nowrap;
 }
-.path-world-label span { opacity: 0.5; margin: 0 0.1em; }
+.path-world-label span { opacity: 0.4; margin: 0 0.1em; }
 
-/* Sección de zona */
+/* Wrapper invisible (no afecta al layout) */
+.path-row-group { display: contents; }
+
+/* ── Camino vertical: contenedor y SVG de fondo ── */
+.path-vertical {
+  position: relative;
+  width: 100%;
+}
+.path-vertical-svg {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Nodos posicionados absolutamente sobre el SVG */
+.pnode-v {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+/* Banner de zona sobre SVG */
+.zone-banner-v {
+  position: absolute;
+  left: 0; right: 0;
+  z-index: 3;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/* Sección de zona (rows legacy, por si se reutiliza) */
 .path-section {
   background: var(--zone-bg, transparent);
-  border-radius: 16px;
-  margin-bottom: 0.25rem;
   position: relative;
   overflow: hidden;
 }
@@ -1472,13 +1533,13 @@ a.nav-logo {
   display: flex;
   align-items: center;
   gap: 0.85rem;
-  padding: 1.6rem 1.5rem 0.6rem;
+  padding: 1.8rem 1.5rem 0.5rem;
 }
 .zone-banner-line {
   flex: 1;
   height: 1px;
-  background: var(--zc, var(--tierra));
-  opacity: 0.28;
+  background: var(--zc, #d4a060);
+  opacity: 0.35;
   border-radius: 100px;
 }
 .zone-banner-content {
@@ -1490,21 +1551,21 @@ a.nav-logo {
 }
 .zone-banner-name {
   font-family: var(--font-heading);
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 500;
-  color: var(--zc, var(--tierra));
-  letter-spacing: 0.05em;
+  color: var(--zc, #d4a060);
+  letter-spacing: 0.06em;
   line-height: 1.2;
 }
 .zone-banner-sub {
-  font-size: 0.6rem;
+  font-size: 0.58rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: rgba(0,0,0,0.3);
-  margin-top: 0.15rem;
+  color: rgba(255,255,255,0.28);
+  margin-top: 0.18rem;
 }
 
-/* Partículas de prana flotando */
+/* Partículas de prana flotando (visibles en oscuro) */
 .zone-particles {
   position: absolute;
   bottom: 0;
@@ -1522,69 +1583,90 @@ a.nav-logo {
   animation: pranaFloat 5s ease-in-out infinite;
 }
 @keyframes pranaFloat {
-  0%   { opacity: 0;   transform: translateY(0)    scale(0.5); }
-  25%  { opacity: 0.55; }
+  0%   { opacity: 0;    transform: translateY(0)     scale(0.5); }
+  25%  { opacity: 0.6; }
   75%  { opacity: 0.35; }
-  100% { opacity: 0;   transform: translateY(-75px) scale(1.3); }
+  100% { opacity: 0;    transform: translateY(-75px)  scale(1.3); }
 }
 
-/* Fila de nodos */
+/* Fila de nodos — dashed horizontal como en TravesiaMapDecor */
 .path-row {
   display: flex;
   justify-content: space-evenly;
-  align-items: flex-end;
-  padding: 0.8rem 1rem;
+  align-items: center;
+  padding: 1rem 0.75rem 1.1rem;
   position: relative;
 }
 .path-row-line {
   position: absolute;
   top: 50%;
-  left: 6%;
-  right: 6%;
-  height: 3px;
-  background: linear-gradient(90deg, rgba(0,0,0,0.04), rgba(0,0,0,0.09), rgba(0,0,0,0.04));
-  border-radius: 100px;
+  left: 7%;
+  right: 7%;
+  height: 2px;
   transform: translateY(-50%);
   z-index: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(255,255,255,0.32) 0px,
+    rgba(255,255,255,0.32) 11px,
+    transparent 11px,
+    transparent 18px
+  );
 }
 
-/* Nodos del camino */
+/* Conector curvo entre filas */
+.path-turn {
+  width: 100%;
+  height: 110px;
+  flex-shrink: 0;
+}
+.path-turn-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Nodos del camino — estilo waypoint TravesiaMapDecor */
 .pnode {
   position: relative;
   z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.3rem;
+  gap: 0.28rem;
   cursor: default;
 }
 .pnode--done,
 .pnode--active { cursor: pointer; }
-.pnode--done:hover  { transform: translateY(-2px) scale(1.06); transition: transform 0.2s; }
-.pnode--active:hover { transform: translateY(-3px); transition: transform 0.2s; }
+.pnode--done:hover  { transform: translateY(-2px) scale(1.06); transition: transform 0.18s; }
+.pnode--active:hover { transform: translateY(-3px); transition: transform 0.18s; }
 
 .pnode-inner {
-  width: 56px;
-  height: 56px;
+  width: 54px;
+  height: 54px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   transition: box-shadow 0.3s;
+  background: rgba(255,255,255,0.09);
+  border: 1.8px solid rgba(255,255,255,0.28);
+  color: rgba(255,255,255,0.4);
 }
 
 /* Estado: completada */
 .pnode--done .pnode-inner {
-  background: var(--accent);
-  box-shadow: 0 0 0 4px rgba(212,160,96,0.22), 0 4px 14px rgba(212,160,96,0.4);
-  color: #fff;
+  background: #6b3820;
+  border: 1.8px solid #d4a060;
+  box-shadow: 0 0 0 4px rgba(212,160,96,0.15), 0 4px 14px rgba(212,160,96,0.28);
+  color: #d4a060;
 }
 .pnode-check { width: 20px; height: 20px; }
 
 .pnode-lotus {
   position: absolute;
-  inset: -6px;
+  inset: -8px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1593,17 +1675,17 @@ a.nav-logo {
 .pnode-lotus-svg {
   width: 70px;
   height: 70px;
-  color: rgba(212,160,96,0.38);
+  color: rgba(212,160,96,0.35);
   animation: lotusGlow 3.5s ease-in-out infinite;
 }
 @keyframes lotusGlow {
-  0%, 100% { opacity: 0.3; transform: scale(0.92) rotate(0deg); }
-  50%      { opacity: 0.65; transform: scale(1.08) rotate(8deg); }
+  0%, 100% { opacity: 0.28; transform: scale(0.9) rotate(0deg); }
+  50%      { opacity: 0.6;  transform: scale(1.1) rotate(9deg); }
 }
 
 .pnode-num-small {
-  font-size: 0.58rem;
-  color: rgba(212,160,96,0.7);
+  font-size: 0.55rem;
+  color: rgba(212,160,96,0.6);
   letter-spacing: 0.06em;
   font-family: var(--font-body);
   font-weight: 600;
@@ -1611,36 +1693,32 @@ a.nav-logo {
 
 /* Estado: activa (siguiente a practicar) */
 .pnode--active .pnode-inner {
-  background: #fff;
-  border: 2.5px solid var(--tierra);
-  box-shadow: 0 0 0 6px rgba(140,78,47,0.1), 0 4px 18px rgba(140,78,47,0.22);
-  color: var(--tierra);
+  background: #8c4e2f;
+  border: 2.2px solid #d4a060;
+  color: #fff;
   animation: pranayama 4.5s ease-in-out infinite;
 }
 @keyframes pranayama {
   0%, 100% {
     transform: scale(1);
-    box-shadow: 0 0 0 6px rgba(140,78,47,0.1), 0 4px 18px rgba(140,78,47,0.22);
+    box-shadow: 0 0 0 6px rgba(212,160,96,0.12), 0 4px 18px rgba(212,160,96,0.2);
   }
-  40% {
-    transform: scale(1.07);
-    box-shadow: 0 0 0 11px rgba(140,78,47,0.06), 0 6px 28px rgba(140,78,47,0.28);
-  }
-  60% {
-    transform: scale(1.07);
-    box-shadow: 0 0 0 11px rgba(140,78,47,0.06), 0 6px 28px rgba(140,78,47,0.28);
+  50% {
+    transform: scale(1.06);
+    box-shadow: 0 0 0 14px rgba(212,160,96,0.06), 0 6px 28px rgba(212,160,96,0.3);
   }
 }
 
 .pnode-num {
   font-family: var(--font-heading);
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fff;
 }
 
 .pnode-title {
-  font-size: 0.6rem;
-  color: var(--tierra);
+  font-size: 0.58rem;
+  color: rgba(255,255,255,0.65);
   font-weight: 600;
   text-align: center;
   max-width: 64px;
@@ -1653,43 +1731,43 @@ a.nav-logo {
 
 /* Estado: bloqueada */
 .pnode--locked .pnode-inner {
-  background: #f2ede8;
-  border: 2px solid #e0d8d0;
-  color: #c4b8ae;
+  background: rgba(255,255,255,0.09);
+  border: 1.8px solid rgba(255,255,255,0.32);
+  color: rgba(255,255,255,0.38);
 }
-.pnode-lock { width: 17px; height: 17px; }
+.pnode-lock { width: 16px; height: 16px; }
 
 /* Estado: próximamente */
 .pnode--soon .pnode-inner {
-  background: #f7f5f2;
-  border: 1.5px dashed #e0dbd5;
-  color: #d0c8c0;
-  width: 44px;
-  height: 44px;
+  background: rgba(255,255,255,0.06);
+  border: 1.8px dashed rgba(255,255,255,0.22);
+  color: rgba(255,255,255,0.2);
+  width: 42px;
+  height: 42px;
 }
-.pnode--soon { opacity: 0.6; }
-.pnode-dots { font-size: 0.75rem; letter-spacing: 0.2em; }
+.pnode--soon { opacity: 0.75; }
+.pnode-dots { font-size: 0.7rem; letter-spacing: 0.2em; }
 
-/* Meta final */
+/* Meta / inicio (parte inferior) */
 .path-finish {
   text-align: center;
-  padding: 3rem 2rem 1rem;
-  opacity: 0.35;
+  padding: 2.5rem 2rem 1.5rem;
 }
 .path-finish-om {
-  font-size: 2.8rem;
-  color: var(--tierra);
+  font-size: 2.6rem;
+  color: #d4a060;
   margin-bottom: 0.5rem;
+  opacity: 0.5;
   animation: omPulse 6s ease-in-out infinite;
 }
 @keyframes omPulse {
-  0%, 100% { opacity: 0.3; transform: scale(1); }
-  50%      { opacity: 0.6; transform: scale(1.08); }
+  0%, 100% { opacity: 0.28; transform: scale(1); }
+  50%      { opacity: 0.55; transform: scale(1.08); }
 }
 .path-finish p {
-  font-size: 0.8rem;
-  color: var(--muted);
-  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.28);
+  letter-spacing: 0.1em;
   font-style: italic;
 }
 
@@ -2415,6 +2493,22 @@ a.nav-logo {
   border-color: rgba(140,78,47,0.32);
   background: rgba(140,78,47,0.08);
   transform: translateY(-3px);
+}
+.teaser-disciplina--highlight {
+  background: linear-gradient(135deg, rgba(140,78,47,0.1) 0%, rgba(212,160,96,0.08) 100%);
+  border-color: rgba(212,160,96,0.35);
+  position: relative;
+}
+.teaser-disciplina--highlight::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(212,160,96,0.7), transparent);
+  border-radius: 14px 14px 0 0;
+}
+.teaser-disciplina--highlight .teaser-disc-nombre {
+  color: var(--accent);
 }
 
 .teaser-disc-nombre {
@@ -5148,11 +5242,11 @@ a.nav-logo {
   .tis-travesia { font-size: clamp(2.6rem, 12vw, 5rem); }
   .confirm-modal { padding: 2rem 1.5rem 1.6rem; }
   /* Path world mobile */
-  .pnode-inner { width: 48px; height: 48px; }
-  .pnode--soon .pnode-inner { width: 36px; height: 36px; }
-  .pnode-lotus-svg { width: 58px; height: 58px; }
-  .pnode-num { font-size: 1.05rem; }
-  .pnode-title { max-width: 52px; font-size: 0.55rem; }
-  .path-row { padding: 0.6rem 0.5rem; }
-  .path-world { padding: 0.75rem 0.25rem 3rem; }
+  .pnode-inner { width: 46px; height: 46px; }
+  .pnode--soon .pnode-inner { width: 34px; height: 34px; }
+  .pnode-lotus-svg { width: 56px; height: 56px; }
+  .pnode-num { font-size: 1rem; }
+  .pnode-title { max-width: 48px; font-size: 0.52rem; }
+  .path-row { padding: 0.7rem 0.4rem; }
+  .path-world { padding: 0 0 1.5rem; margin: 0.25rem 0.5rem 1.5rem; border-radius: 14px; }
 }
