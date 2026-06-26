@@ -351,6 +351,20 @@ async function runMigrations() {
     }
   });
 
+  await runSafeMigration('Tabla travesia_progress', () =>
+    pool.execute(`
+      CREATE TABLE IF NOT EXISTS travesia_progress (
+        id         INT AUTO_INCREMENT PRIMARY KEY,
+        usuario_id INT NOT NULL,
+        clase_id   VARCHAR(50) NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE KEY uk_tp (usuario_id, clase_id),
+        FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+        INDEX idx_tp_usuario (usuario_id)
+      )
+    `)
+  );
+
   await runSafeMigration('Suscripcion cuentas de prueba emrider', async () => {
     const emails = ['emridermotorgarage@gmail.com'];
     for (const email of emails) {

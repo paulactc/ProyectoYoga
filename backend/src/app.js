@@ -65,6 +65,7 @@ app.use('/api/auth',        authLimiter,    require('./routes/auth'));
 app.use('/api/suscripcion', apiLimiter,     require('./routes/suscripcion'));
 app.use('/api/cuenta',      apiLimiter,     require('./routes/cuenta'));
 app.use('/api/clases',        apiLimiter,     require('./routes/clases'));
+app.use('/api/travesia',      apiLimiter,     require('./routes/travesia'));
 app.use('/api/meditaciones', apiLimiter,     require('./routes/meditaciones'));
 app.use('/api/contact',      contactLimiter, require('./routes/contact'));
 

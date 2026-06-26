@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
@@ -27,6 +27,32 @@ const GRUPO_ICONOS = {
       <path d="M8 90 Q35 87 62 90" strokeWidth="1" opacity="0.4"/>
     </svg>
   ),
+  2: (
+    <svg viewBox="0 0 70 110" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      {/* Rachis — eje central de la pluma */}
+      <path d="M35 6 Q34 50 30 104" strokeWidth="1.4"/>
+      {/* Barbas derechas */}
+      <path d="M35 11 Q44  8 52 11"  strokeWidth="1.15" opacity="0.92"/>
+      <path d="M35 19 Q46 15 55 19"  strokeWidth="1.1"  opacity="0.86"/>
+      <path d="M35 28 Q48 23 58 27"  strokeWidth="1.1"  opacity="0.80"/>
+      <path d="M35 37 Q48 32 57 37"  strokeWidth="1.0"  opacity="0.74"/>
+      <path d="M35 46 Q47 41 56 46"  strokeWidth="1.0"  opacity="0.68"/>
+      <path d="M34 55 Q46 50 54 56"  strokeWidth="0.9"  opacity="0.58"/>
+      <path d="M33 64 Q43 60 50 65"  strokeWidth="0.85" opacity="0.48"/>
+      <path d="M32 73 Q40 69 45 74"  strokeWidth="0.75" opacity="0.38"/>
+      <path d="M31 82 Q37 79 40 84"  strokeWidth="0.65" opacity="0.28"/>
+      {/* Barbas izquierdas */}
+      <path d="M35 11 Q26  8 18 11"  strokeWidth="1.15" opacity="0.92"/>
+      <path d="M35 19 Q24 15 15 19"  strokeWidth="1.1"  opacity="0.86"/>
+      <path d="M35 28 Q22 23 12 27"  strokeWidth="1.1"  opacity="0.80"/>
+      <path d="M35 37 Q22 32 13 37"  strokeWidth="1.0"  opacity="0.74"/>
+      <path d="M35 46 Q23 41 14 46"  strokeWidth="1.0"  opacity="0.68"/>
+      <path d="M34 55 Q22 50 16 56"  strokeWidth="0.9"  opacity="0.58"/>
+      <path d="M33 64 Q23 60 17 65"  strokeWidth="0.85" opacity="0.48"/>
+      <path d="M32 73 Q26 69 21 74"  strokeWidth="0.75" opacity="0.38"/>
+      <path d="M31 82 Q27 79 24 84"  strokeWidth="0.65" opacity="0.28"/>
+    </svg>
+  ),
 }
 
 const GRUPOS = [
@@ -41,6 +67,19 @@ const GRUPOS = [
       { id: 'g1-3', titulo: 'Suelta el peso que llevas en los hombros, ¡literalmente!', duracion: 20, nivel: 1, descripcion: 'Libera la tensión acumulada en cuello, hombros y zona cervical.', imagen: '/images/yoga4.jpg' },
       { id: 'g1-4', titulo: 'La base que lo sostiene todo: despierta tus pies',        duracion: 25, nivel: 1, descripcion: 'Trabaja la conexión con el suelo activando tobillos, arcos plantares y la cadena de movimiento.', imagen: '/images/yoga2.jpg' },
       { id: 'g1-5', titulo: 'Cuando todo se conecta — la clase que lo une todo',       duracion: 30, nivel: 1, descripcion: 'Una secuencia integradora que recorre todos los patrones del grupo.', imagen: '/images/yoga-36.jpg' },
+    ],
+  },
+  {
+    id: 2,
+    nombre: 'Respiración Consciente',
+    descripcion: 'El pranayama es la puerta entre el cuerpo y la mente. Aprende a usar la respiración como herramienta de regulación, enfoque y calma profunda.',
+    meta: '5 clases · 20-35 min · Todos los niveles',
+    clases: [
+      { id: 'g2-1', titulo: 'La respiración que nunca nos enseñaron',      duracion: 20, nivel: 1, descripcion: 'Toma conciencia de tu respiración habitual y aprende la base del pranayama: respirar desde el diafragma.', imagen: '/images/yoga-21.jpg' },
+      { id: 'g2-2', titulo: 'Ujjayi: el aliento que centra',               duracion: 25, nivel: 1, descripcion: 'Domina la respiración ujjayi para regular la energía, calentar el cuerpo y mantener la atención durante la práctica.', imagen: '/images/yoga-37.jpg' },
+      { id: 'g2-3', titulo: 'Nadi Shodhana: equilibra los dos lados',      duracion: 30, nivel: 1, descripcion: 'La respiración alternada limpia los canales energéticos y equilibra los hemisferios cerebrales para una calma profunda.', imagen: '/images/yoga-30.jpg' },
+      { id: 'g2-4', titulo: 'Kapalabhati: enciende tu fuego interior',     duracion: 20, nivel: 2, descripcion: 'Respiración de fuego para limpiar el sistema nervioso, activar el abdomen y aumentar la energía vital.', imagen: '/images/yoga5.jpg' },
+      { id: 'g2-5', titulo: 'Respira para soltar: la práctica integradora', duracion: 35, nivel: 1, descripcion: 'Combina las técnicas del grupo en una sesión profunda para liberar tensión y reconectar con tu centro.', imagen: '/images/yoga-18.jpg' },
     ],
   },
 ]
@@ -491,7 +530,7 @@ function TravesiaPathView({ progress, isSubscribed, onNodeClick }) {
   const SVG_W   = 320
   const SPACING = 52
   const PAD_TOP = 68
-  const PAD_BOT = 80
+  const PAD_BOT = 120
   const SVG_H   = PAD_TOP + (TOTAL - 1) * SPACING + PAD_BOT
 
   const getZone = (n) => PATH_ZONES.find(z => n >= z.desde && n <= z.hasta)
@@ -524,6 +563,22 @@ function TravesiaPathView({ progress, isSubscribed, onNodeClick }) {
     r:  i % 7 === 0 ? 2 : i % 3 === 0 ? 1.3 : 0.7,
     op: i % 5 === 0 ? 0.5 : 0.28,
   }))
+
+  // Árboles decorativos [x, fracción_y, escala]
+  const trees = [
+    [16, 0.06, 0.70], [7,  0.15, 0.55], [28, 0.25, 0.82], [12, 0.35, 0.60],
+    [22, 0.45, 0.75], [9,  0.55, 0.65], [30, 0.65, 0.80], [14, 0.75, 0.55],
+    [20, 0.85, 0.70], [6,  0.93, 0.50],
+    [304, 0.04, 0.65], [314, 0.13, 0.80], [296, 0.22, 0.60], [309, 0.32, 0.75],
+    [301, 0.42, 0.55], [313, 0.52, 0.70], [299, 0.62, 0.82], [311, 0.71, 0.60],
+    [305, 0.81, 0.70], [297, 0.90, 0.65],
+  ]
+
+  // Extensión del camino hasta el ॐ
+  const omX = SVG_W / 2
+  const omY = SVG_H - 60
+  const last = slots[TOTAL - 1]
+  const fullPathD = pathD + ` C${last.x.toFixed(1)},${last.y + t} ${omX},${omY - 25} ${omX},${omY}`
 
   return (
     <div className="path-world">
@@ -564,11 +619,24 @@ function TravesiaPathView({ progress, isSubscribed, onNodeClick }) {
             <circle key={i} cx={s.cx} cy={s.cy} r={s.r} fill={`rgba(255,255,255,${s.op})`}/>
           ))}
 
+          {/* Árboles decorativos */}
+          {trees.map(([tx, fy, ts], i) => (
+            <g key={`t${i}`} transform={`translate(${tx},${(fy * SVG_H).toFixed(0)}) scale(${ts})`} opacity="0.55">
+              <rect x="-2.5" y="0" width="5" height="10" fill="rgba(180,130,60,0.55)"/>
+              <polygon points="-14,2 14,2 0,-18" fill="rgba(255,255,255,0.13)"/>
+              <polygon points="-10,-14 10,-14 0,-28" fill="rgba(255,255,255,0.11)"/>
+              <polygon points="-6,-24 6,-24 0,-36" fill="rgba(255,255,255,0.09)"/>
+            </g>
+          ))}
+
+          {/* Glow suave del camino */}
+          <path d={fullPathD} stroke="rgba(255,255,255,0.07)" strokeWidth="11" fill="none"/>
+
           {/* Trazo del camino */}
-          <path d={pathD}
-            stroke="rgba(255,255,255,0.34)"
-            strokeWidth="2.4"
-            strokeDasharray="10 7"
+          <path d={fullPathD}
+            stroke="rgba(255,255,255,0.40)"
+            strokeWidth="2.6"
+            strokeDasharray="13 5"
             strokeLinecap="round"
             fill="none"/>
 
@@ -636,12 +704,12 @@ function TravesiaPathView({ progress, isSubscribed, onNodeClick }) {
             </div>
           )
         })}
-      </div>
 
-      {/* Meta al fondo */}
-      <div className="path-finish">
-        <div className="path-finish-om" aria-hidden="true">ॐ</div>
-        <p>La cima de tu travesía te espera</p>
+        {/* ॐ al pie del camino, dentro del contenedor vertical */}
+        <div className="path-finish" style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', top: omY - 10, zIndex: 4, padding: '0.6rem 1.5rem 1rem' }}>
+          <div className="path-finish-om" aria-hidden="true">ॐ</div>
+          <p>La cima de tu travesía te espera</p>
+        </div>
       </div>
     </div>
   )
@@ -661,6 +729,26 @@ function MetodoCard({ tipo, badge, titulo, subtitulo, descripcion, cta, icon, de
         </div>
         {decoracion && <div className="metodo-card-right">{decoracion}</div>}
       </div>
+    </button>
+  )
+}
+
+// ── Tarjeta de selección de grupo ─────────────────────────────────────────
+function GrupoSelectorCard({ grupo, icono, onSelect }) {
+  const tags = grupo.meta.split(' · ')
+  return (
+    <button className="gsc" onClick={onSelect} type="button">
+      <div className="gsc-top">
+        <div className="gsc-text">
+          <h3 className="gsc-nombre">{grupo.nombre}</h3>
+          <p className="gsc-desc">{grupo.descripcion}</p>
+        </div>
+        {icono && <div className="gsc-icon">{icono}</div>}
+      </div>
+      <div className="gsc-tags">
+        {tags.map((tag, i) => <span key={i} className="gsc-tag">{tag}</span>)}
+      </div>
+      <span className="gsc-cta">Comenzar grupo →</span>
     </button>
   )
 }
@@ -708,16 +796,16 @@ function ClaseCard({ clase: c, subscribed, onOpen }) {
 
 // ── Página principal ──────────────────────────────────────────────────────
 export default function ClasesOnlinePage() {
-  const { isSubscribed, refreshSubscription, user } = useAuth()
+  const { isSubscribed, refreshSubscription, user, token } = useAuth()
   const [vista, setVista] = useState('selector')
+  const [grupoSeleccionado, setGrupoSeleccionado] = useState(null)
   const [filtroDuracion, setFiltroDuracion] = useState('todos')
   const [filtroNivel, setFiltroNivel] = useState('todos')
   const [modalClase, setModalClase] = useState(null)
+  const [videoTerminado, setVideoTerminado] = useState(false)
+  const vimeoRef = useRef(null)
   const [grupoClases, setGrupoClases] = useState({})
-  const [travesiaProgress, setTravesiaProgress] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('travesia_progress') || '[]') }
-    catch { return [] }
-  })
+  const [travesiaProgress, setTravesiaProgress] = useState([])
   const [showIntroAnim, setShowIntroAnim] = useState(false)
   const [showCompletionAnim, setShowCompletionAnim] = useState(false)
   const [confirmModal, setConfirmModal] = useState(null)
@@ -725,6 +813,46 @@ export default function ClasesOnlinePage() {
   useEffect(() => {
     if (user) refreshSubscription()
   }, [user])
+
+  // Cargar progreso desde la API (por usuario, no localStorage global)
+  useEffect(() => {
+    if (!user || !token) { setTravesiaProgress([]); return }
+    fetch('/api/travesia/progress', { headers: { Authorization: `Bearer ${token}` } })
+      .then(r => r.json())
+      .then(data => { if (data.success) setTravesiaProgress(data.data) })
+      .catch(() => {})
+  }, [user, token])
+
+  // Detectar fin de vídeo Vimeo via postMessage
+  useEffect(() => {
+    if (!modalClase?.clase?.vimeo_id) { setVideoTerminado(false); return }
+    setVideoTerminado(false)
+    function onMsg(e) {
+      if (!String(e.origin).includes('vimeo.com')) return
+      try {
+        const d = typeof e.data === 'string' ? JSON.parse(e.data) : e.data
+        if (d?.event === 'finish') setVideoTerminado(true)
+      } catch {}
+    }
+    window.addEventListener('message', onMsg)
+    // Registrar el evento 'finish' con el iframe Vimeo una vez cargue
+    const register = () => {
+      vimeoRef.current?.contentWindow?.postMessage(
+        JSON.stringify({ method: 'addEventListener', value: 'finish' }),
+        'https://player.vimeo.com'
+      )
+    }
+    const t1 = setTimeout(register, 1500)
+    const t2 = setTimeout(register, 4000)
+    return () => {
+      window.removeEventListener('message', onMsg)
+      clearTimeout(t1); clearTimeout(t2)
+    }
+  }, [modalClase?.clase?.vimeo_id])
+
+  useEffect(() => {
+    if (vista !== 'grupos') setGrupoSeleccionado(null)
+  }, [vista])
 
   useEffect(() => {
     if (vista !== 'grupos') return
@@ -752,13 +880,20 @@ export default function ClasesOnlinePage() {
 
   const pedirConfirmacion = (claseId) => setConfirmModal(claseId)
 
-  const confirmarCompletada = () => {
+  const confirmarCompletada = async () => {
     const claseId = confirmModal
     setConfirmModal(null)
     setModalClase(null)
+    setVideoTerminado(false)
     const nuevas = [...new Set([...travesiaProgress, claseId])]
     setTravesiaProgress(nuevas)
-    localStorage.setItem('travesia_progress', JSON.stringify(nuevas))
+    // Guardar en backend (por usuario, no localStorage global)
+    if (token) {
+      fetch(`/api/travesia/progress/${claseId}`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+      }).catch(() => {})
+    }
     if (nuevas.filter(id => CLASES.some(c => c.id === id)).length === CLASES.length) {
       setTimeout(() => setShowCompletionAnim(true), 700)
     }
@@ -826,7 +961,7 @@ export default function ClasesOnlinePage() {
               cta="Explorar clases"
               icon={<IconExplorar />}
               decoracion={<ExplorarDecor />}
-              onClick={() => setVista('filtros')}
+              onClick={() => { setVista('filtros'); window.scrollTo({ top: 0 }); }}
             />
             <MetodoCard
               tipo="grupos"
@@ -892,6 +1027,11 @@ export default function ClasesOnlinePage() {
       {/* ── Explorar (filtros) ── */}
       {vista === 'filtros' && (
         <>
+          <div className="filtros-intro">
+            <p className="hero-eyebrow">Explora a tu aire</p>
+            <h2 className="filtros-titulo">¿Qué necesitas hoy?</h2>
+            <p className="filtros-sub">Elige la clase que tu cuerpo pide. Sin límites, sin presión.</p>
+          </div>
           <div className="filtros-section">
             <div className="filtros">
               <div className="filtro-group">
@@ -905,7 +1045,7 @@ export default function ClasesOnlinePage() {
               <div className="filtro-group">
                 <span className="filtro-label">Nivel</span>
                 <div className="filtro-pills">
-                  {[['todos', 'Todos'], ['1', 'Nivel 1'], ['2', 'Nivel 2'], ['3', 'Nivel 3']].map(([val, label]) => (
+                  {[['todos', 'Todos'], ['1', 'Principiante'], ['2', 'Intermedio'], ['3', 'Avanzado']].map(([val, label]) => (
                     <button key={val} className={`pill${filtroNivel === val ? ' active' : ''}`} onClick={() => setFiltroNivel(val)}>{label}</button>
                   ))}
                 </div>
@@ -925,10 +1065,36 @@ export default function ClasesOnlinePage() {
       )}
 
       {/* ── Grupos de clases ── */}
-      {vista === 'grupos' && (
-        <section className="grupos-section">
-          {GRUPOS.map(grupo => (
-            <div key={grupo.id} className="grupo-bloque">
+      {vista === 'grupos' && grupoSeleccionado === null && (
+        <>
+          <div className="filtros-intro">
+            <p className="hero-eyebrow">Grupos de Clases</p>
+            <h2 className="filtros-titulo">Elige tu programa</h2>
+            <p className="filtros-sub">Series diseñadas con un propósito claro. Sigue el camino y nota la diferencia.</p>
+          </div>
+          <section className="gsc-grid">
+            {GRUPOS.map(grupo => (
+              <GrupoSelectorCard
+                key={grupo.id}
+                grupo={grupo}
+                icono={GRUPO_ICONOS[grupo.id]}
+                onSelect={() => { setGrupoSeleccionado(grupo.id); window.scrollTo({ top: 0 }); }}
+              />
+            ))}
+          </section>
+        </>
+      )}
+
+      {vista === 'grupos' && grupoSeleccionado !== null && (() => {
+        const grupo = GRUPOS.find(g => g.id === grupoSeleccionado)
+        if (!grupo) return null
+        return (
+          <section className="grupos-section">
+            <div className="grupo-bloque">
+              <button className="volver-grupo-btn" onClick={() => setGrupoSeleccionado(null)} type="button">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"><polyline points="15,18 9,12 15,6"/></svg>
+                Volver a grupos
+              </button>
               <div className="grupo-header">
                 <div className="grupo-header-content">
                   <p className="grupo-eyebrow">Grupo {String(grupo.id).padStart(2, '0')}</p>
@@ -950,9 +1116,9 @@ export default function ClasesOnlinePage() {
                 ))}
               </div>
             </div>
-          ))}
-        </section>
-      )}
+          </section>
+        )
+      })()}
 
       {/* ── Modal de vídeo ── */}
       {modalClase && (
@@ -967,7 +1133,8 @@ export default function ClasesOnlinePage() {
             {modalClase.clase.vimeo_id ? (
               <div className="video-embed-wrap">
                 <iframe
-                  src={`https://player.vimeo.com/video/${modalClase.clase.vimeo_id}?title=0&byline=0&portrait=0&dnt=1`}
+                  ref={vimeoRef}
+                  src={`https://player.vimeo.com/video/${modalClase.clase.vimeo_id}?title=0&byline=0&portrait=0&dnt=1&api=1`}
                   className="video-embed"
                   allow="autoplay; fullscreen; picture-in-picture"
                   allowFullScreen
@@ -983,10 +1150,14 @@ export default function ClasesOnlinePage() {
               </div>
             )}
             {modalClase.onCompletar && (
-              <button className="btn btn-completar-modal" onClick={modalClase.onCompletar}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20,6 9,17 4,12"/></svg>
-                Marcar como completada
-              </button>
+              videoTerminado ? (
+                <button className="btn btn-completar-modal" onClick={modalClase.onCompletar}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20,6 9,17 4,12"/></svg>
+                  Marcar como completada
+                </button>
+              ) : (
+                <p className="completar-hint">Completa el vídeo para marcar la clase como hecha.</p>
+              )
             )}
           </div>
         </div>
