@@ -2426,11 +2426,15 @@ a.nav-logo {
 .clase-card:hover { transform: translateY(-5px); box-shadow: 0 14px 36px rgba(0,0,0,0.12); }
 
 .clase-card-img {
-  height: 200px;
-  background-size: cover;
-  background-position: center;
   position: relative;
+  overflow: hidden;
   flex-shrink: 0;
+  background: #f0ebe3;
+}
+.clase-card-img img {
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
 .clase-locked .clase-card-img::after {

@@ -764,7 +764,9 @@ function ClaseCard({ clase: c, subscribed, onOpen }) {
   if (subscribed) {
     return (
       <article className="clase-card">
-        <div className="clase-card-img" style={{ backgroundImage: `url('${c.imagen}')` }} />
+        <div className="clase-card-img">
+          <img src={c.imagen} alt={c.titulo} />
+        </div>
         <div className="clase-card-body">
           {badges}
           <h3>{c.titulo}</h3>
@@ -776,7 +778,8 @@ function ClaseCard({ clase: c, subscribed, onOpen }) {
   }
   return (
     <article className="clase-card clase-locked">
-      <div className="clase-card-img" style={{ backgroundImage: `url('${c.imagen}')` }}>
+      <div className="clase-card-img">
+        <img src={c.imagen} alt={c.titulo} />
         <div className="lock-overlay">
           <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <rect x="3" y="11" width="18" height="11" rx="2"/>
