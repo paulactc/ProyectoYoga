@@ -351,6 +351,17 @@ async function runMigrations() {
     }
   });
 
+  await runSafeMigration('Imágenes Movilidad Funcional clases 1 y 2', async () => {
+    await pool.execute(
+      `UPDATE clases SET imagen = '/images/grupomovilidad1.jpg'
+       WHERE grupo_id = 1 AND orden = 1`
+    );
+    await pool.execute(
+      `UPDATE clases SET imagen = '/images/grupomovilidad2.jpg'
+       WHERE grupo_id = 1 AND orden = 2`
+    );
+  });
+
   await runSafeMigration('Tabla travesia_progress', () =>
     pool.execute(`
       CREATE TABLE IF NOT EXISTS travesia_progress (
