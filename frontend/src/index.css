@@ -1159,7 +1159,7 @@ a.nav-logo {
 .metodo-card--travesia {
   background:
     linear-gradient(to right, rgba(20,15,10,0.86) 0%, rgba(20,15,10,0.72) 50%, rgba(20,15,10,0.42) 100%),
-    url('/images/montaña.jpeg') center 40% / cover no-repeat;
+    url('/images/yoga6.jpg') center 80% / cover no-repeat;
   box-shadow: 0 10px 50px rgba(140,78,47,0.3);
   min-height: 220px;
 }
@@ -2134,6 +2134,20 @@ a.nav-logo {
   flex-direction: column;
   gap: 1.25rem;
   color: #fff;
+}
+
+.gsc--1 {
+  background:
+    linear-gradient(145deg, rgba(30,18,8,0.88) 0%, rgba(44,26,14,0.78) 60%, rgba(30,21,16,0.70) 100%),
+    url('/images/yoga8.jpg') center / cover no-repeat;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.gsc--1 .gsc-top {
+  flex-direction: column;
+  align-items: center;
 }
 
 .gsc::before {
@@ -5392,6 +5406,25 @@ a.nav-logo {
   .metodo-card--grupos { min-height: auto; }
   .metodos-intro-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* La Travesía en pantallas grandes: imagen portrait completa a la derecha */
+@media (min-width: 861px) {
+  .metodo-card--travesia {
+    min-height: clamp(400px, 45vw, 620px);
+    background:
+      linear-gradient(to right, rgba(20,15,10,0.96) 0%, rgba(20,15,10,0.90) 48%, rgba(20,15,10,0.50) 68%, rgba(20,15,10,0.10) 100%),
+      url('/images/yoga6.jpg') right center / auto 100% no-repeat;
+  }
+}
+
+/* Movilidad Funcional en móvil: card formato retrato para encajar la foto portrait */
+@media (max-width: 640px) {
+  .gsc--1 {
+    aspect-ratio: 3 / 3.2;
+    background-size: cover;
+    background-position: center center;
   }
 }
 

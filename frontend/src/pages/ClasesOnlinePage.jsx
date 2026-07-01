@@ -737,7 +737,7 @@ function MetodoCard({ tipo, badge, titulo, subtitulo, descripcion, cta, icon, de
 function GrupoSelectorCard({ grupo, icono, onSelect }) {
   const tags = grupo.meta.split(' · ')
   return (
-    <button className="gsc" onClick={onSelect} type="button">
+    <button className={`gsc gsc--${grupo.id}`} onClick={onSelect} type="button">
       <div className="gsc-top">
         <div className="gsc-text">
           <h3 className="gsc-nombre">{grupo.nombre}</h3>
@@ -1080,7 +1080,6 @@ export default function ClasesOnlinePage() {
               <GrupoSelectorCard
                 key={grupo.id}
                 grupo={grupo}
-                icono={GRUPO_ICONOS[grupo.id]}
                 onSelect={() => { setGrupoSeleccionado(grupo.id); window.scrollTo({ top: 0 }); }}
               />
             ))}
