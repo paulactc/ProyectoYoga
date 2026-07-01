@@ -2674,6 +2674,9 @@ a.nav-logo {
   text-align: center;
   gap: 0.55rem;
   transition: border-color 0.22s, background 0.22s, transform 0.22s;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
 }
 
 .teaser-disciplina:hover {

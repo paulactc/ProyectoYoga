@@ -117,18 +117,18 @@ export default function HomePage() {
           <p className="hero-eyebrow">Aula Online</p>
           <h2>Practica donde quieras,<br /><em>cuando quieras</em></h2>
           <div className="teaser-disciplinas">
-            <div className="teaser-disciplina teaser-disciplina--highlight">
+            <Link to="/aula-online?vista=travesia" className="teaser-disciplina teaser-disciplina--highlight">
               <p className="teaser-disc-nombre">✦ La Travesía</p>
               <p className="teaser-disc-desc">50 clases que se desbloquean etapa a etapa, siguiendo el camino de los chakras. Una experiencia única: avanzas cuando tu cuerpo y tu práctica lo merecen de verdad.</p>
-            </div>
-            <div className="teaser-disciplina">
+            </Link>
+            <Link to="/aula-online?vista=filtros" className="teaser-disciplina">
               <p className="teaser-disc-nombre">Explora a tu aire</p>
               <p className="teaser-disc-desc">Elige la clase que necesitas hoy. Filtra por duración, nivel o tipo de práctica y conecta con tu cuerpo a tu propio ritmo.</p>
-            </div>
-            <div className="teaser-disciplina">
+            </Link>
+            <Link to="/aula-online?vista=grupos" className="teaser-disciplina">
               <p className="teaser-disc-nombre">Grupos de Clases</p>
               <p className="teaser-disc-desc">Series temáticas con un objetivo claro: movilidad, fuerza, respiración... Sigue el programa y nota la diferencia semana a semana.</p>
-            </div>
+            </Link>
           </div>
           <Link to="/suscripcion" className="btn">Ver planes →</Link>
         </div>

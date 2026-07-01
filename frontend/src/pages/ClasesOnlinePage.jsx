@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
 const CLASES = [
@@ -800,7 +800,11 @@ function ClaseCard({ clase: c, subscribed, onOpen }) {
 // ── Página principal ──────────────────────────────────────────────────────
 export default function ClasesOnlinePage() {
   const { isSubscribed, refreshSubscription, user, token } = useAuth()
-  const [vista, setVista] = useState('selector')
+  const [searchParams] = useSearchParams()
+  const [vista, setVista] = useState(() => {
+    const p = searchParams.get('vista')
+    return ['travesia', 'filtros', 'grupos'].includes(p) ? p : 'selector'
+  })
   const [grupoSeleccionado, setGrupoSeleccionado] = useState(null)
   const [filtroDuracion, setFiltroDuracion] = useState('todos')
   const [filtroNivel, setFiltroNivel] = useState('todos')
