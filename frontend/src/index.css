@@ -2150,6 +2150,25 @@ a.nav-logo {
   align-items: center;
 }
 
+.gsc--2 {
+  background:
+    linear-gradient(145deg, rgba(30,18,8,0.88) 0%, rgba(44,26,14,0.78) 60%, rgba(30,21,16,0.70) 100%),
+    url('/images/yogarespiracion.jpg') center center / cover no-repeat;
+  min-height: 260px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.gsc--2 .gsc-top {
+  flex-direction: column;
+  align-items: center;
+}
+
+.gsc--2 .gsc-tags {
+  justify-content: center;
+}
+
 .gsc::before {
   content: '';
   position: absolute;
@@ -5428,6 +5447,11 @@ a.nav-logo {
     aspect-ratio: 3 / 3.2;
     background-size: cover;
     background-position: center center;
+  }
+  .gsc--2 {
+    aspect-ratio: 3 / 3.4;
+    min-height: unset;
+    background-position: center 75%;
   }
 }
 

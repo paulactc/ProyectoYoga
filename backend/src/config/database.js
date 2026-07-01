@@ -362,6 +362,20 @@ async function runMigrations() {
     );
   });
 
+  await runSafeMigration('Video Movilidad Funcional clase 3', async () => {
+    await pool.execute(
+      `UPDATE clases SET vimeo_id = '1206175296', disponible = 1
+       WHERE grupo_id = 1 AND orden = 3`
+    );
+  });
+
+  await runSafeMigration('Imagen Movilidad Funcional clase 3', async () => {
+    await pool.execute(
+      `UPDATE clases SET imagen = '/images/yoga9.jpg'
+       WHERE grupo_id = 1 AND orden = 3`
+    );
+  });
+
   await runSafeMigration('Tabla travesia_progress', () =>
     pool.execute(`
       CREATE TABLE IF NOT EXISTS travesia_progress (
