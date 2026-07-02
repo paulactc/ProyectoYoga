@@ -376,6 +376,15 @@ async function runMigrations() {
     );
   });
 
+  await runSafeMigration('Imagen y descripcion Movilidad Funcional clase 4', async () => {
+    await pool.execute(
+      `UPDATE clases SET
+         imagen = '/images/yoga10.jpg',
+         descripcion = 'Trabaja la conexión con el suelo activando tobillos, arcos plantares y la cadena de movimiento que empieza en los pies, recorriendo gemelos, isquiotibiales y cuádriceps hasta la cadera.'
+       WHERE grupo_id = 1 AND orden = 4`
+    );
+  });
+
   await runSafeMigration('Tabla travesia_progress', () =>
     pool.execute(`
       CREATE TABLE IF NOT EXISTS travesia_progress (
