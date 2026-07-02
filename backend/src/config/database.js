@@ -351,6 +351,12 @@ async function runMigrations() {
     }
   });
 
+  await runSafeMigration('Corregir vimeo_id Movilidad Funcional clase 1', async () => {
+    await pool.execute(
+      `UPDATE clases SET vimeo_id = '1204671530' WHERE grupo_id = 1 AND orden = 1`
+    );
+  });
+
   await runSafeMigration('Imágenes Movilidad Funcional clases 1 y 2', async () => {
     await pool.execute(
       `UPDATE clases SET imagen = '/images/grupomovilidad1.jpg'
