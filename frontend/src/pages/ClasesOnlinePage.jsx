@@ -781,17 +781,18 @@ function ClaseCard({ clase: c, subscribed, onOpen }) {
       <div className="clase-card-img">
         <img src={c.imagen} alt={c.titulo} />
         <div className="lock-overlay">
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <rect x="3" y="11" width="18" height="11" rx="2"/>
             <path d="M7 11V7a5 5 0 0110 0v4"/>
           </svg>
+          <span className="lock-overlay-text">Plan Mensual</span>
         </div>
       </div>
       <div className="clase-card-body">
         {badges}
         <h3>{c.titulo}</h3>
         <p>{c.descripcion}</p>
-        <Link to="/suscripcion" className="btn btn-sm btn-outline">Suscribirme →</Link>
+        <Link to="/suscripcion" className="btn btn-sm">Desbloquear · 7 días gratis</Link>
       </div>
     </article>
   )
@@ -923,13 +924,36 @@ export default function ClasesOnlinePage() {
 
   return (
     <>
-      <div className="en-proceso-banner">
-        <span className="en-proceso-icono">✦</span>
-        <div>
-          <strong>Estamos grabando las clases</strong>
-          <span>El Aula Online estará disponible en breve. ¡Gracias por tu paciencia!</span>
+      {/* ── Banner de acceso para no suscritas ── */}
+      {!isSubscribed && (
+        <div className="aula-acceso-banner">
+          <div className="aula-acceso-inner">
+            {user ? (
+              <>
+                <span className="aula-acceso-icono">✦</span>
+                <div className="aula-acceso-texto">
+                  <strong>Hola, {user.nombre.split(' ')[0]}</strong>
+                  <span>Activa tu suscripción para desbloquear todas las clases · 7 días gratis</span>
+                </div>
+                <Link to="/suscripcion" className="btn btn-sm aula-acceso-btn">
+                  Activar ahora →
+                </Link>
+              </>
+            ) : (
+              <>
+                <span className="aula-acceso-icono">✦</span>
+                <div className="aula-acceso-texto">
+                  <strong>Zona exclusiva para suscriptoras</strong>
+                  <span>19€/mes · 7 días gratis · Cancela cuando quieras</span>
+                </div>
+                <Link to="/suscripcion" className="btn btn-sm aula-acceso-btn">
+                  Ver planes →
+                </Link>
+              </>
+            )}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* ── Header en tira estrecha ── */}
       <header className="page-header--aula">

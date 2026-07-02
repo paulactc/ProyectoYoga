@@ -1,5 +1,5 @@
-import { useRef, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { Link, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
 const FAQS = [
@@ -9,7 +9,7 @@ const FAQS = [
   },
   {
     q: '¿Qué pasa cuando termina la prueba gratuita?',
-    a: 'Al acabar los 7 días de prueba se activa la suscripción según el plan elegido. Te avisaremos antes de que termine el periodo de prueba.'
+    a: 'Al acabar los 7 días de prueba se activa la suscripción de 19€/mes. Te avisaremos antes de que termine el periodo de prueba.'
   },
   {
     q: '¿En qué dispositivos puedo practicar?',
@@ -25,40 +25,22 @@ const FAQS = [
   },
 ]
 
-const BENEFICIOS = [
-  'Acceso ilimitado a todas las clases',
-  'Clases de pranayama y meditación',
-  'Clases de asanas y movimientos',
-  'Niveles 1, 2 y 3: de principiante a avanzado',
-  'Nuevas clases cada mes',
-  'Practica desde cualquier dispositivo',
-  'Cancela cuando quieras, sin compromiso',
+const BENEFICIOS_GRATIS = [
+  'Meditaciones guiadas de Tierra en Calma',
+  'Audios para dormir y relajarte',
+  'Acceso desde cualquier dispositivo',
+  'Sin coste, para siempre',
 ]
 
-const PLANS = {
-  annual: {
-    label: 'Plan Anual',
-    badge: 'El más elegido',
-    featured: true,
-    amount: null,
-    period: '/mes',
-    billing: 'Facturado anualmente',
-    save: 'Máximo ahorro',
-    btnText: 'Disponible próximamente',
-    note: 'Mientras tanto, accede gratis a Tierra en Calma',
-  },
-  monthly: {
-    label: 'Plan Mensual',
-    badge: 'Popular',
-    featured: false,
-    amount: null,
-    period: '/mes',
-    billing: 'Facturado mensualmente',
-    save: null,
-    btnText: 'Disponible próximamente',
-    note: 'Mientras tanto, accede gratis a Tierra en Calma',
-  },
-}
+const BENEFICIOS_PAGO = [
+  'Todo lo del plan gratuito',
+  'Acceso ilimitado al Aula Online',
+  'Más de 50 clases de yoga en vídeo',
+  'Niveles 1, 2 y 3: de principiante a avanzado',
+  'Movilidad, pranayama, meditación en movimiento',
+  'Nuevas clases cada mes',
+  'Cancela cuando quieras, sin compromiso',
+]
 
 function FaqAccordion() {
   const [openIndex, setOpenIndex] = useState(null)
@@ -83,98 +65,202 @@ function FaqAccordion() {
 function PageHeader() {
   return (
     <header className="page-header page-header-pricing">
-      <p className="hero-eyebrow">7 días gratis</p>
-      <h1>Tu práctica <em>sin límites</em></h1>
-      <p>Elige tu plan y empieza hoy. Sin compromisos.</p>
+      <p className="hero-eyebrow">Elige tu camino</p>
+      <h1>Empieza <em>gratis</em>,<br />crece cuando quieras</h1>
+      <p>Tierra en Calma siempre gratuita. El Aula Online, 7 días de prueba.</p>
     </header>
   )
 }
 
-function PlanCards({ onSelect, disableSelect }) {
+// ── Vista para visitantes sin cuenta ──────────────────────────────────────────
+function VisitorPlans({ onCheckout, onOpenRegister, loading, error }) {
   return (
-    <section className="plans-section">
-      <p className="clases-desc-eyebrow">Elige tu plan</p>
-      <h2 className="plans-title">Empieza con <em>7 días gratis</em></h2>
-      <p className="plans-subtitle">Cancela cuando quieras.</p>
-      <div className="plans-grid">
-        {Object.entries(PLANS).map(([key, plan]) => (
-          <div key={key} className={`plan-card${plan.featured ? ' plan-card-featured' : ''}`}>
-            <span className={`plan-badge${plan.featured ? '' : ' plan-badge-popular'}`}>{plan.badge}</span>
-            <p className="plan-name">{plan.label}</p>
-            <p className="plan-precio-pronto">Precio por confirmar</p>
-            <p className="plan-billing">{plan.billing}</p>
-            {plan.save && <span className="plan-save">{plan.save}</span>}
+    <>
+      <section className="plans-section">
+        <p className="clases-desc-eyebrow">Elige tu acceso</p>
+        <h2 className="plans-title">¿Por dónde <em>empezamos</em>?</h2>
+        <p className="plans-subtitle">Puedes empezar gratis y ampliar cuando quieras.</p>
+        <div className="plans-grid">
+
+          {/* Tarjeta gratuita */}
+          <div className="plan-card">
+            <span className="plan-badge plan-badge-popular">Gratis</span>
+            <p className="plan-name">Tierra en Calma</p>
+            <div className="plan-price">
+              <span className="plan-amount">0</span>
+              <span className="plan-precio-sym">€</span>
+            </div>
+            <p className="plan-billing">Para siempre gratuito</p>
             <div className="plan-divider" />
             <ul className="plan-features">
-              {BENEFICIOS.map(b => <li key={b}>{b}</li>)}
+              {BENEFICIOS_GRATIS.map(b => <li key={b}>{b}</li>)}
             </ul>
-            {!disableSelect && (
-              <button
-                className={`btn${plan.featured ? '' : ' btn-outline'}`}
-                style={{ width: '100%' }}
-                onClick={() => onSelect(key)}
-              >
-                {plan.btnText}
-              </button>
-            )}
-            <p className="plan-note">{plan.note}</p>
+            <button
+              className="btn btn-outline"
+              style={{ width: '100%' }}
+              onClick={onOpenRegister}
+            >
+              Crear cuenta gratuita
+            </button>
+            <p className="plan-note">Solo tu email. Sin tarjeta.</p>
           </div>
-        ))}
+
+          {/* Tarjeta de pago */}
+          <div className="plan-card plan-card-featured">
+            <span className="plan-badge">Aula Online · 7 días gratis</span>
+            <p className="plan-name">Plan Mensual</p>
+            <div className="plan-price">
+              <span className="plan-amount">19</span>
+              <span className="plan-precio-sym">€</span>
+              <span className="plan-period">/mes</span>
+            </div>
+            <p className="plan-billing">Facturado mensualmente · 7 días gratis al empezar</p>
+            <div className="plan-divider" />
+            <ul className="plan-features">
+              {BENEFICIOS_PAGO.map(b => <li key={b}>{b}</li>)}
+            </ul>
+            <button
+              className="btn"
+              style={{ width: '100%' }}
+              onClick={onCheckout}
+              disabled={loading}
+            >
+              {loading ? 'Redirigiendo…' : 'Empezar 7 días gratis'}
+            </button>
+            <p className="plan-note">Pagarás 19€/mes tras los 7 días. Cancela antes y no se te cobra nada.</p>
+          </div>
+
+        </div>
+        {error && <p className="plans-error">{error}</p>}
+      </section>
+    </>
+  )
+}
+
+// ── Vista para usuaria con cuenta gratuita (sin suscripción) ──────────────────
+function FreeUserUpgrade({ user, onCheckout, loading, error }) {
+  return (
+    <section className="plans-section">
+      <div className="free-user-banner">
+        <span className="free-user-check">✓</span>
+        <div>
+          <strong>Hola, {user.nombre.split(' ')[0]}</strong>
+          <span>Ya tienes acceso gratuito a <Link to="/audios">Tierra en Calma</Link></span>
+        </div>
       </div>
+
+      <p className="clases-desc-eyebrow" style={{ marginTop: '2.5rem' }}>Cuando estés lista</p>
+      <h2 className="plans-title">Accede al <em>Aula Online</em></h2>
+      <p className="plans-subtitle">50 clases de yoga en vídeo. 7 días gratis para probar.</p>
+
+      <div className="plans-grid plans-grid-single">
+        <div className="plan-card plan-card-featured">
+          <span className="plan-badge">Aula Online · 7 días gratis</span>
+          <p className="plan-name">Plan Mensual</p>
+          <div className="plan-price">
+            <span className="plan-amount">19</span>
+            <span className="plan-precio-sym">€</span>
+            <span className="plan-period">/mes</span>
+          </div>
+          <p className="plan-billing">Facturado mensualmente · 7 días gratis al empezar</p>
+          <div className="plan-divider" />
+          <ul className="plan-features">
+            {BENEFICIOS_PAGO.map(b => <li key={b}>{b}</li>)}
+          </ul>
+          <button
+            className="btn"
+            style={{ width: '100%' }}
+            onClick={onCheckout}
+            disabled={loading}
+          >
+            {loading ? 'Redirigiendo…' : 'Activar 7 días gratis'}
+          </button>
+          <p className="plan-note">Pagarás 19€/mes tras los 7 días. Cancela antes y no se te cobra nada.</p>
+        </div>
+      </div>
+      {error && <p className="plans-error">{error}</p>}
     </section>
   )
 }
 
-function PwInput({ value, onChange, show, setShow, placeholder, autoComplete }) {
+// ── Vista de éxito post-Stripe ────────────────────────────────────────────────
+function SuccessPanel({ user, refreshing }) {
   return (
-    <div className="input-pw-wrap">
-      <input
-        type={show ? 'text' : 'password'}
-        placeholder={placeholder}
-        required
-        autoComplete={autoComplete}
-        value={value}
-        onChange={e => onChange(e.target.value)}
-      />
-      <button type="button" className="pw-toggle" onClick={() => setShow(v => !v)} aria-label="Mostrar contraseña">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          {show ? (
-            <>
-              <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24" />
-              <line x1="1" y1="1" x2="23" y2="23" />
-            </>
-          ) : (
-            <>
-              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-              <circle cx="12" cy="12" r="3" />
-            </>
-          )}
-        </svg>
-      </button>
-    </div>
+    <section style={{ textAlign: 'center', padding: '3rem 2rem 4rem' }}>
+      <div className="success-icon" style={{ margin: '0 auto 1.25rem', fontSize: '2rem' }}>✓</div>
+      <h2 style={{ marginBottom: '0.75rem' }}>
+        ¡Bienvenida{user?.nombre ? `, ${user.nombre.split(' ')[0]}` : ''}!
+      </h2>
+      <p style={{ color: 'var(--muted)', marginBottom: '1.5rem', maxWidth: '400px', margin: '0 auto 1.5rem' }}>
+        Tu suscripción está activa. Tienes 7 días de prueba gratuita para explorar todo el Aula Online.
+      </p>
+      <Link to="/aula-online" className="btn">Ir al Aula Online →</Link>
+      {refreshing && (
+        <p style={{ fontSize: '0.85rem', color: 'var(--muted)', marginTop: '1rem' }}>
+          Verificando suscripción…
+        </p>
+      )}
+    </section>
   )
 }
 
-export default function SuscripcionPage() {
-  const { user, isSubscribed } = useAuth()
-  const [showAviso, setShowAviso] = useState(false)
-  const avisoRef = useRef(null)
+// ── Componente principal ──────────────────────────────────────────────────────
+export default function SuscripcionPage({ onOpenLogin, onOpenRegister }) {
+  const { user, token, isSubscribed, refreshSubscription } = useAuth()
+  const [searchParams] = useSearchParams()
+  const [loading, setLoading]   = useState(false)
+  const [error, setError]       = useState('')
+  const [refreshing, setRefreshing] = useState(false)
 
-  function selectPlan() {
-    setShowAviso(true)
-    setTimeout(() => avisoRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 80)
+  const comingFromStripe = searchParams.get('exito') === '1'
+
+  useEffect(() => {
+    if (!comingFromStripe) return
+    setRefreshing(true)
+    let attempts = 0
+    const poll = async () => {
+      await refreshSubscription()
+      attempts++
+      if (attempts < 5) setTimeout(poll, 1500)
+      else setRefreshing(false)
+    }
+    poll()
+  }, []) // eslint-disable-line
+
+  async function handleCheckout() {
+    if (!user) {
+      onOpenLogin()
+      return
+    }
+    setLoading(true)
+    setError('')
+    try {
+      const res = await fetch('/api/suscripcion/checkout', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      const data = await res.json()
+      if (data.success && data.url) {
+        window.location.href = data.url
+      } else {
+        setError(data.message || 'No se pudo iniciar el pago. Inténtalo de nuevo.')
+        setLoading(false)
+      }
+    } catch {
+      setError('No se pudo conectar con el servidor.')
+      setLoading(false)
+    }
   }
 
+  // Estado 1: ya suscriptora de pago
   if (user && isSubscribed) {
     return (
       <>
         <PageHeader />
-        <PlanCards onSelect={() => {}} disableSelect />
         <section style={{ textAlign: 'center', padding: '2rem 2rem 4rem' }}>
           <div className="success-icon" style={{ margin: '0 auto 1.25rem' }}>✓</div>
           <p style={{ color: 'var(--muted)', marginBottom: '1.25rem' }}>
-            ¡Hola, <strong>{user.nombre.split(' ')[0]}</strong>! Ya eres parte de Yoga Tierra Viva.
+            ¡Hola, <strong>{user.nombre.split(' ')[0]}</strong>! Ya tienes acceso completo a Yoga Tierra Viva.
           </p>
           <Link to="/aula-online" className="btn">Ver mis clases →</Link>
         </section>
@@ -183,48 +269,55 @@ export default function SuscripcionPage() {
     )
   }
 
+  // Estado 2: viene de Stripe con éxito
+  if (comingFromStripe) {
+    return (
+      <>
+        <PageHeader />
+        <SuccessPanel user={user} refreshing={refreshing} />
+        <FaqAccordion />
+      </>
+    )
+  }
+
+  // Estado 3: logada pero sin suscripción de pago → mostrar upgrade
+  if (user && !isSubscribed) {
+    return (
+      <>
+        <PageHeader />
+        <FreeUserUpgrade
+          user={user}
+          onCheckout={handleCheckout}
+          loading={loading}
+          error={error}
+        />
+        <FaqAccordion />
+        <div className="cta-final-banner">
+          <h2>7 días gratis.<br /><em>Sin compromiso.</em></h2>
+          <p>Cancela cuando quieras. Sin permanencia.</p>
+          <button className="btn" onClick={handleCheckout} disabled={loading}>
+            {loading ? 'Redirigiendo…' : 'Probar el Aula Online'}
+          </button>
+        </div>
+      </>
+    )
+  }
+
+  // Estado 4: visitante sin cuenta → dos tarjetas
   return (
     <>
-      <div className="en-proceso-banner">
-        <span className="en-proceso-icono">✦</span>
-        <div>
-          <strong>Suscripción próximamente disponible</strong>
-          <span>Estamos preparando el Aula Online. Mientras tanto, accede gratis a <Link to="/audios" style={{ color: 'inherit', textDecoration: 'underline' }}>Tierra en Calma</Link>.</span>
-        </div>
-      </div>
-
       <PageHeader />
-      <PlanCards onSelect={selectPlan} />
-
-      {showAviso && (
-        <section ref={avisoRef} className="suscripcion-aviso">
-          <div className="suscripcion-aviso-inner">
-            <span className="suscripcion-aviso-icono">☽</span>
-            <h3>El Aula Online está en construcción</h3>
-            <p>
-              Estamos preparando las clases con todo el cuidado que merecen.
-              Mientras tanto, te invitamos a crear tu <strong>cuenta gratuita</strong> y
-              disfrutar de <em>Tierra en Calma</em> — meditaciones guiadas disponibles ya.
-            </p>
-            <Link to="/audios" className="btn" style={{ marginTop: '0.5rem' }}>
-              Crear cuenta gratuita →
-            </Link>
-            <button
-              className="suscripcion-aviso-volver"
-              onClick={() => { setShowAviso(false); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
-            >
-              ← Volver a los planes
-            </button>
-          </div>
-        </section>
-      )}
-
+      <VisitorPlans
+        onCheckout={handleCheckout}
+        onOpenRegister={onOpenRegister}
+        loading={loading}
+        error={error}
+      />
       <FaqAccordion />
-
       <div className="cta-final-banner">
         <h2>Empieza hoy.<br /><em>Es gratis.</em></h2>
-        <p>Accede a Tierra en Calma sin coste. El Aula Online llegará pronto.</p>
-        <Link to="/audios" className="btn">Crear cuenta gratuita →</Link>
+        <p>Crea tu cuenta y accede a Tierra en Calma sin coste.</p>
+        <button className="btn" onClick={onOpenRegister}>Crear cuenta gratuita</button>
       </div>
     </>
   )

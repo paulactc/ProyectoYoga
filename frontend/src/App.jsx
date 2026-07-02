@@ -45,7 +45,7 @@ export default function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/aula-online" element={<ClasesOnlinePage />} />
         <Route path="/audios" element={<AudiosPage onOpenLogin={openLogin} onOpenRegister={openRegister} />} />
-        <Route path="/suscripcion" element={<SuscripcionPage />} />
+        <Route path="/suscripcion" element={<SuscripcionPage onOpenLogin={openLogin} onOpenRegister={openRegister} />} />
         <Route path="/mi-cuenta" element={<MiCuentaPage onOpenLogin={() => setLoginOpen(true)} />} />
         <Route path="/verify-email" element={<VerifyEmailPage />} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />

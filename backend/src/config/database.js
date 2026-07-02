@@ -390,6 +390,32 @@ async function runMigrations() {
     `)
   );
 
+  await runSafeMigration('Columna stripe_customer_id en usuarios', async () => {
+    const [[{ cnt }]] = await pool.execute(
+      `SELECT COUNT(*) as cnt FROM INFORMATION_SCHEMA.COLUMNS
+       WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'usuarios' AND COLUMN_NAME = 'stripe_customer_id'`
+    );
+    if (cnt === 0) {
+      await pool.execute(`ALTER TABLE usuarios ADD COLUMN stripe_customer_id VARCHAR(100) NULL`);
+    }
+  });
+
+  await runSafeMigration('Columna stripe_subscription_id en suscripciones', async () => {
+    const [[{ cnt }]] = await pool.execute(
+      `SELECT COUNT(*) as cnt FROM INFORMATION_SCHEMA.COLUMNS
+       WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'suscripciones' AND COLUMN_NAME = 'stripe_subscription_id'`
+    );
+    if (cnt === 0) {
+      await pool.execute(`ALTER TABLE suscripciones ADD COLUMN stripe_subscription_id VARCHAR(100) NULL`);
+    }
+  });
+
+  await runSafeMigration('Actualizar importe default a 19.00', async () => {
+    await pool.execute(
+      `ALTER TABLE suscripciones MODIFY COLUMN importe DECIMAL(8,2) NOT NULL DEFAULT 19.00`
+    );
+  });
+
   await runSafeMigration('Suscripcion cuentas de prueba emrider', async () => {
     const emails = ['emridermotorgarage@gmail.com'];
     for (const email of emails) {

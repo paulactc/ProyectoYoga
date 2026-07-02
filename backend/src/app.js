@@ -34,6 +34,14 @@ app.use(cors({
   credentials: true,
 }));
 
+// Stripe webhook necesita el body sin parsear — debe ir ANTES de express.json()
+const SuscripcionController = require('./controllers/suscripcionController');
+app.post(
+  '/api/stripe/webhook',
+  express.raw({ type: 'application/json' }),
+  SuscripcionController.handleWebhook
+);
+
 app.use(express.json());
 
 // Rate limiting for auth endpoints

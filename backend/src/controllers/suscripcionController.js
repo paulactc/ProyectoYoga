@@ -1,4 +1,8 @@
 const { executeQuery } = require('../config/database');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+
+const PRICE_CENTS = 1900; // 19 €
+const TRIAL_DAYS  = 7;
 
 class SuscripcionController {
   static async getEstado(req, res) {
@@ -22,53 +26,186 @@ class SuscripcionController {
     }
   }
 
-  static async activar(req, res) {
+  static async createCheckout(req, res) {
     try {
-      const existing = await executeQuery(
-        `SELECT id FROM suscripciones
-         WHERE usuario_id = ? AND estado = 'activa' AND fecha_fin >= CURDATE()`,
-        [req.user.id]
-      );
+      const { id: usuarioId, email, nombre } = req.user;
 
+      // Comprobar si ya tiene suscripción activa
+      const existing = await executeQuery(
+        `SELECT id FROM suscripciones WHERE usuario_id = ? AND estado = 'activa' AND fecha_fin >= CURDATE()`,
+        [usuarioId]
+      );
       if (existing.success && existing.data.length > 0) {
         return res.status(409).json({ success: false, message: 'Ya tienes una suscripción activa' });
       }
 
-      const fechaInicio = new Date().toISOString().slice(0, 10);
-      const fechaFin = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
-
-      // TODO: integrar Stripe antes de activar
-      const result = await executeQuery(
-        'INSERT INTO suscripciones (usuario_id, estado, fecha_inicio, fecha_fin) VALUES (?, "activa", ?, ?)',
-        [req.user.id, fechaInicio, fechaFin]
+      // Obtener o crear cliente en Stripe
+      const userRow = await executeQuery(
+        'SELECT stripe_customer_id FROM usuarios WHERE id = ?',
+        [usuarioId]
       );
+      let stripeCustomerId = userRow.success && userRow.data[0]?.stripe_customer_id;
 
-      if (!result.success) {
-        return res.status(500).json({ success: false, message: 'Error al activar la suscripción' });
+      if (!stripeCustomerId) {
+        const customer = await stripe.customers.create({
+          email,
+          name: nombre,
+          metadata: { usuario_id: String(usuarioId) },
+        });
+        stripeCustomerId = customer.id;
+        await executeQuery(
+          'UPDATE usuarios SET stripe_customer_id = ? WHERE id = ?',
+          [stripeCustomerId, usuarioId]
+        );
       }
 
-      res.json({
-        success: true,
-        message: 'Suscripción activada',
-        data: { fecha_inicio: fechaInicio, fecha_fin: fechaFin },
+      const baseUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+
+      const session = await stripe.checkout.sessions.create({
+        mode: 'subscription',
+        customer: stripeCustomerId,
+        payment_method_types: ['card'],
+        line_items: [{
+          price_data: {
+            currency: 'eur',
+            product_data: { name: 'Yoga Tierra Viva · Plan Mensual' },
+            unit_amount: PRICE_CENTS,
+            recurring: { interval: 'month' },
+          },
+          quantity: 1,
+        }],
+        subscription_data: {
+          trial_period_days: TRIAL_DAYS,
+          metadata: { usuario_id: String(usuarioId) },
+        },
+        success_url: `${baseUrl}/suscripcion?exito=1`,
+        cancel_url:  `${baseUrl}/suscripcion`,
+        metadata: { usuario_id: String(usuarioId) },
+        locale: 'es',
       });
+
+      res.json({ success: true, url: session.url });
     } catch (err) {
-      console.error('Error en activar:', err);
-      res.status(500).json({ success: false, message: 'Error interno del servidor' });
+      console.error('Error en createCheckout:', err);
+      res.status(500).json({ success: false, message: 'Error al iniciar el pago' });
+    }
+  }
+
+  static async handleWebhook(req, res) {
+    const sig = req.headers['stripe-signature'];
+    let event;
+
+    try {
+      event = stripe.webhooks.constructEvent(
+        req.body,
+        sig,
+        process.env.STRIPE_WEBHOOK_SECRET
+      );
+    } catch (err) {
+      console.error('Webhook firma inválida:', err.message);
+      return res.status(400).send(`Webhook Error: ${err.message}`);
+    }
+
+    try {
+      switch (event.type) {
+
+        case 'checkout.session.completed': {
+          const session = event.data.object;
+          const usuarioId = parseInt(session.metadata?.usuario_id);
+          const subscriptionId = session.subscription;
+          if (!usuarioId || !subscriptionId) break;
+
+          const sub = await stripe.subscriptions.retrieve(subscriptionId);
+          const fechaInicio = new Date(sub.current_period_start * 1000).toISOString().slice(0, 10);
+          const fechaFin    = new Date(sub.current_period_end   * 1000).toISOString().slice(0, 10);
+
+          await executeQuery(
+            `UPDATE suscripciones SET estado = 'cancelada', updated_at = NOW()
+             WHERE usuario_id = ? AND estado = 'activa'`,
+            [usuarioId]
+          );
+          await executeQuery(
+            `INSERT INTO suscripciones
+               (usuario_id, estado, importe, fecha_inicio, fecha_fin, stripe_subscription_id)
+             VALUES (?, 'activa', ?, ?, ?, ?)`,
+            [usuarioId, PRICE_CENTS / 100, fechaInicio, fechaFin, subscriptionId]
+          );
+          break;
+        }
+
+        case 'customer.subscription.updated': {
+          const sub = event.data.object;
+          const isActive = ['active', 'trialing'].includes(sub.status);
+          const fechaFin  = new Date(sub.current_period_end * 1000).toISOString().slice(0, 10);
+
+          if (isActive) {
+            await executeQuery(
+              `UPDATE suscripciones SET fecha_fin = ?, updated_at = NOW()
+               WHERE stripe_subscription_id = ?`,
+              [fechaFin, sub.id]
+            );
+          } else {
+            await executeQuery(
+              `UPDATE suscripciones SET estado = 'cancelada', updated_at = NOW()
+               WHERE stripe_subscription_id = ?`,
+              [sub.id]
+            );
+          }
+          break;
+        }
+
+        case 'customer.subscription.deleted': {
+          const sub = event.data.object;
+          await executeQuery(
+            `UPDATE suscripciones SET estado = 'cancelada', updated_at = NOW()
+             WHERE stripe_subscription_id = ?`,
+            [sub.id]
+          );
+          break;
+        }
+
+        case 'invoice.payment_failed': {
+          const invoice = event.data.object;
+          if (invoice.subscription) {
+            await executeQuery(
+              `UPDATE suscripciones SET estado = 'expirada', updated_at = NOW()
+               WHERE stripe_subscription_id = ? AND estado = 'activa'`,
+              [invoice.subscription]
+            );
+          }
+          break;
+        }
+      }
+
+      res.json({ received: true });
+    } catch (err) {
+      console.error('Error procesando webhook:', err);
+      res.status(500).json({ error: 'Error interno' });
     }
   }
 
   static async cancelar(req, res) {
     try {
       const result = await executeQuery(
-        `UPDATE suscripciones SET estado = 'cancelada', updated_at = NOW()
+        `SELECT id, stripe_subscription_id FROM suscripciones
          WHERE usuario_id = ? AND estado = 'activa'`,
         [req.user.id]
       );
 
-      if (!result.success || result.data.affectedRows === 0) {
+      if (!result.success || result.data.length === 0) {
         return res.status(404).json({ success: false, message: 'No tienes ninguna suscripción activa' });
       }
+
+      const { id: subId, stripe_subscription_id } = result.data[0];
+
+      if (stripe_subscription_id) {
+        await stripe.subscriptions.cancel(stripe_subscription_id);
+      }
+
+      await executeQuery(
+        `UPDATE suscripciones SET estado = 'cancelada', updated_at = NOW() WHERE id = ?`,
+        [subId]
+      );
 
       res.json({ success: true, message: 'Suscripción cancelada correctamente' });
     } catch (err) {
