@@ -382,6 +382,13 @@ async function runMigrations() {
     );
   });
 
+  await runSafeMigration('Video Movilidad Funcional clase 4', async () => {
+    await pool.execute(
+      `UPDATE clases SET vimeo_id = '1206606063', disponible = 1
+       WHERE grupo_id = 1 AND orden = 4`
+    );
+  });
+
   await runSafeMigration('Imagen y descripcion Movilidad Funcional clase 4', async () => {
     await pool.execute(
       `UPDATE clases SET
