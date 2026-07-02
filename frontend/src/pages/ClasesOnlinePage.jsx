@@ -527,6 +527,14 @@ function TravesiaPathView({ progress, isSubscribed, onNodeClick }) {
 
   const completadas = progress.filter(id => CLASES.some(c => c.id === id)).length
 
+  // Progreso "dibujado" — arranca en 0 y anima al valor real en el primer render
+  // También re-anima cada vez que se completa una nueva clase
+  const [drawnProgress, setDrawnProgress] = useState(0)
+  useEffect(() => {
+    const t = setTimeout(() => setDrawnProgress(completadas), 350)
+    return () => clearTimeout(t)
+  }, [completadas])
+
   const SVG_W   = 320
   const SPACING = 52
   const PAD_TOP = 68
@@ -632,13 +640,43 @@ function TravesiaPathView({ progress, isSubscribed, onNodeClick }) {
           {/* Glow suave del camino */}
           <path d={fullPathD} stroke="rgba(255,255,255,0.07)" strokeWidth="11" fill="none"/>
 
-          {/* Trazo del camino */}
+          {/* Trazo del camino (fondo, punteado) */}
           <path d={fullPathD}
-            stroke="rgba(255,255,255,0.40)"
+            stroke="rgba(255,255,255,0.28)"
             strokeWidth="2.6"
             strokeDasharray="13 5"
             strokeLinecap="round"
             fill="none"/>
+
+          {/* Pasos completados — glow dorado */}
+          <path
+            d={pathD}
+            pathLength="1"
+            stroke="rgba(212,160,96,0.18)"
+            strokeWidth="16"
+            strokeLinecap="round"
+            fill="none"
+            style={{
+              strokeDasharray: '1',
+              strokeDashoffset: String(1 - drawnProgress / TOTAL),
+              transition: 'stroke-dashoffset 1.4s cubic-bezier(0.4,0,0.2,1)',
+            }}
+          />
+
+          {/* Pasos completados — trazo dorado sólido */}
+          <path
+            d={pathD}
+            pathLength="1"
+            stroke="rgba(212,160,96,0.92)"
+            strokeWidth="2.8"
+            strokeLinecap="round"
+            fill="none"
+            style={{
+              strokeDasharray: '1',
+              strokeDashoffset: String(1 - drawnProgress / TOTAL),
+              transition: 'stroke-dashoffset 1.4s cubic-bezier(0.4,0,0.2,1)',
+            }}
+          />
 
           {/* ✦ en los cambios de zona */}
           {PATH_ZONES.slice(0, -1).map(zone => {
