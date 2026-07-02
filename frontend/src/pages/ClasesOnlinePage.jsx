@@ -1040,7 +1040,7 @@ export default function ClasesOnlinePage() {
               cta="Ver los grupos"
               icon={<IconGrupos />}
               decoracion={<GruposDecor />}
-              onClick={() => setVista('grupos')}
+              onClick={() => { setVista('grupos'); window.scrollTo({ top: 0 }); }}
             />
           </div>
         </section>
