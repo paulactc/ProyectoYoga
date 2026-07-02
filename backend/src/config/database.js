@@ -376,6 +376,12 @@ async function runMigrations() {
     );
   });
 
+  await runSafeMigration('Duracion Movilidad Funcional clase 3 a 30min', async () => {
+    await pool.execute(
+      `UPDATE clases SET duracion = 30 WHERE grupo_id = 1 AND orden = 3`
+    );
+  });
+
   await runSafeMigration('Imagen y descripcion Movilidad Funcional clase 4', async () => {
     await pool.execute(
       `UPDATE clases SET
