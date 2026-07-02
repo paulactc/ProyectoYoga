@@ -1,5 +1,10 @@
 const { executeQuery } = require('../config/database');
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+
+let _stripe;
+function getStripe() {
+  if (!_stripe) _stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+  return _stripe;
+}
 
 const PRICE_CENTS = 1900; // 19 €
 const TRIAL_DAYS  = 7;
@@ -47,7 +52,7 @@ class SuscripcionController {
       let stripeCustomerId = userRow.success && userRow.data[0]?.stripe_customer_id;
 
       if (!stripeCustomerId) {
-        const customer = await stripe.customers.create({
+        const customer = await getStripe().customers.create({
           email,
           name: nombre,
           metadata: { usuario_id: String(usuarioId) },
@@ -61,7 +66,7 @@ class SuscripcionController {
 
       const baseUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
 
-      const session = await stripe.checkout.sessions.create({
+      const session = await getStripe().checkout.sessions.create({
         mode: 'subscription',
         customer: stripeCustomerId,
         payment_method_types: ['card'],
@@ -96,7 +101,7 @@ class SuscripcionController {
     let event;
 
     try {
-      event = stripe.webhooks.constructEvent(
+      event = getStripe().webhooks.constructEvent(
         req.body,
         sig,
         process.env.STRIPE_WEBHOOK_SECRET
@@ -115,7 +120,7 @@ class SuscripcionController {
           const subscriptionId = session.subscription;
           if (!usuarioId || !subscriptionId) break;
 
-          const sub = await stripe.subscriptions.retrieve(subscriptionId);
+          const sub = await getStripe().subscriptions.retrieve(subscriptionId);
           const fechaInicio = new Date(sub.current_period_start * 1000).toISOString().slice(0, 10);
           const fechaFin    = new Date(sub.current_period_end   * 1000).toISOString().slice(0, 10);
 
@@ -199,7 +204,7 @@ class SuscripcionController {
       const { id: subId, stripe_subscription_id } = result.data[0];
 
       if (stripe_subscription_id) {
-        await stripe.subscriptions.cancel(stripe_subscription_id);
+        await getStripe().subscriptions.cancel(stripe_subscription_id);
       }
 
       await executeQuery(
