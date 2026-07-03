@@ -1,5 +1,12 @@
 const BREVO_API_KEY = process.env.BREVO_API_KEY;
-const FROM_EMAIL = process.env.SMTP_FROM || 'paulact39@gmail.com';
+
+// SMTP_FROM puede venir como "Nombre <email>" o solo "email"
+function parseEmail(str) {
+  if (!str) return 'info@yogatierraviva.es';
+  const match = str.match(/<([^>]+)>/);
+  return match ? match[1] : str.trim();
+}
+const FROM_EMAIL = parseEmail(process.env.SMTP_FROM);
 const FROM_NAME  = 'Yoga Tierra Viva';
 
 function escapeHtml(str) {
