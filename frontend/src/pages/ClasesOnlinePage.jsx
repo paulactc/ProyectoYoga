@@ -8,6 +8,7 @@ const CLASES = [
   { id: 3, titulo: 'Pranayama y Silencio', duracion: 30, nivel: 1, descripcion: 'Respiración consciente y meditación guiada para calmar la mente y centrar la energía.',               imagen: '/images/yoga2.jpg' },
   { id: 4, titulo: 'Vinyasa Avanzado',     duracion: 60, nivel: 3, descripcion: 'Posturas desafiantes y transiciones avanzadas para quienes quieren profundizar.',                      imagen: '/images/yoga4.jpg' },
   { id: 5, titulo: 'Movilidad y Cuidado',  duracion: 30, nivel: 1, descripcion: 'Cuida tus articulaciones y mejora el rango de movimiento. Ideal para todas las edades.',               imagen: '/images/yoga-36.jpg' },
+  { id: 6, titulo: 'Hacia dentro: del cuerpo al silencio', duracion: 60, nivel: 3, descripcion: 'Sesión integral que recorre las capas del ser de lo más externo a lo más sutil. Comenzamos con asanas para movilizar el cuerpo y equilibrar el sistema nervioso; desde ahí, el pranayama actúa como puente hacia estados más profundos, y la clase culmina con una meditación guiada para anclar la calma y la presencia.', imagen: '/images/yoga11.jpg' },
 ]
 
 const GRUPO_ICONOS = {
