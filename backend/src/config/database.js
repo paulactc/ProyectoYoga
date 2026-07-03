@@ -404,6 +404,12 @@ async function runMigrations() {
     );
   });
 
+  await runSafeMigration('Imagen Movilidad Funcional clase 5', async () => {
+    await pool.execute(
+      `UPDATE clases SET imagen = '/images/yoga12.jpg' WHERE grupo_id = 1 AND orden = 5`
+    );
+  });
+
   await runSafeMigration('Tabla travesia_progress', () =>
     pool.execute(`
       CREATE TABLE IF NOT EXISTS travesia_progress (
