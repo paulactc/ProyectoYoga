@@ -145,8 +145,8 @@ class SuscripcionController {
 
           if (isActive) {
             await executeQuery(
-              `UPDATE suscripciones SET fecha_fin = ?, updated_at = NOW()
-               WHERE stripe_subscription_id = ?`,
+              `UPDATE suscripciones SET estado = 'activa', fecha_fin = ?, updated_at = NOW()
+               WHERE stripe_subscription_id = ? AND estado IN ('activa', 'expirada')`,
               [fechaFin, sub.id]
             );
           } else {
@@ -156,6 +156,19 @@ class SuscripcionController {
               [sub.id]
             );
           }
+          break;
+        }
+
+        case 'invoice.paid': {
+          const invoice = event.data.object;
+          if (!invoice.subscription) break;
+          const sub = await getStripe().subscriptions.retrieve(invoice.subscription);
+          const fechaFin = new Date(sub.current_period_end * 1000).toISOString().slice(0, 10);
+          await executeQuery(
+            `UPDATE suscripciones SET estado = 'activa', fecha_fin = ?, updated_at = NOW()
+             WHERE stripe_subscription_id = ? AND estado IN ('activa', 'expirada')`,
+            [fechaFin, invoice.subscription]
+          );
           break;
         }
 

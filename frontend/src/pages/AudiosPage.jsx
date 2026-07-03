@@ -6,12 +6,13 @@ export default function AudiosPage({ onOpenLogin, onOpenRegister }) {
   const { user, token } = useAuth()
   const [series, setSeries] = useState([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(false)
 
   useEffect(() => {
     fetch('/api/meditaciones/series')
       .then(r => r.json())
-      .then(d => { if (d.success) setSeries(d.data) })
-      .catch(() => {})
+      .then(d => { if (d.success) setSeries(d.data); else setError(true) })
+      .catch(() => setError(true))
       .finally(() => setLoading(false))
   }, [])
 
@@ -30,6 +31,10 @@ export default function AudiosPage({ onOpenLogin, onOpenRegister }) {
         {loading ? (
           <div className="audios-loading">
             <span>Cargando meditaciones...</span>
+          </div>
+        ) : error ? (
+          <div className="audios-loading">
+            <span>No se pudieron cargar las meditaciones. Inténtalo de nuevo más tarde.</span>
           </div>
         ) : (
           series.map(serie => (
@@ -365,7 +370,7 @@ function CtaSection() {
           pranayama y más — todo diseñado para que construyas una práctica real, sostenible y tuya.
         </p>
         <div className="audios-cta-btns">
-          <Link to="/suscripcion" className="btn">Ver planes · desde 12€/mes</Link>
+          <Link to="/suscripcion" className="btn">Ver planes · desde 19€/mes</Link>
           <Link to="/aula-online" className="btn btn-outline-dark">Explorar clases →</Link>
         </div>
         <p className="audios-cta-nota">7 días de prueba gratuita</p>
