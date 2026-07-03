@@ -124,13 +124,35 @@ export default function LoginModal({ isOpen, onClose, initialView = 'login' }) {
     setForgotLoading(false)
   }
 
+  async function checkEmailExists(email) {
+    try {
+      const res = await fetch('/api/auth/check-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      })
+      const data = await res.json()
+      return data.exists === true
+    } catch {
+      return false
+    }
+  }
+
+  async function handleEmailBlur() {
+    if (!regForm.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(regForm.email)) return
+    const exists = await checkEmailExists(regForm.email)
+    if (exists) setRegError('Ya existe una cuenta con este email')
+  }
+
   async function handleRegister(e) {
     e.preventDefault()
     setRegError('')
     if (regForm.password.length < 8) { setRegError('La contraseña debe tener al menos 8 caracteres'); return }
-    if (regForm.password !== regForm.password_confirm) { setRegError('Las contraseñas no coinciden'); return }
     setRegLoading(true)
     try {
+      const exists = await checkEmailExists(regForm.email)
+      if (exists) { setRegError('Ya existe una cuenta con este email'); setRegLoading(false); return }
+      if (regForm.password !== regForm.password_confirm) { setRegError('Las contraseñas no coinciden'); setRegLoading(false); return }
       const res = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -207,7 +229,9 @@ export default function LoginModal({ isOpen, onClose, initialView = 'login' }) {
               />
               <input
                 type="email" placeholder="Email" required autoComplete="email"
-                value={regForm.email} onChange={e => setRegForm(f => ({ ...f, email: e.target.value }))}
+                value={regForm.email}
+                onChange={e => { setRegForm(f => ({ ...f, email: e.target.value })); setRegError('') }}
+                onBlur={handleEmailBlur}
               />
               <input
                 type="tel" placeholder="Teléfono (opcional)" autoComplete="tel"

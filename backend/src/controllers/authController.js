@@ -5,6 +5,17 @@ const { executeQuery } = require('../config/database');
 const { sendVerificationEmail, sendPasswordResetEmail } = require('../services/emailService');
 
 class AuthController {
+  static async checkEmail(req, res) {
+    try {
+      const { email } = req.body;
+      if (!email) return res.json({ exists: false });
+      const result = await executeQuery('SELECT id FROM usuarios WHERE email = ?', [email]);
+      res.json({ exists: result.success && result.data.length > 0 });
+    } catch {
+      res.json({ exists: false });
+    }
+  }
+
   static async register(req, res) {
     try {
       const { nombre, email, telefono, password } = req.body;
