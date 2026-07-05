@@ -43,6 +43,9 @@ export default function Navbar({ onOpenLogin }) {
         {user ? (
           <>
             <li><Link to="/mi-cuenta" className={isActive('/mi-cuenta')} onClick={closeMenu}>Mi cuenta</Link></li>
+            {user.rol === 'admin' && (
+              <li><Link to="/admin" className={isActive('/admin')} onClick={closeMenu}>Admin</Link></li>
+            )}
             <li><button className="nav-link-btn" onClick={() => { logout(); closeMenu() }}>Cerrar sesión</button></li>
           </>
         ) : (
