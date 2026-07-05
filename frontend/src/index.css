@@ -2397,130 +2397,110 @@ a.nav-logo {
   line-height: 1.5;
 }
 
-/* Semanas */
-.cal-weeks { padding: 0.75rem 0; }
-.cal-week {
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-  padding: 0.5rem 0 0.75rem;
-}
-.cal-week:last-child { border-bottom: none; }
-.cal-week-head {
+/* ── Calendario mensual real ──────────────────────────────────────────── */
+.cal-mensual { padding: 0 0 0.25rem; }
+.cal-mes-nav {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  padding: 0.3rem 1.25rem 0.5rem;
+  justify-content: space-between;
+  padding: 0.75rem 1.25rem 0.6rem;
 }
-.cal-week-num {
-  font-size: 0.7rem;
+.cal-mes-titulo {
+  font-size: 0.95rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.35);
+  color: #fff;
+  letter-spacing: 0.02em;
 }
-.cal-week-rango {
-  font-size: 0.72rem;
-  color: rgba(255,255,255,0.25);
+.cal-mes-btn {
+  background: none;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 6px;
+  color: rgba(255,255,255,0.45);
+  font-size: 1.15rem;
+  line-height: 1;
+  width: 30px; height: 30px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
 }
-.cal-week-tick {
-  margin-left: auto;
-  font-size: 0.8rem;
-  color: rgba(100,180,120,0.7);
-}
-.cal-week--active .cal-week-num { color: #d4a060; }
-.cal-week--active .cal-week-rango { color: rgba(212,160,96,0.5); }
-
-/* Elementos del calendario (una clase por fila) */
-.cal-week-items { display: flex; flex-direction: column; gap: 0; }
-.cal-item {
+.cal-mes-btn:hover { border-color: rgba(212,160,96,0.5); color: #d4a060; }
+.cal-mes-grid {
   display: grid;
-  grid-template-columns: 32px 1fr auto;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.5rem 1.25rem;
-  transition: background 0.15s;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 3px;
+  padding: 0 0.75rem 0.5rem;
 }
-.cal-item:hover { background: rgba(255,255,255,0.025); }
-
-.cal-item-dot {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
+.cal-mes-dayname {
+  text-align: center;
+  font-size: 0.58rem;
+  color: rgba(255,255,255,0.28);
+  padding: 0.3rem 0 0.4rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.cal-mes-cell {
+  aspect-ratio: 1;
+  border-radius: 7px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-  font-size: 0.72rem;
-  font-weight: 700;
-  border: 1.5px solid rgba(255,255,255,0.15);
+  gap: 1px;
+  color: rgba(255,255,255,0.2);
+}
+.cal-mes-cell--empty { background: none; pointer-events: none; }
+.cal-mes-cell--hoy {
+  border: 1px solid rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.45);
+}
+.cal-mes-cell--done {
+  background: rgba(100,180,120,0.2);
+  color: rgba(120,210,140,0.9);
+}
+.cal-mes-cell--today {
+  background: rgba(212,160,96,0.25);
+  color: #d4a060;
+  box-shadow: 0 0 8px rgba(212,160,96,0.25);
+}
+.cal-mes-cell--upcoming {
+  background: rgba(140,78,47,0.14);
+  border: 1px solid rgba(212,160,96,0.18);
+  color: rgba(212,160,96,0.6);
+}
+.cal-mes-cell--overdue {
+  background: rgba(210,100,80,0.12);
+  border: 1px solid rgba(210,100,80,0.22);
+  color: rgba(220,150,120,0.8);
+}
+.cal-mes-day  { font-size: 0.75rem; font-weight: 600; line-height: 1; }
+.cal-mes-num  { font-size: 0.52rem; opacity: 0.7; line-height: 1; }
+
+/* Leyenda */
+.cal-leyenda {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  justify-content: center;
+  padding: 0.5rem 1.25rem 0.75rem;
+}
+.cal-leyenda-item {
+  font-size: 0.67rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
   color: rgba(255,255,255,0.35);
-  background: rgba(255,255,255,0.04);
 }
-.cal-item-dot svg { width: 13px; height: 13px; }
-
-.cal-item--done .cal-item-dot {
-  background: rgba(100,180,120,0.18);
-  border-color: rgba(100,180,120,0.5);
-  color: rgba(100,200,130,0.9);
+.cal-leyenda-item::before {
+  content: '';
+  width: 10px; height: 10px;
+  border-radius: 3px;
+  display: inline-block;
 }
-.cal-item--today .cal-item-dot {
-  background: rgba(212,160,96,0.2);
-  border-color: rgba(212,160,96,0.7);
-  color: #d4a060;
-  box-shadow: 0 0 10px rgba(212,160,96,0.25);
-}
-.cal-item--overdue .cal-item-dot {
-  border-color: rgba(210,100,80,0.45);
-  color: rgba(210,130,100,0.6);
-  background: rgba(210,100,80,0.06);
-}
-
-.cal-item-body { min-width: 0; }
-.cal-item-fecha {
-  display: block;
-  font-size: 0.72rem;
-  color: rgba(255,255,255,0.3);
-  margin-bottom: 0.1rem;
-}
-.cal-item-titulo {
-  display: block;
-  font-size: 0.85rem;
-  color: rgba(255,255,255,0.65);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.cal-item--done .cal-item-titulo  { color: rgba(255,255,255,0.4); }
-.cal-item--today .cal-item-titulo { color: #fff; font-weight: 600; }
-.cal-item--today .cal-item-fecha  { color: rgba(212,160,96,0.6); }
-.cal-item--overdue .cal-item-titulo { color: rgba(210,140,120,0.75); }
-
-.cal-item-estado { flex-shrink: 0; }
-.cal-delay-badge {
-  font-size: 0.65rem;
-  color: rgba(210,160,100,0.65);
-  background: rgba(210,130,60,0.1);
-  border: 1px solid rgba(210,130,60,0.2);
-  border-radius: 100px;
-  padding: 0.15rem 0.45rem;
-}
-.cal-hoy-badge {
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  color: #d4a060;
-  background: rgba(212,160,96,0.12);
-  border: 1px solid rgba(212,160,96,0.3);
-  border-radius: 100px;
-  padding: 0.18rem 0.55rem;
-}
-.cal-pendiente-badge {
-  font-size: 0.65rem;
-  color: rgba(210,140,110,0.7);
-  background: rgba(210,100,70,0.08);
-  border: 1px solid rgba(210,100,70,0.2);
-  border-radius: 100px;
-  padding: 0.15rem 0.45rem;
-}
+.cal-leyenda-item--done::before    { background: rgba(100,180,120,0.5); }
+.cal-leyenda-item--today::before   { background: rgba(212,160,96,0.5); }
+.cal-leyenda-item--upcoming::before { background: rgba(140,78,47,0.35); border: 1px solid rgba(212,160,96,0.25); }
+.cal-leyenda-item--overdue::before { background: rgba(210,100,80,0.35); }
 
 /* Footer del calendario */
 .cal-footer {
@@ -2528,21 +2508,9 @@ a.nav-logo {
   flex-direction: column;
   align-items: center;
   gap: 0.75rem;
-  padding: 1rem 1.25rem 1.25rem;
+  padding: 0.75rem 1.25rem 1.25rem;
   border-top: 1px solid rgba(255,255,255,0.06);
 }
-.cal-ver-mas-btn {
-  background: none;
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 8px;
-  padding: 0.55rem 1.2rem;
-  color: rgba(255,255,255,0.5);
-  font-family: inherit;
-  font-size: 0.82rem;
-  cursor: pointer;
-  transition: border-color 0.2s, color 0.2s;
-}
-.cal-ver-mas-btn:hover { border-color: rgba(212,160,96,0.4); color: rgba(212,160,96,0.8); }
 .cal-cambiar-btn {
   background: none;
   border: none;

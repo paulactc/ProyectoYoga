@@ -914,6 +914,7 @@ function ClaseCard({ clase: c, subscribed, onOpen }) {
 
 const DIAS_SEMANA  = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb']
 const MESES_CORTO  = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic']
+const MESES_LARGO  = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
 
 // Patrón de días dentro de cada semana (0 = lunes)
 const PLAN_PATTERNS = { '3m': [0,1,3,4], '6m': [0,3] }
@@ -1102,29 +1103,71 @@ function PlanSelector({ onSelect, loading }) {
 }
 
 // ── Panel del calendario ──────────────────────────────────────────────────
+// ── Vista mensual real ─────────────────────────────────────────────────────
+function CalendarioMensual({ slots, startDateStr }) {
+  const today = new Date(); today.setHours(0,0,0,0)
+  const todayKey = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`
+
+  const [mes, setMes] = useState(() => {
+    const d = calParseDate(startDateStr) || today
+    return new Date(d.getFullYear(), d.getMonth(), 1)
+  })
+
+  const year  = mes.getFullYear()
+  const month = mes.getMonth()
+
+  const slotsByKey = {}
+  for (const slot of slots) {
+    const d = slot.scheduledDate
+    slotsByKey[`${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`] = slot
+  }
+
+  const firstDow    = new Date(year, month, 1).getDay()
+  const startOffset = firstDow === 0 ? 6 : firstDow - 1
+  const daysInMonth = new Date(year, month + 1, 0).getDate()
+  const cells = [
+    ...Array(startOffset).fill(null),
+    ...Array.from({ length: daysInMonth }, (_, i) => i + 1),
+  ]
+
+  return (
+    <div className="cal-mensual">
+      <div className="cal-mes-nav">
+        <button className="cal-mes-btn" onClick={() => setMes(new Date(year, month - 1, 1))} aria-label="Mes anterior">‹</button>
+        <span className="cal-mes-titulo">{MESES_LARGO[month]} {year}</span>
+        <button className="cal-mes-btn" onClick={() => setMes(new Date(year, month + 1, 1))} aria-label="Mes siguiente">›</button>
+      </div>
+      <div className="cal-mes-grid">
+        {['L','M','X','J','V','S','D'].map(d => (
+          <div key={d} className="cal-mes-dayname">{d}</div>
+        ))}
+        {cells.map((day, i) => {
+          if (!day) return <div key={`e-${i}`} className="cal-mes-cell cal-mes-cell--empty" />
+          const key  = `${year}-${month}-${day}`
+          const slot = slotsByKey[key]
+          const isToday = key === todayKey
+          let cls = 'cal-mes-cell'
+          if (slot) cls += ` cal-mes-cell--${slot.status}`
+          else if (isToday) cls += ' cal-mes-cell--hoy'
+          return (
+            <div key={i} className={cls} title={slot ? `Clase ${slot.num}` : undefined}>
+              <span className="cal-mes-day">{day}</span>
+              {slot && <span className="cal-mes-num">{slot.num}</span>}
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
 function CalendarioPanel({ plan, progressWithDates, clasesArray, userName, onCambiarPlan }) {
-  const [mostrarTodo, setMostrarTodo] = useState(false)
-
-  const slots  = calComputeSlots(plan.start_date, plan.plan_type, progressWithDates, clasesArray)
-  const weeks  = calGroupWeeks(slots, plan.plan_type)
-  const today  = new Date(); today.setHours(0,0,0,0)
-
+  const slots        = calComputeSlots(plan.start_date, plan.plan_type, progressWithDates, clasesArray)
   const completadas  = slots.filter(s => s.completed).length
-  const hayPendiente = slots.find(s => s.status === 'overdue')
-  const proximaIdx   = slots.findIndex(s => s.status === 'today' || s.status === 'upcoming')
-
-  // Semana activa (la que contiene la próxima clase o la última completada)
-  const semanaActivaNum = proximaIdx >= 0
-    ? Math.floor(proximaIdx / (PLAN_PATTERNS[plan.plan_type]?.length || 4)) + 1
-    : weeks.length
-
-  // Por defecto: semanas completadas colapsadas + semana activa + 2 siguientes
-  const weeksCutoff = mostrarTodo ? weeks.length : Math.min(semanaActivaNum + 2, weeks.length)
-  const weeksVisibles = weeks.slice(0, weeksCutoff)
+  const hayPendiente = slots.some(s => s.status === 'overdue')
 
   return (
     <div className="cal-panel">
-      {/* Cabecera */}
       <div className="cal-panel-header">
         <div>
           <p className="cal-nombre">Calendario de {userName.split(' ')[0]}</p>
@@ -1143,71 +1186,20 @@ function CalendarioPanel({ plan, progressWithDates, clasesArray, userName, onCam
 
       {hayPendiente && (
         <div className="cal-aviso-retraso">
-          Tienes clases pendientes del plan — las fechas siguientes se han ajustado automáticamente.
+          Tienes clases pendientes — las fechas siguientes se ajustan automáticamente.
         </div>
       )}
 
-      {/* Semanas */}
-      <div className="cal-weeks">
-        {weeksVisibles.map(week => {
-          const allDone    = week.slots.every(s => s.completed)
-          const isActive   = week.num === semanaActivaNum
-          const startDate  = week.slots[0].scheduledDate
-          const endDate    = week.slots[week.slots.length - 1].scheduledDate
-          const rangoLabel = startDate.getMonth() === endDate.getMonth()
-            ? `${startDate.getDate()}–${endDate.getDate()} ${MESES_CORTO[endDate.getMonth()]}`
-            : `${startDate.getDate()} ${MESES_CORTO[startDate.getMonth()]} – ${endDate.getDate()} ${MESES_CORTO[endDate.getMonth()]}`
+      <CalendarioMensual slots={slots} startDateStr={plan.start_date} />
 
-          return (
-            <div key={week.num} className={`cal-week${allDone ? ' cal-week--done' : isActive ? ' cal-week--active' : ''}`}>
-              <div className="cal-week-head">
-                <span className="cal-week-num">Semana {week.num}</span>
-                <span className="cal-week-rango">{rangoLabel}</span>
-                {allDone && <span className="cal-week-tick" aria-hidden="true">✓</span>}
-              </div>
-              <div className="cal-week-items">
-                {week.slots.map(slot => {
-                  const clase = clasesArray[slot.num - 1]
-                  return (
-                    <div key={slot.num} className={`cal-item cal-item--${slot.status}`}>
-                      <div className="cal-item-dot">
-                        {slot.status === 'done'
-                          ? <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2.2"><polyline points="3,8 7,12 13,4"/></svg>
-                          : <span>{slot.num}</span>}
-                      </div>
-                      <div className="cal-item-body">
-                        <span className="cal-item-fecha">{calFormatDay(slot.scheduledDate)}</span>
-                        <span className="cal-item-titulo">
-                          {clase
-                            ? clase.titulo.split(':')[0].split('—')[0].trim()
-                            : `Clase ${slot.num} · Próximamente`}
-                        </span>
-                      </div>
-                      <div className="cal-item-estado">
-                        {slot.status === 'done' && slot.delay > 0 && (
-                          <span className="cal-delay-badge" title={`${slot.delay} día${slot.delay > 1 ? 's' : ''} de retraso`}>
-                            +{slot.delay}d
-                          </span>
-                        )}
-                        {slot.status === 'today'   && <span className="cal-hoy-badge">Hoy</span>}
-                        {slot.status === 'overdue' && <span className="cal-pendiente-badge">Pendiente</span>}
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
-            </div>
-          )
-        })}
+      <div className="cal-leyenda">
+        <span className="cal-leyenda-item cal-leyenda-item--done">✓ Completada</span>
+        <span className="cal-leyenda-item cal-leyenda-item--today">Hoy</span>
+        <span className="cal-leyenda-item cal-leyenda-item--upcoming">Próxima</span>
+        <span className="cal-leyenda-item cal-leyenda-item--overdue">Pendiente</span>
       </div>
 
-      {/* Expandir / Cambiar plan */}
       <div className="cal-footer">
-        {!mostrarTodo && weeksCutoff < weeks.length && (
-          <button className="cal-ver-mas-btn" onClick={() => setMostrarTodo(true)}>
-            Ver plan completo ({weeks.length - weeksCutoff} semanas más)
-          </button>
-        )}
         <button className="cal-cambiar-btn" onClick={onCambiarPlan}>
           Cambiar ritmo de práctica
         </button>
@@ -1273,6 +1265,7 @@ export default function ClasesOnlinePage() {
   // Cargar plan de práctica — solo para suscriptoras activas
   useEffect(() => {
     if (!user || !token || !isSubscribed) { setPlan(null); setPlanLoaded(true); return }
+    setPlanLoaded(false)  // resetear mientras carga para que el onboarding no salte prematuramente
     fetch('/api/travesia/plan', { headers: { Authorization: `Bearer ${token}` } })
       .then(r => r.json())
       .then(data => { if (data.success) setPlan(data.data) })
