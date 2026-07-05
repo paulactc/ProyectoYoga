@@ -64,7 +64,9 @@ class SuscripcionController {
         );
       }
 
-      const baseUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+      const baseUrl = process.env.FRONTEND_URL
+        || (process.env.RAILWAY_PUBLIC_DOMAIN ? `https://${process.env.RAILWAY_PUBLIC_DOMAIN}` : null)
+        || 'http://localhost:5173';
 
       const session = await getStripe().checkout.sessions.create({
         mode: 'subscription',
