@@ -433,6 +433,7 @@ async function runMigrations() {
         usuario_id INT NOT NULL UNIQUE,
         plan_type  VARCHAR(10) NOT NULL DEFAULT '3m',
         start_date DATE NOT NULL,
+        plan_days  VARCHAR(20) NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
       )
@@ -445,7 +446,7 @@ async function runMigrations() {
        WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'travesia_plans' AND COLUMN_NAME = 'plan_days'`
     );
     if (cnt === 0) {
-      await pool.execute(`ALTER TABLE travesia_plans ADD COLUMN plan_days VARCHAR(20) NULL`);
+      await pool.query(`ALTER TABLE travesia_plans ADD COLUMN plan_days VARCHAR(20) NULL`);
     }
   });
 

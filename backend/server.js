@@ -4,8 +4,15 @@ const app = require('./src/app');
 
 const PORT = process.env.PORT || 3000;
 
-// Start serving immediately so Railway health checks pass
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
-  testConnection();
+// Migrations run first, then listen — prevents race condition where
+// requests arrive before DB columns exist.
+testConnection().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Servidor corriendo en http://localhost:${PORT}`);
+  });
+}).catch(() => {
+  // If DB never connects, still start the server so Railway health checks pass.
+  app.listen(PORT, () => {
+    console.log(`Servidor corriendo (sin BD) en http://localhost:${PORT}`);
+  });
 });

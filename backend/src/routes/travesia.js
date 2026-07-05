@@ -82,19 +82,33 @@ router.post('/plan', verifyToken, async (req, res) => {
       'UPDATE travesia_plans SET plan_type = ?, plan_days = ?, updated_at = CURRENT_TIMESTAMP WHERE usuario_id = ?',
       [plan_type, validatedDays, req.user.id]
     );
+    // Fallback por si la columna aún no existe en BD (migración pendiente)
+    if (!writeResult.success && writeResult.error?.includes('plan_days')) {
+      writeResult = await executeQuery(
+        'UPDATE travesia_plans SET plan_type = ?, updated_at = CURRENT_TIMESTAMP WHERE usuario_id = ?',
+        [plan_type, req.user.id]
+      );
+    }
   } else {
     writeResult = await executeQuery(
       'INSERT INTO travesia_plans (usuario_id, plan_type, start_date, plan_days) VALUES (?, ?, ?, ?)',
       [req.user.id, plan_type, today, validatedDays]
     );
+    // Fallback por si la columna aún no existe en BD (migración pendiente)
+    if (!writeResult.success && writeResult.error?.includes('plan_days')) {
+      writeResult = await executeQuery(
+        'INSERT INTO travesia_plans (usuario_id, plan_type, start_date) VALUES (?, ?, ?)',
+        [req.user.id, plan_type, today]
+      );
+    }
   }
-  if (!writeResult.success) return res.status(500).json({ success: false });
+  if (!writeResult.success) return res.status(500).json({ success: false, error: writeResult.error });
 
   const plan = await executeQuery(
     "SELECT plan_type, DATE_FORMAT(start_date, '%Y-%m-%d') AS start_date, plan_days FROM travesia_plans WHERE usuario_id = ?",
     [req.user.id]
   );
-  if (!plan.success || !plan.data?.[0]) return res.status(500).json({ success: false });
+  if (!plan.success || !plan.data?.[0]) return res.status(500).json({ success: false, error: plan.error });
   res.json({ success: true, data: plan.data[0] });
 });
 
