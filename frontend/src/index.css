@@ -1788,16 +1788,14 @@ a.nav-logo {
 }
 
 .pnode-title {
-  font-size: 0.58rem;
+  font-size: 0.56rem;
   color: rgba(255,255,255,0.65);
   font-weight: 600;
   text-align: center;
-  max-width: 64px;
+  max-width: 80px;
   line-height: 1.3;
   letter-spacing: 0.01em;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  word-break: break-word;
 }
 .pnode-title--locked { color: rgba(255,255,255,0.22); font-weight: 400; }
 
@@ -6181,7 +6179,7 @@ a.nav-logo {
   .pnode--soon .pnode-inner { width: 34px; height: 34px; }
   .pnode-lotus-svg { width: 56px; height: 56px; }
   .pnode-num { font-size: 1rem; }
-  .pnode-title { max-width: 48px; font-size: 0.52rem; }
+  .pnode-title { max-width: 64px; font-size: 0.52rem; }
   .path-row { padding: 0.7rem 0.4rem; }
   .path-world { padding: 0 0 1.5rem; margin: 0.25rem 0.5rem 1.5rem; border-radius: 14px; }
 }

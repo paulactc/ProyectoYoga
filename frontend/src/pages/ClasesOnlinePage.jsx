@@ -491,7 +491,7 @@ function PathNode({ slot, onOpen }) {
       </div>
       {state === 'active' && clase && (
         <div className="pnode-title" aria-hidden="true">
-          {clase.titulo.split(':')[0].split('—')[0].trim().slice(0, 22)}
+          {clase.titulo.split(':')[0].split('—')[0].trim()}
         </div>
       )}
       {state === 'done' && (
@@ -805,10 +805,10 @@ function TravesiaPathView({ progress, isSubscribed, onNodeClick }) {
                 {state === 'soon' && <span className="pnode-dots">···</span>}
               </div>
               {state === 'active' && clase && (
-                <div className="pnode-title">{clase.titulo.split(':')[0].trim().slice(0, 22)}</div>
+                <div className="pnode-title">{clase.titulo.split(':')[0].trim()}</div>
               )}
               {state === 'locked' && clase && (
-                <div className="pnode-title pnode-title--locked">{clase.titulo.split(':')[0].trim().slice(0, 22)}</div>
+                <div className="pnode-title pnode-title--locked">{clase.titulo.split(':')[0].trim()}</div>
               )}
               {state === 'done' && <div className="pnode-num-small">{n}</div>}
             </div>
