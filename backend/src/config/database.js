@@ -424,6 +424,20 @@ async function runMigrations() {
     `)
   );
 
+  await runSafeMigration('Tabla travesia_plans', () =>
+    pool.execute(`
+      CREATE TABLE IF NOT EXISTS travesia_plans (
+        id         INT AUTO_INCREMENT PRIMARY KEY,
+        usuario_id INT NOT NULL UNIQUE,
+        plan_type  ENUM('3m','6m') NOT NULL DEFAULT '3m',
+        start_date DATE NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+      )
+    `)
+  );
+
   await runSafeMigration('Columna stripe_customer_id en usuarios', async () => {
     const [[{ cnt }]] = await pool.execute(
       `SELECT COUNT(*) as cnt FROM INFORMATION_SCHEMA.COLUMNS

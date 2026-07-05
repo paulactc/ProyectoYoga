@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
 const CLASES = [
@@ -85,7 +85,7 @@ const GRUPOS = [
   },
 ]
 
-const NIVEL_LABEL = { 1: 'Principiante', 2: 'Intermedio', 3: 'Avanzado' }
+const NIVEL_LABEL = { 1: 'Todos los niveles', 2: 'Intermedio', 3: 'Avanzado' }
 
 // ── Zonas del camino (sistema de chakras) ─────────────────────────────────
 const PATH_ZONES = [
@@ -271,26 +271,38 @@ function TravesiaMapDecor({ progreso }) {
 // ── Pies avanzando ────────────────────────────────────────────────────────
 function WalkingFeet() {
   const steps = [
-    { cx: 40, cy: 186, angle: -16 },
-    { cx: 68, cy: 158, angle:  13 },
-    { cx: 38, cy: 122, angle: -18 },
-    { cx: 66, cy:  94, angle:  15 },
-    { cx: 40, cy:  58, angle: -14 },
-    { cx: 66, cy:  28, angle:  12 },
+    { cx: 40, cy: 186, angle: -16, left: true  },
+    { cx: 68, cy: 158, angle:  13, left: false },
+    { cx: 38, cy: 122, angle: -18, left: true  },
+    { cx: 66, cy:  94, angle:  15, left: false },
+    { cx: 40, cy:  58, angle: -14, left: true  },
+    { cx: 66, cy:  28, angle:  12, left: false },
   ]
   return (
     <svg viewBox="18 0 76 210" className="tis-feet-svg" aria-hidden="true">
       <path d="M53 202 C42 170 62 142 50 102 C38 62 60 44 52 8"
         stroke="rgba(212,160,96,0.18)" strokeWidth="1.5" strokeDasharray="4 5" fill="none"/>
-      {steps.map(({ cx, cy, angle }, i) => (
-        <g key={i} className="tis-fp" style={{ '--d': `${i * 0.3 + 0.8}s` }}
-           transform={`rotate(${angle} ${cx} ${cy})`}>
-          <ellipse cx={cx} cy={cy + 3} rx="8" ry="12" fill={`rgba(212,160,96,${0.42 + i * 0.07})`}/>
-          <circle cx={cx - 5} cy={cy - 9}  r="3"   fill={`rgba(212,160,96,${0.38 + i * 0.07})`}/>
-          <circle cx={cx - 1} cy={cy - 11} r="3.3" fill={`rgba(212,160,96,${0.38 + i * 0.07})`}/>
-          <circle cx={cx + 4} cy={cy - 10} r="3"   fill={`rgba(212,160,96,${0.34 + i * 0.07})`}/>
-        </g>
-      ))}
+      {steps.map(({ cx, cy, angle, left }, i) => {
+        const op = 0.44 + i * 0.07
+        // mirror: pie izquierdo / pie derecho
+        const sx = left ? 1 : -1
+        return (
+          <g key={i} className="tis-fp" style={{ '--d': `${i * 0.3 + 0.8}s` }}
+             transform={`translate(${cx},${cy}) rotate(${angle}) scale(${sx},1)`}>
+            {/* Cuerpo: ancho en los dedos (top), estrecho en el talón (bottom) */}
+            <path
+              d="M -5 -1 C -6.5 -5 -6 -10 0 -10 C 6 -10 6.5 -5 5 -1 C 4 5 3 9 0 11 C -3 9 -4 5 -5 -1 Z"
+              fill={`rgba(212,160,96,${op})`}
+            />
+            {/* 5 dedos en arco */}
+            <circle cx="-5"   cy="-12.5" r="1.8" fill={`rgba(212,160,96,${op * 0.9})`}/>
+            <circle cx="-2.5" cy="-14"   r="1.9" fill={`rgba(212,160,96,${op * 0.9})`}/>
+            <circle cx="0.5"  cy="-14.5" r="2"   fill={`rgba(212,160,96,${op * 0.9})`}/>
+            <circle cx="3.5"  cy="-13.5" r="1.8" fill={`rgba(212,160,96,${op * 0.9})`}/>
+            <circle cx="5.5"  cy="-12"   r="1.6" fill={`rgba(212,160,96,${op * 0.9})`}/>
+          </g>
+        )
+      })}
     </svg>
   )
 }
@@ -837,14 +849,280 @@ function ClaseCard({ clase: c, subscribed, onOpen }) {
   )
 }
 
+// ══════════════════════════════════════════════════════════════════════════
+// ── CALENDARIO DE PRÁCTICA ────────────────────────────────────────────────
+// ══════════════════════════════════════════════════════════════════════════
+
+const DIAS_SEMANA  = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb']
+const MESES_CORTO  = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic']
+
+// Patrón de días dentro de cada semana (0 = lunes)
+const PLAN_PATTERNS = { '3m': [0,1,3,4], '6m': [0,3] }
+const PLAN_LABEL    = { '3m': '3 meses · 4 clases/semana', '6m': '6 meses · 2 clases/semana' }
+
+function calParseDate(str) {
+  if (!str) return null
+  const s = typeof str === 'string' ? str.replace('T', ' ').split(' ')[0] : str
+  const [y, m, d] = String(s).split('-').map(Number)
+  return new Date(y, m - 1, d)
+}
+
+function calAddDays(date, n) {
+  const d = new Date(date); d.setDate(d.getDate() + n); return d
+}
+
+function calDiffDays(a, b) {
+  return Math.round((new Date(a.getFullYear(), a.getMonth(), a.getDate()) -
+    new Date(b.getFullYear(), b.getMonth(), b.getDate())) / 86400000)
+}
+
+function calGetMonday(date) {
+  const d = new Date(date.getFullYear(), date.getMonth(), date.getDate())
+  const dow = d.getDay()
+  d.setDate(d.getDate() - (dow === 0 ? 6 : dow - 1))
+  return d
+}
+
+function calFormatDate(date) {
+  return `${date.getDate()} ${MESES_CORTO[date.getMonth()]} ${date.getFullYear()}`
+}
+
+function calFormatDay(date) {
+  return `${DIAS_SEMANA[date.getDay()]} ${date.getDate()} ${MESES_CORTO[date.getMonth()]}`
+}
+
+// Genera los 50 fechas de práctica a partir de start_date y plan_type
+function calGenerateSchedule(startDateStr, planType) {
+  const pattern   = PLAN_PATTERNS[planType] || PLAN_PATTERNS['3m']
+  const startDate = calParseDate(startDateStr)
+  const monday    = calGetMonday(startDate)
+  const dates     = []
+  let week = 0
+  while (dates.length < 50) {
+    for (const offset of pattern) {
+      const d = calAddDays(monday, week * 7 + offset)
+      if (d >= startDate) { dates.push(d); if (dates.length === 50) break }
+    }
+    week++
+  }
+  return dates
+}
+
+// Aplica retrasos acumulados y devuelve array de slots con estado
+function calComputeSlots(startDateStr, planType, progressWithDates, clasesArray) {
+  const rawDates = calGenerateSchedule(startDateStr, planType)
+  const today    = new Date(); today.setHours(0,0,0,0)
+
+  // Mapa: índice de clase (0-based) → completedAt Date
+  const completionMap = {}
+  for (const p of progressWithDates) {
+    const idx = clasesArray.findIndex(c => String(c.id) === String(p.clase_id))
+    if (idx >= 0) completionMap[idx] = calParseDate(p.completed_at)
+  }
+
+  let acumulado = 0
+  return rawDates.map((raw, i) => {
+    const scheduledDate = calAddDays(raw, acumulado)
+    const completed     = i in completionMap
+    const completedAt   = completionMap[i] || null
+    let   delay         = 0
+
+    if (completed) {
+      const d = calDiffDays(completedAt, scheduledDate)
+      if (d > 0) { delay = d; acumulado += d }
+    }
+
+    const status = completed
+      ? 'done'
+      : calDiffDays(today, scheduledDate) > 0
+        ? 'overdue'
+        : calDiffDays(today, scheduledDate) === 0
+          ? 'today'
+          : 'upcoming'
+
+    return { num: i + 1, scheduledDate, completed, completedAt, delay, status }
+  })
+}
+
+// Agrupa los slots en semanas de práctica (no semanas calendario)
+function calGroupWeeks(slots, planType) {
+  const size = PLAN_PATTERNS[planType]?.length || 4
+  const weeks = []
+  for (let i = 0; i < slots.length; i += size) {
+    weeks.push({ num: Math.floor(i / size) + 1, slots: slots.slice(i, i + size) })
+  }
+  return weeks
+}
+
+// ── Selector de plan ──────────────────────────────────────────────────────
+function PlanSelector({ onSelect, loading }) {
+  return (
+    <div className="cal-selector">
+      <div className="cal-selector-header">
+        <h3 className="cal-selector-titulo">Planifica tu Travesía</h3>
+        <p className="cal-selector-sub">
+          Elige el ritmo que mejor encaja con tu vida. El calendario se crea hoy
+          y se ajusta automáticamente si te saltas alguna sesión.
+        </p>
+      </div>
+      <div className="cal-selector-cards">
+        <button className="cal-plan-card cal-plan-card--3m" onClick={() => onSelect('3m')} disabled={loading}>
+          <div className="cal-plan-card-inner">
+            <span className="cal-plan-badge">Recomendado</span>
+            <p className="cal-plan-dur">3 meses</p>
+            <p className="cal-plan-freq">4 clases por semana</p>
+            <p className="cal-plan-desc">
+              El ritmo óptimo para que la práctica se integre de verdad en cuerpo y mente.
+              Lunes, martes, jueves y viernes.
+            </p>
+          </div>
+        </button>
+        <button className="cal-plan-card cal-plan-card--6m" onClick={() => onSelect('6m')} disabled={loading}>
+          <div className="cal-plan-card-inner">
+            <p className="cal-plan-dur">6 meses</p>
+            <p className="cal-plan-freq">2 clases por semana</p>
+            <p className="cal-plan-desc">
+              Más espacio entre sesiones para asimilar y recuperar.
+              Lunes y jueves.
+            </p>
+          </div>
+        </button>
+      </div>
+    </div>
+  )
+}
+
+// ── Panel del calendario ──────────────────────────────────────────────────
+function CalendarioPanel({ plan, progressWithDates, clasesArray, userName, onCambiarPlan }) {
+  const [mostrarTodo, setMostrarTodo] = useState(false)
+
+  const slots  = calComputeSlots(plan.start_date, plan.plan_type, progressWithDates, clasesArray)
+  const weeks  = calGroupWeeks(slots, plan.plan_type)
+  const today  = new Date(); today.setHours(0,0,0,0)
+
+  const completadas  = slots.filter(s => s.completed).length
+  const hayPendiente = slots.find(s => s.status === 'overdue')
+  const proximaIdx   = slots.findIndex(s => s.status === 'today' || s.status === 'upcoming')
+
+  // Semana activa (la que contiene la próxima clase o la última completada)
+  const semanaActivaNum = proximaIdx >= 0
+    ? Math.floor(proximaIdx / (PLAN_PATTERNS[plan.plan_type]?.length || 4)) + 1
+    : weeks.length
+
+  // Por defecto: semanas completadas colapsadas + semana activa + 2 siguientes
+  const weeksCutoff = mostrarTodo ? weeks.length : Math.min(semanaActivaNum + 2, weeks.length)
+  const weeksVisibles = weeks.slice(0, weeksCutoff)
+
+  return (
+    <div className="cal-panel">
+      {/* Cabecera */}
+      <div className="cal-panel-header">
+        <div>
+          <p className="cal-nombre">Calendario de {userName.split(' ')[0]}</p>
+          <p className="cal-meta">
+            {PLAN_LABEL[plan.plan_type]}
+            <span className="cal-meta-sep">·</span>
+            Inicio: {calFormatDate(calParseDate(plan.start_date))}
+          </p>
+        </div>
+        <div className="cal-resumen">
+          <span className="cal-resumen-num">{completadas}</span>
+          <span className="cal-resumen-de">/{slots.length}</span>
+          <span className="cal-resumen-label">clases</span>
+        </div>
+      </div>
+
+      {hayPendiente && (
+        <div className="cal-aviso-retraso">
+          Tienes clases pendientes del plan — las fechas siguientes se han ajustado automáticamente.
+        </div>
+      )}
+
+      {/* Semanas */}
+      <div className="cal-weeks">
+        {weeksVisibles.map(week => {
+          const allDone    = week.slots.every(s => s.completed)
+          const isActive   = week.num === semanaActivaNum
+          const startDate  = week.slots[0].scheduledDate
+          const endDate    = week.slots[week.slots.length - 1].scheduledDate
+          const rangoLabel = startDate.getMonth() === endDate.getMonth()
+            ? `${startDate.getDate()}–${endDate.getDate()} ${MESES_CORTO[endDate.getMonth()]}`
+            : `${startDate.getDate()} ${MESES_CORTO[startDate.getMonth()]} – ${endDate.getDate()} ${MESES_CORTO[endDate.getMonth()]}`
+
+          return (
+            <div key={week.num} className={`cal-week${allDone ? ' cal-week--done' : isActive ? ' cal-week--active' : ''}`}>
+              <div className="cal-week-head">
+                <span className="cal-week-num">Semana {week.num}</span>
+                <span className="cal-week-rango">{rangoLabel}</span>
+                {allDone && <span className="cal-week-tick" aria-hidden="true">✓</span>}
+              </div>
+              <div className="cal-week-items">
+                {week.slots.map(slot => {
+                  const clase = clasesArray[slot.num - 1]
+                  return (
+                    <div key={slot.num} className={`cal-item cal-item--${slot.status}`}>
+                      <div className="cal-item-dot">
+                        {slot.status === 'done'
+                          ? <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2.2"><polyline points="3,8 7,12 13,4"/></svg>
+                          : <span>{slot.num}</span>}
+                      </div>
+                      <div className="cal-item-body">
+                        <span className="cal-item-fecha">{calFormatDay(slot.scheduledDate)}</span>
+                        <span className="cal-item-titulo">
+                          {clase
+                            ? clase.titulo.split(':')[0].split('—')[0].trim()
+                            : `Clase ${slot.num} · Próximamente`}
+                        </span>
+                      </div>
+                      <div className="cal-item-estado">
+                        {slot.status === 'done' && slot.delay > 0 && (
+                          <span className="cal-delay-badge" title={`${slot.delay} día${slot.delay > 1 ? 's' : ''} de retraso`}>
+                            +{slot.delay}d
+                          </span>
+                        )}
+                        {slot.status === 'today'   && <span className="cal-hoy-badge">Hoy</span>}
+                        {slot.status === 'overdue' && <span className="cal-pendiente-badge">Pendiente</span>}
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          )
+        })}
+      </div>
+
+      {/* Expandir / Cambiar plan */}
+      <div className="cal-footer">
+        {!mostrarTodo && weeksCutoff < weeks.length && (
+          <button className="cal-ver-mas-btn" onClick={() => setMostrarTodo(true)}>
+            Ver plan completo ({weeks.length - weeksCutoff} semanas más)
+          </button>
+        )}
+        <button className="cal-cambiar-btn" onClick={onCambiarPlan}>
+          Cambiar ritmo de práctica
+        </button>
+      </div>
+    </div>
+  )
+}
+
 // ── Página principal ──────────────────────────────────────────────────────
 export default function ClasesOnlinePage() {
   const { isSubscribed, refreshSubscription, user, token } = useAuth()
   const [searchParams] = useSearchParams()
+  const location = useLocation()
   const [vista, setVista] = useState(() => {
     const p = searchParams.get('vista')
     return ['travesia', 'filtros', 'grupos'].includes(p) ? p : 'selector'
   })
+
+  // Cuando el usuario navega a /aula-online desde el menú (misma URL, nuevo location.key),
+  // volver siempre al selector de métodos
+  useEffect(() => {
+    const p = searchParams.get('vista')
+    if (!p) setVista('selector')
+  }, [location.key])
   const [grupoSeleccionado, setGrupoSeleccionado] = useState(null)
   const [filtroDuracion, setFiltroDuracion] = useState('todos')
   const [filtroNivel, setFiltroNivel] = useState('todos')
@@ -853,6 +1131,10 @@ export default function ClasesOnlinePage() {
   const vimeoRef = useRef(null)
   const [grupoClases, setGrupoClases] = useState({})
   const [travesiaProgress, setTravesiaProgress] = useState([])
+  const [progressWithDates, setProgressWithDates] = useState([])
+  const [plan, setPlan] = useState(null)
+  const [planLoading, setPlanLoading] = useState(false)
+  const [travesiaView, setTravesiaView] = useState('camino')  // 'camino' | 'calendario'
   const [showIntroAnim, setShowIntroAnim] = useState(false)
   const [showCompletionAnim, setShowCompletionAnim] = useState(false)
   const [confirmModal, setConfirmModal] = useState(null)
@@ -861,14 +1143,39 @@ export default function ClasesOnlinePage() {
     if (user) refreshSubscription()
   }, [user])
 
-  // Cargar progreso desde la API (por usuario, no localStorage global)
+  // Cargar progreso desde la API (con fechas)
   useEffect(() => {
-    if (!user || !token) { setTravesiaProgress([]); return }
+    if (!user || !token) { setTravesiaProgress([]); setProgressWithDates([]); return }
     fetch('/api/travesia/progress', { headers: { Authorization: `Bearer ${token}` } })
       .then(r => r.json())
-      .then(data => { if (data.success) setTravesiaProgress(data.data) })
+      .then(data => {
+        if (data.success) {
+          setProgressWithDates(data.data)
+          setTravesiaProgress(data.data.map(r => Number(r.clase_id)))
+        }
+      })
       .catch(() => {})
   }, [user, token])
+
+  // Cargar plan de práctica
+  useEffect(() => {
+    if (!user || !token) { setPlan(null); return }
+    fetch('/api/travesia/plan', { headers: { Authorization: `Bearer ${token}` } })
+      .then(r => r.json())
+      .then(data => { if (data.success) setPlan(data.data) })
+      .catch(() => {})
+  }, [user, token])
+
+  const handleCrearPlan = async (planType) => {
+    if (!token) return
+    setPlanLoading(true)
+    try {
+      const r    = await fetch('/api/travesia/plan', { method: 'POST', headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ plan_type: planType }) })
+      const data = await r.json()
+      if (data.success) setPlan(data.data)
+    } catch {}
+    setPlanLoading(false)
+  }
 
   // Detectar fin de vídeo Vimeo via postMessage
   useEffect(() => {
@@ -932,9 +1239,13 @@ export default function ClasesOnlinePage() {
     setConfirmModal(null)
     setModalClase(null)
     setVideoTerminado(false)
-    const nuevas = [...new Set([...travesiaProgress, claseId])]
+    const nuevas = [...new Set([...travesiaProgress, Number(claseId)])]
     setTravesiaProgress(nuevas)
-    // Guardar en backend (por usuario, no localStorage global)
+    const todayStr = new Date().toISOString()
+    setProgressWithDates(prev => {
+      if (prev.some(p => String(p.clase_id) === String(claseId))) return prev
+      return [...prev, { clase_id: String(claseId), completed_at: todayStr }]
+    })
     if (token) {
       fetch(`/api/travesia/progress/${claseId}`, {
         method: 'POST',
@@ -1017,7 +1328,7 @@ export default function ClasesOnlinePage() {
               badge="NUEVO · EXCLUSIVO"
               titulo="La Travesía"
               subtitulo="Avanza etapa a etapa. Desbloquea tu progreso."
-              descripcion="Una experiencia de yoga completamente diferente. Cada clase que practicas desbloquea la siguiente etapa de tu camino. Avanza a tu ritmo, siente cómo evoluciona tu cuerpo y descubre hasta dónde puedes llegar."
+              descripcion="50 etapas que se desbloquean con tu progreso real. Y ahora con tu calendario personal: planifica a 3 o 6 meses, y si te saltas una sesión el plan se ajusta automáticamente para que nunca pierdas el ritmo."
               cta="Comenzar la travesía"
               icon={<IconTravesia />}
               decoracion={<TravesiaMapDecor progreso={progreso} />}
@@ -1079,16 +1390,68 @@ export default function ClasesOnlinePage() {
             </div>
           </div>
 
-          <TravesiaPathView
-            progress={travesiaProgress}
-            isSubscribed={isSubscribed}
-            onNodeClick={handleNodeClick}
-          />
+          {/* Tabs: El Camino / Mi Calendario */}
+          {isSubscribed && (
+            <div className="travesia-tabs">
+              <button
+                className={`travesia-tab${travesiaView === 'camino' ? ' travesia-tab--active' : ''}`}
+                onClick={() => setTravesiaView('camino')}
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+                  <circle cx="5" cy="19" r="2.5"/><circle cx="12" cy="12" r="2.5"/><circle cx="19" cy="5" r="2.5"/>
+                  <path d="M5 19 Q8 15 12 12 Q16 9 19 5" strokeDasharray="3 2" opacity="0.5"/>
+                </svg>
+                El Camino
+              </button>
+              <button
+                className={`travesia-tab${travesiaView === 'calendario' ? ' travesia-tab--active' : ''}`}
+                onClick={() => setTravesiaView('calendario')}
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+                  <rect x="3" y="4" width="18" height="18" rx="2"/>
+                  <line x1="3" y1="9" x2="21" y2="9"/>
+                  <line x1="8" y1="2" x2="8" y2="6"/>
+                  <line x1="16" y1="2" x2="16" y2="6"/>
+                  <line x1="8" y1="14" x2="8" y2="14" strokeWidth="2.5" strokeLinecap="round"/>
+                  <line x1="12" y1="14" x2="12" y2="14" strokeWidth="2.5" strokeLinecap="round"/>
+                  <line x1="16" y1="14" x2="16" y2="14" strokeWidth="2.5" strokeLinecap="round"/>
+                </svg>
+                Mi Calendario
+              </button>
+            </div>
+          )}
 
-          {!isSubscribed && (
-            <div className="travesia-sub-cta">
-              <p>Necesitas una suscripción activa para empezar tu travesía.</p>
-              <Link to="/suscripcion" className="btn">Ver planes →</Link>
+          {/* Vista: El Camino */}
+          {travesiaView === 'camino' && (
+            <>
+              <TravesiaPathView
+                progress={travesiaProgress}
+                isSubscribed={isSubscribed}
+                onNodeClick={handleNodeClick}
+              />
+              {!isSubscribed && (
+                <div className="travesia-sub-cta">
+                  <p>Necesitas una suscripción activa para empezar tu travesía.</p>
+                  <Link to="/suscripcion" className="btn">Ver planes →</Link>
+                </div>
+              )}
+            </>
+          )}
+
+          {/* Vista: Mi Calendario */}
+          {travesiaView === 'calendario' && isSubscribed && (
+            <div className="travesia-calendario-wrap">
+              {!plan ? (
+                <PlanSelector onSelect={handleCrearPlan} loading={planLoading} />
+              ) : (
+                <CalendarioPanel
+                  plan={plan}
+                  progressWithDates={progressWithDates}
+                  clasesArray={CLASES}
+                  userName={user?.nombre || ''}
+                  onCambiarPlan={() => setPlan(null)}
+                />
+              )}
             </div>
           )}
         </section>
@@ -1115,7 +1478,7 @@ export default function ClasesOnlinePage() {
               <div className="filtro-group">
                 <span className="filtro-label">Nivel</span>
                 <div className="filtro-pills">
-                  {[['todos', 'Todos'], ['1', 'Principiante'], ['2', 'Intermedio'], ['3', 'Avanzado']].map(([val, label]) => (
+                  {[['todos', 'Todos'], ['1', 'Todos los niveles'], ['2', 'Intermedio'], ['3', 'Avanzado']].map(([val, label]) => (
                     <button key={val} className={`pill${filtroNivel === val ? ' active' : ''}`} onClick={() => setFiltroNivel(val)}>{label}</button>
                   ))}
                 </div>

@@ -38,9 +38,60 @@ const BENEFICIOS_PAGO = [
   'Más de 50 clases de yoga en vídeo',
   'Niveles 1, 2 y 3: de principiante a avanzado',
   'Movilidad, pranayama, meditación en movimiento',
+  'La Travesía: 50 etapas desbloqueadas por progreso real',
+  'Calendario personal de práctica con ajuste automático',
   'Nuevas clases cada mes',
   'Cancela cuando quieras, sin compromiso',
 ]
+
+function AulaFeatures() {
+  return (
+    <div className="aula-features">
+      <div className="aula-feat">
+        <div className="aula-feat-icon" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="5"  cy="19" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="5" r="2"/>
+            <path d="M5 19 Q8.5 15 12 12 Q15.5 9 19 5" strokeDasharray="3 2" opacity="0.6"/>
+          </svg>
+        </div>
+        <h4 className="aula-feat-titulo">La Travesía</h4>
+        <p className="aula-feat-desc">50 clases que se desbloquean etapa a etapa, siguiendo el camino de los chakras. Avanzas cuando tu práctica lo merece.</p>
+      </div>
+
+      <div className="aula-feat aula-feat--star">
+        <div className="aula-feat-icon" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2"/>
+            <line x1="3" y1="9" x2="21" y2="9"/>
+            <line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8"  y1="14" x2="8"  y2="14" strokeWidth="2.5" strokeLinecap="round"/>
+            <line x1="12" y1="14" x2="12" y2="14" strokeWidth="2.5" strokeLinecap="round"/>
+            <line x1="16" y1="14" x2="16" y2="14" strokeWidth="2.5" strokeLinecap="round"/>
+            <line x1="8"  y1="18" x2="8"  y2="18" strokeWidth="2.5" strokeLinecap="round"/>
+            <line x1="12" y1="18" x2="12" y2="18" strokeWidth="2.5" strokeLinecap="round"/>
+          </svg>
+        </div>
+        <span className="aula-feat-nuevo">Nuevo</span>
+        <h4 className="aula-feat-titulo">Tu Calendario Personal</h4>
+        <p className="aula-feat-desc">Elige practicar 3 meses (4 días/semana) o 6 meses (2 días/semana). Si te saltas una sesión, el calendario se reajusta solo — sin perder el hilo.</p>
+      </div>
+
+      <div className="aula-feat">
+        <div className="aula-feat-icon" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="9"/>
+            <circle cx="12" cy="12" r="5" strokeDasharray="2 3" opacity="0.5"/>
+            <line x1="12" y1="3" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="21"/>
+            <line x1="3" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="21" y2="12"/>
+            <path d="M12 12 L14 7 L12 11 L10 16 Z" fill="currentColor" opacity="0.85"/>
+          </svg>
+        </div>
+        <h4 className="aula-feat-titulo">Explora a tu aire</h4>
+        <p className="aula-feat-desc">Filtra por nivel, duración o tipo de práctica. Cada día es diferente — encuentra la clase que tu cuerpo necesita ahora mismo.</p>
+      </div>
+    </div>
+  )
+}
 
 function FaqAccordion() {
   const [openIndex, setOpenIndex] = useState(null)
@@ -80,6 +131,7 @@ function VisitorPlans({ onCheckout, onOpenRegister, loading, error }) {
         <p className="clases-desc-eyebrow">Elige tu acceso</p>
         <h2 className="plans-title">¿Por dónde <em>empezamos</em>?</h2>
         <p className="plans-subtitle">Puedes empezar gratis y ampliar cuando quieras.</p>
+        <AulaFeatures />
         <div className="plans-grid">
 
           {/* Tarjeta gratuita */}
@@ -152,7 +204,7 @@ function FreeUserUpgrade({ user, onCheckout, loading, error }) {
       <p className="clases-desc-eyebrow" style={{ marginTop: '2.5rem' }}>Cuando estés lista</p>
       <h2 className="plans-title">Accede al <em>Aula Online</em></h2>
       <p className="plans-subtitle">50 clases de yoga en vídeo. 7 días gratis para probar.</p>
-
+      <AulaFeatures />
       <div className="plans-grid plans-grid-single">
         <div className="plan-card plan-card-featured">
           <span className="plan-badge">Aula Online · 7 días gratis</span>

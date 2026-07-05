@@ -119,7 +119,7 @@ export default function HomePage() {
           <div className="teaser-disciplinas">
             <Link to="/aula-online?vista=travesia" className="teaser-disciplina teaser-disciplina--highlight">
               <p className="teaser-disc-nombre">✦ La Travesía</p>
-              <p className="teaser-disc-desc">50 clases que se desbloquean etapa a etapa, siguiendo el camino de los chakras. Una experiencia única: avanzas cuando tu cuerpo y tu práctica lo merecen de verdad.</p>
+              <p className="teaser-disc-desc">50 clases que se desbloquean etapa a etapa. Con tu calendario personal: elige practicar 3 o 6 meses, y si te saltas un día el plan se reorganiza solo para que nunca pierdas el hilo.</p>
             </Link>
             <Link to="/aula-online?vista=filtros" className="teaser-disciplina">
               <p className="teaser-disc-nombre">Explora a tu aire</p>
