@@ -3,12 +3,65 @@ import { Link, useSearchParams, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
 const CLASES = [
-  { id: 1, titulo: 'Vinyasa Despertar',    duracion: 30, nivel: 1, descripcion: 'Activa el cuerpo con suavidad. Perfecta para comenzar el día o cuando el tiempo escasea.',              imagen: '/images/yoga1.jpg' },
-  { id: 2, titulo: 'Flow Profundo',        duracion: 60, nivel: 2, descripcion: 'Secuencia fluida que trabaja la fuerza, la flexibilidad y la presencia plena.',                        imagen: '/images/yoga3.jpg' },
-  { id: 3, titulo: 'Pranayama y Silencio', duracion: 30, nivel: 1, descripcion: 'Respiración consciente y meditación guiada para calmar la mente y centrar la energía.',               imagen: '/images/yoga2.jpg' },
-  { id: 4, titulo: 'Vinyasa Avanzado',     duracion: 60, nivel: 3, descripcion: 'Posturas desafiantes y transiciones avanzadas para quienes quieren profundizar.',                      imagen: '/images/yoga4.jpg' },
-  { id: 5, titulo: 'Movilidad y Cuidado',  duracion: 30, nivel: 1, descripcion: 'Cuida tus articulaciones y mejora el rango de movimiento. Ideal para todas las edades.',               imagen: '/images/yoga-36.jpg' },
-  { id: 6, titulo: 'Hacia dentro: del cuerpo al silencio', duracion: 60, nivel: 3, descripcion: 'Sesión integral que recorre las capas del ser de lo más externo a lo más sutil. Comenzamos con asanas para movilizar el cuerpo y equilibrar el sistema nervioso; desde ahí, el pranayama actúa como puente hacia estados más profundos, y la clase culmina con una meditación guiada para anclar la calma y la presencia.', imagen: '/images/yoga11.jpg', vimeo_id: '1206825714' },
+  // ── FASE 1: Cimientos y Alineación (1-8) ──────────────────────────────
+  { id: 1,  titulo: 'El primer paso: activar el cuerpo desde la raíz',        duracion: 30, nivel: 1, descripcion: 'Toma conciencia de las plantas de los pies, activa la cadena muscular desde la base y establece la conexión entre suelo y movimiento.',                                                          imagen: '/images/yoga1.jpg' },
+  { id: 2,  titulo: 'Alineación consciente: pies, rodillas, caderas',          duracion: 30, nivel: 1, descripcion: 'Aprende a alinear el tren inferior para proteger las articulaciones y crear una base sólida en cada postura.',                                                                                      imagen: '/images/yoga2.jpg' },
+  { id: 3,  titulo: 'La columna neutra: encontrar tu eje',                     duracion: 30, nivel: 1, descripcion: 'Descubre la posición natural de la columna y cómo mantenerla en movimiento. El eje que sostiene toda la práctica.',                                                                                  imagen: '/images/yoga3.jpg' },
+  { id: 4,  titulo: 'Escápulas despiertas: hombros en su lugar',               duracion: 25, nivel: 1, descripcion: 'Activa y estabiliza la cintura escapular para proteger los hombros y abrir el pecho con seguridad.',                                                                                               imagen: '/images/yoga4.jpg' },
+  { id: 5,  titulo: 'Respiración y movimiento: el ritmo que sostiene la práctica', duracion: 30, nivel: 1, descripcion: 'Integra la respiración diafragmática con el movimiento para crear una práctica fluida, sostenida y presente.',                                                                                imagen: '/images/yoga5.jpg' },
+  { id: 6,  titulo: 'El suelo pélvico como centro de poder',                   duracion: 30, nivel: 1, descripcion: 'Aprende a activar, relajar y coordinar el suelo pélvico. La base energética y física que nutre toda la práctica.', imagen: '/images/yoga9.jpg', vimeo_id: '1206825714' },
+  { id: 7,  titulo: 'Activar antes de estirar: el cuerpo inteligente',         duracion: 25, nivel: 1, descripcion: 'Por qué es crucial activar el músculo antes de elongarlo. Una clase que cambia la forma en que entiendes el yoga.',                                                                                 imagen: '/images/yoga10.jpg' },
+  { id: 8,  titulo: 'Integración postural: de pie a la esterilla',             duracion: 35, nivel: 1, descripcion: 'Sesión integradora de la Fase 1. Recorre todos los principios de alineación en una secuencia cohesionada y consciente.',                                                                           imagen: '/images/yoga11.jpg' },
+  // ── FASE 2: Movilidad y Conciencia Corporal (9-15) ────────────────────
+  { id: 9,  titulo: 'Movilidad de columna: flexión, extensión, rotación',      duracion: 30, nivel: 1, descripcion: 'Recorre los tres planos de movimiento de la columna con conciencia y control. La columna que respira es la que dura.',                                                                              imagen: '/images/yoga12.jpg' },
+  { id: 10, titulo: 'Caderas líquidas: primeros círculos de apertura',          duracion: 30, nivel: 1, descripcion: 'Inicia el trabajo de apertura de caderas de forma suave y progresiva, explorando el rango articular disponible.',                                                                                  imagen: '/images/yoga-18.jpg' },
+  { id: 11, titulo: 'Tobillos y muñecas: las bases olvidadas',                 duracion: 25, nivel: 1, descripcion: 'Movilidad y fortalecimiento de las articulaciones distales que sostienen toda la práctica en el suelo y de pie.',                                                                                   imagen: '/images/yoga-21.jpg' },
+  { id: 12, titulo: 'Torsiones suaves: desintoxicar y alinear',                duracion: 30, nivel: 1, descripcion: 'Las torsiones bien ejecutadas liberan tensión profunda, estimulan los órganos y realinean la columna sin forzar.',                                                                                  imagen: '/images/yoga-30.jpg' },
+  { id: 13, titulo: 'Movilidad escapular: preparar el tren superior',           duracion: 25, nivel: 1, descripcion: 'Gana rango de movimiento en la cintura escapular antes de cargar peso en brazos. Hombros libres, práctica segura.',                                                                                imagen: '/images/yoga-36.jpg' },
+  { id: 14, titulo: 'El cuerpo en espiral: rotaciones seguras',                 duracion: 30, nivel: 2, descripcion: 'Explora las rotaciones de tronco con conciencia postural. La espiral que conecta pies, caderas y hombros.',                                                                                        imagen: '/images/yoga-37.jpg' },
+  { id: 15, titulo: 'Fluidez articular: de la rigidez a la libertad',           duracion: 35, nivel: 1, descripcion: 'Clase integradora de movilidad. Un recorrido completo por todas las articulaciones para encontrar libertad de movimiento.',                                                                        imagen: '/images/yoga1.jpg' },
+  // ── FASE 3: Construcción de Fuerza · Core (16-20) ─────────────────────
+  { id: 16, titulo: 'El core profundo: más allá del abdomen visible',           duracion: 30, nivel: 1, descripcion: 'Descubre los músculos estabilizadores profundos — transverso, multífidos, suelo pélvico — y cómo activarlos con precisión.',                                                                       imagen: '/images/yoga2.jpg' },
+  { id: 17, titulo: 'Plancha consciente: fuerza con alineación',                duracion: 30, nivel: 2, descripcion: 'La plancha no es solo resistencia: es activación total del cuerpo. Aprende a hacerla bien antes de hacerla más.',                                                                                  imagen: '/images/yoga3.jpg' },
+  { id: 18, titulo: 'Estabilidad lumbo-pélvica en movimiento',                  duracion: 35, nivel: 2, descripcion: 'Aprende a mantener la pelvis estable mientras las piernas y brazos se mueven. La clave para proteger la zona lumbar.',                                                                             imagen: '/images/yoga4.jpg' },
+  { id: 19, titulo: 'Core dinámico: fuerza en transición',                      duracion: 35, nivel: 2, descripcion: 'Trabaja la fuerza del centro en movimiento real: entradas y salidas de posturas, transiciones fluidas y controladas.',                                                                             imagen: '/images/yoga5.jpg' },
+  { id: 20, titulo: 'De la estabilidad a la potencia central',                  duracion: 40, nivel: 2, descripcion: 'Clase integradora del core. Combina estabilidad profunda con potencia funcional para un centro que realmente sostiene.',                                                                           imagen: '/images/yoga9.jpg' },
+  // ── FASE 4: Apertura de Caderas Progresiva (21-27) ────────────────────
+  { id: 21, titulo: 'Caderas nivel I: apertura externa suave',                  duracion: 35, nivel: 1, descripcion: 'Primer trabajo sistemático de apertura de cadera externa. Posturas accesibles con tiempo y presencia.',                                                                                            imagen: '/images/yoga10.jpg' },
+  { id: 22, titulo: 'Flexores de cadera: liberar lo que sostenemos',            duracion: 30, nivel: 1, descripcion: 'Iliopsoas, recto femoral, tensor… Los flexores acumulan tensión emocional y postural. Aprende a soltarlos con seguridad.',                                                                        imagen: '/images/yoga11.jpg' },
+  { id: 23, titulo: 'Caderas nivel II: rotación profunda',                      duracion: 40, nivel: 2, descripcion: 'Avanza hacia una mayor rotación externa con posturas que requieren activación y apertura simultáneas.',                                                                                            imagen: '/images/yoga12.jpg' },
+  { id: 24, titulo: 'Isquiotibiales conscientes: elongar sin forzar',           duracion: 30, nivel: 1, descripcion: 'El trabajo correcto de los isquiotibiales: cómo elongarlos con soporte muscular activo para ganar sin lesionar.',                                                                                  imagen: '/images/yoga-18.jpg' },
+  { id: 25, titulo: 'El camino a Paloma: apertura progresiva',                  duracion: 40, nivel: 2, descripcion: 'Preparación paso a paso para Eka Pada Rajakapotasana. Una clase que respeta el tiempo de tu cuerpo.',                                                                                              imagen: '/images/yoga-21.jpg' },
+  { id: 26, titulo: 'Caderas nivel III: preparación para posturas avanzadas',   duracion: 45, nivel: 3, descripcion: 'Exploración profunda del rango articular de cadera. Prerequisito para Hanumanasana y variantes avanzadas.',                                                                                        imagen: '/images/yoga-30.jpg' },
+  { id: 27, titulo: 'Integración de cadera: fuerza y flexibilidad unidas',      duracion: 40, nivel: 2, descripcion: 'Clase integradora de la Fase 4. La cadera que abre con fuerza es más segura y más libre.',                                                                                                        imagen: '/images/yoga-36.jpg' },
+  // ── FASE 5: Fuerza en Tren Superior y Hombros (28-33) ─────────────────
+  { id: 28, titulo: 'Hombros fuertes, hombros seguros',                         duracion: 30, nivel: 2, descripcion: 'Construye la base muscular del hombro: manguito rotador, deltoides, trapecio inferior. Fuerza antes que movilidad.',                                                                              imagen: '/images/yoga-37.jpg' },
+  { id: 29, titulo: 'Fuerza de brazos: primeros apoyos',                        duracion: 35, nivel: 2, descripcion: 'Tríceps, bíceps y muñecas como soporte real. Aprende los primeros apoyos en manos con conciencia y control.',                                                                                     imagen: '/images/yoga1.jpg' },
+  { id: 30, titulo: 'Estabilidad escapular en carga',                           duracion: 35, nivel: 2, descripcion: 'Cuando el peso cae en los brazos, las escápulas deben estar activas. Aprende a estabilizarlas bajo carga.',                                                                                       imagen: '/images/yoga2.jpg' },
+  { id: 31, titulo: 'Del Perro Boca Abajo a Chaturanga consciente',             duracion: 40, nivel: 2, descripcion: 'La transición más técnica del yoga: de Adho Mukha a Chaturanga con alineación real y sin compensar.',                                                                                              imagen: '/images/yoga3.jpg' },
+  { id: 32, titulo: 'Dorsales y core: la conexión de fuerza',                   duracion: 35, nivel: 2, descripcion: 'Dorsal ancho, serrato y core trabajan juntos para crear una cadena posterior sólida. La fuerza que une todo.',                                                                                    imagen: '/images/yoga4.jpg' },
+  { id: 33, titulo: 'Preparación física para el peso en manos',                 duracion: 40, nivel: 2, descripcion: 'Clase integradora del tren superior. Todo el trabajo converge en la preparación para los arm balances.',                                                                                           imagen: '/images/yoga5.jpg' },
+  // ── FASE 6: Equilibrio y Fuerza en Piernas (34-37) ────────────────────
+  { id: 34, titulo: 'Equilibrio nivel I: el árbol y sus raíces',                duracion: 30, nivel: 1, descripcion: 'Vrksasana y variantes accesibles. Los fundamentos del equilibrio monopodal: dónde mirar, dónde activar.',                                                                                        imagen: '/images/yoga9.jpg' },
+  { id: 35, titulo: 'Fuerza de piernas: guerreros conscientes',                  duracion: 35, nivel: 2, descripcion: 'Virabhadrasana I, II y III con énfasis en activación muscular, alineación y resistencia. Los guerreros desde dentro.',                                                                           imagen: '/images/yoga10.jpg' },
+  { id: 36, titulo: 'Equilibrio nivel II: desafiar la estabilidad',              duracion: 35, nivel: 2, descripcion: 'Ardha Chandrasana, Virabhadrasana III, variantes en palancas. El equilibrio que se gana con práctica constante.',                                                                                imagen: '/images/yoga11.jpg' },
+  { id: 37, titulo: 'Propiocepción avanzada: el cuerpo que confía',             duracion: 40, nivel: 3, descripcion: 'Entrena el sistema propioceptivo con transiciones de equilibrio en cadena. El cuerpo aprende a confiar en sí mismo.',                                                                             imagen: '/images/yoga12.jpg' },
+  // ── FASE 7: Backbends Progresivos (38-42) ─────────────────────────────
+  { id: 38, titulo: 'Extensión de columna: primeros backbends',                  duracion: 30, nivel: 1, descripcion: 'Cobra, Esfinge, Langosta suave. Aprende a extender la columna con soporte muscular, sin comprimir las lumbares.',                                                                                imagen: '/images/yoga-18.jpg' },
+  { id: 39, titulo: 'Abrir el corazón: nivel intermedio',                        duracion: 35, nivel: 2, descripcion: 'Ustrasana, Dhanurasana, Setu Bandha. El corazón se abre cuando el cuerpo está preparado y la mente confía.',                                                                                     imagen: '/images/yoga-21.jpg' },
+  { id: 40, titulo: 'Backbends nivel II: fuerza en la apertura',                 duracion: 40, nivel: 2, descripcion: 'Profundiza en la extensión torácica con Chakrasana preparatorio. Fuerza de piernas, apertura de psoas y pecho.',                                                                                 imagen: '/images/yoga-30.jpg' },
+  { id: 41, titulo: 'Puente y Rueda: preparación progresiva',                    duracion: 40, nivel: 2, descripcion: 'El trabajo hacia Urdhva Dhanurasana: cómo construirla desde el puente con fuerza, apertura y confianza.',                                                                                         imagen: '/images/yoga-36.jpg' },
+  { id: 42, titulo: 'Flexibilidad de columna con soporte muscular',              duracion: 45, nivel: 3, descripcion: 'Clase integradora de backbends. La columna que se abre con músculos activos es más segura y más profunda.',                                                                                       imagen: '/images/yoga-37.jpg' },
+  // ── FASE 8: Arm Balances y Preparación a Inversiones (43-47) ──────────
+  { id: 43, titulo: 'Primeros equilibrios de brazos: Bakasana',                  duracion: 35, nivel: 2, descripcion: 'Bakasana paso a paso. Aprende a encontrar el punto de equilibrio sin miedo y con técnica.',                                                                                                      imagen: '/images/yoga1.jpg' },
+  { id: 44, titulo: 'Core y hombros: la combinación clave',                      duracion: 40, nivel: 3, descripcion: 'El secreto de los arm balances: core comprimido y hombros activos al mismo tiempo. Entrena la conexión.',                                                                                        imagen: '/images/yoga2.jpg' },
+  { id: 45, titulo: 'Arm balances nivel II: desafíos de estabilidad',            duracion: 40, nivel: 3, descripcion: 'Variantes de Bakasana, Bhujapidasana y Tittibhasana. Progresa con seguridad hacia los equilibrios más complejos.',                                                                                imagen: '/images/yoga3.jpg' },
+  { id: 46, titulo: 'Preparación técnica para invertir el cuerpo',               duracion: 35, nivel: 2, descripcion: 'Aprende a invertir con seguridad: Sirsasana con soporte, Prasarita Padottanasana, Sarvangasana.',                                                                                                imagen: '/images/yoga4.jpg' },
+  { id: 47, titulo: 'El miedo y la confianza: paso previo a invertir',           duracion: 35, nivel: 2, descripcion: 'El componente mental de las inversiones. Respiración, visualización y aproximación gradual al volteo.',                                                                                           imagen: '/images/yoga5.jpg' },
+  // ── FASE 9: Inversiones e Integración Final (48-50) ───────────────────
+  { id: 48, titulo: 'Invertidas nivel I: Delfín y preparación a Sirsasana',     duracion: 40, nivel: 3, descripcion: 'Ardha Sirsasana y Makarasana. Fortalece cuello, hombros y core para invertir con seguridad total.',                                                                                                imagen: '/images/yoga9.jpg' },
+  { id: 49, titulo: 'Invertidas nivel II: Sirsasana con soporte',               duracion: 45, nivel: 3, descripcion: 'Sirsasana asistida y con pared. La postura más completa del yoga: calma, fuerza e inversión en su forma plena.',                                                                                  imagen: '/images/yoga10.jpg' },
+  { id: 50, titulo: 'La travesía completa: cuerpo, mente y práctica integradas', duracion: 60, nivel: 3, descripcion: 'La clase final. Un recorrido por todos los principios de la Travesía: alineación, fuerza, apertura e inversión. El cuerpo que ha llegado hasta aquí lo ha ganado.', imagen: '/images/yoga11.jpg' },
 ]
 
 const GRUPO_ICONOS = {
@@ -955,7 +1008,7 @@ function calGroupWeeks(slots, planType) {
 }
 
 // ── Onboarding del calendario (primera entrada a Travesía sin plan) ───────
-function CalendarOnboarding({ onSelect, onDismiss, loading }) {
+function CalendarOnboarding({ onSelect, onDismiss, loading, error }) {
   return (
     <div className="cal-onboarding-overlay" role="dialog" aria-modal="true" aria-label="Configura tu calendario de práctica">
       <div className="cal-onboarding">
@@ -997,6 +1050,7 @@ function CalendarOnboarding({ onSelect, onDismiss, loading }) {
             </p>
           </button>
         </div>
+        {error && <p className="cal-ob-error">{error}</p>}
         <button className="cal-ob-skip" onClick={onDismiss} type="button">
           Ahora no, ir al camino →
         </button>
@@ -1189,6 +1243,7 @@ export default function ClasesOnlinePage() {
   const [confirmModal, setConfirmModal] = useState(null)
   const [planLoaded, setPlanLoaded] = useState(false)
   const [showCalOnboarding, setShowCalOnboarding] = useState(false)
+  const [planError, setPlanError] = useState('')
   const calOnboardingShown = useRef(false)
 
   useEffect(() => {
@@ -1230,15 +1285,20 @@ export default function ClasesOnlinePage() {
   const handleCrearPlan = async (planType) => {
     if (!token) return
     setPlanLoading(true)
+    setPlanError('')
     try {
       const r    = await fetch('/api/travesia/plan', { method: 'POST', headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ plan_type: planType }) })
       const data = await r.json()
-      if (data.success) {
+      if (data.success && data.data) {
         setPlan(data.data)
         setShowCalOnboarding(false)
         setTravesiaView('calendario')
+      } else {
+        setPlanError('No se pudo crear el calendario. Inténtalo de nuevo.')
       }
-    } catch {}
+    } catch {
+      setPlanError('Error de conexión. Comprueba tu red e inténtalo de nuevo.')
+    }
     setPlanLoading(false)
   }
 
@@ -1526,6 +1586,7 @@ export default function ClasesOnlinePage() {
               onSelect={handleCrearPlan}
               onDismiss={() => setShowCalOnboarding(false)}
               loading={planLoading}
+              error={planError}
             />
           )}
         </section>
