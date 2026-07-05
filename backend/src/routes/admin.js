@@ -1,9 +1,23 @@
 const express        = require('express');
 const router         = express.Router();
+const rateLimit      = require('express-rate-limit');
 const { verifyToken, verifyRole } = require('../middleware/auth');
 const { executeQuery } = require('../config/database');
 
-router.use(verifyToken, verifyRole(['admin']));
+const adminLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 30,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { success: false, message: 'Demasiadas peticiones al panel admin.' },
+});
+
+router.use(adminLimiter, verifyToken, verifyRole(['admin']));
+
+function parseUserId(param) {
+  const id = parseInt(param, 10);
+  return Number.isFinite(id) && id > 0 ? id : null;
+}
 
 // GET /api/admin/usuarios — lista todas las usuarias con estado de suscripción
 router.get('/usuarios', async (req, res) => {
@@ -13,7 +27,7 @@ router.get('/usuarios', async (req, res) => {
       u.nombre,
       u.email,
       u.created_at,
-      s.estado      AS sub_estado,
+      s.estado       AS sub_estado,
       s.fecha_inicio AS sub_inicio,
       s.fecha_fin    AS sub_fin,
       s.stripe_subscription_id
@@ -28,10 +42,15 @@ router.get('/usuarios', async (req, res) => {
   res.json({ success: true, data: result.data });
 });
 
-// POST /api/admin/suscripcion/:userId/activar — activa suscripción manual (testing / gracias)
+// POST /api/admin/suscripcion/:userId/activar
 router.post('/suscripcion/:userId/activar', async (req, res) => {
-  const { userId } = req.params;
-  const meses = Number(req.body?.meses) || 12;
+  const userId = parseUserId(req.params.userId);
+  if (!userId) return res.status(400).json({ success: false, message: 'userId inválido' });
+
+  const meses = parseInt(req.body?.meses, 10);
+  if (!Number.isFinite(meses) || meses < 1 || meses > 24) {
+    return res.status(400).json({ success: false, message: 'meses debe estar entre 1 y 24' });
+  }
 
   const hoy = new Date();
   const fin = new Date(hoy);
@@ -52,16 +71,19 @@ router.post('/suscripcion/:userId/activar', async (req, res) => {
     [userId, fechaInicio, fechaFin]
   );
 
-  if (!result.success) return res.status(500).json({ success: false, error: result.error });
+  if (!result.success) return res.status(500).json({ success: false });
   res.json({ success: true, fechaFin });
 });
 
 // POST /api/admin/suscripcion/:userId/cancelar
 router.post('/suscripcion/:userId/cancelar', async (req, res) => {
+  const userId = parseUserId(req.params.userId);
+  if (!userId) return res.status(400).json({ success: false, message: 'userId inválido' });
+
   const result = await executeQuery(
     `UPDATE suscripciones SET estado = 'cancelada', updated_at = NOW()
      WHERE usuario_id = ? AND estado = 'activa'`,
-    [req.params.userId]
+    [userId]
   );
   if (!result.success) return res.status(500).json({ success: false });
   res.json({ success: true });
