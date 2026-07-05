@@ -90,8 +90,8 @@ export default function LoginModal({ isOpen, onClose, initialView = 'login' }) {
       })
       const data = await res.json()
       if (data.success) {
-        saveAuth(data.data.token, { ...data.data.user, subscribed: false })
-        await refreshSubscription()
+        saveAuth(data.data.token, data.data.user)
+        refreshSubscription()
         handleClose()
       } else {
         setLoginError(data.message || 'Error al iniciar sesión')

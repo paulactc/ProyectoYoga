@@ -171,9 +171,15 @@ class AuthController {
         { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
       );
 
+      const subCheck = await executeQuery(
+        `SELECT id FROM suscripciones WHERE usuario_id = ? AND estado = 'activa' AND fecha_fin >= CURDATE() LIMIT 1`,
+        [user.id]
+      );
+      const subscribed = subCheck.success && subCheck.data.length > 0;
+
       res.json({
         success: true,
-        data: { user: { id: user.id, nombre: user.nombre, email: user.email, rol: user.rol }, token },
+        data: { user: { id: user.id, nombre: user.nombre, email: user.email, rol: user.rol, subscribed }, token },
       });
     } catch (err) {
       console.error('Error en login:', err);
@@ -192,7 +198,14 @@ class AuthController {
         return res.status(401).json({ success: false, message: 'Token inválido' });
       }
 
-      res.json({ success: true, data: { user: result.data[0] } });
+      const subCheck = await executeQuery(
+        `SELECT id FROM suscripciones WHERE usuario_id = ? AND estado = 'activa' AND fecha_fin >= CURDATE() LIMIT 1`,
+        [req.user.id]
+      );
+      const subscribed = subCheck.success && subCheck.data.length > 0;
+
+      const u = result.data[0];
+      res.json({ success: true, data: { user: { ...u, subscribed } } });
     } catch (err) {
       console.error('Error en verifyToken:', err);
       res.status(500).json({ success: false, message: 'Error interno del servidor' });
