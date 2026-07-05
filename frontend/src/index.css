@@ -2137,7 +2137,10 @@ a.nav-logo {
 .travesia-calendario-wrap {
   padding: 1.5rem 1.25rem 2.5rem;
   max-width: 680px;
-  margin: 0 auto;
+  margin: 0.5rem auto 2rem;
+  background: linear-gradient(180deg, #1a1008 0%, #14100a 60%, #1a1008 100%);
+  border-radius: 20px;
+  border: 1px solid rgba(212,160,96,0.14);
 }
 
 /* ── Onboarding modal del calendario ──────────────────────────────── */
