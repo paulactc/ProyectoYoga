@@ -954,17 +954,66 @@ function calGroupWeeks(slots, planType) {
   return weeks
 }
 
-// ── Selector de plan ──────────────────────────────────────────────────────
+// ── Onboarding del calendario (primera entrada a Travesía sin plan) ───────
+function CalendarOnboarding({ onSelect, onDismiss, loading }) {
+  return (
+    <div className="cal-onboarding-overlay" role="dialog" aria-modal="true" aria-label="Configura tu calendario de práctica">
+      <div className="cal-onboarding">
+        <div className="cal-onboarding-icon" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2"/>
+            <line x1="3" y1="9" x2="21" y2="9"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8"  y1="14" x2="8"  y2="14" strokeWidth="2.5"/>
+            <line x1="12" y1="14" x2="12" y2="14" strokeWidth="2.5"/>
+            <line x1="16" y1="14" x2="16" y2="14" strokeWidth="2.5"/>
+            <line x1="8"  y1="18" x2="8"  y2="18" strokeWidth="2.5"/>
+            <line x1="12" y1="18" x2="12" y2="18" strokeWidth="2.5"/>
+          </svg>
+        </div>
+        <h2 className="cal-onboarding-titulo">Tu calendario de práctica</h2>
+        <p className="cal-onboarding-desc">
+          La Travesía se recorre mejor con un ritmo claro. Elige tu plan y el
+          calendario se crea hoy con las 50 clases repartidas — si te saltas un
+          día, se reajusta solo para que nunca pierdas el hilo.
+        </p>
+        <div className="cal-onboarding-cards">
+          <button className="cal-ob-card cal-ob-card--3m" onClick={() => onSelect('3m')} disabled={loading}>
+            <span className="cal-ob-badge">Recomendado</span>
+            <p className="cal-ob-dur">3 meses</p>
+            <p className="cal-ob-freq">4 clases por semana</p>
+            <p className="cal-ob-desc">
+              El ritmo óptimo para que la Travesía deje huella real. La práctica frecuente
+              hace que los cambios se instalen en el cuerpo. Lunes, martes, jueves y viernes.
+            </p>
+          </button>
+          <button className="cal-ob-card" onClick={() => onSelect('6m')} disabled={loading}>
+            <p className="cal-ob-dur">6 meses</p>
+            <p className="cal-ob-freq">2 clases por semana</p>
+            <p className="cal-ob-desc">
+              Más espacio entre sesiones para asimilar y recuperar.
+              Ideal si tu agenda lo necesita. Lunes y jueves.
+            </p>
+          </button>
+        </div>
+        <button className="cal-ob-skip" onClick={onDismiss} type="button">
+          Ahora no, ir al camino →
+        </button>
+      </div>
+    </div>
+  )
+}
+
+// ── Selector de plan (visible en el tab Mi Calendario si no hay plan) ──────
 function PlanSelector({ onSelect, loading }) {
   return (
     <div className="cal-selector">
-      <div className="cal-selector-header">
-        <h3 className="cal-selector-titulo">Planifica tu Travesía</h3>
-        <p className="cal-selector-sub">
-          Elige el ritmo que mejor encaja con tu vida. El calendario se crea hoy
-          y se ajusta automáticamente si te saltas alguna sesión.
-        </p>
-      </div>
+      <h3 className="cal-selector-titulo">Planifica tu Travesía</h3>
+      <p className="cal-selector-sub">
+        Elige el ritmo que mejor encaja con tu vida. El calendario se crea hoy
+        y se ajusta automáticamente si te saltas alguna sesión.
+      </p>
       <div className="cal-selector-cards">
         <button className="cal-plan-card cal-plan-card--3m" onClick={() => onSelect('3m')} disabled={loading}>
           <div className="cal-plan-card-inner">
@@ -1138,6 +1187,9 @@ export default function ClasesOnlinePage() {
   const [showIntroAnim, setShowIntroAnim] = useState(false)
   const [showCompletionAnim, setShowCompletionAnim] = useState(false)
   const [confirmModal, setConfirmModal] = useState(null)
+  const [planLoaded, setPlanLoaded] = useState(false)
+  const [showCalOnboarding, setShowCalOnboarding] = useState(false)
+  const calOnboardingShown = useRef(false)
 
   useEffect(() => {
     if (user) refreshSubscription()
@@ -1159,12 +1211,21 @@ export default function ClasesOnlinePage() {
 
   // Cargar plan de práctica
   useEffect(() => {
-    if (!user || !token) { setPlan(null); return }
+    if (!user || !token) { setPlan(null); setPlanLoaded(true); return }
     fetch('/api/travesia/plan', { headers: { Authorization: `Bearer ${token}` } })
       .then(r => r.json())
       .then(data => { if (data.success) setPlan(data.data) })
       .catch(() => {})
+      .finally(() => setPlanLoaded(true))
   }, [user, token])
+
+  // Mostrar onboarding del calendario la primera vez que se entra sin plan
+  useEffect(() => {
+    if (vista === 'travesia' && isSubscribed && planLoaded && plan === null && !calOnboardingShown.current) {
+      calOnboardingShown.current = true
+      setShowCalOnboarding(true)
+    }
+  }, [vista, isSubscribed, planLoaded, plan])
 
   const handleCrearPlan = async (planType) => {
     if (!token) return
@@ -1172,7 +1233,11 @@ export default function ClasesOnlinePage() {
     try {
       const r    = await fetch('/api/travesia/plan', { method: 'POST', headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ plan_type: planType }) })
       const data = await r.json()
-      if (data.success) setPlan(data.data)
+      if (data.success) {
+        setPlan(data.data)
+        setShowCalOnboarding(false)
+        setTravesiaView('calendario')
+      }
     } catch {}
     setPlanLoading(false)
   }
@@ -1453,6 +1518,15 @@ export default function ClasesOnlinePage() {
                 />
               )}
             </div>
+          )}
+
+          {/* Onboarding del calendario — overlay sobre la sección */}
+          {showCalOnboarding && (
+            <CalendarOnboarding
+              onSelect={handleCrearPlan}
+              onDismiss={() => setShowCalOnboarding(false)}
+              loading={planLoading}
+            />
           )}
         </section>
       )}
