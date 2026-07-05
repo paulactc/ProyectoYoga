@@ -1234,8 +1234,23 @@ function PlanSelector({ onSelect, loading }) {
 }
 
 // ── Panel del calendario ──────────────────────────────────────────────────
+// ── Título corto de clase (antes del ':' o ' — ') ─────────────────────────
+function calShortTitle(clase) {
+  if (!clase) return ''
+  const t = clase.titulo
+  const ci = t.indexOf(':')
+  const mi = t.indexOf(' — ')
+  const cut = ci > 0 && mi > 0 ? Math.min(ci, mi) : ci > 0 ? ci : mi > 0 ? mi : -1
+  return cut > 0 ? t.slice(0, cut) : t
+}
+
+function calPhaseColor(num) {
+  const zone = PATH_ZONES.find(z => num >= z.desde && num <= z.hasta)
+  return zone?.color || 'var(--tierra)'
+}
+
 // ── Vista mensual real ─────────────────────────────────────────────────────
-function CalendarioMensual({ slots, startDateStr }) {
+function CalendarioMensual({ slots, startDateStr, clasesArray }) {
   const today = new Date(); today.setHours(0,0,0,0)
   const todayKey = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`
 
@@ -1274,16 +1289,28 @@ function CalendarioMensual({ slots, startDateStr }) {
         ))}
         {cells.map((day, i) => {
           if (!day) return <div key={`e-${i}`} className="cal-mes-cell cal-mes-cell--empty" />
-          const key  = `${year}-${month}-${day}`
-          const slot = slotsByKey[key]
+          const key    = `${year}-${month}-${day}`
+          const slot   = slotsByKey[key]
           const isToday = key === todayKey
           let cls = 'cal-mes-cell'
           if (slot) cls += ` cal-mes-cell--${slot.status}`
           else if (isToday) cls += ' cal-mes-cell--hoy'
+
+          const clase  = slot ? clasesArray?.[slot.num - 1] : null
+          const titulo = calShortTitle(clase)
+          const pColor = slot ? calPhaseColor(slot.num) : null
+
           return (
-            <div key={i} className={cls} title={slot ? `Clase ${slot.num}` : undefined}>
+            <div key={i} className={cls} title={clase?.titulo}>
               <span className="cal-mes-day">{day}</span>
-              {slot && <span className="cal-mes-num">{slot.num}</span>}
+              {slot && (
+                <div className="cal-mes-clase-info">
+                  <span className="cal-mes-num" style={{ color: pColor }}>
+                    {slot.status === 'done' ? '✓ ' : ''}{slot.num}
+                  </span>
+                  <span className="cal-mes-titulo-clase">{titulo}</span>
+                </div>
+              )}
             </div>
           )
         })}
@@ -1321,7 +1348,7 @@ function CalendarioPanel({ plan, progressWithDates, clasesArray, userName, onCam
         </div>
       )}
 
-      <CalendarioMensual slots={slots} startDateStr={plan.start_date} />
+      <CalendarioMensual slots={slots} startDateStr={plan.start_date} clasesArray={clasesArray} />
 
       <div className="cal-leyenda">
         <span className="cal-leyenda-item cal-leyenda-item--done">✓ Completada</span>

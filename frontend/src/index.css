@@ -2422,7 +2422,7 @@ a.nav-logo {
 .cal-mes-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 2px;
+  gap: 3px;
   padding: 0 0.65rem 0.5rem;
 }
 .cal-mes-dayname {
@@ -2435,23 +2435,72 @@ a.nav-logo {
   letter-spacing: 0.04em;
 }
 .cal-mes-cell {
-  aspect-ratio: 1;
-  border-radius: 6px;
+  min-height: 74px;
+  border-radius: 7px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1px;
+  align-items: flex-start;
+  padding: 5px 5px 4px;
   color: #c8bfb4;
+  overflow: hidden;
+  cursor: default;
 }
-.cal-mes-cell--empty { pointer-events: none; }
+.cal-mes-cell--empty { background: transparent; pointer-events: none; }
 .cal-mes-cell--hoy   { border: 1px solid #c4a882; color: var(--dark); }
-.cal-mes-cell--done      { background: #edf7f0; color: #2d8050; }
-.cal-mes-cell--today     { background: rgba(140,78,47,0.1); color: var(--tierra); font-weight: 700; box-shadow: 0 0 0 1.5px var(--tierra); }
-.cal-mes-cell--upcoming  { background: #fdf8f2; border: 1px solid #e2d0b8; color: #7a5830; }
-.cal-mes-cell--overdue   { background: #fef2f0; border: 1px solid #e8c0b0; color: #b04030; }
-.cal-mes-day { font-size: 0.72rem; font-weight: 600; line-height: 1; }
-.cal-mes-num { font-size: 0.5rem; line-height: 1; opacity: 0.8; }
+.cal-mes-cell--done     { background: #edf7f0; color: #2d8050; }
+.cal-mes-cell--today    { background: rgba(140,78,47,0.08); color: var(--tierra); box-shadow: 0 0 0 1.5px var(--tierra); }
+.cal-mes-cell--upcoming { background: #fdf8f2; border: 1px solid #ecddc8; color: #7a5830; }
+.cal-mes-cell--overdue  { background: #fef2f0; border: 1px solid #e8c0b0; color: #b04030; }
+
+/* Día del mes */
+.cal-mes-day {
+  font-size: 0.65rem;
+  font-weight: 700;
+  line-height: 1;
+  opacity: 0.55;
+  margin-bottom: 3px;
+  color: inherit;
+}
+
+/* Contenedor de info de clase */
+.cal-mes-clase-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+}
+
+/* Número de clase (coloreado por fase) */
+.cal-mes-num {
+  font-size: 0.54rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.03em;
+}
+
+/* Título corto de la clase */
+.cal-mes-titulo-clase {
+  font-size: 0.6rem;
+  line-height: 1.28;
+  color: inherit;
+  font-style: italic;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-word;
+}
+
+/* Responsive móvil */
+@media (max-width: 500px) {
+  .cal-mes-cell        { min-height: 62px; padding: 4px 3px 3px; }
+  .cal-mes-day         { font-size: 0.58rem; margin-bottom: 2px; }
+  .cal-mes-num         { font-size: 0.48rem; }
+  .cal-mes-titulo-clase{ font-size: 0.53rem; -webkit-line-clamp: 2; }
+  .cal-mes-grid        { gap: 2px; padding: 0 0.35rem 0.5rem; }
+}
 
 /* Leyenda */
 .cal-leyenda {
