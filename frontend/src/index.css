@@ -2070,6 +2070,38 @@ a.nav-logo {
 
 /* ══════════════════════════════════════════════════════════════
    ── TABS TRAVESÍA ──────────────────────────────────────────── */
+.travesia-cal-teaser {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1.25rem 1.25rem 0;
+  padding: 0.75rem 1rem;
+  background: rgba(212,160,96,0.07);
+  border: 1px solid rgba(212,160,96,0.18);
+  border-radius: 10px;
+  color: rgba(255,255,255,0.55);
+  font-size: 0.83rem;
+  line-height: 1.5;
+}
+.travesia-cal-teaser svg { flex-shrink: 0; color: #d4a060; opacity: 0.8; }
+.travesia-cal-teaser strong { color: rgba(255,255,255,0.75); }
+.travesia-cal-teaser-btn {
+  flex-shrink: 0;
+  margin-left: auto;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #d4a060;
+  text-decoration: none;
+  white-space: nowrap;
+  opacity: 0.85;
+  transition: opacity 0.2s;
+}
+.travesia-cal-teaser-btn:hover { opacity: 1; }
+@media (max-width: 540px) {
+  .travesia-cal-teaser { flex-wrap: wrap; }
+  .travesia-cal-teaser-btn { margin-left: 0; }
+}
+
 .travesia-tabs {
   display: flex;
   gap: 0.25rem;

@@ -1270,15 +1270,15 @@ export default function ClasesOnlinePage() {
       .catch(() => {})
   }, [user, token])
 
-  // Cargar plan de práctica
+  // Cargar plan de práctica — solo para suscriptoras activas
   useEffect(() => {
-    if (!user || !token) { setPlan(null); setPlanLoaded(true); return }
+    if (!user || !token || !isSubscribed) { setPlan(null); setPlanLoaded(true); return }
     fetch('/api/travesia/plan', { headers: { Authorization: `Bearer ${token}` } })
       .then(r => r.json())
       .then(data => { if (data.success) setPlan(data.data) })
       .catch(() => {})
       .finally(() => setPlanLoaded(true))
-  }, [user, token])
+  }, [user, token, isSubscribed])
 
   // Mostrar onboarding del calendario la primera vez que se entra sin plan
   useEffect(() => {
@@ -1521,8 +1521,8 @@ export default function ClasesOnlinePage() {
             </div>
           </div>
 
-          {/* Tabs: El Camino / Mi Calendario */}
-          {isSubscribed && (
+          {/* Tabs: El Camino / Mi Calendario (solo suscriptoras) */}
+          {isSubscribed ? (
             <div className="travesia-tabs">
               <button
                 className={`travesia-tab${travesiaView === 'camino' ? ' travesia-tab--active' : ''}`}
@@ -1549,6 +1549,17 @@ export default function ClasesOnlinePage() {
                 </svg>
                 Mi Calendario
               </button>
+            </div>
+          ) : (
+            <div className="travesia-cal-teaser">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <rect x="3" y="4" width="18" height="18" rx="2"/>
+                <line x1="3" y1="9" x2="21" y2="9"/>
+                <line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="16" y1="2" x2="16" y2="6"/>
+              </svg>
+              <span>Con el <strong>Plan Mensual</strong> obtienes tu calendario personal — las 50 clases repartidas a tu ritmo, con ajuste automático.</span>
+              <Link to="/suscripcion" className="travesia-cal-teaser-btn">Ver planes →</Link>
             </div>
           )}
 

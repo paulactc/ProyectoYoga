@@ -425,15 +425,14 @@ async function runMigrations() {
   );
 
   await runSafeMigration('Tabla travesia_plans', () =>
-    pool.execute(`
+    pool.query(`
       CREATE TABLE IF NOT EXISTS travesia_plans (
         id         INT AUTO_INCREMENT PRIMARY KEY,
         usuario_id INT NOT NULL UNIQUE,
-        plan_type  ENUM('3m','6m') NOT NULL DEFAULT '3m',
+        plan_type  VARCHAR(10) NOT NULL DEFAULT '3m',
         start_date DATE NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-        FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
       )
     `)
   );

@@ -3,6 +3,14 @@ const router          = express.Router();
 const { verifyToken } = require('../middleware/auth');
 const { executeQuery } = require('../config/database');
 
+async function tieneSubscripcionActiva(userId) {
+  const r = await executeQuery(
+    `SELECT id FROM suscripciones WHERE usuario_id = ? AND estado = 'activa' AND fecha_fin >= CURDATE()`,
+    [userId]
+  );
+  return r.success && r.data.length > 0;
+}
+
 // GET — progreso del usuario (con fechas de completado)
 router.get('/progress', verifyToken, async (req, res) => {
   const result = await executeQuery(
@@ -13,8 +21,11 @@ router.get('/progress', verifyToken, async (req, res) => {
   res.json({ success: true, data: result.data });
 });
 
-// POST — marcar clase como completada
+// POST — marcar clase como completada (solo suscriptoras activas)
 router.post('/progress/:claseId', verifyToken, async (req, res) => {
+  if (!await tieneSubscripcionActiva(req.user.id)) {
+    return res.status(403).json({ success: false, error: 'Suscripción activa requerida' });
+  }
   const result = await executeQuery(
     'INSERT IGNORE INTO travesia_progress (usuario_id, clase_id) VALUES (?, ?)',
     [req.user.id, req.params.claseId]
@@ -23,18 +34,11 @@ router.post('/progress/:claseId', verifyToken, async (req, res) => {
   res.json({ success: true });
 });
 
-// GET — plan de práctica del usuario
+// GET — plan de práctica (solo suscriptoras activas)
 router.get('/plan', verifyToken, async (req, res) => {
-  await executeQuery(`
-    CREATE TABLE IF NOT EXISTS travesia_plans (
-      id         INT AUTO_INCREMENT PRIMARY KEY,
-      usuario_id INT NOT NULL UNIQUE,
-      plan_type  VARCHAR(10) NOT NULL DEFAULT '3m',
-      start_date DATE NOT NULL,
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-    )
-  `);
+  if (!await tieneSubscripcionActiva(req.user.id)) {
+    return res.status(403).json({ success: false, error: 'Suscripción activa requerida' });
+  }
   const result = await executeQuery(
     "SELECT plan_type, DATE_FORMAT(start_date, '%Y-%m-%d') AS start_date FROM travesia_plans WHERE usuario_id = ?",
     [req.user.id]
@@ -43,23 +47,15 @@ router.get('/plan', verifyToken, async (req, res) => {
   res.json({ success: true, data: result.data[0] || null });
 });
 
-// POST — crear / cambiar plan (start_date se fija al día de creación y no cambia al editar)
+// POST — crear / cambiar plan (solo suscriptoras activas)
 router.post('/plan', verifyToken, async (req, res) => {
+  if (!await tieneSubscripcionActiva(req.user.id)) {
+    return res.status(403).json({ success: false, error: 'Suscripción activa requerida' });
+  }
   const { plan_type } = req.body;
-  if (!['3m', '6m'].includes(plan_type)) return res.status(400).json({ success: false, error: 'plan_type inválido' });
-
-  // Crear tabla si no existe (por si la migración fue omitida en Railway)
-  await executeQuery(`
-    CREATE TABLE IF NOT EXISTS travesia_plans (
-      id         INT AUTO_INCREMENT PRIMARY KEY,
-      usuario_id INT NOT NULL UNIQUE,
-      plan_type  VARCHAR(10) NOT NULL DEFAULT '3m',
-      start_date DATE NOT NULL,
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-    )
-  `);
-
+  if (!['3m', '6m'].includes(plan_type)) {
+    return res.status(400).json({ success: false, error: 'plan_type inválido' });
+  }
   const today = new Date().toISOString().slice(0, 10);
   const result = await executeQuery(
     `INSERT INTO travesia_plans (usuario_id, plan_type, start_date)
