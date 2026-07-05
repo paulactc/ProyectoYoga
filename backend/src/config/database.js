@@ -26,6 +26,8 @@ const pool = mysql.createPool({
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
+  enableKeepAlive: true,
+  keepAliveInitialDelay: 10000,
 });
 
 async function runSafeMigration(description, fn) {
@@ -526,11 +528,17 @@ async function testConnection(retries = 5, delay = 3000) {
   console.error('No se pudo conectar a MySQL tras varios intentos. Las rutas de API fallarán hasta que la BD esté disponible.');
 }
 
-async function executeQuery(sql, params = []) {
+const CONNECTION_ERRORS = new Set(['ECONNRESET', 'ECONNREFUSED', 'PROTOCOL_CONNECTION_LOST', 'ER_CON_COUNT_ERROR']);
+
+async function executeQuery(sql, params = [], retry = true) {
   try {
     const [rows] = await pool.execute(sql, params);
     return { success: true, data: rows };
   } catch (err) {
+    if (retry && CONNECTION_ERRORS.has(err.code)) {
+      console.warn('Reintentando query tras error de conexión:', err.code);
+      return executeQuery(sql, params, false);
+    }
     console.error('Error en query:', err.message);
     return { success: false, error: err.message };
   }

@@ -57,19 +57,32 @@ router.post('/plan', verifyToken, async (req, res) => {
     return res.status(400).json({ success: false, error: 'plan_type inválido' });
   }
   const today = new Date().toISOString().slice(0, 10);
-  const result = await executeQuery(
-    `INSERT INTO travesia_plans (usuario_id, plan_type, start_date)
-     VALUES (?, ?, ?)
-     ON DUPLICATE KEY UPDATE plan_type = ?, updated_at = CURRENT_TIMESTAMP`,
-    [req.user.id, plan_type, today, plan_type]
+
+  const existing = await executeQuery(
+    'SELECT id FROM travesia_plans WHERE usuario_id = ?',
+    [req.user.id]
   );
-  if (!result.success) return res.status(500).json({ success: false, error: result.error });
+  if (!existing.success) return res.status(500).json({ success: false });
+
+  let writeResult;
+  if (existing.data.length > 0) {
+    writeResult = await executeQuery(
+      'UPDATE travesia_plans SET plan_type = ?, updated_at = CURRENT_TIMESTAMP WHERE usuario_id = ?',
+      [plan_type, req.user.id]
+    );
+  } else {
+    writeResult = await executeQuery(
+      'INSERT INTO travesia_plans (usuario_id, plan_type, start_date) VALUES (?, ?, ?)',
+      [req.user.id, plan_type, today]
+    );
+  }
+  if (!writeResult.success) return res.status(500).json({ success: false });
 
   const plan = await executeQuery(
     "SELECT plan_type, DATE_FORMAT(start_date, '%Y-%m-%d') AS start_date FROM travesia_plans WHERE usuario_id = ?",
     [req.user.id]
   );
-  if (!plan.success || !plan.data?.[0]) return res.status(500).json({ success: false, error: plan.error });
+  if (!plan.success || !plan.data?.[0]) return res.status(500).json({ success: false });
   res.json({ success: true, data: plan.data[0] });
 });
 
