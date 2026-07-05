@@ -952,8 +952,10 @@ function calFormatDay(date) {
 }
 
 // Genera los 50 fechas de práctica a partir de start_date y plan_type
-function calGenerateSchedule(startDateStr, planType) {
-  const pattern   = PLAN_PATTERNS[planType] || PLAN_PATTERNS['3m']
+function calGenerateSchedule(startDateStr, planType, planDays) {
+  const pattern = planDays
+    ? planDays.split(',').map(Number).sort((a, b) => a - b)
+    : (PLAN_PATTERNS[planType] || PLAN_PATTERNS['3m'])
   const startDate = calParseDate(startDateStr)
   const monday    = calGetMonday(startDate)
   const dates     = []
@@ -969,8 +971,8 @@ function calGenerateSchedule(startDateStr, planType) {
 }
 
 // Aplica retrasos acumulados y devuelve array de slots con estado
-function calComputeSlots(startDateStr, planType, progressWithDates, clasesArray) {
-  const rawDates = calGenerateSchedule(startDateStr, planType)
+function calComputeSlots(startDateStr, planType, progressWithDates, clasesArray, planDays) {
+  const rawDates = calGenerateSchedule(startDateStr, planType, planDays)
   const today    = new Date(); today.setHours(0,0,0,0)
 
   // Mapa: índice de clase (0-based) → completedAt Date
@@ -1015,52 +1017,119 @@ function calGroupWeeks(slots, planType) {
 }
 
 // ── Onboarding del calendario (primera entrada a Travesía sin plan) ───────
+const DAYS_LABEL = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom']
+
 function CalendarOnboarding({ onSelect, onDismiss, loading, error }) {
+  const [step, setStep] = useState('pick-plan')
+  const [pickedPlan, setPickedPlan] = useState(null)
+  const [selectedDays, setSelectedDays] = useState([])
+
+  const required = pickedPlan === '3m' ? 4 : 2
+
+  function pickPlan(type) {
+    setPickedPlan(type)
+    setSelectedDays([])
+    setStep('pick-days')
+  }
+
+  function toggleDay(i) {
+    setSelectedDays(prev =>
+      prev.includes(i) ? prev.filter(d => d !== i) : prev.length < required ? [...prev, i] : prev
+    )
+  }
+
+  function confirm() {
+    const sorted = [...selectedDays].sort((a, b) => a - b)
+    onSelect(pickedPlan, sorted.join(','))
+  }
+
   return (
     <div className="cal-onboarding-overlay" role="dialog" aria-modal="true" aria-label="Configura tu calendario de práctica">
       <div className="cal-onboarding">
-        <div className="cal-onboarding-icon" aria-hidden="true">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <rect x="3" y="4" width="18" height="18" rx="2"/>
-            <line x1="3" y1="9" x2="21" y2="9"/>
-            <line x1="8" y1="2" x2="8" y2="6"/>
-            <line x1="16" y1="2" x2="16" y2="6"/>
-            <line x1="8"  y1="14" x2="8"  y2="14" strokeWidth="2.5"/>
-            <line x1="12" y1="14" x2="12" y2="14" strokeWidth="2.5"/>
-            <line x1="16" y1="14" x2="16" y2="14" strokeWidth="2.5"/>
-            <line x1="8"  y1="18" x2="8"  y2="18" strokeWidth="2.5"/>
-            <line x1="12" y1="18" x2="12" y2="18" strokeWidth="2.5"/>
-          </svg>
-        </div>
-        <h2 className="cal-onboarding-titulo">Tu calendario de práctica</h2>
-        <p className="cal-onboarding-desc">
-          La Travesía se recorre mejor con un ritmo claro. Elige tu plan y el
-          calendario se crea hoy con las 50 clases repartidas — si te saltas un
-          día, se reajusta solo para que nunca pierdas el hilo.
-        </p>
-        <div className="cal-onboarding-cards">
-          <button className="cal-ob-card cal-ob-card--3m" onClick={() => onSelect('3m')} disabled={loading}>
-            <span className="cal-ob-badge">Recomendado</span>
-            <p className="cal-ob-dur">3 meses</p>
-            <p className="cal-ob-freq">4 clases por semana</p>
-            <p className="cal-ob-desc">
-              El ritmo óptimo para que la Travesía deje huella real. La práctica frecuente
-              hace que los cambios se instalen en el cuerpo. Lunes, martes, jueves y viernes.
+        {step === 'pick-plan' ? (
+          <>
+            <div className="cal-onboarding-icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2"/>
+                <line x1="3" y1="9" x2="21" y2="9"/>
+                <line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="16" y1="2" x2="16" y2="6"/>
+                <line x1="8"  y1="14" x2="8"  y2="14" strokeWidth="2.5"/>
+                <line x1="12" y1="14" x2="12" y2="14" strokeWidth="2.5"/>
+                <line x1="16" y1="14" x2="16" y2="14" strokeWidth="2.5"/>
+                <line x1="8"  y1="18" x2="8"  y2="18" strokeWidth="2.5"/>
+                <line x1="12" y1="18" x2="12" y2="18" strokeWidth="2.5"/>
+              </svg>
+            </div>
+            <h2 className="cal-onboarding-titulo">Tu calendario de práctica</h2>
+            <p className="cal-onboarding-desc">
+              La Travesía se recorre mejor con un ritmo claro. Elige tu plan y
+              luego escogerás los días que mejor te vengan — el calendario se
+              ajusta automáticamente si alguna vez te saltas una sesión.
             </p>
-          </button>
-          <button className="cal-ob-card" onClick={() => onSelect('6m')} disabled={loading}>
-            <p className="cal-ob-dur">6 meses</p>
-            <p className="cal-ob-freq">2 clases por semana</p>
-            <p className="cal-ob-desc">
-              Más espacio entre sesiones para asimilar y recuperar.
-              Ideal si tu agenda lo necesita. Lunes y jueves.
+            <div className="cal-onboarding-cards">
+              <button className="cal-ob-card cal-ob-card--3m" onClick={() => pickPlan('3m')} disabled={loading}>
+                <span className="cal-ob-badge">Recomendado</span>
+                <p className="cal-ob-dur">3 meses</p>
+                <p className="cal-ob-freq">4 clases por semana</p>
+                <p className="cal-ob-desc">
+                  El ritmo óptimo para que la Travesía deje huella real.
+                  La práctica frecuente hace que los cambios se instalen en el cuerpo.
+                </p>
+              </button>
+              <button className="cal-ob-card" onClick={() => pickPlan('6m')} disabled={loading}>
+                <p className="cal-ob-dur">6 meses</p>
+                <p className="cal-ob-freq">2 clases por semana</p>
+                <p className="cal-ob-desc">
+                  Más espacio entre sesiones para asimilar y recuperar.
+                  Ideal si tu agenda lo necesita.
+                </p>
+              </button>
+            </div>
+            <button className="cal-ob-skip" onClick={onDismiss} type="button">
+              Ahora no, ir al camino →
+            </button>
+          </>
+        ) : (
+          <>
+            <h2 className="cal-onboarding-titulo">¿Qué días practicas?</h2>
+            <p className="cal-ob-aviso-dias">
+              Elige <strong>{required} días</strong> a la semana que mejor encajen con tu vida
             </p>
-          </button>
-        </div>
-        {error && <p className="cal-ob-error">{error}</p>}
-        <button className="cal-ob-skip" onClick={onDismiss} type="button">
-          Ahora no, ir al camino →
-        </button>
+            <div className="cal-days-picker">
+              {DAYS_LABEL.map((label, i) => (
+                <button
+                  key={i}
+                  className={`cal-day-btn${selectedDays.includes(i) ? ' cal-day-btn--active' : ''}`}
+                  onClick={() => toggleDay(i)}
+                  disabled={loading || (!selectedDays.includes(i) && selectedDays.length >= required)}
+                  type="button"
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+            <p className="cal-days-hint">{selectedDays.length} de {required} días seleccionados</p>
+            <p className="cal-ob-empatia">
+              Si en algún momento no puedes cumplir tu plan, no te preocupes: el
+              calendario se reorganizará automáticamente teniendo en cuenta tu
+              retraso. La vida está llena de imprevistos — lo importante es que
+              sigas en tu camino.
+            </p>
+            {error && <p className="cal-ob-error">{error}</p>}
+            <button
+              className="cal-ob-confirmar"
+              onClick={confirm}
+              disabled={selectedDays.length !== required || loading}
+              type="button"
+            >
+              {loading ? 'Creando calendario…' : 'Crear mi calendario →'}
+            </button>
+            <button className="cal-ob-back" onClick={() => setStep('pick-plan')} type="button">
+              ← Cambiar plan
+            </button>
+          </>
+        )}
       </div>
     </div>
   )
@@ -1068,36 +1137,98 @@ function CalendarOnboarding({ onSelect, onDismiss, loading, error }) {
 
 // ── Selector de plan (visible en el tab Mi Calendario si no hay plan) ──────
 function PlanSelector({ onSelect, loading }) {
+  const [step, setStep] = useState('pick-plan')
+  const [pickedPlan, setPickedPlan] = useState(null)
+  const [selectedDays, setSelectedDays] = useState([])
+
+  const required = pickedPlan === '3m' ? 4 : 2
+
+  function pickPlan(type) {
+    setPickedPlan(type)
+    setSelectedDays([])
+    setStep('pick-days')
+  }
+
+  function toggleDay(i) {
+    setSelectedDays(prev =>
+      prev.includes(i) ? prev.filter(d => d !== i) : prev.length < required ? [...prev, i] : prev
+    )
+  }
+
+  function confirm() {
+    const sorted = [...selectedDays].sort((a, b) => a - b)
+    onSelect(pickedPlan, sorted.join(','))
+  }
+
+  if (step === 'pick-plan') {
+    return (
+      <div className="cal-selector">
+        <h3 className="cal-selector-titulo">Planifica tu Travesía</h3>
+        <p className="cal-selector-sub">
+          Elige el ritmo que mejor encaja con tu vida. Después escogerás los
+          días — el calendario se ajusta automáticamente si te saltas alguna sesión.
+        </p>
+        <div className="cal-selector-cards">
+          <button className="cal-plan-card cal-plan-card--3m" onClick={() => pickPlan('3m')} disabled={loading}>
+            <div className="cal-plan-card-inner">
+              <span className="cal-plan-badge">Recomendado</span>
+              <p className="cal-plan-dur">3 meses</p>
+              <p className="cal-plan-freq">4 clases por semana</p>
+              <p className="cal-plan-desc">
+                El ritmo óptimo para que la práctica se integre de verdad en cuerpo y mente.
+              </p>
+            </div>
+          </button>
+          <button className="cal-plan-card cal-plan-card--6m" onClick={() => pickPlan('6m')} disabled={loading}>
+            <div className="cal-plan-card-inner">
+              <p className="cal-plan-dur">6 meses</p>
+              <p className="cal-plan-freq">2 clases por semana</p>
+              <p className="cal-plan-desc">
+                Más espacio entre sesiones para asimilar y recuperar.
+              </p>
+            </div>
+          </button>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="cal-selector">
-      <h3 className="cal-selector-titulo">Planifica tu Travesía</h3>
+      <h3 className="cal-selector-titulo">¿Qué días practicas?</h3>
       <p className="cal-selector-sub">
-        Elige el ritmo que mejor encaja con tu vida. El calendario se crea hoy
-        y se ajusta automáticamente si te saltas alguna sesión.
+        Elige <strong>{required} días</strong> a la semana que mejor encajen con tu vida
       </p>
-      <div className="cal-selector-cards">
-        <button className="cal-plan-card cal-plan-card--3m" onClick={() => onSelect('3m')} disabled={loading}>
-          <div className="cal-plan-card-inner">
-            <span className="cal-plan-badge">Recomendado</span>
-            <p className="cal-plan-dur">3 meses</p>
-            <p className="cal-plan-freq">4 clases por semana</p>
-            <p className="cal-plan-desc">
-              El ritmo óptimo para que la práctica se integre de verdad en cuerpo y mente.
-              Lunes, martes, jueves y viernes.
-            </p>
-          </div>
-        </button>
-        <button className="cal-plan-card cal-plan-card--6m" onClick={() => onSelect('6m')} disabled={loading}>
-          <div className="cal-plan-card-inner">
-            <p className="cal-plan-dur">6 meses</p>
-            <p className="cal-plan-freq">2 clases por semana</p>
-            <p className="cal-plan-desc">
-              Más espacio entre sesiones para asimilar y recuperar.
-              Lunes y jueves.
-            </p>
-          </div>
-        </button>
+      <div className="cal-days-picker">
+        {DAYS_LABEL.map((label, i) => (
+          <button
+            key={i}
+            className={`cal-day-btn${selectedDays.includes(i) ? ' cal-day-btn--active' : ''}`}
+            onClick={() => toggleDay(i)}
+            disabled={loading || (!selectedDays.includes(i) && selectedDays.length >= required)}
+            type="button"
+          >
+            {label}
+          </button>
+        ))}
       </div>
+      <p className="cal-days-hint">{selectedDays.length} de {required} días seleccionados</p>
+      <p className="cal-ob-empatia">
+        Si en algún momento no puedes cumplir tu plan, no te preocupes: el
+        calendario se reorganizará automáticamente teniendo en cuenta tu retraso.
+        La vida está llena de imprevistos — lo importante es que sigas en tu camino.
+      </p>
+      <button
+        className="cal-ob-confirmar"
+        onClick={confirm}
+        disabled={selectedDays.length !== required || loading}
+        type="button"
+      >
+        {loading ? 'Creando calendario…' : 'Crear mi calendario →'}
+      </button>
+      <button className="cal-ob-back" onClick={() => setStep('pick-plan')} type="button">
+        ← Cambiar plan
+      </button>
     </div>
   )
 }
@@ -1162,7 +1293,7 @@ function CalendarioMensual({ slots, startDateStr }) {
 }
 
 function CalendarioPanel({ plan, progressWithDates, clasesArray, userName, onCambiarPlan }) {
-  const slots        = calComputeSlots(plan.start_date, plan.plan_type, progressWithDates, clasesArray)
+  const slots        = calComputeSlots(plan.start_date, plan.plan_type, progressWithDates, clasesArray, plan.plan_days)
   const completadas  = slots.filter(s => s.completed).length
   const hayPendiente = slots.some(s => s.status === 'overdue')
 
@@ -1281,12 +1412,14 @@ export default function ClasesOnlinePage() {
     }
   }, [vista, isSubscribed, planLoaded, plan])
 
-  const handleCrearPlan = async (planType) => {
+  const handleCrearPlan = async (planType, planDays) => {
     if (!token) return
     setPlanLoading(true)
     setPlanError('')
     try {
-      const r    = await fetch('/api/travesia/plan', { method: 'POST', headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ plan_type: planType }) })
+      const body = { plan_type: planType }
+      if (planDays) body.plan_days = planDays
+      const r    = await fetch('/api/travesia/plan', { method: 'POST', headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
       const data = await r.json()
       if (data.success && data.data) {
         setPlan(data.data)

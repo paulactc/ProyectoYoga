@@ -439,6 +439,16 @@ async function runMigrations() {
     `)
   );
 
+  await runSafeMigration('Columna plan_days en travesia_plans', async () => {
+    const [[{ cnt }]] = await pool.execute(
+      `SELECT COUNT(*) as cnt FROM INFORMATION_SCHEMA.COLUMNS
+       WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'travesia_plans' AND COLUMN_NAME = 'plan_days'`
+    );
+    if (cnt === 0) {
+      await pool.execute(`ALTER TABLE travesia_plans ADD COLUMN plan_days VARCHAR(20) NULL`);
+    }
+  });
+
   await runSafeMigration('Columna stripe_customer_id en usuarios', async () => {
     const [[{ cnt }]] = await pool.execute(
       `SELECT COUNT(*) as cnt FROM INFORMATION_SCHEMA.COLUMNS
