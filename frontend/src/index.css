@@ -1578,8 +1578,11 @@ a.nav-logo {
 
 /* Nodos posicionados absolutamente sobre el SVG */
 .pnode-v {
-  position: absolute;
   transform: translate(-50%, -50%);
+  z-index: 2;
+}
+.pnode.pnode-v {
+  position: absolute;
   z-index: 2;
 }
 
