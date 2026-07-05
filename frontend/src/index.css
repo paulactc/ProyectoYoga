@@ -2104,7 +2104,7 @@ a.nav-logo {
   display: flex;
   gap: 0.25rem;
   margin: 1.5rem 1.25rem 0;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid #e2d9cc;
 }
 .travesia-tab {
   display: flex;
@@ -2114,7 +2114,7 @@ a.nav-logo {
   background: none;
   border: none;
   border-bottom: 2px solid transparent;
-  color: rgba(255,255,255,0.45);
+  color: var(--muted);
   font-family: inherit;
   font-size: 0.82rem;
   font-weight: 600;
@@ -2124,10 +2124,10 @@ a.nav-logo {
   transition: color 0.2s, border-color 0.2s;
   margin-bottom: -1px;
 }
-.travesia-tab:hover { color: rgba(255,255,255,0.75); }
+.travesia-tab:hover { color: var(--dark); }
 .travesia-tab--active {
-  color: #d4a060;
-  border-bottom-color: #d4a060;
+  color: var(--tierra);
+  border-bottom-color: var(--tierra);
 }
 
 /* ══════════════════════════════════════════════════════════════
