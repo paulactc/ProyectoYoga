@@ -140,14 +140,17 @@ const GRUPOS = [
 
 const NIVEL_LABEL = { 1: 'Todos los niveles', 2: 'Intermedio', 3: 'Avanzado' }
 
-// ── Zonas del camino (sistema de chakras) ─────────────────────────────────
+// ── Zonas del camino (9 fases pedagógicas) ────────────────────────────────
 const PATH_ZONES = [
-  { desde: 1,  hasta: 8,  nombre: 'El Despertar',     subtitulo: 'Muladhara · Raíz',    color: '#c4784a', bg: 'rgba(140,78,47,0.14)',    particle: '#d4a060' },
-  { desde: 9,  hasta: 16, nombre: 'Raíces Profundas', subtitulo: 'Svadhisthana · Agua',  color: '#d4724a', bg: 'rgba(184,92,42,0.14)',    particle: '#e08050' },
-  { desde: 17, hasta: 25, nombre: 'Fuego Interior',   subtitulo: 'Manipura · Fuego',     color: '#d4a840', bg: 'rgba(184,136,42,0.14)',   particle: '#d4b060' },
-  { desde: 26, hasta: 33, nombre: 'El Corazón Verde', subtitulo: 'Anahata · Corazón',    color: '#5aaa68', bg: 'rgba(74,138,88,0.14)',    particle: '#6aaa78' },
-  { desde: 34, hasta: 41, nombre: 'Lago de Silencio', subtitulo: 'Vishuddha · Garganta', color: '#4a98b8', bg: 'rgba(42,104,130,0.14)',   particle: '#5aa8c2' },
-  { desde: 42, hasta: 50, nombre: 'Cielo Abierto',    subtitulo: 'Sahasrara · Corona',   color: '#9a7aba', bg: 'rgba(106,74,138,0.14)',   particle: '#9a7aba' },
+  { desde: 1,  hasta: 8,  nombre: 'Cimientos y Alineación',    subtitulo: 'Fase 1 · Conciencia postural',    color: '#c4784a', bg: 'rgba(140,78,47,0.14)',   particle: '#d4a060' },
+  { desde: 9,  hasta: 15, nombre: 'Movilidad y Conciencia',    subtitulo: 'Fase 2 · Rango articular seguro', color: '#4a98b8', bg: 'rgba(42,104,130,0.13)',  particle: '#5aa8c2' },
+  { desde: 16, hasta: 20, nombre: 'Fuerza Central',            subtitulo: 'Fase 3 · Core profundo',          color: '#d4a840', bg: 'rgba(184,136,42,0.14)',  particle: '#d4b060' },
+  { desde: 21, hasta: 27, nombre: 'Apertura de Caderas',       subtitulo: 'Fase 4 · Liberación profunda',    color: '#5aaa68', bg: 'rgba(74,138,88,0.14)',   particle: '#6aaa78' },
+  { desde: 28, hasta: 33, nombre: 'Tren Superior',             subtitulo: 'Fase 5 · Hombros y brazos',       color: '#8a6ab8', bg: 'rgba(106,74,138,0.14)',  particle: '#9a7aba' },
+  { desde: 34, hasta: 37, nombre: 'Equilibrio y Piernas',      subtitulo: 'Fase 6 · Propiocepción',          color: '#4aaa8a', bg: 'rgba(42,138,110,0.13)',  particle: '#5abaa0' },
+  { desde: 38, hasta: 42, nombre: 'Backbends',                 subtitulo: 'Fase 7 · Extensión de columna',   color: '#d4724a', bg: 'rgba(184,92,42,0.14)',   particle: '#e08050' },
+  { desde: 43, hasta: 47, nombre: 'Arm Balances',              subtitulo: 'Fase 8 · Peso en manos',          color: '#9a7aba', bg: 'rgba(120,80,160,0.13)',  particle: '#aa88ca' },
+  { desde: 48, hasta: 50, nombre: 'Inversiones',               subtitulo: 'Fase 9 · La cima del camino',     color: '#d4c060', bg: 'rgba(180,160,60,0.14)',  particle: '#e4d070' },
 ]
 
 // ── Iconos tarjetas de métodos ──────────────────────────────────────────────
@@ -804,6 +807,9 @@ function TravesiaPathView({ progress, isSubscribed, onNodeClick }) {
               {state === 'active' && clase && (
                 <div className="pnode-title">{clase.titulo.split(':')[0].trim().slice(0, 22)}</div>
               )}
+              {state === 'locked' && clase && (
+                <div className="pnode-title pnode-title--locked">{clase.titulo.split(':')[0].trim().slice(0, 22)}</div>
+              )}
               {state === 'done' && <div className="pnode-num-small">{n}</div>}
             </div>
           )
@@ -1294,10 +1300,10 @@ export default function ClasesOnlinePage() {
         setShowCalOnboarding(false)
         setTravesiaView('calendario')
       } else {
-        setPlanError('No se pudo crear el calendario. Inténtalo de nuevo.')
+        setPlanError(data.error || 'No se pudo crear el calendario. Inténtalo de nuevo.')
       }
-    } catch {
-      setPlanError('Error de conexión. Comprueba tu red e inténtalo de nuevo.')
+    } catch (e) {
+      setPlanError('Error de conexión: ' + e.message)
     }
     setPlanLoading(false)
   }
