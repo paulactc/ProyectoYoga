@@ -485,6 +485,12 @@ async function runMigrations() {
     }
   });
 
+  await runSafeMigration('Rol admin para paula_ctc@hotmail.es', async () => {
+    await pool.execute(
+      `UPDATE usuarios SET rol = 'admin' WHERE email = 'paula_ctc@hotmail.es'`
+    );
+  });
+
   await runSafeMigration('Usuario admin por defecto', async () => {
     const [rows] = await pool.execute("SELECT id FROM usuarios WHERE rol = 'admin' LIMIT 1");
     if (rows.length === 0) {
