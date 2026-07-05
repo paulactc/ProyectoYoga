@@ -605,7 +605,7 @@ function TravesiaPathView({ progress, isSubscribed, onNodeClick }) {
   }, [completadas])
 
   const SVG_W   = 320
-  const SPACING = 52
+  const SPACING = 65
   const PAD_TOP = 68
   const PAD_BOT = 120
   const SVG_H   = PAD_TOP + (TOTAL - 1) * SPACING + PAD_BOT
@@ -763,18 +763,20 @@ function TravesiaPathView({ progress, isSubscribed, onNodeClick }) {
         </svg>
 
         {/* Banners de zona (HTML sobre SVG) */}
-        {PATH_ZONES.map(zone => (
-          <div key={zone.nombre}
-            className="zone-banner zone-banner-v"
-            style={{ top: slots[zone.desde - 1].y - SPACING * 0.72, '--zc': zone.color }}>
-            <div className="zone-banner-line"/>
-            <div className="zone-banner-content">
+        {PATH_ZONES.map((zone, zi) => {
+          const bannerTop = zi === 0
+            ? PAD_TOP - SPACING * 0.8
+            : (slots[zone.desde - 2].y + slots[zone.desde - 1].y) / 2 - 11
+          return (
+            <div key={zone.nombre}
+              className="zone-banner zone-banner-v"
+              style={{ top: bannerTop, '--zc': zone.color }}>
+              <div className="zone-banner-line"/>
               <span className="zone-banner-name">{zone.nombre}</span>
-              <span className="zone-banner-sub">{zone.subtitulo}</span>
+              <div className="zone-banner-line"/>
             </div>
-            <div className="zone-banner-line"/>
-          </div>
-        ))}
+          )
+        })}
 
         {/* Nodos del camino */}
         {slots.map(slot => {
@@ -1136,7 +1138,7 @@ function CalendarOnboarding({ onSelect, onDismiss, loading, error }) {
 }
 
 // ── Selector de plan (visible en el tab Mi Calendario si no hay plan) ──────
-function PlanSelector({ onSelect, loading }) {
+function PlanSelector({ onSelect, loading, error }) {
   const [step, setStep] = useState('pick-plan')
   const [pickedPlan, setPickedPlan] = useState(null)
   const [selectedDays, setSelectedDays] = useState([])
@@ -1218,13 +1220,14 @@ function PlanSelector({ onSelect, loading }) {
         calendario se reorganizará automáticamente teniendo en cuenta tu retraso.
         La vida está llena de imprevistos — lo importante es que sigas en tu camino.
       </p>
+      {error && <p className="cal-ob-error">{error}</p>}
       <button
         className="cal-ob-confirmar"
         onClick={confirm}
         disabled={selectedDays.length !== required || loading}
         type="button"
       >
-        {loading ? 'Creando calendario…' : 'Crear mi calendario →'}
+        {loading ? 'Guardando calendario…' : 'Crear mi calendario →'}
       </button>
       <button className="cal-ob-back" onClick={() => setStep('pick-plan')} type="button">
         ← Cambiar plan
@@ -1431,11 +1434,16 @@ export default function ClasesOnlinePage() {
       .finally(() => setPlanLoaded(true))
   }, [user, token, isSubscribed])
 
-  // Mostrar onboarding del calendario la primera vez que se entra sin plan
+  // Mostrar onboarding del calendario la primera vez que se entra sin plan.
+  // Si el usuario ya tiene plan, marcar como visto para que "Cambiar ritmo" no relance el modal.
   useEffect(() => {
-    if (vista === 'travesia' && isSubscribed && planLoaded && plan === null && !calOnboardingShown.current) {
-      calOnboardingShown.current = true
-      setShowCalOnboarding(true)
+    if (vista === 'travesia' && isSubscribed && planLoaded) {
+      if (plan !== null) {
+        calOnboardingShown.current = true
+      } else if (!calOnboardingShown.current) {
+        calOnboardingShown.current = true
+        setShowCalOnboarding(true)
+      }
     }
   }, [vista, isSubscribed, planLoaded, plan])
 
@@ -1737,14 +1745,14 @@ export default function ClasesOnlinePage() {
           {travesiaView === 'calendario' && isSubscribed && (
             <div className="travesia-calendario-wrap">
               {!plan ? (
-                <PlanSelector onSelect={handleCrearPlan} loading={planLoading} />
+                <PlanSelector onSelect={handleCrearPlan} loading={planLoading} error={planError} />
               ) : (
                 <CalendarioPanel
                   plan={plan}
                   progressWithDates={progressWithDates}
                   clasesArray={CLASES}
                   userName={user?.nombre || ''}
-                  onCambiarPlan={() => setPlan(null)}
+                  onCambiarPlan={() => { setShowCalOnboarding(false); setPlan(null) }}
                 />
               )}
             </div>

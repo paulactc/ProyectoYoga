@@ -1590,6 +1590,7 @@ a.nav-logo {
   z-index: 3;
   padding-top: 0;
   padding-bottom: 0;
+  pointer-events: none;
 }
 
 /* Sección de zona (rows legacy, por si se reutiliza) */
@@ -1603,8 +1604,8 @@ a.nav-logo {
 .zone-banner {
   display: flex;
   align-items: center;
-  gap: 0.85rem;
-  padding: 1.8rem 1.5rem 0.5rem;
+  gap: 0.7rem;
+  padding: 0.2rem 1rem;
 }
 .zone-banner-line {
   flex: 1;
@@ -1622,18 +1623,18 @@ a.nav-logo {
 }
 .zone-banner-name {
   font-family: var(--font-heading);
-  font-size: 0.95rem;
+  font-size: 0.82rem;
   font-weight: 500;
   color: var(--zc, #d4a060);
   letter-spacing: 0.06em;
   line-height: 1.2;
 }
 .zone-banner-sub {
-  font-size: 0.58rem;
-  letter-spacing: 0.22em;
+  font-size: 0.5rem;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   color: rgba(255,255,255,0.28);
-  margin-top: 0.18rem;
+  margin-top: 0.08rem;
 }
 
 /* Partículas de prana flotando (visibles en oscuro) */
@@ -1755,11 +1756,16 @@ a.nav-logo {
 }
 
 .pnode-num-small {
+  position: absolute;
+  top: calc(100% + 3px);
+  left: 50%;
+  transform: translateX(-50%);
   font-size: 0.55rem;
   color: rgba(212,160,96,0.6);
   letter-spacing: 0.06em;
   font-family: var(--font-body);
   font-weight: 600;
+  pointer-events: none;
 }
 
 /* Estado: activa (siguiente a practicar) */
@@ -1788,6 +1794,10 @@ a.nav-logo {
 }
 
 .pnode-title {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
   font-size: 0.56rem;
   color: rgba(255,255,255,0.65);
   font-weight: 600;
@@ -1796,6 +1806,8 @@ a.nav-logo {
   line-height: 1.3;
   letter-spacing: 0.01em;
   word-break: break-word;
+  white-space: normal;
+  pointer-events: none;
 }
 .pnode-title--locked { color: rgba(255,255,255,0.22); font-weight: 400; }
 
