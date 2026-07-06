@@ -202,28 +202,28 @@ function ExplorarDecor() {
   return (
     <svg viewBox="0 0 158 255" fill="none" className="tc-map-svg" aria-hidden="true">
       {[[18,25],[140,38],[8,108],[150,88],[22,194],[148,172],[90,244],[108,18],[42,230],[130,218]].map(([x,y],i) => (
-        <circle key={i} cx={x} cy={y} r={i%4===0?1.5:0.8} fill="rgba(255,255,255,0.45)"/>
+        <circle key={i} cx={x} cy={y} r={i%4===0?1.5:0.8} fill="rgba(140,78,47,0.35)"/>
       ))}
-      <circle cx={cx} cy={cy} r={r} stroke="rgba(255,255,255,0.2)" strokeWidth="1"/>
+      <circle cx={cx} cy={cy} r={r} stroke="rgba(140,78,47,0.22)" strokeWidth="1"/>
       {[0,45,90,135,180,225,270,315].map(deg => {
         const a=(deg-90)*Math.PI/180, isC=deg%90===0, len=isC?11:6
         return <line key={deg}
           x1={cx+Math.cos(a)*(r-len)} y1={cy+Math.sin(a)*(r-len)}
           x2={cx+Math.cos(a)*r}       y2={cy+Math.sin(a)*r}
-          stroke={isC ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,0.22)'}
+          stroke={isC ? 'rgba(140,78,47,0.65)' : 'rgba(140,78,47,0.28)'}
           strokeWidth={isC?1.5:0.9}/>
       })}
-      <circle cx={cx} cy={cy} r={ri} stroke="rgba(255,255,255,0.12)" strokeWidth="1" strokeDasharray="3 4"/>
+      <circle cx={cx} cy={cy} r={ri} stroke="rgba(140,78,47,0.15)" strokeWidth="1" strokeDasharray="3 4"/>
       <path d={`M${cx} ${cy-ri+6} L${cx-7} ${cy+2} L${cx} ${cy-4} Z`} fill="#d4a060" opacity="0.95"/>
-      <path d={`M${cx} ${cy+ri-6} L${cx+7} ${cy-2} L${cx} ${cy+4} Z`} fill="rgba(255,255,255,0.3)"/>
-      <path d={`M${cx+ri-6} ${cy} L${cx-2} ${cy-6} L${cx+4} ${cy} Z`} fill="rgba(255,255,255,0.18)"/>
-      <path d={`M${cx-ri+6} ${cy} L${cx+2} ${cy+6} L${cx-4} ${cy} Z`} fill="rgba(255,255,255,0.18)"/>
-      <circle cx={cx} cy={cy} r={5} fill="rgba(255,255,255,0.55)"/>
+      <path d={`M${cx} ${cy+ri-6} L${cx+7} ${cy-2} L${cx} ${cy+4} Z`} fill="rgba(140,78,47,0.3)"/>
+      <path d={`M${cx+ri-6} ${cy} L${cx-2} ${cy-6} L${cx+4} ${cy} Z`} fill="rgba(140,78,47,0.2)"/>
+      <path d={`M${cx-ri+6} ${cy} L${cx+2} ${cy+6} L${cx-4} ${cy} Z`} fill="rgba(140,78,47,0.2)"/>
+      <circle cx={cx} cy={cy} r={5} fill="rgba(140,78,47,0.4)"/>
       <circle cx={cx} cy={cy} r={2.5} fill="#d4a060"/>
       <text x={cx} y={cy-r-5} textAnchor="middle" fontSize="9" fontWeight="700"
-        fill="rgba(255,255,255,0.5)" fontFamily="Raleway,sans-serif" letterSpacing="0.12em">N</text>
+        fill="rgba(140,78,47,0.55)" fontFamily="Raleway,sans-serif" letterSpacing="0.12em">N</text>
       <path d={`M${cx+50} ${cy+52} a14 14 0 1 1 0 -20 a10 10 0 1 0 0 20 Z`}
-        fill="rgba(255,255,255,0.07)"/>
+        fill="rgba(140,78,47,0.06)"/>
     </svg>
   )
 }
@@ -241,29 +241,29 @@ function GruposDecor() {
   return (
     <svg viewBox="0 0 158 255" fill="none" className="tc-map-svg" aria-hidden="true">
       {[[15,28],[142,42],[8,110],[150,88],[20,200],[146,178],[82,248],[108,18],[38,240]].map(([x,y],i) => (
-        <circle key={i} cx={x} cy={y} r={0.9} fill="rgba(255,255,255,0.3)"/>
+        <circle key={i} cx={x} cy={y} r={0.9} fill="rgba(140,78,47,0.3)"/>
       ))}
       {layers.map((l, i) => (
         <g key={i}>
           <rect x={cx-l.w/2} y={l.y} width={l.w} height={26} rx="6"
-            fill={`rgba(100,170,120,${l.o * 0.14})`}
-            stroke={`rgba(140,200,160,${l.o * 0.48})`}
+            fill={`rgba(140,78,47,${l.o * 0.07})`}
+            stroke={`rgba(140,78,47,${l.o * 0.4})`}
             strokeWidth="1"/>
           <circle cx={cx-l.w/2+13} cy={l.y+13} r="3.5"
-            fill={`rgba(140,200,160,${l.o * 0.75})`}/>
+            fill={`rgba(212,160,96,${l.o * 0.75})`}/>
           <line x1={cx-l.w/2+22} y1={l.y+13} x2={cx-l.w/2+l.w*0.5} y2={l.y+13}
-            stroke={`rgba(255,255,255,${l.o*0.22})`} strokeWidth="1"/>
+            stroke={`rgba(140,78,47,${l.o*0.25})`} strokeWidth="1"/>
           <line x1={cx-l.w/2+22} y1={l.y+20} x2={cx-l.w/2+l.w*0.35} y2={l.y+20}
-            stroke={`rgba(255,255,255,${l.o*0.12})`} strokeWidth="1"/>
+            stroke={`rgba(140,78,47,${l.o*0.15})`} strokeWidth="1"/>
         </g>
       ))}
       <g transform={`translate(${cx},38)`}>
-        <path d="M0 0 C-8-8-16-14-10-20 C-4-26 0-16 0-10" stroke="rgba(140,200,160,0.65)" strokeWidth="1.3" fill="none"/>
-        <path d="M0 0 C8-8 16-14 10-20 C4-26 0-16 0-10"  stroke="rgba(140,200,160,0.65)" strokeWidth="1.3" fill="none"/>
-        <path d="M0 0 C-4-12-5-20 0-24 C5-20 4-12 0 0"   stroke="rgba(140,200,160,0.75)" strokeWidth="1.3" fill="none"/>
-        <path d="M0 0 C-12-4-18-10-14-18 C-10-22-4-14 0 0" stroke="rgba(140,200,160,0.5)" strokeWidth="1" fill="none"/>
-        <path d="M0 0 C12-4 18-10 14-18 C10-22 4-14 0 0"   stroke="rgba(140,200,160,0.5)" strokeWidth="1" fill="none"/>
-        <circle cx="0" cy="0" r="3.5" fill="rgba(140,200,160,0.65)"/>
+        <path d="M0 0 C-8-8-16-14-10-20 C-4-26 0-16 0-10" stroke="rgba(140,78,47,0.55)" strokeWidth="1.3" fill="none"/>
+        <path d="M0 0 C8-8 16-14 10-20 C4-26 0-16 0-10"  stroke="rgba(140,78,47,0.55)" strokeWidth="1.3" fill="none"/>
+        <path d="M0 0 C-4-12-5-20 0-24 C5-20 4-12 0 0"   stroke="rgba(140,78,47,0.65)" strokeWidth="1.3" fill="none"/>
+        <path d="M0 0 C-12-4-18-10-14-18 C-10-22-4-14 0 0" stroke="rgba(212,160,96,0.5)" strokeWidth="1" fill="none"/>
+        <path d="M0 0 C12-4 18-10 14-18 C10-22 4-14 0 0"   stroke="rgba(212,160,96,0.5)" strokeWidth="1" fill="none"/>
+        <circle cx="0" cy="0" r="3.5" fill="rgba(212,160,96,0.75)"/>
       </g>
     </svg>
   )
@@ -281,31 +281,31 @@ function TravesiaMapDecor({ progreso }) {
   ]
   return (
     <svg viewBox="0 0 158 255" fill="none" className="tc-map-svg" aria-hidden="true">
-      <path d="M0 255 L0 185 L28 148 L56 172 L82 138 L112 164 L138 130 L158 148 L158 255 Z" fill="rgba(255,255,255,0.07)"/>
-      <path d="M0 255 L0 210 L20 196 L44 210 L70 194 L100 208 L130 192 L158 204 L158 255 Z" fill="rgba(255,255,255,0.05)"/>
-      <g fill="rgba(255,255,255,0.18)" stroke="none">
-        <path d="M52 228 L56 212 L60 228 Z"/><rect x="55.5" y="228" width="1.5" height="6" fill="rgba(255,255,255,0.18)"/>
-        <path d="M92 184 L96 170 L100 184 Z"/><rect x="95.5" y="184" width="1.5" height="6" fill="rgba(255,255,255,0.18)"/>
-        <path d="M18 148 L22 136 L26 148 Z"/><rect x="21.5" y="148" width="1.5" height="6" fill="rgba(255,255,255,0.18)"/>
-        <path d="M130 100 L134 88 L138 100 Z"/><rect x="133.5" y="100" width="1.5" height="6" fill="rgba(255,255,255,0.18)"/>
+      <path d="M0 255 L0 185 L28 148 L56 172 L82 138 L112 164 L138 130 L158 148 L158 255 Z" fill="rgba(140,78,47,0.07)"/>
+      <path d="M0 255 L0 210 L20 196 L44 210 L70 194 L100 208 L130 192 L158 204 L158 255 Z" fill="rgba(140,78,47,0.05)"/>
+      <g fill="rgba(140,78,47,0.2)" stroke="none">
+        <path d="M52 228 L56 212 L60 228 Z"/><rect x="55.5" y="228" width="1.5" height="6" fill="rgba(140,78,47,0.2)"/>
+        <path d="M92 184 L96 170 L100 184 Z"/><rect x="95.5" y="184" width="1.5" height="6" fill="rgba(140,78,47,0.2)"/>
+        <path d="M18 148 L22 136 L26 148 Z"/><rect x="21.5" y="148" width="1.5" height="6" fill="rgba(140,78,47,0.2)"/>
+        <path d="M130 100 L134 88 L138 100 Z"/><rect x="133.5" y="100" width="1.5" height="6" fill="rgba(140,78,47,0.2)"/>
       </g>
       <path d="M85 244 C28 220 16 188 44 166 C72 144 132 136 118 106 C104 76 32 62 68 30 C80 16 74 6 74 6"
-        stroke="rgba(255,255,255,0.35)" strokeWidth="2.2" strokeDasharray="5 5" strokeLinecap="round" fill="none"/>
-      <circle cx="74" cy="6" r="6" fill="#d4a060" opacity="0.8"/>
-      <line x1="74" y1="-2" x2="74" y2="-4" stroke="#d4a060" strokeWidth="1.5" opacity="0.7"/>
-      <line x1="74" y1="14" x2="74" y2="16" stroke="#d4a060" strokeWidth="1.5" opacity="0.7"/>
-      <line x1="66" y1="6"  x2="64" y2="6"  stroke="#d4a060" strokeWidth="1.5" opacity="0.7"/>
-      <line x1="82" y1="6"  x2="84" y2="6"  stroke="#d4a060" strokeWidth="1.5" opacity="0.7"/>
+        stroke="rgba(140,78,47,0.45)" strokeWidth="2.2" strokeDasharray="5 5" strokeLinecap="round" fill="none"/>
+      <circle cx="74" cy="6" r="6" fill="#d4a060" opacity="0.9"/>
+      <line x1="74" y1="-2" x2="74" y2="-4" stroke="#d4a060" strokeWidth="1.5" opacity="0.8"/>
+      <line x1="74" y1="14" x2="74" y2="16" stroke="#d4a060" strokeWidth="1.5" opacity="0.8"/>
+      <line x1="66" y1="6"  x2="64" y2="6"  stroke="#d4a060" strokeWidth="1.5" opacity="0.8"/>
+      <line x1="82" y1="6"  x2="84" y2="6"  stroke="#d4a060" strokeWidth="1.5" opacity="0.8"/>
       {waypoints.map((wp, i) => {
         const done   = i < progreso
         const active = i === progreso
         const r      = active ? 15 : 12
         return (
           <g key={i}>
-            {active && <circle cx={wp.cx} cy={wp.cy} r={24} fill="rgba(140,78,47,0.25)"/>}
+            {active && <circle cx={wp.cx} cy={wp.cy} r={24} fill="rgba(140,78,47,0.15)"/>}
             <circle cx={wp.cx} cy={wp.cy} r={r}
-              fill={done ? '#6b3820' : active ? '#8c4e2f' : 'rgba(255,255,255,0.1)'}
-              stroke={done || active ? '#d4a060' : 'rgba(255,255,255,0.35)'}
+              fill={done ? '#8c4e2f' : active ? '#8c4e2f' : 'rgba(255,255,255,0.6)'}
+              stroke={done || active ? '#d4a060' : 'rgba(140,78,47,0.4)'}
               strokeWidth="1.8"/>
             {done ? (
               <polyline points={`${wp.cx-5},${wp.cy+0.5} ${wp.cx-1.5},${wp.cy+4.5} ${wp.cx+6},${wp.cy-5}`}
@@ -313,7 +313,7 @@ function TravesiaMapDecor({ progreso }) {
             ) : (
               <text x={wp.cx} y={wp.cy + 4} textAnchor="middle"
                 fontSize={active ? '8.5' : '8'} fontWeight="700" letterSpacing="0.04em"
-                fill={active ? '#fff' : 'rgba(255,255,255,0.5)'} fontFamily="Raleway,sans-serif">
+                fill={active ? '#fff' : 'rgba(140,78,47,0.7)'} fontFamily="Raleway,sans-serif">
                 {String(i + 1).padStart(2, '0')}
               </text>
             )}

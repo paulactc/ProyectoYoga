@@ -1211,13 +1211,13 @@ a.nav-logo {
 .metodo-card--explorar,
 .metodo-card--grupos {
   color: var(--dark);
-  border: 1px solid #e2d5c4;
+  border: 1.5px solid rgba(140,78,47,0.28);
 }
 
 /* La Travesía: fondo foto + capa crema cálida */
 .metodo-card--travesia {
   background:
-    linear-gradient(to right, rgba(250,245,239,0.96) 0%, rgba(243,235,224,0.82) 55%, rgba(243,235,224,0.45) 100%),
+    linear-gradient(to right, rgba(250,245,239,0.88) 0%, rgba(243,235,224,0.65) 55%, rgba(243,235,224,0.2) 100%),
     url('/images/yoga6.jpg') center 80% / cover no-repeat;
   box-shadow: 0 4px 24px rgba(140,78,47,0.1);
   min-height: 220px;
@@ -1235,7 +1235,7 @@ a.nav-logo {
 /* Explorar: fondo foto + capa crema cálida */
 .metodo-card--explorar {
   background:
-    linear-gradient(to right, rgba(250,245,239,0.96) 0%, rgba(243,235,224,0.82) 55%, rgba(243,235,224,0.38) 100%),
+    linear-gradient(to right, rgba(250,245,239,0.88) 0%, rgba(243,235,224,0.65) 55%, rgba(243,235,224,0.15) 100%),
     url('/images/avanzadoa2.jpg') center / cover no-repeat;
   box-shadow: 0 4px 24px rgba(140,78,47,0.1);
   min-height: 300px;
@@ -1253,7 +1253,7 @@ a.nav-logo {
 /* Grupos: fondo foto + capa crema cálida */
 .metodo-card--grupos {
   background:
-    linear-gradient(to right, rgba(250,245,239,0.96) 0%, rgba(243,235,224,0.82) 55%, rgba(243,235,224,0.38) 100%),
+    linear-gradient(to right, rgba(250,245,239,0.88) 0%, rgba(243,235,224,0.65) 55%, rgba(243,235,224,0.15) 100%),
     url('/images/avanzadoa1.jpg') right 65% / cover no-repeat;
   box-shadow: 0 4px 24px rgba(140,78,47,0.1);
   min-height: 300px;
@@ -1726,9 +1726,10 @@ a.nav-logo {
   justify-content: center;
   position: relative;
   transition: box-shadow 0.3s;
-  background: rgba(140,78,47,0.08);
-  border: 1.8px solid rgba(140,78,47,0.25);
-  color: rgba(140,78,47,0.45);
+  background: rgba(255,255,255,0.85);
+  border: 1.8px solid rgba(140,78,47,0.45);
+  color: var(--tierra);
+  box-shadow: 0 2px 8px rgba(140,78,47,0.1);
 }
 
 /* Estado: completada */
@@ -1794,8 +1795,10 @@ a.nav-logo {
   font-family: var(--font-heading);
   font-size: 1.2rem;
   font-weight: 700;
-  color: #fff;
+  color: var(--dark);
 }
+.pnode--done .pnode-num,
+.pnode--active .pnode-num { color: #fff; }
 
 .pnode-title {
   position: absolute;
@@ -1813,19 +1816,21 @@ a.nav-logo {
 
 /* Estado: bloqueada */
 .pnode--locked .pnode-inner {
-  background: rgba(140,78,47,0.05);
-  border: 1.8px solid rgba(140,78,47,0.18);
-  color: rgba(140,78,47,0.3);
+  background: rgba(255,255,255,0.5);
+  border: 1.8px solid rgba(140,78,47,0.2);
+  color: rgba(140,78,47,0.35);
+  box-shadow: none;
 }
 .pnode-lock { width: 16px; height: 16px; }
 
 /* Estado: próximamente */
 .pnode--soon .pnode-inner {
-  background: rgba(140,78,47,0.04);
-  border: 1.8px dashed rgba(140,78,47,0.2);
-  color: rgba(140,78,47,0.22);
+  background: rgba(255,255,255,0.4);
+  border: 1.8px dashed rgba(140,78,47,0.25);
+  color: rgba(140,78,47,0.28);
   width: 42px;
   height: 42px;
+  box-shadow: none;
 }
 .pnode--soon { opacity: 0.75; }
 .pnode-dots { font-size: 0.7rem; letter-spacing: 0.2em; }
@@ -3111,16 +3116,17 @@ a.nav-logo {
 
 /* ── Tarjeta de clase ── */
 .clase-card {
-  background: var(--white);
+  background: #faf5ef;
   border-radius: var(--radius);
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+  box-shadow: 0 2px 12px rgba(140,78,47,0.08);
+  border: 1px solid #e8dcd0;
   transition: transform 0.2s, box-shadow 0.2s;
   display: flex;
   flex-direction: column;
 }
 
-.clase-card:hover { transform: translateY(-5px); box-shadow: 0 14px 36px rgba(0,0,0,0.12); }
+.clase-card:hover { transform: translateY(-5px); box-shadow: 0 10px 28px rgba(140,78,47,0.14); }
 
 .clase-card-img {
   position: relative;
@@ -6297,8 +6303,15 @@ a.nav-logo {
   .pnode--soon .pnode-inner { width: 34px; height: 34px; }
   .pnode-lotus-svg { width: 56px; height: 56px; }
   .pnode-num { font-size: 1rem; }
-  .pnode-title { max-width: 64px; font-size: 0.52rem; }
-  .path-row { padding: 0.7rem 0.4rem; }
+  .pnode-title {
+    font-size: 0.48rem;
+    white-space: nowrap;
+    max-width: 54px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .pnode-num-small { display: none; }
+  .path-row { padding: 1.2rem 0.4rem 1.6rem; }
   .path-world { padding: 0 0 1.5rem; margin: 0.25rem 0.5rem 1.5rem; border-radius: 14px; }
 }
 
