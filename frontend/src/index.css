@@ -2335,6 +2335,12 @@ a.nav-logo {
 /* Selector de plan */
 /* ── Selector de plan (dentro del wrapper blanco) ──────────────────────── */
 .cal-selector { text-align: center; padding: 0.5rem 0; }
+.cal-selector-ilustracion {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+  opacity: 0.9;
+}
 .cal-selector-titulo {
   font-family: 'Raleway', sans-serif;
   font-size: 1.25rem;
