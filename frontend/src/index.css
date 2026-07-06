@@ -575,12 +575,15 @@ body {
   box-shadow: 0 8px 32px rgba(0,0,0,0.08);
   margin-bottom: 2rem;
   line-height: 0;
+  aspect-ratio: 16 / 7;
 }
 
 .contacto-foto img {
   width: 100%;
-  height: auto;
+  height: 100%;
   display: block;
+  object-fit: cover;
+  object-position: center 50%;
   border-radius: 15px;
 }
 
