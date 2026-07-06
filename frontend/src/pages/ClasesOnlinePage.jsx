@@ -1719,7 +1719,7 @@ export default function ClasesOnlinePage() {
                 <line x1="8" y1="2" x2="8" y2="6"/>
                 <line x1="16" y1="2" x2="16" y2="6"/>
               </svg>
-              <span>Con el <strong>Plan Mensual</strong> obtienes tu calendario personal — las 50 clases repartidas a tu ritmo, con ajuste automático.</span>
+              <span>¿Le ponemos fecha a tu práctica? 😊 Con tu suscripción tendrás las <strong>50 clases organizadas en tu calendario</strong> — y si un día la vida se complica, el plan se reorganiza solo.</span>
               <Link to="/suscripcion" className="travesia-cal-teaser-btn">Ver planes →</Link>
             </div>
           )}
@@ -1734,8 +1734,24 @@ export default function ClasesOnlinePage() {
               />
               {!isSubscribed && (
                 <div className="travesia-sub-cta">
-                  <p>Necesitas una suscripción activa para empezar tu travesía.</p>
-                  <Link to="/suscripcion" className="btn">Ver planes →</Link>
+                  <div className="travesia-sub-cta-cal" aria-hidden="true">
+                    <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" width="72" height="72">
+                      <rect x="6" y="12" width="52" height="46" rx="7" fill="rgba(140,78,47,0.08)" stroke="rgba(140,78,47,0.35)" strokeWidth="2"/>
+                      <rect x="6" y="12" width="52" height="16" rx="7" fill="rgba(140,78,47,0.15)" stroke="none"/>
+                      <rect x="6" y="20" width="52" height="8" fill="rgba(140,78,47,0.15)" stroke="none"/>
+                      <line x1="20" y1="6" x2="20" y2="18" stroke="rgba(140,78,47,0.6)" strokeWidth="2.5" strokeLinecap="round"/>
+                      <line x1="44" y1="6" x2="44" y2="18" stroke="rgba(140,78,47,0.6)" strokeWidth="2.5" strokeLinecap="round"/>
+                      <circle cx="20" cy="38" r="3.5" fill="rgba(212,160,96,0.8)"/>
+                      <circle cx="32" cy="38" r="3.5" fill="rgba(140,78,47,0.5)"/>
+                      <circle cx="44" cy="38" r="3.5" fill="rgba(140,78,47,0.3)"/>
+                      <circle cx="20" cy="50" r="3.5" fill="rgba(140,78,47,0.3)"/>
+                      <circle cx="32" cy="50" r="3.5" fill="rgba(140,78,47,0.3)"/>
+                    </svg>
+                    <span className="travesia-sub-cta-guino">😉</span>
+                  </div>
+                  <h3 className="travesia-sub-cta-titulo">Tu camino te está esperando</h3>
+                  <p>50 etapas pensadas para ir contigo, a tu ritmo, sin prisa.<br/>Cuando empieces, el camino se organiza solo para que nunca pierdas el hilo.</p>
+                  <Link to="/suscripcion" className="btn">Empezar mi travesía →</Link>
                 </div>
               )}
             </>

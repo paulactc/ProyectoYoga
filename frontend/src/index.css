@@ -1491,12 +1491,40 @@ a.nav-logo {
 /* CTA banner cuando no está suscrita */
 .travesia-sub-cta {
   text-align: center;
-  padding: 3rem 2rem;
-  background: var(--sand);
-  border-radius: var(--radius);
+  padding: 2.5rem 2rem 2.8rem;
+  background: linear-gradient(135deg, #faf5ef 0%, #f3ebe0 100%);
+  border: 1.5px solid #e2d5c4;
+  border-radius: 18px;
   margin-top: 2.5rem;
 }
-.travesia-sub-cta p { color: var(--muted); margin-bottom: 1rem; }
+.travesia-sub-cta-cal {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+.travesia-sub-cta-guino {
+  position: absolute;
+  bottom: -4px;
+  right: -10px;
+  font-size: 1.4rem;
+  line-height: 1;
+}
+.travesia-sub-cta-titulo {
+  font-family: var(--font-heading);
+  font-size: 1.55rem;
+  font-weight: 400;
+  color: var(--dark);
+  margin-bottom: 0.6rem;
+  letter-spacing: -0.01em;
+}
+.travesia-sub-cta p {
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+  font-size: 0.92rem;
+  line-height: 1.7;
+}
 
 /* ═══════════════════════════════════════════════════════
    PATH WORLD — El camino de 50 clases
