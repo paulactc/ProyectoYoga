@@ -1173,39 +1173,32 @@ function PlanSelector({ onSelect, loading, error }) {
             <circle cx="85" cy="68" r="5" fill="rgba(140,78,47,0.8)" stroke="rgba(140,78,47,0.9)" strokeWidth="1.5"/>
             <circle cx="85" cy="68" r="2.2" fill="#fff"/>
 
-            {/* ── 3 MESES: camino corto y empinado (derecha) ── */}
-            <path d="M85 68 Q92 54 98 38 Q102 26 104 14"
+            {/* ── 3 MESES: camino corto y empinado (izquierda) ── */}
+            <path d="M85 68 Q78 54 72 38 Q68 26 66 14"
               stroke="rgba(140,78,47,0.6)" strokeWidth="1.8" strokeLinecap="round" fill="none"/>
-            {/* 3 hitos */}
-            <circle cx="96" cy="47" r="3.8" fill="rgba(212,160,96,0.6)" stroke="rgba(140,78,47,0.55)" strokeWidth="1.2"/>
-            <circle cx="101" cy="30" r="3.8" fill="rgba(212,160,96,0.6)" stroke="rgba(140,78,47,0.55)" strokeWidth="1.2"/>
-            {/* meta 3 meses */}
-            <circle cx="104" cy="14" r="5.5" fill="rgba(140,78,47,0.75)" stroke="rgba(140,78,47,0.9)" strokeWidth="1.4"/>
-            {/* etiqueta */}
-            <text x="118" y="17" fontSize="7" fill="rgba(140,78,47,0.65)" fontFamily="Raleway,sans-serif" fontWeight="700">3m</text>
-
-            {/* ── 6 MESES: camino largo y suave (izquierda) ── */}
-            <path d="M85 68 Q72 62 58 55 Q42 47 28 40 Q16 33 8 22"
-              stroke="rgba(140,78,47,0.38)" strokeWidth="1.5" strokeLinecap="round" strokeDasharray="5 3" fill="none"/>
-            {/* 5 hitos */}
-            <circle cx="70" cy="60" r="3" fill="rgba(212,160,96,0.35)" stroke="rgba(140,78,47,0.35)" strokeWidth="1"/>
-            <circle cx="53" cy="52" r="3" fill="rgba(212,160,96,0.35)" stroke="rgba(140,78,47,0.35)" strokeWidth="1"/>
-            <circle cx="36" cy="44" r="3" fill="rgba(212,160,96,0.35)" stroke="rgba(140,78,47,0.35)" strokeWidth="1"/>
-            <circle cx="20" cy="36" r="3" fill="rgba(212,160,96,0.35)" stroke="rgba(140,78,47,0.35)" strokeWidth="1"/>
-            {/* meta 6 meses */}
-            <circle cx="8" cy="22" r="5" fill="rgba(140,78,47,0.45)" stroke="rgba(140,78,47,0.6)" strokeWidth="1.2"/>
-            {/* etiqueta */}
-            <text x="16" y="17" fontSize="7" fill="rgba(140,78,47,0.45)" fontFamily="Raleway,sans-serif">6m</text>
-
-            {/* sol en la meta rápida */}
-            <circle cx="104" cy="14" r="0" fill="none"/>
+            <circle cx="74" cy="47" r="3.8" fill="rgba(212,160,96,0.6)" stroke="rgba(140,78,47,0.55)" strokeWidth="1.2"/>
+            <circle cx="69" cy="30" r="3.8" fill="rgba(212,160,96,0.6)" stroke="rgba(140,78,47,0.55)" strokeWidth="1.2"/>
+            {/* meta 3 meses con sol */}
+            <circle cx="66" cy="14" r="5.5" fill="rgba(140,78,47,0.75)" stroke="rgba(140,78,47,0.9)" strokeWidth="1.4"/>
             {[0,60,120,180,240,300].map(deg => {
               const a = deg * Math.PI / 180
               return <line key={deg}
-                x1={104+Math.cos(a)*7.5} y1={14+Math.sin(a)*7.5}
-                x2={104+Math.cos(a)*10}  y2={14+Math.sin(a)*10}
+                x1={66+Math.cos(a)*7.5} y1={14+Math.sin(a)*7.5}
+                x2={66+Math.cos(a)*10}  y2={14+Math.sin(a)*10}
                 stroke="rgba(212,160,96,0.55)" strokeWidth="1.1" strokeLinecap="round"/>
             })}
+            <text x="32" y="12" fontSize="7" fill="rgba(140,78,47,0.65)" fontFamily="Raleway,sans-serif" fontWeight="700">3 meses</text>
+
+            {/* ── 6 MESES: camino largo y suave (derecha) ── */}
+            <path d="M85 68 Q98 62 112 55 Q128 47 142 40 Q154 33 162 22"
+              stroke="rgba(140,78,47,0.38)" strokeWidth="1.5" strokeLinecap="round" strokeDasharray="5 3" fill="none"/>
+            <circle cx="100" cy="60" r="3" fill="rgba(212,160,96,0.35)" stroke="rgba(140,78,47,0.35)" strokeWidth="1"/>
+            <circle cx="117" cy="52" r="3" fill="rgba(212,160,96,0.35)" stroke="rgba(140,78,47,0.35)" strokeWidth="1"/>
+            <circle cx="134" cy="44" r="3" fill="rgba(212,160,96,0.35)" stroke="rgba(140,78,47,0.35)" strokeWidth="1"/>
+            <circle cx="150" cy="36" r="3" fill="rgba(212,160,96,0.35)" stroke="rgba(140,78,47,0.35)" strokeWidth="1"/>
+            {/* meta 6 meses */}
+            <circle cx="162" cy="22" r="5" fill="rgba(140,78,47,0.45)" stroke="rgba(140,78,47,0.6)" strokeWidth="1.2"/>
+            <text x="130" y="12" fontSize="7" fill="rgba(140,78,47,0.45)" fontFamily="Raleway,sans-serif">6 meses</text>
           </svg>
         </div>
         <h3 className="cal-selector-titulo">¿A qué ritmo quieres ir?</h3>
