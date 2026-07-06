@@ -760,8 +760,8 @@ body {
 
 /* ── Footer ── */
 .footer {
-  background: var(--dark);
-  color: rgba(255,255,255,0.6);
+  background: linear-gradient(135deg, #faf5ef 0%, #f0e9de 100%);
+  color: var(--muted);
   text-align: center;
   padding: 3rem 2rem 2rem;
   font-size: 0.85rem;
@@ -769,6 +769,7 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 1.25rem;
+  border-top: 1px solid #e2d5c4;
 }
 
 .footer-logo {
@@ -776,7 +777,7 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 0.6rem;
-  color: rgba(212,160,96,0.85);
+  color: var(--tierra);
   margin-bottom: 0.5rem;
 }
 .footer-logo svg {
@@ -788,7 +789,7 @@ body {
   font-size: clamp(1.1rem, 2.5vw, 1.4rem);
   font-weight: 300;
   letter-spacing: 0.06em;
-  color: rgba(255,255,255,0.75);
+  color: var(--dark);
 }
 
 .footer-social {
@@ -796,13 +797,13 @@ body {
   gap: 1.5rem;
 }
 .footer-social a {
-  color: rgba(255,255,255,0.75);
+  color: var(--muted);
   text-decoration: none;
   font-weight: 500;
   letter-spacing: 0.04em;
   transition: color 0.2s;
 }
-.footer-social a:hover { color: var(--sage); }
+.footer-social a:hover { color: var(--tierra); }
 
 .footer-legal {
   display: flex;
@@ -812,15 +813,15 @@ body {
   justify-content: center;
 }
 .footer-legal a {
-  color: rgba(255,255,255,0.45);
+  color: var(--muted);
   text-decoration: none;
   transition: color 0.2s;
 }
-.footer-legal a:hover { color: rgba(255,255,255,0.8); }
-.footer-sep { color: rgba(255,255,255,0.2); }
+.footer-legal a:hover { color: var(--dark); }
+.footer-sep { color: rgba(140,78,47,0.3); }
 
 .footer-copy {
-  color: rgba(255,255,255,0.3);
+  color: rgba(0,0,0,0.35);
   font-size: 0.78rem;
   margin: 0;
 }
@@ -1205,20 +1206,20 @@ a.nav-logo {
 
 .metodo-card:hover { transform: translateY(-7px); }
 
-/* — Misma base oscura, cada tarjeta con su tinte y acento — */
+/* — Base cálida y luminosa, foto suave al fondo — */
 .metodo-card--travesia,
 .metodo-card--explorar,
 .metodo-card--grupos {
-  color: #fff;
-  border: 1px solid rgba(255,255,255,0.07);
+  color: var(--dark);
+  border: 1px solid #e2d5c4;
 }
 
-/* La Travesía: fondo foto + capa tierra cálida */
+/* La Travesía: fondo foto + capa crema cálida */
 .metodo-card--travesia {
   background:
-    linear-gradient(to right, rgba(20,15,10,0.86) 0%, rgba(20,15,10,0.72) 50%, rgba(20,15,10,0.42) 100%),
+    linear-gradient(to right, rgba(250,245,239,0.96) 0%, rgba(243,235,224,0.82) 55%, rgba(243,235,224,0.45) 100%),
     url('/images/yoga6.jpg') center 80% / cover no-repeat;
-  box-shadow: 0 10px 50px rgba(140,78,47,0.3);
+  box-shadow: 0 4px 24px rgba(140,78,47,0.1);
   min-height: 220px;
 }
 .metodo-card--travesia::before {
@@ -1226,17 +1227,17 @@ a.nav-logo {
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(212,160,96,0.75), transparent);
+  background: linear-gradient(90deg, transparent, rgba(140,78,47,0.35), transparent);
   border-radius: 20px 20px 0 0;
 }
-.metodo-card--travesia:hover { box-shadow: 0 22px 70px rgba(140,78,47,0.48); }
+.metodo-card--travesia:hover { box-shadow: 0 14px 40px rgba(140,78,47,0.18); }
 
-/* Explorar: fondo foto + capa azul noche */
+/* Explorar: fondo foto + capa crema cálida */
 .metodo-card--explorar {
   background:
-    linear-gradient(to right, rgba(10,15,28,0.86) 0%, rgba(10,15,28,0.70) 50%, rgba(10,15,28,0.38) 100%),
+    linear-gradient(to right, rgba(250,245,239,0.96) 0%, rgba(243,235,224,0.82) 55%, rgba(243,235,224,0.38) 100%),
     url('/images/avanzadoa2.jpg') center / cover no-repeat;
-  box-shadow: 0 10px 50px rgba(40,80,140,0.28);
+  box-shadow: 0 4px 24px rgba(140,78,47,0.1);
   min-height: 300px;
 }
 .metodo-card--explorar::before {
@@ -1244,17 +1245,17 @@ a.nav-logo {
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(100,160,210,0.7), transparent);
+  background: linear-gradient(90deg, transparent, rgba(212,160,96,0.5), transparent);
   border-radius: 20px 20px 0 0;
 }
-.metodo-card--explorar:hover { box-shadow: 0 22px 70px rgba(40,80,140,0.44); }
+.metodo-card--explorar:hover { box-shadow: 0 14px 40px rgba(140,78,47,0.18); }
 
-/* Grupos: verde bosque */
+/* Grupos: fondo foto + capa crema cálida */
 .metodo-card--grupos {
   background:
-    linear-gradient(to right, rgba(12,18,12,0.95) 0%, rgba(12,18,12,0.75) 52%, rgba(12,18,12,0.15) 100%),
+    linear-gradient(to right, rgba(250,245,239,0.96) 0%, rgba(243,235,224,0.82) 55%, rgba(243,235,224,0.38) 100%),
     url('/images/avanzadoa1.jpg') right 65% / cover no-repeat;
-  box-shadow: 0 10px 50px rgba(50,100,60,0.28);
+  box-shadow: 0 4px 24px rgba(140,78,47,0.1);
   min-height: 300px;
 }
 .metodo-card--grupos::before {
@@ -1262,19 +1263,19 @@ a.nav-logo {
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(100,190,130,0.65), transparent);
+  background: linear-gradient(90deg, transparent, rgba(140,78,47,0.3), transparent);
   border-radius: 20px 20px 0 0;
 }
-.metodo-card--grupos:hover { box-shadow: 0 22px 70px rgba(50,100,60,0.38); }
+.metodo-card--grupos:hover { box-shadow: 0 14px 40px rgba(140,78,47,0.18); }
 
-/* Colores de acento por tarjeta */
+/* Colores de acento unificados en tierra/dorado */
 .metodo-card--explorar .metodo-subtitulo,
 .metodo-card--explorar .metodo-cta,
-.metodo-card--explorar .metodo-icon { color: #7bbde0; opacity: 1; }
+.metodo-card--explorar .metodo-icon { color: var(--tierra); opacity: 1; }
 
 .metodo-card--grupos .metodo-subtitulo,
 .metodo-card--grupos .metodo-cta,
-.metodo-card--grupos .metodo-icon { color: #7abf90; opacity: 1; }
+.metodo-card--grupos .metodo-icon { color: var(--tierra); opacity: 1; }
 
 /* Badge "NUEVO" */
 .metodo-badge {
@@ -1314,7 +1315,7 @@ a.nav-logo {
   font-weight: 400;
   line-height: 1.1;
   margin-bottom: 0.4rem;
-  color: #fff;
+  color: var(--dark);
 }
 
 .metodo-subtitulo {
@@ -1322,7 +1323,7 @@ a.nav-logo {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   margin-bottom: 0.9rem;
-  color: var(--accent);
+  color: var(--tierra);
   opacity: 0.85;
 }
 
@@ -1330,7 +1331,7 @@ a.nav-logo {
   font-size: 0.92rem;
   line-height: 1.75;
   margin-bottom: 1.4rem;
-  color: rgba(255,255,255,0.6);
+  color: var(--muted);
 }
 
 .metodo-cta {
@@ -1339,7 +1340,7 @@ a.nav-logo {
   font-weight: 500;
   letter-spacing: 0.04em;
   transition: letter-spacing 0.2s;
-  color: var(--accent);
+  color: var(--tierra);
 }
 .metodo-card:hover .metodo-cta { letter-spacing: 0.08em; }
 
