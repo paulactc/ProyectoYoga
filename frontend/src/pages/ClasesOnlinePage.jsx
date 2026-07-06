@@ -1710,18 +1710,7 @@ export default function ClasesOnlinePage() {
                 Mi Calendario
               </button>
             </div>
-          ) : (
-            <div className="travesia-cal-teaser">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <rect x="3" y="4" width="18" height="18" rx="2"/>
-                <line x1="3" y1="9" x2="21" y2="9"/>
-                <line x1="8" y1="2" x2="8" y2="6"/>
-                <line x1="16" y1="2" x2="16" y2="6"/>
-              </svg>
-              <span>¿Le ponemos fecha a tu práctica? 😊 Con tu suscripción tendrás las <strong>50 clases organizadas en tu calendario</strong> — y si un día la vida se complica, el plan se reorganiza solo.</span>
-              <Link to="/suscripcion" className="travesia-cal-teaser-btn">Ver planes →</Link>
-            </div>
-          )}
+          ) : null}
 
           {/* Vista: El Camino */}
           {travesiaView === 'camino' && (
