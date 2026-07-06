@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext'
 
 const CLASES = [
   // ── FASE 1: Cimientos y Alineación (1-8) ──────────────────────────────
-  { id: 1,  titulo: 'El primer paso: activar el cuerpo desde la raíz',        duracion: 30, nivel: 1, descripcion: 'Toma conciencia de las plantas de los pies, activa la cadena muscular desde la base y establece la conexión entre suelo y movimiento.',                                                          imagen: '/images/latravesia1.jpg' },
+  { id: 1,  titulo: 'El primer paso: activar el cuerpo desde la raíz',        duracion: 30, nivel: 1, descripcion: 'Todo empieza aquí, desde el suelo. Antes de movernos, aprendemos a sentir: las plantas de los pies sobre la esterilla, el peso del cuerpo, la conexión con la tierra. Un paso pequeño — que lo cambia todo.',                                                          imagen: '/images/latravesia1.jpg' },
   { id: 2,  titulo: 'Alineación consciente: pies, rodillas, caderas',          duracion: 30, nivel: 1, descripcion: 'Aprende a alinear el tren inferior para proteger las articulaciones y crear una base sólida en cada postura.',                                                                                      imagen: '/images/yoga2.jpg' },
   { id: 3,  titulo: 'La columna neutra: encontrar tu eje',                     duracion: 30, nivel: 1, descripcion: 'Descubre la posición natural de la columna y cómo mantenerla en movimiento. El eje que sostiene toda la práctica.',                                                                                  imagen: '/images/yoga3.jpg' },
   { id: 4,  titulo: 'Escápulas despiertas: hombros en su lugar',               duracion: 25, nivel: 1, descripcion: 'Activa y estabiliza la cintura escapular para proteger los hombros y abrir el pecho con seguridad.',                                                                                               imagen: '/images/yoga4.jpg' },
@@ -1893,18 +1893,50 @@ export default function ClasesOnlinePage() {
             ) : (
               <div className="clase-presentacion">
                 {modalClase.clase.imagen && (
-                  <img
-                    src={modalClase.clase.imagen}
-                    alt={modalClase.clase.titulo}
-                    className="clase-presentacion-img"
-                  />
+                  <div className="clase-presentacion-img-wrap">
+                    <img
+                      src={modalClase.clase.imagen}
+                      alt={modalClase.clase.titulo}
+                      className="clase-presentacion-img"
+                    />
+                  </div>
                 )}
-                {modalClase.clase.descripcion && (
-                  <p className="clase-presentacion-desc">{modalClase.clase.descripcion}</p>
-                )}
-                <p className="clase-presentacion-pronto">
-                  <span>🎬</span> El vídeo estará disponible próximamente
-                </p>
+                <div className="clase-presentacion-body">
+                  <div className="clase-presentacion-ilustracion" aria-hidden="true">
+                    <svg viewBox="0 0 120 88" fill="none" xmlns="http://www.w3.org/2000/svg" width="110" height="88">
+                      {/* suelo */}
+                      <line x1="18" y1="58" x2="102" y2="58" stroke="rgba(140,78,47,0.2)" strokeWidth="1.5" strokeLinecap="round"/>
+                      {/* raíces */}
+                      <path d="M60 58 C54 64 44 67 36 73" stroke="rgba(140,78,47,0.3)" strokeWidth="1.4" strokeLinecap="round" fill="none"/>
+                      <path d="M60 58 C66 64 76 67 84 73" stroke="rgba(140,78,47,0.3)" strokeWidth="1.4" strokeLinecap="round" fill="none"/>
+                      <path d="M60 58 C59 65 57 72 56 78" stroke="rgba(140,78,47,0.2)" strokeWidth="1.1" strokeLinecap="round" fill="none"/>
+                      {/* tallo */}
+                      <path d="M60 58 Q60 46 60 26" stroke="rgba(140,78,47,0.65)" strokeWidth="1.8" strokeLinecap="round" fill="none"/>
+                      {/* hoja izquierda */}
+                      <path d="M60 42 C51 37 42 38 40 31 C42 24 53 27 60 35" fill="rgba(212,160,96,0.22)" stroke="rgba(140,78,47,0.5)" strokeWidth="1.1" strokeLinejoin="round"/>
+                      {/* nervio hoja izquierda */}
+                      <path d="M60 42 C52 37 44 33 40 31" stroke="rgba(140,78,47,0.25)" strokeWidth="0.7" fill="none"/>
+                      {/* hoja derecha */}
+                      <path d="M60 36 C69 31 78 32 80 25 C78 18 67 21 60 29" fill="rgba(212,160,96,0.22)" stroke="rgba(140,78,47,0.5)" strokeWidth="1.1" strokeLinejoin="round"/>
+                      {/* nervio hoja derecha */}
+                      <path d="M60 36 C68 31 76 27 80 25" stroke="rgba(140,78,47,0.25)" strokeWidth="0.7" fill="none"/>
+                      {/* brote en la punta */}
+                      <circle cx="60" cy="23" r="5" fill="rgba(212,160,96,0.45)" stroke="rgba(140,78,47,0.5)" strokeWidth="1.2"/>
+                      <path d="M60 18 C58 13 57 8 60 5 C63 8 62 13 60 18" fill="rgba(212,160,96,0.35)" stroke="rgba(140,78,47,0.4)" strokeWidth="0.9"/>
+                      {/* destellos */}
+                      <circle cx="46" cy="20" r="1.5" fill="rgba(212,160,96,0.55)"/>
+                      <circle cx="76" cy="16" r="1.2" fill="rgba(212,160,96,0.45)"/>
+                      <circle cx="38" cy="44" r="1" fill="rgba(140,78,47,0.3)"/>
+                      <circle cx="84" cy="38" r="1" fill="rgba(140,78,47,0.25)"/>
+                    </svg>
+                  </div>
+                  {modalClase.clase.descripcion && (
+                    <p className="clase-presentacion-desc">{modalClase.clase.descripcion}</p>
+                  )}
+                  <p className="clase-presentacion-pronto">
+                    🎬 El vídeo de esta clase llegará pronto — mientras tanto, lee, respira y prepárate para empezar.
+                  </p>
+                </div>
               </div>
             )}
             {modalClase.onCompletar && (

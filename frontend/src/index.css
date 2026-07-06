@@ -3355,27 +3355,55 @@ a.nav-logo {
   border: 1px solid #e2d5c4;
 }
 
+.clase-presentacion-img-wrap {
+  position: relative;
+  line-height: 0;
+}
+
 .clase-presentacion-img {
   width: 100%;
-  max-height: 320px;
+  max-height: 240px;
   object-fit: cover;
   display: block;
 }
 
+.clase-presentacion-img-wrap::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 60px;
+  background: linear-gradient(to bottom, transparent, #faf5ef);
+}
+
+.clase-presentacion-body {
+  padding: 0.5rem 1.5rem 1.4rem;
+  text-align: center;
+}
+
+.clase-presentacion-ilustracion {
+  margin: 0.2rem auto 0.8rem;
+  display: flex;
+  justify-content: center;
+  opacity: 0.9;
+}
+
 .clase-presentacion-desc {
-  font-size: 0.95rem;
-  line-height: 1.75;
-  color: var(--muted);
-  padding: 1.25rem 1.5rem 0.5rem;
-  margin: 0;
+  font-size: 0.96rem;
+  line-height: 1.8;
+  color: var(--dark);
+  margin: 0 0 1rem;
+  font-style: italic;
 }
 
 .clase-presentacion-pronto {
-  font-size: 0.78rem;
-  color: rgba(0,0,0,0.35);
-  padding: 0.6rem 1.5rem 1.1rem;
+  font-size: 0.76rem;
+  color: var(--muted);
   margin: 0;
-  letter-spacing: 0.02em;
+  padding: 0.65rem 1rem;
+  background: rgba(140,78,47,0.06);
+  border-radius: 8px;
+  border: 1px solid rgba(140,78,47,0.12);
+  display: inline-block;
 }
 
 /* ── Teaser clases online — split profesional ── */
