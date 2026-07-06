@@ -61,21 +61,23 @@ const contactLimiter = rateLimit({
   message: { success: false, message: 'Demasiados mensajes enviados. Inténtalo más tarde.' },
 });
 
-const apiLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 60,
-  standardHeaders: true,
-  legacyHeaders: false,
-  message: { success: false, message: 'Demasiadas peticiones. Espera un momento e inténtalo de nuevo.' },
-});
+function makeApiLimiter() {
+  return rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 60,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { success: false, message: 'Demasiadas peticiones. Espera un momento e inténtalo de nuevo.' },
+  });
+}
 
-app.use('/api/auth',        authLimiter,    require('./routes/auth'));
-app.use('/api/suscripcion', apiLimiter,     require('./routes/suscripcion'));
-app.use('/api/cuenta',      apiLimiter,     require('./routes/cuenta'));
-app.use('/api/clases',        apiLimiter,     require('./routes/clases'));
-app.use('/api/travesia',      apiLimiter,     require('./routes/travesia'));
-app.use('/api/admin',        apiLimiter,     require('./routes/admin'));
-app.use('/api/meditaciones', apiLimiter,     require('./routes/meditaciones'));
+app.use('/api/auth',         authLimiter,       require('./routes/auth'));
+app.use('/api/suscripcion',  makeApiLimiter(),  require('./routes/suscripcion'));
+app.use('/api/cuenta',       makeApiLimiter(),  require('./routes/cuenta'));
+app.use('/api/clases',       makeApiLimiter(),  require('./routes/clases'));
+app.use('/api/travesia',     makeApiLimiter(),  require('./routes/travesia'));
+app.use('/api/admin',        makeApiLimiter(),  require('./routes/admin'));
+app.use('/api/meditaciones', makeApiLimiter(),  require('./routes/meditaciones'));
 app.use('/api/contact',      contactLimiter, require('./routes/contact'));
 
 // Serve compiled frontend in production
