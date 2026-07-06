@@ -1341,13 +1341,13 @@ a.nav-logo {
   letter-spacing: 0.06em;
   padding: 0.55rem 1.3rem;
   border-radius: 50px;
-  background: var(--tierra);
-  color: #fff;
-  border: none;
+  background: rgba(140,78,47,0.12);
+  color: #5a2f14;
+  border: 1.5px solid rgba(140,78,47,0.35);
   transition: background 0.2s, transform 0.2s, letter-spacing 0.2s;
 }
 .metodo-card:hover .metodo-cta {
-  background: #6e3b22;
+  background: rgba(140,78,47,0.2);
   transform: translateX(3px);
 }
 
