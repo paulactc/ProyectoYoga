@@ -1715,11 +1715,6 @@ export default function ClasesOnlinePage() {
           {/* Vista: El Camino */}
           {travesiaView === 'camino' && (
             <>
-              <TravesiaPathView
-                progress={travesiaProgress}
-                isSubscribed={isSubscribed}
-                onNodeClick={handleNodeClick}
-              />
               {!isSubscribed && (
                 <div className="travesia-sub-cta">
                   <div className="travesia-sub-cta-cal" aria-hidden="true">
@@ -1742,6 +1737,11 @@ export default function ClasesOnlinePage() {
                   <Link to="/suscripcion" className="btn">Empezar mi travesía →</Link>
                 </div>
               )}
+              <TravesiaPathView
+                progress={travesiaProgress}
+                isSubscribed={isSubscribed}
+                onNodeClick={handleNodeClick}
+              />
             </>
           )}
 
