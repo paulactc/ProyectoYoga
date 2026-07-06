@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext'
 
 const CLASES = [
   // ── FASE 1: Cimientos y Alineación (1-8) ──────────────────────────────
-  { id: 1,  titulo: 'El primer paso: activar el cuerpo desde la raíz',        duracion: 30, nivel: 1, descripcion: 'Toma conciencia de las plantas de los pies, activa la cadena muscular desde la base y establece la conexión entre suelo y movimiento.',                                                          imagen: '/images/yoga1.jpg' },
+  { id: 1,  titulo: 'El primer paso: activar el cuerpo desde la raíz',        duracion: 30, nivel: 1, descripcion: 'Toma conciencia de las plantas de los pies, activa la cadena muscular desde la base y establece la conexión entre suelo y movimiento.',                                                          imagen: '/images/latravesia1.jpg' },
   { id: 2,  titulo: 'Alineación consciente: pies, rodillas, caderas',          duracion: 30, nivel: 1, descripcion: 'Aprende a alinear el tren inferior para proteger las articulaciones y crear una base sólida en cada postura.',                                                                                      imagen: '/images/yoga2.jpg' },
   { id: 3,  titulo: 'La columna neutra: encontrar tu eje',                     duracion: 30, nivel: 1, descripcion: 'Descubre la posición natural de la columna y cómo mantenerla en movimiento. El eje que sostiene toda la práctica.',                                                                                  imagen: '/images/yoga3.jpg' },
   { id: 4,  titulo: 'Escápulas despiertas: hombros en su lugar',               duracion: 25, nivel: 1, descripcion: 'Activa y estabiliza la cintura escapular para proteger los hombros y abrir el pecho con seguridad.',                                                                                               imagen: '/images/yoga4.jpg' },
@@ -1903,11 +1903,20 @@ export default function ClasesOnlinePage() {
                 />
               </div>
             ) : (
-              <div className="video-placeholder">
-                <div className="video-placeholder-inner">
-                  <span>▶</span>
-                  <p>El vídeo de esta clase<br />estará disponible próximamente</p>
-                </div>
+              <div className="clase-presentacion">
+                {modalClase.clase.imagen && (
+                  <img
+                    src={modalClase.clase.imagen}
+                    alt={modalClase.clase.titulo}
+                    className="clase-presentacion-img"
+                  />
+                )}
+                {modalClase.clase.descripcion && (
+                  <p className="clase-presentacion-desc">{modalClase.clase.descripcion}</p>
+                )}
+                <p className="clase-presentacion-pronto">
+                  <span>🎬</span> El vídeo estará disponible próximamente
+                </p>
               </div>
             )}
             {modalClase.onCompletar && (

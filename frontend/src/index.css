@@ -3340,6 +3340,37 @@ a.nav-logo {
 
 .video-placeholder-inner p { font-size: 0.92rem; line-height: 1.7; }
 
+/* Presentación de clase sin vídeo aún */
+.clase-presentacion {
+  border-radius: 12px;
+  overflow: hidden;
+  background: #faf5ef;
+  border: 1px solid #e2d5c4;
+}
+
+.clase-presentacion-img {
+  width: 100%;
+  max-height: 320px;
+  object-fit: cover;
+  display: block;
+}
+
+.clase-presentacion-desc {
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: var(--muted);
+  padding: 1.25rem 1.5rem 0.5rem;
+  margin: 0;
+}
+
+.clase-presentacion-pronto {
+  font-size: 0.78rem;
+  color: rgba(0,0,0,0.35);
+  padding: 0.6rem 1.5rem 1.1rem;
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
 /* ── Teaser clases online — split profesional ── */
 .online-teaser {
   display: grid;
