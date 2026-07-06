@@ -1669,7 +1669,6 @@ export default function ClasesOnlinePage() {
               <h2 className="travesia-section-titulo">Tu camino, paso a paso</h2>
               <p className="travesia-section-desc">
                 50 etapas que se desbloquean a medida que avanzas.
-                {!isSubscribed && <Link to="/suscripcion" className="link-tierra"> Suscríbete para empezar →</Link>}
               </p>
             </div>
             <div className="travesia-progreso-wrap">
