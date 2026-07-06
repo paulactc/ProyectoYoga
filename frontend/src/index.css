@@ -841,11 +841,11 @@ a.nav-logo {
 }
 
 .nav-actions .btn:not(.btn-ghost):not(.btn-outline) {
-  background: var(--tierra);
+  background: var(--dark);
   color: #ffffff;
 }
 .nav-actions .btn:not(.btn-ghost):not(.btn-outline):hover {
-  background: #6e3b22;
+  background: #2d2924;
   color: #ffffff;
 }
 
@@ -952,10 +952,10 @@ a.nav-logo {
 
 /* ── Page header Aula Online — tira estrecha profesional ── */
 .page-header--aula {
-  background: linear-gradient(135deg, #18120d 0%, #231810 50%, #18120d 100%);
+  background: linear-gradient(135deg, #faf5ef 0%, #f3ebe0 50%, #faf5ef 100%);
   position: relative;
   overflow: hidden;
-  border-bottom: 1px solid rgba(212,160,96,0.18);
+  border-bottom: 1px solid #e2d5c4;
   margin-top: 64px;
 }
 
@@ -965,8 +965,8 @@ a.nav-logo {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse at 15% 50%, rgba(212,160,96,0.07) 0%, transparent 55%),
-    radial-gradient(ellipse at 85% 50%, rgba(140,78,47,0.08) 0%, transparent 55%);
+    radial-gradient(ellipse at 15% 50%, rgba(212,160,96,0.08) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 50%, rgba(140,78,47,0.06) 0%, transparent 55%);
   pointer-events: none;
 }
 .page-header--aula::after {
@@ -974,7 +974,7 @@ a.nav-logo {
   position: absolute;
   bottom: 0; left: 10%; right: 10%;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(212,160,96,0.22), transparent);
+  background: linear-gradient(90deg, transparent, rgba(140,78,47,0.2), transparent);
 }
 
 .aula-strip {
@@ -991,30 +991,30 @@ a.nav-logo {
   font-size: 0.66rem;
   letter-spacing: 0.26em;
   text-transform: uppercase;
-  color: rgba(212,160,96,0.48);
+  color: var(--muted);
   font-family: var(--font-body);
   font-style: italic;
 }
 .aula-strip-sep {
-  color: rgba(212,160,96,0.28);
+  color: rgba(140,78,47,0.3);
   font-size: 0.55rem;
 }
 .aula-strip-h1 {
   font-family: var(--font-heading);
   font-size: clamp(1.5rem, 3vw, 2.1rem);
   font-weight: 300;
-  color: rgba(255,255,255,0.9);
+  color: var(--dark);
   line-height: 1;
   margin: 0;
   letter-spacing: 0.01em;
 }
 .aula-strip-h1 em {
-  color: var(--accent);
+  color: var(--tierra);
   font-style: italic;
 }
 .aula-strip-sub {
   font-size: 0.73rem;
-  color: rgba(255,255,255,0.3);
+  color: var(--muted);
   letter-spacing: 0.07em;
 }
 
@@ -1101,8 +1101,8 @@ a.nav-logo {
 /* ── Banner acceso Aula Online (no suscrita) ── */
 .aula-acceso-banner {
   margin-top: 64px;
-  background: linear-gradient(135deg, #1a1008 0%, #2a1c10 100%);
-  border-bottom: 2px solid rgba(212,160,96,0.25);
+  background: linear-gradient(135deg, #faf5ef 0%, #f3ebe0 100%);
+  border-bottom: 1px solid #e2d5c4;
   padding: 1rem 2rem;
 }
 
@@ -1116,7 +1116,7 @@ a.nav-logo {
 }
 
 .aula-acceso-icono {
-  color: #d4a060;
+  color: var(--tierra);
   font-size: 1.1rem;
   flex-shrink: 0;
 }
@@ -1129,7 +1129,7 @@ a.nav-logo {
 }
 
 .aula-acceso-texto strong {
-  color: #f5ece4;
+  color: var(--dark);
   font-family: var(--font-heading);
   font-size: 1rem;
   font-weight: 500;
@@ -1137,20 +1137,20 @@ a.nav-logo {
 
 .aula-acceso-texto span {
   font-size: 0.82rem;
-  color: rgba(245,236,228,0.65);
+  color: var(--muted);
   letter-spacing: 0.01em;
 }
 
 .aula-acceso-btn {
   flex-shrink: 0;
-  background: var(--tierra) !important;
+  background: var(--dark) !important;
   color: var(--white) !important;
-  border-color: var(--tierra) !important;
+  border-color: var(--dark) !important;
 }
 
 .aula-acceso-btn:hover {
-  background: #b8632a !important;
-  border-color: #b8632a !important;
+  background: #2d2924 !important;
+  border-color: #2d2924 !important;
 }
 
 /* ── Selector de métodos (landing del aula) ── */
@@ -1499,9 +1499,9 @@ a.nav-logo {
   max-width: 640px;
   margin: 0.5rem auto 2rem;
   padding: 0 0 2rem;
-  background: linear-gradient(180deg, #1a1008 0%, #14100a 60%, #1a1008 100%);
+  background: linear-gradient(180deg, #faf5ef 0%, #f0e9de 60%, #faf5ef 100%);
   border-radius: 20px;
-  border: 1px solid rgba(212,160,96,0.14);
+  border: 1px solid rgba(140,78,47,0.18);
   position: relative;
   overflow: hidden;
 }
@@ -1510,7 +1510,7 @@ a.nav-logo {
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(212,160,96,0.6), transparent);
+  background: linear-gradient(90deg, transparent, rgba(140,78,47,0.3), transparent);
   border-radius: 20px 20px 0 0;
 }
 
@@ -1529,7 +1529,7 @@ a.nav-logo {
   font-size: 0.6rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: rgba(212,160,96,0.45);
+  color: var(--muted);
   font-family: var(--font-heading);
 }
 
@@ -1543,7 +1543,7 @@ a.nav-logo {
 .path-world-progress {
   flex: 1;
   height: 4px;
-  background: rgba(255,255,255,0.1);
+  background: rgba(0,0,0,0.1);
   border-radius: 100px;
   overflow: hidden;
 }
@@ -1555,7 +1555,7 @@ a.nav-logo {
 }
 .path-world-label {
   font-size: 0.72rem;
-  color: rgba(255,255,255,0.45);
+  color: var(--muted);
   letter-spacing: 0.06em;
   white-space: nowrap;
 }
@@ -1636,7 +1636,7 @@ a.nav-logo {
   font-size: 0.5rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.28);
+  color: rgba(0,0,0,0.38);
   margin-top: 0.08rem;
 }
 
@@ -1682,8 +1682,8 @@ a.nav-logo {
   z-index: 0;
   background: repeating-linear-gradient(
     90deg,
-    rgba(255,255,255,0.32) 0px,
-    rgba(255,255,255,0.32) 11px,
+    rgba(140,78,47,0.28) 0px,
+    rgba(140,78,47,0.28) 11px,
     transparent 11px,
     transparent 18px
   );
@@ -1725,17 +1725,17 @@ a.nav-logo {
   justify-content: center;
   position: relative;
   transition: box-shadow 0.3s;
-  background: rgba(255,255,255,0.09);
-  border: 1.8px solid rgba(255,255,255,0.28);
-  color: rgba(255,255,255,0.4);
+  background: rgba(140,78,47,0.08);
+  border: 1.8px solid rgba(140,78,47,0.25);
+  color: rgba(140,78,47,0.45);
 }
 
 /* Estado: completada */
 .pnode--done .pnode-inner {
-  background: #6b3820;
-  border: 1.8px solid #d4a060;
-  box-shadow: 0 0 0 4px rgba(212,160,96,0.15), 0 4px 14px rgba(212,160,96,0.28);
-  color: #d4a060;
+  background: var(--tierra);
+  border: 1.8px solid var(--accent);
+  box-shadow: 0 0 0 4px rgba(212,160,96,0.18), 0 4px 14px rgba(140,78,47,0.2);
+  color: #fff;
 }
 .pnode-check { width: 20px; height: 20px; }
 
@@ -1802,27 +1802,27 @@ a.nav-logo {
   left: 50%;
   transform: translateX(-50%);
   font-size: 0.56rem;
-  color: rgba(255,255,255,0.65);
+  color: var(--dark);
   font-weight: 600;
   white-space: nowrap;
   letter-spacing: 0.01em;
   pointer-events: none;
 }
-.pnode-title--locked { color: rgba(255,255,255,0.22); font-weight: 400; }
+.pnode-title--locked { color: rgba(0,0,0,0.3); font-weight: 400; }
 
 /* Estado: bloqueada */
 .pnode--locked .pnode-inner {
-  background: rgba(255,255,255,0.09);
-  border: 1.8px solid rgba(255,255,255,0.32);
-  color: rgba(255,255,255,0.38);
+  background: rgba(140,78,47,0.05);
+  border: 1.8px solid rgba(140,78,47,0.18);
+  color: rgba(140,78,47,0.3);
 }
 .pnode-lock { width: 16px; height: 16px; }
 
 /* Estado: próximamente */
 .pnode--soon .pnode-inner {
-  background: rgba(255,255,255,0.06);
-  border: 1.8px dashed rgba(255,255,255,0.22);
-  color: rgba(255,255,255,0.2);
+  background: rgba(140,78,47,0.04);
+  border: 1.8px dashed rgba(140,78,47,0.2);
+  color: rgba(140,78,47,0.22);
   width: 42px;
   height: 42px;
 }
@@ -1847,7 +1847,7 @@ a.nav-logo {
 }
 .path-finish p {
   font-size: 0.72rem;
-  color: rgba(255,255,255,0.28);
+  color: var(--muted);
   letter-spacing: 0.1em;
   font-style: italic;
 }
@@ -4311,10 +4311,11 @@ a.nav-logo {
 
 /* ── CTA final banner ── */
 .cta-final-banner {
-  background: linear-gradient(135deg, var(--tierra) 0%, #6e3b22 100%);
+  background: linear-gradient(135deg, #faf5ef 0%, #f3ebe0 100%);
   padding: 5rem 2rem;
   text-align: center;
-  color: var(--white);
+  color: var(--dark);
+  border-top: 1px solid #e2d5c4;
 }
 
 .cta-final-banner h2 {
@@ -4325,19 +4326,19 @@ a.nav-logo {
   line-height: 1.1;
 }
 
-.cta-final-banner h2 em { font-style: italic; color: #f5c49a; }
+.cta-final-banner h2 em { font-style: italic; color: var(--tierra); }
 
 .cta-final-banner p {
-  color: rgba(255,255,255,0.8);
+  color: var(--muted);
   margin-bottom: 2rem;
   font-size: 0.95rem;
 }
 
 .cta-final-banner .btn {
-  background: var(--white);
-  color: #111111;
+  background: var(--dark);
+  color: var(--white);
 }
-.cta-final-banner .btn:hover { background: var(--sand); color: #111111; }
+.cta-final-banner .btn:hover { background: #2d2924; color: var(--white); }
 
 /* ── FAQ ── */
 .faq-section {
