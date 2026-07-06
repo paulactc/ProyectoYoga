@@ -1732,8 +1732,8 @@ export default function ClasesOnlinePage() {
                     </svg>
                     <span className="travesia-sub-cta-guino">😉</span>
                   </div>
-                  <h3 className="travesia-sub-cta-titulo">Tu camino te está esperando</h3>
-                  <p>50 etapas pensadas para ir contigo, a tu ritmo, sin prisa.<br/>Cuando empieces, el camino se organiza solo para que nunca pierdas el hilo.</p>
+                  <h3 className="travesia-sub-cta-titulo">Tu camino, organizado para ti</h3>
+                  <p>Tú eliges si quieres recorrerlo en <strong>3 o 6 meses</strong> — y el calendario monta toda la estructura solo: qué clase toca cada día, en qué orden y a qué ritmo. Y si un día la vida se complica y te retrasas, no pasa nada — el plan se reajusta automáticamente para que siempre sepas cuál es tu próximo paso.</p>
                   <Link to="/suscripcion" className="btn">Empezar mi travesía →</Link>
                 </div>
               )}
