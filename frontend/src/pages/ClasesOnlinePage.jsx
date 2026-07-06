@@ -1619,8 +1619,8 @@ export default function ClasesOnlinePage() {
               tipo="travesia"
               badge="NUEVO · EXCLUSIVO"
               titulo="La Travesía"
-              subtitulo="Avanza etapa a etapa. Desbloquea tu progreso."
-              descripcion="50 etapas que se desbloquean con tu progreso real. Y ahora con tu calendario personal: planifica a 3 o 6 meses, y si te saltas una sesión el plan se ajusta automáticamente para que nunca pierdas el ritmo."
+              subtitulo="Tu camino, a tu ritmo"
+              descripcion="Un recorrido de 50 clases que avanza contigo. Pon tus días, elige tu ritmo — 3 o 6 meses — y si un día la vida se complica, el calendario se reorganiza solo para que no pierdas el hilo."
               cta="Comenzar la travesía"
               icon={<IconTravesia />}
               decoracion={<TravesiaMapDecor progreso={progreso} />}
@@ -1629,8 +1629,8 @@ export default function ClasesOnlinePage() {
             <MetodoCard
               tipo="explorar"
               titulo="Explora a tu aire"
-              subtitulo="Elige lo que necesitas hoy"
-              descripcion="Filtra por nivel, duración o tipo de práctica y encuentra exactamente la clase que tu cuerpo pide en este momento."
+              subtitulo="¿Qué te pide el cuerpo hoy?"
+              descripcion="¿Tienes 20 minutos o una hora? ¿Necesitas energía o calma? Filtra por lo que buscas y empieza sin más. Sin plan, sin presión, solo tú y tu esterilla."
               cta="Explorar clases"
               icon={<IconExplorar />}
               decoracion={<ExplorarDecor />}
@@ -1639,8 +1639,8 @@ export default function ClasesOnlinePage() {
             <MetodoCard
               tipo="grupos"
               titulo="Grupos de Clases"
-              subtitulo="Programas con un objetivo claro"
-              descripcion="Series diseñadas en torno a un propósito: movilidad, fuerza, restauración... Sigue el programa y nota la diferencia semana a semana."
+              subtitulo="Pequeños programas, grandes cambios"
+              descripcion="Series cortas con un hilo conductor: movilidad, fuerza, respiración... Sigue el programa unos días y empieza a notar la diferencia de verdad, semana a semana."
               cta="Ver los grupos"
               icon={<IconGrupos />}
               decoracion={<GruposDecor />}

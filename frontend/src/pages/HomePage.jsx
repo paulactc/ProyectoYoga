@@ -115,19 +115,19 @@ export default function HomePage() {
         </div>
         <div className="online-teaser-text">
           <p className="hero-eyebrow">Aula Online</p>
-          <h2>Practica donde quieras,<br /><em>cuando quieras</em></h2>
+          <h2>Tu esterilla te espera,<br /><em>donde estés</em></h2>
           <div className="teaser-disciplinas">
             <Link to="/aula-online?vista=travesia" className="teaser-disciplina teaser-disciplina--highlight">
               <p className="teaser-disc-nombre">✦ La Travesía</p>
-              <p className="teaser-disc-desc">50 clases que se desbloquean etapa a etapa. Con tu calendario personal: elige practicar 3 o 6 meses, y si te saltas un día el plan se reorganiza solo para que nunca pierdas el hilo.</p>
+              <p className="teaser-disc-desc">Un camino de 50 clases que avanza contigo. Ponte un ritmo, elige tus días y si la vida se complica, el plan se reorganiza solo. Sin agobios, sin perder el hilo.</p>
             </Link>
             <Link to="/aula-online?vista=filtros" className="teaser-disciplina">
               <p className="teaser-disc-nombre">Explora a tu aire</p>
-              <p className="teaser-disc-desc">Elige la clase que necesitas hoy. Filtra por duración, nivel o tipo de práctica y conecta con tu cuerpo a tu propio ritmo.</p>
+              <p className="teaser-disc-desc">¿Tienes 20 minutos? ¿Necesitas soltar las caderas o relajar la espalda? Elige lo que te pide el cuerpo hoy y empieza sin más.</p>
             </Link>
             <Link to="/aula-online?vista=grupos" className="teaser-disciplina">
               <p className="teaser-disc-nombre">Grupos de Clases</p>
-              <p className="teaser-disc-desc">Series temáticas con un objetivo claro: movilidad, fuerza, respiración... Sigue el programa y nota la diferencia semana a semana.</p>
+              <p className="teaser-disc-desc">Programas cortos con un propósito claro: movilidad, fuerza, respiración... Sigue el hilo de semana en semana y empieza a notar la diferencia de verdad.</p>
             </Link>
           </div>
           <Link to="/suscripcion" className="btn">Ver planes →</Link>
