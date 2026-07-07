@@ -498,6 +498,23 @@ async function runMigrations() {
     }
   });
 
+  await runSafeMigration('Seed clases grupo 2 Respiracion Consciente', async () => {
+    await pool.execute(`DELETE FROM clases WHERE grupo_id = 2`);
+    const clases = [
+      ['Volver al aire',                 'Solo observación. Notar cómo respiras cuando nadie te está mirando, sin cambiar nada.',                                         10, 1, '/images/yoga-21.jpg', null, 1],
+      ['Alargar el camino de vuelta',    'Exhalar más despacio le dice al cuerpo que puede soltar.',                                                                       12, 1, '/images/yoga-37.jpg', null, 2],
+      ['Encontrar el equilibrio',        'Equilibrio entre esfuerzo y descanso, activación y calma.',                                                                      15, 1, '/images/yoga-30.jpg', null, 3],
+      ['La respiración como ancla',      'La respiración deja de ser pasiva y se convierte en un punto de apoyo activo, útil también fuera del mat.',                      15, 1, '/images/yoga5.jpg',   null, 4],
+      ['El espacio entre respiraciones', 'La quietud no es ausencia de respiración, es un tipo distinto de presencia.',                                                    18, 1, '/images/yoga-18.jpg', null, 5],
+    ];
+    for (const [titulo, descripcion, duracion, nivel, imagen, vimeo_id, orden] of clases) {
+      await pool.execute(
+        `INSERT INTO clases (grupo_id, titulo, descripcion, duracion, nivel, imagen, vimeo_id, orden, disponible) VALUES (2, ?, ?, ?, ?, ?, ?, ?, 0)`,
+        [titulo, descripcion, duracion, nivel, imagen, vimeo_id, orden]
+      );
+    }
+  });
+
   await runSafeMigration('Rol admin para paula_ctc@hotmail.es', async () => {
     await pool.execute(
       `UPDATE usuarios SET rol = 'admin' WHERE email = 'paula_ctc@hotmail.es'`

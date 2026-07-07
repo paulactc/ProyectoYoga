@@ -1893,7 +1893,7 @@ export default function ClasesOnlinePage() {
                 )}
               </div>
               <div className="clases-grid">
-                {(grupoClases[grupo.id] || grupo.clases).map(c => (
+                {(grupoClases[grupo.id]?.length ? grupoClases[grupo.id] : grupo.clases).map(c => (
                   <ClaseCard key={c.id} clase={c} subscribed={isSubscribed} onOpen={() => abrirModal(c)} />
                 ))}
               </div>
