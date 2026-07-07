@@ -2288,7 +2288,11 @@ a.nav-logo {
 .cal-ob-card:disabled { opacity: 0.6; cursor: not-allowed; }
 .cal-ob-card--3m {
   border-color: var(--tierra);
-  background: linear-gradient(140deg, #fdf3ea 0%, #fdf8f2 100%);
+  background: linear-gradient(140deg, #fde8d0 0%, #fdf3ea 100%);
+}
+.cal-ob-card--6m {
+  border-color: #5ab878;
+  background: linear-gradient(140deg, #d8f0e0 0%, #f0faf4 100%);
 }
 .cal-ob-badge {
   display: inline-block;
@@ -2398,7 +2402,8 @@ a.nav-logo {
 .cal-plan-card:hover::before,
 .cal-plan-card--3m::before { opacity: 1; }
 .cal-plan-card:hover { border-color: var(--tierra); background: #fdf3ea; transform: translateY(-3px); box-shadow: 0 6px 20px rgba(140,78,47,0.1); }
-.cal-plan-card--3m { border-color: var(--tierra); }
+.cal-plan-card--3m { border-color: var(--tierra); background: linear-gradient(140deg, #fde8d0 0%, #fdf3ea 100%); }
+.cal-plan-card--6m { border-color: #5ab878; background: linear-gradient(140deg, #d8f0e0 0%, #f0faf4 100%); }
 .cal-plan-card-inner { padding: 1.25rem 1.1rem 1.35rem; }
 .cal-plan-badge {
   display: inline-block;
@@ -2477,14 +2482,14 @@ a.nav-logo {
   align-items: baseline;
   gap: 0.12rem;
   flex-shrink: 0;
-  background: rgba(140,78,47,0.07);
-  border: 1px solid rgba(140,78,47,0.18);
+  background: linear-gradient(135deg, #78c898, #50b878);
   border-radius: 12px;
-  padding: 0.35rem 0.75rem 0.4rem;
+  padding: 0.35rem 0.85rem 0.4rem;
+  box-shadow: 0 2px 8px rgba(80,184,120,0.3);
 }
-.cal-resumen-num { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.6rem; font-weight: 700; color: var(--tierra); line-height: 1; }
-.cal-resumen-de  { font-size: 0.85rem; color: var(--muted); }
-.cal-resumen-label { font-size: 0.68rem; color: var(--muted); margin-left: 0.25rem; }
+.cal-resumen-num { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.6rem; font-weight: 700; color: #fff; line-height: 1; }
+.cal-resumen-de  { font-size: 0.85rem; color: rgba(255,255,255,0.75); }
+.cal-resumen-label { font-size: 0.68rem; color: rgba(255,255,255,0.75); margin-left: 0.25rem; }
 
 .cal-aviso-retraso {
   margin: 0.75rem 1.25rem;
@@ -2556,25 +2561,25 @@ a.nav-logo {
 .cal-mes-cell--empty { background: transparent; pointer-events: none; }
 .cal-mes-cell--hoy   { border: 1px solid #d4b888; color: var(--dark); background: #fffbf5; }
 .cal-mes-cell--done {
-  background: linear-gradient(145deg, #e8f5ec 0%, #d8eede 100%);
-  color: #2a7048;
-  border: 1px solid #b8ddc4;
+  background: linear-gradient(145deg, #a8e6b8 0%, #78c898 100%);
+  color: #145830;
+  border: 1px solid #5ab878;
 }
 .cal-mes-cell--today {
-  background: linear-gradient(145deg, rgba(140,78,47,0.12) 0%, rgba(212,160,96,0.1) 100%);
-  color: var(--tierra);
-  box-shadow: 0 0 0 2px var(--tierra);
+  background: linear-gradient(145deg, #fde080 0%, #f5c030 100%);
+  color: #7a4800;
+  box-shadow: 0 0 0 2.5px #d4900a, 0 3px 10px rgba(212,144,10,0.3);
   border-radius: 8px;
 }
 .cal-mes-cell--upcoming {
-  background: linear-gradient(145deg, #fdf8f2 0%, #faf3ea 100%);
-  border: 1px solid #e8d8c0;
-  color: #7a5428;
+  background: linear-gradient(145deg, #d8e8fd 0%, #b8d0fa 100%);
+  border: 1px solid #90b8f0;
+  color: #1e3c78;
 }
 .cal-mes-cell--overdue {
-  background: linear-gradient(145deg, #fef3f0 0%, #fde8e4 100%);
-  border: 1px solid #e8b8a8;
-  color: #a03828;
+  background: linear-gradient(145deg, #fdc8b0 0%, #f8a888 100%);
+  border: 1px solid #e87848;
+  color: #7a2010;
 }
 
 /* Día del mes */
@@ -2649,10 +2654,10 @@ a.nav-logo {
   border-radius: 3px;
   display: inline-block;
 }
-.cal-leyenda-item--done::before     { background: linear-gradient(145deg, #e8f5ec, #d0e8d8); border: 1px solid #98c8a8; }
-.cal-leyenda-item--today::before    { background: rgba(140,78,47,0.15); border: 2px solid var(--tierra); }
-.cal-leyenda-item--upcoming::before { background: linear-gradient(145deg, #fdf8f2, #faf3ea); border: 1px solid #e2d0b8; }
-.cal-leyenda-item--overdue::before  { background: linear-gradient(145deg, #fef3f0, #fde8e4); border: 1px solid #e8b8a8; }
+.cal-leyenda-item--done::before     { background: linear-gradient(145deg, #a8e6b8, #78c898); border: 1px solid #5ab878; }
+.cal-leyenda-item--today::before    { background: linear-gradient(145deg, #fde080, #f5c030); border: 2px solid #d4900a; }
+.cal-leyenda-item--upcoming::before { background: linear-gradient(145deg, #d8e8fd, #b8d0fa); border: 1px solid #90b8f0; }
+.cal-leyenda-item--overdue::before  { background: linear-gradient(145deg, #fdc8b0, #f8a888); border: 1px solid #e87848; }
 
 /* Footer del calendario */
 .cal-footer {
