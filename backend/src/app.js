@@ -61,10 +61,10 @@ const contactLimiter = rateLimit({
   message: { success: false, message: 'Demasiados mensajes enviados. Inténtalo más tarde.' },
 });
 
-function makeApiLimiter() {
+function makeApiLimiter(max = 300) {
   return rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 60,
+    max,
     standardHeaders: true,
     legacyHeaders: false,
     message: { success: false, message: 'Demasiadas peticiones. Espera un momento e inténtalo de nuevo.' },
