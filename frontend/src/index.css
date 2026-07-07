@@ -3443,13 +3443,6 @@ a.nav-logo {
   text-align: center;
 }
 
-.clase-presentacion-ilustracion {
-  margin: 0.2rem auto 0.8rem;
-  display: flex;
-  justify-content: center;
-  opacity: 0.9;
-}
-
 .clase-presentacion-desc {
   font-size: 0.96rem;
   line-height: 1.8;
