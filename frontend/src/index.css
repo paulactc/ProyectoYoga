@@ -3297,8 +3297,18 @@ a.nav-logo {
   font-family: var(--font-heading);
   font-size: 1.3rem;
   font-weight: 500;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.3rem;
   color: var(--dark);
+}
+
+.clase-subtitulo {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tierra);
+  margin: 0 0 0.65rem;
+  flex: none;
 }
 
 .clase-card-body p {

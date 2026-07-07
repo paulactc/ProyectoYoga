@@ -127,13 +127,13 @@ const GRUPOS = [
     id: 2,
     nombre: 'Respiración Consciente',
     descripcion: 'El pranayama es la puerta entre el cuerpo y la mente. Aprende a usar la respiración como herramienta de regulación, enfoque y calma profunda.',
-    meta: '5 clases · 20-35 min · Todos los niveles',
+    meta: '5 clases · 10-18 min · Todos los niveles',
     clases: [
-      { id: 'g2-1', titulo: 'La respiración que nunca nos enseñaron',      duracion: 20, nivel: 1, descripcion: 'Toma conciencia de tu respiración habitual y aprende la base del pranayama: respirar desde el diafragma.', imagen: '/images/yoga-21.jpg' },
-      { id: 'g2-2', titulo: 'Ujjayi: el aliento que centra',               duracion: 25, nivel: 1, descripcion: 'Domina la respiración ujjayi para regular la energía, calentar el cuerpo y mantener la atención durante la práctica.', imagen: '/images/yoga-37.jpg' },
-      { id: 'g2-3', titulo: 'Nadi Shodhana: equilibra los dos lados',      duracion: 30, nivel: 1, descripcion: 'La respiración alternada limpia los canales energéticos y equilibra los hemisferios cerebrales para una calma profunda.', imagen: '/images/yoga-30.jpg' },
-      { id: 'g2-4', titulo: 'Kapalabhati: enciende tu fuego interior',     duracion: 20, nivel: 2, descripcion: 'Respiración de fuego para limpiar el sistema nervioso, activar el abdomen y aumentar la energía vital.', imagen: '/images/yoga5.jpg' },
-      { id: 'g2-5', titulo: 'Respira para soltar: la práctica integradora', duracion: 35, nivel: 1, descripcion: 'Combina las técnicas del grupo en una sesión profunda para liberar tensión y reconectar con tu centro.', imagen: '/images/yoga-18.jpg' },
+      { id: 'g2-1', titulo: 'Volver al aire',                  subtitulo: 'Respiración diafragmática',           duracion: 10, nivel: 1, descripcion: 'Solo observación. Notar cómo respiras cuando nadie te está mirando, sin cambiar nada.',                                                              imagen: '/images/yoga-21.jpg' },
+      { id: 'g2-2', titulo: 'Alargar el camino de vuelta',     subtitulo: 'Dirga pranayama · 3 partes',          duracion: 12, nivel: 1, descripcion: 'Exhalar más despacio le dice al cuerpo que puede soltar.',                                                                                          imagen: '/images/yoga-37.jpg' },
+      { id: 'g2-3', titulo: 'Encontrar el equilibrio',         subtitulo: 'Nadi Shodhana · respiración alterna', duracion: 15, nivel: 1, descripcion: 'Equilibrio entre esfuerzo y descanso, activación y calma.',                                                                                        imagen: '/images/yoga-30.jpg' },
+      { id: 'g2-4', titulo: 'La respiración como ancla',       subtitulo: 'Ujjayi',                              duracion: 15, nivel: 1, descripcion: 'La respiración deja de ser pasiva y se convierte en un punto de apoyo activo, útil también fuera del mat.',                                        imagen: '/images/yoga5.jpg' },
+      { id: 'g2-5', titulo: 'El espacio entre respiraciones',  subtitulo: 'Kumbhaka suave · retención breve',    duracion: 18, nivel: 1, descripcion: 'La quietud no es ausencia de respiración, es un tipo distinto de presencia.',                                                                      imagen: '/images/yoga-18.jpg' },
     ],
   },
 ]
@@ -882,6 +882,7 @@ function ClaseCard({ clase: c, subscribed, onOpen }) {
         <div className="clase-card-body">
           {badges}
           <h3>{c.titulo}</h3>
+          {c.subtitulo && <p className="clase-subtitulo">{c.subtitulo}</p>}
           <p>{c.descripcion}</p>
           <button className="btn btn-sm" onClick={onOpen}>Ver clase →</button>
         </div>
@@ -903,6 +904,7 @@ function ClaseCard({ clase: c, subscribed, onOpen }) {
       <div className="clase-card-body">
         {badges}
         <h3>{c.titulo}</h3>
+        {c.subtitulo && <p className="clase-subtitulo">{c.subtitulo}</p>}
         <p>{c.descripcion}</p>
         <Link to="/suscripcion" className="btn btn-sm">Desbloquear · 7 días gratis</Link>
       </div>
