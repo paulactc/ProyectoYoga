@@ -1496,7 +1496,7 @@ export default function ClasesOnlinePage() {
         setShowCalOnboarding(false)
         setTravesiaView('calendario')
       } else {
-        setPlanError(data.error || 'No se pudo crear el calendario. Inténtalo de nuevo.')
+        setPlanError(data.error || data.message || 'No se pudo crear el calendario. Inténtalo de nuevo.')
       }
     } catch (e) {
       setPlanError('Error de conexión: ' + e.message)
