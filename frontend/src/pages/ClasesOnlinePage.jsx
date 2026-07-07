@@ -1440,13 +1440,9 @@ export default function ClasesOnlinePage() {
   const [planError, setPlanError] = useState('')
   const calOnboardingShown = useRef(false)
 
-  useEffect(() => {
-    if (user) refreshSubscription()
-  }, [user])
-
   // Cargar progreso desde la API (con fechas)
   useEffect(() => {
-    if (!user || !token) { setTravesiaProgress([]); setProgressWithDates([]); return }
+    if (!user?.id || !token) { setTravesiaProgress([]); setProgressWithDates([]); return }
     fetch('/api/travesia/progress', { headers: { Authorization: `Bearer ${token}` } })
       .then(r => r.json())
       .then(data => {
@@ -1456,18 +1452,18 @@ export default function ClasesOnlinePage() {
         }
       })
       .catch(() => {})
-  }, [user, token])
+  }, [user?.id, token])
 
   // Cargar plan de práctica — solo para suscriptoras activas
   useEffect(() => {
-    if (!user || !token || !isSubscribed) { setPlan(null); setPlanLoaded(true); return }
+    if (!user?.id || !token || !isSubscribed) { setPlan(null); setPlanLoaded(true); return }
     setPlanLoaded(false)  // resetear mientras carga para que el onboarding no salte prematuramente
     fetch('/api/travesia/plan', { headers: { Authorization: `Bearer ${token}` } })
       .then(r => r.json())
       .then(data => { if (data.success) setPlan(data.data) })
       .catch(() => {})
       .finally(() => setPlanLoaded(true))
-  }, [user, token, isSubscribed])
+  }, [user?.id, token, isSubscribed])
 
   // Mostrar onboarding del calendario la primera vez que se entra sin plan.
   // Si el usuario ya tiene plan, marcar como visto para que "Cambiar ritmo" no relance el modal.

@@ -48,6 +48,7 @@ export function AuthProvider({ children }) {
         if (data.success) {
           setAuth(prev => {
             if (!prev) return prev
+            if (prev.user?.subscribed === data.data.subscribed) return prev
             const updated = { ...prev, user: { ...prev.user, subscribed: data.data.subscribed } }
             localStorage.setItem(AUTH_KEY, JSON.stringify(updated))
             return updated
