@@ -1791,7 +1791,7 @@ export default function ClasesOnlinePage() {
                   progressWithDates={progressWithDates}
                   clasesArray={CLASES}
                   userName={user?.nombre || ''}
-                  onCambiarPlan={() => { setShowCalOnboarding(false); setPlan(null) }}
+                  onCambiarPlan={() => { setPlanError(''); setPlan(null); setShowCalOnboarding(true) }}
                 />
               )}
             </div>
