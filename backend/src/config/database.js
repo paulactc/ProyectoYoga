@@ -544,7 +544,7 @@ async function runMigrations() {
     if (rows.length === 0) {
       if (!process.env.ADMIN_PASSWORD) {
         console.error('❌  ADMIN_PASSWORD no está configurado — no se creará el usuario admin. Configura esta variable de entorno.');
-        break;
+        return;
       }
       const bcrypt = require('bcryptjs');
       const hashed = await bcrypt.hash(process.env.ADMIN_PASSWORD, 12);
