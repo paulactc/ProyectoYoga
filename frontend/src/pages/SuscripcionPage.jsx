@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
+// Cambia a true cuando el Aula Online esté lista para abrir
+const AULA_DISPONIBLE = false
+
 const FAQS = [
   {
     q: '¿Puedo cancelar cuando quiera?',
@@ -142,14 +145,13 @@ function VisitorPlans({ onCheckout, onOpenRegister, loading, error }) {
               {BENEFICIOS_PAGO.map(b => <li key={b}>{b}</li>)}
             </ul>
             <CalendarHighlight />
-            <button
-              className="btn"
-              style={{ width: '100%' }}
-              onClick={onCheckout}
-              disabled={loading}
-            >
-              {loading ? 'Redirigiendo…' : 'Empezar 7 días gratis'}
-            </button>
+            {AULA_DISPONIBLE ? (
+              <button className="btn" style={{ width: '100%' }} onClick={onCheckout} disabled={loading}>
+                {loading ? 'Redirigiendo…' : 'Empezar 7 días gratis'}
+              </button>
+            ) : (
+              <p className="plan-proximamente">Disponible muy pronto</p>
+            )}
             <p className="plan-note">Pagarás 19€/mes tras los 7 días. Cancela antes y no se te cobra nada.</p>
           </div>
 
@@ -190,14 +192,13 @@ function FreeUserUpgrade({ user, onCheckout, loading, error }) {
             {BENEFICIOS_PAGO.map(b => <li key={b}>{b}</li>)}
           </ul>
           <CalendarHighlight />
-          <button
-            className="btn"
-            style={{ width: '100%' }}
-            onClick={onCheckout}
-            disabled={loading}
-          >
-            {loading ? 'Redirigiendo…' : 'Activar 7 días gratis'}
-          </button>
+          {AULA_DISPONIBLE ? (
+            <button className="btn" style={{ width: '100%' }} onClick={onCheckout} disabled={loading}>
+              {loading ? 'Redirigiendo…' : 'Activar 7 días gratis'}
+            </button>
+          ) : (
+            <p className="plan-proximamente">Disponible muy pronto</p>
+          )}
           <p className="plan-note">Pagarás 19€/mes tras los 7 días. Cancela antes y no se te cobra nada.</p>
         </div>
       </div>
@@ -318,9 +319,13 @@ export default function SuscripcionPage({ onOpenLogin, onOpenRegister }) {
         <div className="cta-final-banner">
           <h2>7 días gratis.<br /><em>Sin compromiso.</em></h2>
           <p>Cancela cuando quieras. Sin permanencia.</p>
-          <button className="btn" onClick={handleCheckout} disabled={loading}>
-            {loading ? 'Redirigiendo…' : 'Probar el Aula Online'}
-          </button>
+          {AULA_DISPONIBLE ? (
+            <button className="btn" onClick={handleCheckout} disabled={loading}>
+              {loading ? 'Redirigiendo…' : 'Probar el Aula Online'}
+            </button>
+          ) : (
+            <p className="plan-proximamente">Disponible muy pronto</p>
+          )}
         </div>
       </>
     )
