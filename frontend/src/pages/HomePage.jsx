@@ -78,8 +78,9 @@ export default function HomePage() {
         <div className="tq-showcase-inner">
           <div className="tq-showcase-text">
             <h2 className="tq-titulo">Tierra <em>en Calma</em></h2>
+            <p className="tq-desc">Meditaciones guiadas de noche para soltar la tensión del día y preparar el cuerpo y la mente para el descanso profundo.</p>
             <Link to="/audios" className="tq-cta">
-              Escuchar ahora — es gratis <span>→</span>
+              Escuchar ahora GRATIS <span>→</span>
             </Link>
           </div>
           <div className="tq-feature">
@@ -87,7 +88,8 @@ export default function HomePage() {
             <span className="tq-feature-moon">☽</span>
             <p className="tq-feature-nombre">Antes de dormir</p>
             <p className="tq-feature-desc">Una meditación guiada para soltar la tensión del día, calmar el sistema nervioso y preparar el cuerpo y la mente para el descanso.</p>
-            <p className="tq-feature-hint">Cierra el día con calma · 15–20 min</p>
+            <span className="tq-feature-sep" />
+            <p className="tq-feature-hint">Cierra el día con calma · 10-15 min</p>
           </div>
         </div>
       </section>
@@ -98,12 +100,12 @@ export default function HomePage() {
         <div className="clases-desc-grid">
           <div className="clases-desc-item">
             <h3>El cuerpo como camino</h3>
-            <p>Una práctica fundamental de cuidado y autoconocimiento. Un espacio de disfrute y exploración donde reencontrarte a través del cuerpo y volver a ti.</p>
+            <p>Una práctica para cuidarte y reencontrarte a través del movimiento. Un espacio donde explorar, escuchar tu cuerpo y volver a ti, sin exigencias ni prisas.</p>
           </div>
           <div className="clases-desc-divider" />
           <div className="clases-desc-item">
             <h3>La respiración y la mente</h3>
-            <p>Para profundizar en estados más inconscientes, reequilibrar el sistema y descubrir una herramienta de autorregulación y foco en uno mism@.</p>
+            <p>La respiración conecta el cuerpo y la mente de formas que sorprenden. Aprenderás a usarla para calmarte, centrarte y encontrar tu propio equilibrio cuando el día se complica.</p>
           </div>
         </div>
       </section>

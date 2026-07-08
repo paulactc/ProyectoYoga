@@ -4,6 +4,15 @@ const router = express.Router();
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const DESTINO  = process.env.CONTACT_EMAIL || 'paulact39@gmail.com';
 
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 router.post('/', async (req, res) => {
   const { nombre, email, mensaje } = req.body;
 
@@ -31,18 +40,18 @@ router.post('/', async (req, res) => {
         sender:      { name: 'Yoga Tierra Viva · Web', email: process.env.SMTP_FROM || 'paulact39@gmail.com' },
         to:          [{ email: DESTINO }],
         replyTo:     { email, name: nombre },
-        subject:     `Mensaje de contacto de ${nombre}`,
+        subject:     `Mensaje de contacto de ${escapeHtml(nombre)}`,
         htmlContent: `
           <div style="font-family:Georgia,serif;max-width:560px;margin:0 auto;padding:32px 24px;color:#2c2c2c;">
             <h2 style="font-size:1.3rem;font-weight:400;color:#8b5e3c;margin-bottom:1.5rem">
               Nuevo mensaje desde Yoga Tierra Viva
             </h2>
-            <p><strong>Nombre:</strong> ${nombre}</p>
-            <p><strong>Email:</strong> <a href="mailto:${email}" style="color:#8b5e3c">${email}</a></p>
+            <p><strong>Nombre:</strong> ${escapeHtml(nombre)}</p>
+            <p><strong>Email:</strong> <a href="mailto:${escapeHtml(email)}" style="color:#8b5e3c">${escapeHtml(email)}</a></p>
             <hr style="border:none;border-top:1px solid #e8e2da;margin:1.25rem 0"/>
-            <p style="white-space:pre-wrap;line-height:1.7;color:#444">${mensaje}</p>
+            <p style="white-space:pre-wrap;line-height:1.7;color:#444">${escapeHtml(mensaje)}</p>
             <hr style="border:none;border-top:1px solid #e8e2da;margin:1.25rem 0"/>
-            <p style="font-size:0.78rem;color:#bbb">Puedes responder directamente a este email para contestar a ${nombre}.</p>
+            <p style="font-size:0.78rem;color:#bbb">Puedes responder directamente a este email para contestar a ${escapeHtml(nombre)}.</p>
           </div>
         `,
       }),

@@ -31,6 +31,9 @@ router.get('/progress', verifyToken, async (req, res) => {
 
 // POST — marcar clase como completada (solo suscriptoras activas)
 router.post('/progress/:claseId', verifyToken, async (req, res) => {
+  if (!/^[\w-]{1,50}$/.test(req.params.claseId)) {
+    return res.status(400).json({ success: false, error: 'claseId inválido' });
+  }
   if (!await tieneSubscripcionActiva(req.user.id)) {
     return res.status(403).json({ success: false, error: 'Suscripción activa requerida' });
   }

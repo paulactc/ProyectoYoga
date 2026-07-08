@@ -94,9 +94,15 @@ function HeroAudios({ isLoggedIn, onOpenLogin, onOpenRegister, totalMeds, totalS
   )
 }
 
+const SERIE_TEMAS = {
+  'volver-a-ti':           { acento: '#9b7fd4', bg: '#1a1030', icono: '☽' },
+  'respiracion-consciente':{ acento: '#4db8c8', bg: '#0c1e28', icono: '◎' },
+}
+
 function SerieSection({ serie, isLoggedIn, token, onOpenLogin, onOpenRegister }) {
-  const acento = '#9b7fd4'
-  const bgColor = '#1a1030'
+  const tema = SERIE_TEMAS[serie.slug] || SERIE_TEMAS['volver-a-ti']
+  const acento = tema.acento
+  const bgColor = tema.bg
 
   return (
     <section
@@ -104,7 +110,7 @@ function SerieSection({ serie, isLoggedIn, token, onOpenLogin, onOpenRegister })
       style={{ '--cat-acento': acento, '--cat-bg': bgColor }}
     >
       <div className="audios-categoria-header">
-        <span className="audios-cat-icono">☽</span>
+        <span className="audios-cat-icono">{tema.icono}</span>
         <div>
           <p className="audios-cat-tagline">
             Serie · {serie.meditaciones?.length || 0} meditaciones

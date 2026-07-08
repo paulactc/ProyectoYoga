@@ -525,10 +525,11 @@ async function runMigrations() {
     const [rows] = await pool.execute("SELECT id FROM usuarios WHERE rol = 'admin' LIMIT 1");
     if (rows.length === 0) {
       if (!process.env.ADMIN_PASSWORD) {
-        console.warn('⚠️  ADMIN_PASSWORD no está configurado en .env — cambia la contraseña admin inmediatamente en producción.');
+        console.error('❌  ADMIN_PASSWORD no está configurado — no se creará el usuario admin. Configura esta variable de entorno.');
+        break;
       }
       const bcrypt = require('bcryptjs');
-      const hashed = await bcrypt.hash(process.env.ADMIN_PASSWORD || 'Admin1234.', 12);
+      const hashed = await bcrypt.hash(process.env.ADMIN_PASSWORD, 12);
       await pool.execute(
         `INSERT INTO usuarios (nombre, email, password, rol) VALUES (?, ?, ?, 'admin')`,
         ['Admin', process.env.ADMIN_EMAIL || 'admin@yogatierraviva.es', hashed]

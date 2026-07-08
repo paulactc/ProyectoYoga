@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const PDFDocument = require('pdfkit');
-const { executeQuery } = require('../config/database');
+const { executeQuery, executeTransaction } = require('../config/database');
 
 class CuentaController {
   // ── Pedidos ──────────────────────────────────────────────────────────
@@ -258,8 +258,10 @@ class CuentaController {
       if (!check.success || check.data.length === 0) {
         return res.status(404).json({ success: false, message: 'Tarjeta no encontrada' });
       }
-      await executeQuery('UPDATE metodos_pago SET predeterminado = FALSE WHERE usuario_id = ?', [req.user.id]);
-      await executeQuery('UPDATE metodos_pago SET predeterminado = TRUE WHERE id = ?', [id]);
+      await executeTransaction([
+        { query: 'UPDATE metodos_pago SET predeterminado = FALSE WHERE usuario_id = ?', params: [req.user.id] },
+        { query: 'UPDATE metodos_pago SET predeterminado = TRUE WHERE id = ?', params: [id] },
+      ]);
       res.json({ success: true, message: 'Tarjeta predeterminada actualizada' });
     } catch (err) {
       console.error('Error en setMetodoPredeterminado:', err);

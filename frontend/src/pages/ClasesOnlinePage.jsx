@@ -9,7 +9,7 @@ const CLASES = [
   { id: 3,  titulo: 'La columna neutra: encontrar tu eje',                     duracion: 30, nivel: 1, descripcion: 'Descubre la posición natural de la columna y cómo mantenerla en movimiento. El eje que sostiene toda la práctica.',                                                                                  imagen: '/images/yoga3.jpg' },
   { id: 4,  titulo: 'Escápulas despiertas: hombros en su lugar',               duracion: 25, nivel: 1, descripcion: 'Activa y estabiliza la cintura escapular para proteger los hombros y abrir el pecho con seguridad.',                                                                                               imagen: '/images/yoga4.jpg' },
   { id: 5,  titulo: 'Respiración y movimiento: el ritmo que sostiene la práctica', duracion: 30, nivel: 1, descripcion: 'Integra la respiración diafragmática con el movimiento para crear una práctica fluida, sostenida y presente.',                                                                                imagen: '/images/yoga5.jpg' },
-  { id: 6,  titulo: 'El suelo pélvico como centro de poder',                   duracion: 30, nivel: 1, descripcion: 'Aprende a activar, relajar y coordinar el suelo pélvico. La base energética y física que nutre toda la práctica.', imagen: '/images/yoga9.jpg', vimeo_id: '1206825714' },
+  { id: 6,  titulo: 'Del cuerpo al silencio',                                   duracion: 30, nivel: 1, descripcion: 'Del cuerpo al silencio: una práctica que va soltando capas hasta llegar a la quietud interior.', imagen: '/images/yoga9.jpg', vimeo_id: '1206825714' },
   { id: 7,  titulo: 'Activar antes de estirar: el cuerpo inteligente',         duracion: 25, nivel: 1, descripcion: 'Por qué es crucial activar el músculo antes de elongarlo. Una clase que cambia la forma en que entiendes el yoga.',                                                                                 imagen: '/images/yoga10.jpg' },
   { id: 8,  titulo: 'Integración postural: de pie a la esterilla',             duracion: 35, nivel: 1, descripcion: 'Sesión integradora de la Fase 1. Recorre todos los principios de alineación en una secuencia cohesionada y consciente.',                                                                           imagen: '/images/yoga11.jpg' },
   // ── FASE 2: Movilidad y Conciencia Corporal (9-15) ────────────────────
@@ -129,7 +129,7 @@ const GRUPOS = [
     descripcion: 'El pranayama es la puerta entre el cuerpo y la mente. Aprende a usar la respiración como herramienta de regulación, enfoque y calma profunda.',
     meta: '5 clases · 10-18 min · Todos los niveles',
     clases: [
-      { id: 'g2-1', titulo: 'Volver al aire',                  subtitulo: 'Respiración diafragmática',           duracion: 10, nivel: 1, descripcion: 'Solo observación. Notar cómo respiras cuando nadie te está mirando, sin cambiar nada.',                                                              imagen: '/images/yoga-21.jpg' },
+      { id: 'g2-1', titulo: 'Volver al aire',                  subtitulo: 'Respiración diafragmática',           duracion: 10, nivel: 1, descripcion: 'Solo observación. Notar cómo respiras cuando nadie te está mirando, sin cambiar nada.',                                                              imagen: '/images/respiracionconsciente1.jpg' },
       { id: 'g2-2', titulo: 'Alargar el camino de vuelta',     subtitulo: 'Dirga pranayama · 3 partes',          duracion: 12, nivel: 1, descripcion: 'Exhalar más despacio le dice al cuerpo que puede soltar.',                                                                                          imagen: '/images/yoga-37.jpg' },
       { id: 'g2-3', titulo: 'Encontrar el equilibrio',         subtitulo: 'Nadi Shodhana · respiración alterna', duracion: 15, nivel: 1, descripcion: 'Equilibrio entre esfuerzo y descanso, activación y calma.',                                                                                        imagen: '/images/yoga-30.jpg' },
       { id: 'g2-4', titulo: 'La respiración como ancla',       subtitulo: 'Ujjayi',                              duracion: 15, nivel: 1, descripcion: 'La respiración deja de ser pasiva y se convierte en un punto de apoyo activo, útil también fuera del mat.',                                        imagen: '/images/yoga5.jpg' },
@@ -385,6 +385,7 @@ function TravesiaIntroScreen({ onEnd }) {
         ))}
       </div>
       <div className="tis-content">
+        <span className="tis-ornament" aria-hidden="true">✦</span>
         <p className="tis-eyebrow">YOGA TIERRA VIVA</p>
         <div className="tis-title-wrap">
           <span className="tis-la">LA</span>
@@ -394,6 +395,7 @@ function TravesiaIntroScreen({ onEnd }) {
         <div className="tis-path-bar">
           <div className="tis-path-fill" />
         </div>
+        <p className="tis-tagline">50 clases · a tu ritmo</p>
       </div>
     </div>
   )
@@ -1426,6 +1428,7 @@ export default function ClasesOnlinePage() {
   const [filtroDuracion, setFiltroDuracion] = useState('todos')
   const [filtroNivel, setFiltroNivel] = useState('todos')
   const [modalClase, setModalClase] = useState(null)
+  const [videoActive, setVideoActive] = useState(false)
   const [videoTerminado, setVideoTerminado] = useState(false)
   const vimeoRef = useRef(null)
   const [grupoClases, setGrupoClases] = useState({})
@@ -1501,6 +1504,9 @@ export default function ClasesOnlinePage() {
     }
     setPlanLoading(false)
   }
+
+  // Resetear poster al abrir una clase nueva
+  useEffect(() => { setVideoActive(false) }, [modalClase])
 
   // Detectar fin de vídeo Vimeo via postMessage
   useEffect(() => {
@@ -1914,14 +1920,27 @@ export default function ClasesOnlinePage() {
             <h3>{modalClase.clase.titulo}</h3>
             {modalClase.clase.vimeo_id ? (
               <div className="video-embed-wrap">
-                <iframe
-                  ref={vimeoRef}
-                  src={`https://player.vimeo.com/video/${modalClase.clase.vimeo_id}?title=0&byline=0&portrait=0&dnt=1&api=1`}
-                  className="video-embed"
-                  allow="autoplay; fullscreen; picture-in-picture"
-                  allowFullScreen
-                  title={modalClase.clase.titulo}
-                />
+                {!videoActive ? (
+                  <button className="video-poster" onClick={() => setVideoActive(true)} aria-label="Reproducir vídeo">
+                    {modalClase.clase.imagen && (
+                      <img src={modalClase.clase.imagen} alt={modalClase.clase.titulo} className="video-poster-img" />
+                    )}
+                    <span className="video-poster-play" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28">
+                        <path d="M8 5v14l11-7z"/>
+                      </svg>
+                    </span>
+                  </button>
+                ) : (
+                  <iframe
+                    ref={vimeoRef}
+                    src={`https://player.vimeo.com/video/${modalClase.clase.vimeo_id}?title=0&byline=0&portrait=0&dnt=1&api=1&autoplay=1`}
+                    className="video-embed"
+                    allow="autoplay; fullscreen; picture-in-picture"
+                    allowFullScreen
+                    title={modalClase.clase.titulo}
+                  />
+                )}
               </div>
             ) : (
               <div className="clase-presentacion">
