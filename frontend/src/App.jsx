@@ -45,8 +45,7 @@ export default function App() {
       <LoginModal isOpen={loginOpen} onClose={() => setLoginOpen(false)} initialView={loginInitialView} />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/aula-online" element={<ProximamentePage />} />
-        {/* <Route path="/aula-online" element={<ClasesOnlinePage />} /> */}
+        <Route path="/aula-online" element={<ClasesOnlinePage />} />
         <Route path="/audios" element={<AudiosPage onOpenLogin={openLogin} onOpenRegister={openRegister} />} />
         <Route path="/suscripcion" element={<SuscripcionPage onOpenLogin={openLogin} onOpenRegister={openRegister} />} />
         <Route path="/mi-cuenta" element={<MiCuentaPage onOpenLogin={() => setLoginOpen(true)} />} />

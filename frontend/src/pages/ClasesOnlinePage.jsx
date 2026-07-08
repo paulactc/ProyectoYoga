@@ -1427,6 +1427,7 @@ export default function ClasesOnlinePage() {
   const [grupoSeleccionado, setGrupoSeleccionado] = useState(null)
   const [filtroDuracion, setFiltroDuracion] = useState('todos')
   const [filtroNivel, setFiltroNivel] = useState('todos')
+  const [showProxModal, setShowProxModal] = useState(false)
   const [modalClase, setModalClase] = useState(null)
   const [videoActive, setVideoActive] = useState(false)
   const [videoTerminado, setVideoTerminado] = useState(false)
@@ -1663,7 +1664,7 @@ export default function ClasesOnlinePage() {
               cta="Comenzar la travesía"
               icon={<IconTravesia />}
               decoracion={<TravesiaMapDecor progreso={progreso} />}
-              onClick={handleStartTravesia}
+              onClick={() => setShowProxModal(true)}
             />
             <MetodoCard
               tipo="explorar"
@@ -1673,7 +1674,7 @@ export default function ClasesOnlinePage() {
               cta="Explorar clases"
               icon={<IconExplorar />}
               decoracion={<ExplorarDecor />}
-              onClick={() => { setVista('filtros'); window.scrollTo({ top: 0 }); }}
+              onClick={() => setShowProxModal(true)}
             />
             <MetodoCard
               tipo="grupos"
@@ -1683,7 +1684,7 @@ export default function ClasesOnlinePage() {
               cta="Ver los grupos"
               icon={<IconGrupos />}
               decoracion={<GruposDecor />}
-              onClick={() => { setVista('grupos'); window.scrollTo({ top: 0 }); }}
+              onClick={() => setShowProxModal(true)}
             />
           </div>
         </section>
@@ -1907,6 +1908,18 @@ export default function ClasesOnlinePage() {
           </section>
         )
       })()}
+
+      {/* ── Modal próximamente ── */}
+      {showProxModal && (
+        <div className="modal-overlay open" onClick={e => { if (e.target === e.currentTarget) setShowProxModal(false) }}>
+          <div className="prox-modal">
+            <button className="modal-close" onClick={() => setShowProxModal(false)} aria-label="Cerrar">&times;</button>
+            <span className="prox-modal-ornament" aria-hidden="true">✦</span>
+            <h2 className="prox-modal-titulo">Llegamos <em>muy pronto</em></h2>
+            <p className="prox-modal-desc">Estamos ultimando los últimos detalles del Aula Online. En unos días podrás acceder a todas las clases y empezar tu práctica.</p>
+          </div>
+        </div>
+      )}
 
       {/* ── Modal de vídeo ── */}
       {modalClase && (
