@@ -3461,11 +3461,10 @@ a.nav-logo {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  transition: transform 0.35s ease, opacity 0.35s ease;
+  object-fit: contain;
+  transition: opacity 0.35s ease;
 }
 .video-poster:hover .video-poster-img {
-  transform: scale(1.03);
   opacity: 0.75;
 }
 .video-poster-play {
@@ -5289,8 +5288,10 @@ a.nav-logo {
   }
   .online-teaser-desc { max-width: 100%; }
 
-  .filtros-section { top: 56px; padding: 1rem 1.25rem; }
-  .filtros { gap: 1rem; }
+  .filtros-section { top: 56px; padding: 0.9rem 1.25rem; }
+  .filtros { gap: 0.75rem; flex-direction: column; align-items: stretch; }
+  .filtro-group { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+  .filtro-pills { gap: 0.4rem; }
 
   .clases-grid { grid-template-columns: 1fr; }
   .clases-grid-section { padding: 2rem 1.25rem 4rem; }
