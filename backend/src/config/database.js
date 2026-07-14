@@ -430,6 +430,12 @@ async function runMigrations() {
     );
   });
 
+  await runSafeMigration('Imagen Movilidad Funcional clase 2 yoga2movilidad', async () => {
+    await pool.execute(
+      `UPDATE clases SET imagen = '/images/yoga2movilidad.jpg' WHERE grupo_id = 1 AND orden = 2`
+    );
+  });
+
   await runSafeMigration('Tabla travesia_progress', () =>
     pool.execute(`
       CREATE TABLE IF NOT EXISTS travesia_progress (
@@ -531,6 +537,41 @@ async function runMigrations() {
         [titulo, descripcion, duracion, nivel, imagen, vimeo_id, orden]
       );
     }
+  });
+
+  await runSafeMigration('Video Movilidad Funcional clase 5', async () => {
+    await pool.execute(
+      `UPDATE clases SET vimeo_id = '1209957932', disponible = 1
+       WHERE grupo_id = 1 AND orden = 5`
+    );
+  });
+
+  await runSafeMigration('Video Movilidad Funcional clase 5 v2', async () => {
+    await pool.execute(
+      `UPDATE clases SET vimeo_id = '1209967860', disponible = 1
+       WHERE grupo_id = 1 AND orden = 5`
+    );
+  });
+
+  await runSafeMigration('Video Movilidad Funcional clase 2', async () => {
+    await pool.execute(
+      `UPDATE clases SET vimeo_id = '1209940701', disponible = 1
+       WHERE grupo_id = 1 AND orden = 2`
+    );
+  });
+
+  await runSafeMigration('Imagenes clases 2-5 Respiracion Consciente', async () => {
+    await pool.execute(
+      `UPDATE clases SET imagen = '/images/respiracionconsciente1.jpg'
+       WHERE grupo_id = 2 AND orden IN (2, 3, 4, 5)`
+    );
+  });
+
+  await runSafeMigration('Imagen clase 1 Respiracion Consciente', async () => {
+    await pool.execute(
+      `UPDATE clases SET imagen = '/images/respiracionconsciente1.jpg'
+       WHERE grupo_id = 2 AND orden = 1`
+    );
   });
 
   await runSafeMigration('Rol admin para paula_ctc@hotmail.es', async () => {

@@ -379,7 +379,6 @@ function CtaSection() {
           <Link to="/suscripcion" className="btn">Ver planes · desde 19€/mes</Link>
           <Link to="/aula-online" className="btn btn-outline-dark">Explorar clases →</Link>
         </div>
-        <p className="audios-cta-nota">7 días de prueba gratuita</p>
       </div>
     </section>
   )

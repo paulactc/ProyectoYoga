@@ -3,16 +3,12 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
 // Cambia a true cuando el Aula Online esté lista para abrir
-const AULA_DISPONIBLE = false
+const AULA_DISPONIBLE = true
 
 const FAQS = [
   {
     q: '¿Puedo cancelar cuando quiera?',
     a: 'Sí, sin penalizaciones ni periodos de permanencia. Puedes cancelar en cualquier momento desde tu cuenta y no se te cobrará el siguiente mes.'
-  },
-  {
-    q: '¿Qué pasa cuando termina la prueba gratuita?',
-    a: 'Al acabar los 7 días de prueba se activa la suscripción de 19€/mes. Te avisaremos antes de que termine el periodo de prueba.'
   },
   {
     q: '¿En qué dispositivos puedo practicar?',
@@ -92,7 +88,7 @@ function PageHeader() {
     <header className="page-header page-header-pricing">
       <p className="hero-eyebrow">Elige tu camino</p>
       <h1>Empieza <em>gratis</em>,<br />crece cuando quieras</h1>
-      <p>Tierra en Calma siempre gratuita. El Aula Online, 7 días de prueba.</p>
+      <p>Tierra en Calma siempre gratuita. El Aula Online, desde 19€/mes.</p>
     </header>
   )
 }
@@ -132,14 +128,14 @@ function VisitorPlans({ onCheckout, onOpenRegister, loading, error }) {
 
           {/* Tarjeta de pago */}
           <div className="plan-card plan-card-featured">
-            <span className="plan-badge">Aula Online · 7 días gratis</span>
+            <span className="plan-badge">Aula Online</span>
             <p className="plan-name">Plan Mensual</p>
             <div className="plan-price">
               <span className="plan-amount">19</span>
               <span className="plan-precio-sym">€</span>
               <span className="plan-period">/mes</span>
             </div>
-            <p className="plan-billing">Facturado mensualmente · 7 días gratis al empezar</p>
+            <p className="plan-billing">Facturado mensualmente</p>
             <div className="plan-divider" />
             <ul className="plan-features">
               {BENEFICIOS_PAGO.map(b => <li key={b}>{b}</li>)}
@@ -147,12 +143,12 @@ function VisitorPlans({ onCheckout, onOpenRegister, loading, error }) {
             <CalendarHighlight />
             {AULA_DISPONIBLE ? (
               <button className="btn" style={{ width: '100%' }} onClick={onCheckout} disabled={loading}>
-                {loading ? 'Redirigiendo…' : 'Empezar 7 días gratis'}
+                {loading ? 'Redirigiendo…' : 'Empezar ahora'}
               </button>
             ) : (
               <p className="plan-proximamente">Disponible muy pronto</p>
             )}
-            <p className="plan-note">Pagarás 19€/mes tras los 7 días. Cancela antes y no se te cobra nada.</p>
+            <p className="plan-note">19€/mes. Cancela cuando quieras.</p>
           </div>
 
         </div>
@@ -176,17 +172,17 @@ function FreeUserUpgrade({ user, onCheckout, loading, error }) {
 
       <p className="clases-desc-eyebrow" style={{ marginTop: '2.5rem' }}>Cuando estés lista</p>
       <h2 className="plans-title">Accede al <em>Aula Online</em></h2>
-      <p className="plans-subtitle">50 clases de yoga en vídeo. 7 días gratis para probar.</p>
+      <p className="plans-subtitle">50 clases de yoga en vídeo.</p>
       <div className="plans-grid plans-grid-single">
         <div className="plan-card plan-card-featured">
-          <span className="plan-badge">Aula Online · 7 días gratis</span>
+          <span className="plan-badge">Aula Online</span>
           <p className="plan-name">Plan Mensual</p>
           <div className="plan-price">
             <span className="plan-amount">19</span>
             <span className="plan-precio-sym">€</span>
             <span className="plan-period">/mes</span>
           </div>
-          <p className="plan-billing">Facturado mensualmente · 7 días gratis al empezar</p>
+          <p className="plan-billing">Facturado mensualmente</p>
           <div className="plan-divider" />
           <ul className="plan-features">
             {BENEFICIOS_PAGO.map(b => <li key={b}>{b}</li>)}
@@ -194,12 +190,12 @@ function FreeUserUpgrade({ user, onCheckout, loading, error }) {
           <CalendarHighlight />
           {AULA_DISPONIBLE ? (
             <button className="btn" style={{ width: '100%' }} onClick={onCheckout} disabled={loading}>
-              {loading ? 'Redirigiendo…' : 'Activar 7 días gratis'}
+              {loading ? 'Redirigiendo…' : 'Activar ahora'}
             </button>
           ) : (
             <p className="plan-proximamente">Disponible muy pronto</p>
           )}
-          <p className="plan-note">Pagarás 19€/mes tras los 7 días. Cancela antes y no se te cobra nada.</p>
+          <p className="plan-note">19€/mes. Cancela cuando quieras.</p>
         </div>
       </div>
       {error && <p className="plans-error">{error}</p>}
@@ -216,7 +212,7 @@ function SuccessPanel({ user, refreshing }) {
         ¡Bienvenida{user?.nombre ? `, ${user.nombre.split(' ')[0]}` : ''}!
       </h2>
       <p style={{ color: 'var(--muted)', marginBottom: '1.5rem', maxWidth: '400px', margin: '0 auto 1.5rem' }}>
-        Tu suscripción está activa. Tienes 7 días de prueba gratuita para explorar todo el Aula Online.
+        Tu suscripción está activa. Explora todo el Aula Online.
       </p>
       <Link to="/aula-online" className="btn">Ir al Aula Online →</Link>
       {refreshing && (
@@ -317,7 +313,7 @@ export default function SuscripcionPage({ onOpenLogin, onOpenRegister }) {
         />
         <FaqAccordion />
         <div className="cta-final-banner">
-          <h2>7 días gratis.<br /><em>Sin compromiso.</em></h2>
+          <h2>Sin compromiso.</h2>
           <p>Cancela cuando quieras. Sin permanencia.</p>
           {AULA_DISPONIBLE ? (
             <button className="btn" onClick={handleCheckout} disabled={loading}>

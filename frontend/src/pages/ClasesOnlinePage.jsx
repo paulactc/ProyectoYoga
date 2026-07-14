@@ -9,7 +9,7 @@ const CLASES = [
   { id: 3,  titulo: 'La columna neutra: encontrar tu eje',                     duracion: 30, nivel: 1, descripcion: 'Descubre la posición natural de la columna y cómo mantenerla en movimiento. El eje que sostiene toda la práctica.',                                                                                  imagen: '/images/yoga3.jpg' },
   { id: 4,  titulo: 'Escápulas despiertas: hombros en su lugar',               duracion: 25, nivel: 1, descripcion: 'Activa y estabiliza la cintura escapular para proteger los hombros y abrir el pecho con seguridad.',                                                                                               imagen: '/images/yoga4.jpg' },
   { id: 5,  titulo: 'Respiración y movimiento: el ritmo que sostiene la práctica', duracion: 30, nivel: 1, descripcion: 'Integra la respiración diafragmática con el movimiento para crear una práctica fluida, sostenida y presente.',                                                                                imagen: '/images/yoga5.jpg' },
-  { id: 6,  titulo: 'Del cuerpo al silencio',                                   duracion: 30, nivel: 1, descripcion: 'Del cuerpo al silencio: una práctica que va soltando capas hasta llegar a la quietud interior.', imagen: '/images/yoga9.jpg', vimeo_id: '1206825714' },
+  { id: 6,  titulo: 'Del cuerpo al silencio',                                   duracion: 30, nivel: 1, descripcion: 'Del cuerpo al silencio: una práctica que va soltando capas hasta llegar a la quietud interior.', imagen: '/images/yoga9.jpg' },
   { id: 7,  titulo: 'Activar antes de estirar: el cuerpo inteligente',         duracion: 25, nivel: 1, descripcion: 'Por qué es crucial activar el músculo antes de elongarlo. Una clase que cambia la forma en que entiendes el yoga.',                                                                                 imagen: '/images/yoga10.jpg' },
   { id: 8,  titulo: 'Integración postural: de pie a la esterilla',             duracion: 35, nivel: 1, descripcion: 'Sesión integradora de la Fase 1. Recorre todos los principios de alineación en una secuencia cohesionada y consciente.',                                                                           imagen: '/images/yoga11.jpg' },
   // ── FASE 2: Movilidad y Conciencia Corporal (9-15) ────────────────────
@@ -112,30 +112,43 @@ const GRUPO_ICONOS = {
 const GRUPOS = [
   {
     id: 1,
+    tipo: 'vinyasa',
     nombre: 'Movilidad Funcional',
     descripcion: 'Cada clase trabaja un patrón de movimiento que el cuerpo necesita en la vida cotidiana. No yoga de posturas por posturas, sino movimiento con propósito.',
     meta: '5 clases · 20-30 min · Todos los niveles',
     clases: [
       { id: 'g1-1', titulo: 'Despierta tu columna: movimiento desde adentro',          duracion: 25, nivel: 1, descripcion: 'Activa y moviliza la columna vertebral con movimientos suaves y conscientes que parten del centro hacia fuera.', imagen: '/images/grupomovilidad1.jpg', vimeo_id: '1204671530' },
-      { id: 'g1-2', titulo: 'Caderas libres: el movimiento que cambia todo',           duracion: 30, nivel: 1, descripcion: 'Abre y libera las caderas para transformar tu forma de moverte en el día a día.', imagen: '/images/grupomovilidad2.jpg' },
+      { id: 'g1-2', titulo: 'Caderas libres: el movimiento que cambia todo',           duracion: 30, nivel: 1, descripcion: 'Abre y libera las caderas para transformar tu forma de moverte en el día a día.', imagen: '/images/yoga2movilidad.jpg', vimeo_id: '1209940701' },
       { id: 'g1-3', titulo: 'Suelta el peso que llevas en los hombros, ¡literalmente!', duracion: 30, nivel: 1, descripcion: 'Libera la tensión acumulada en cuello, hombros y zona cervical.', imagen: '/images/yoga9.jpg' },
       { id: 'g1-4', titulo: 'La base que lo sostiene todo: despierta tus pies',        duracion: 25, nivel: 1, descripcion: 'Trabaja la conexión con el suelo activando tobillos, arcos plantares y la cadena de movimiento que empieza en los pies, recorriendo gemelos, isquiotibiales y cuádriceps hasta la cadera.', imagen: '/images/yoga10.jpg', vimeo_id: '1206606063' },
-      { id: 'g1-5', titulo: 'Cuando todo se conecta — la clase que lo une todo',       duracion: 30, nivel: 1, descripcion: 'Una secuencia integradora que recorre todos los patrones del grupo.', imagen: '/images/yoga12.jpg' },
+      { id: 'g1-5', titulo: 'Cuando todo se conecta — la clase que lo une todo',       duracion: 30, nivel: 1, descripcion: 'Una secuencia integradora que recorre todos los patrones del grupo.', imagen: '/images/yoga12.jpg', vimeo_id: '1209967860' },
     ],
   },
   {
     id: 2,
+    tipo: 'pranayama',
     nombre: 'Respiración Consciente',
     descripcion: 'El pranayama es la puerta entre el cuerpo y la mente. Aprende a usar la respiración como herramienta de regulación, enfoque y calma profunda.',
     meta: '5 clases · 10-18 min · Todos los niveles',
     clases: [
-      { id: 'g2-1', titulo: 'Volver al aire',                  subtitulo: 'Respiración diafragmática',           duracion: 10, nivel: 1, descripcion: 'Solo observación. Notar cómo respiras cuando nadie te está mirando, sin cambiar nada.',                                                              imagen: '/images/respiracionconsciente1.jpg' },
-      { id: 'g2-2', titulo: 'Alargar el camino de vuelta',     subtitulo: 'Dirga pranayama · 3 partes',          duracion: 12, nivel: 1, descripcion: 'Exhalar más despacio le dice al cuerpo que puede soltar.',                                                                                          imagen: '/images/yoga-37.jpg' },
-      { id: 'g2-3', titulo: 'Encontrar el equilibrio',         subtitulo: 'Nadi Shodhana · respiración alterna', duracion: 15, nivel: 1, descripcion: 'Equilibrio entre esfuerzo y descanso, activación y calma.',                                                                                        imagen: '/images/yoga-30.jpg' },
-      { id: 'g2-4', titulo: 'La respiración como ancla',       subtitulo: 'Ujjayi',                              duracion: 15, nivel: 1, descripcion: 'La respiración deja de ser pasiva y se convierte en un punto de apoyo activo, útil también fuera del mat.',                                        imagen: '/images/yoga5.jpg' },
-      { id: 'g2-5', titulo: 'El espacio entre respiraciones',  subtitulo: 'Kumbhaka suave · retención breve',    duracion: 18, nivel: 1, descripcion: 'La quietud no es ausencia de respiración, es un tipo distinto de presencia.',                                                                      imagen: '/images/yoga-18.jpg' },
+      { id: 'g2-1', titulo: 'Volver al aire',                   subtitulo: 'Respiración diafragmática',           duracion: 10, nivel: 1, descripcion: 'Solo observación. Notar cómo respiras cuando nadie te está mirando, sin cambiar nada.',                                                              imagen: '/images/respiracionconsciente1.jpg' },
+      { id: 'g2-2', titulo: 'Alargar el camino de vuelta',     subtitulo: 'Dirga pranayama · 3 partes',          duracion: 12, nivel: 1, descripcion: 'Exhalar más despacio le dice al cuerpo que puede soltar.',                                                                                          imagen: '/images/respiracionconsciente1.jpg' },
+      { id: 'g2-3', titulo: 'Encontrar el equilibrio',         subtitulo: 'Nadi Shodhana · respiración alterna', duracion: 15, nivel: 1, descripcion: 'Equilibrio entre esfuerzo y descanso, activación y calma.',                                                                                        imagen: '/images/respiracionconsciente1.jpg' },
+      { id: 'g2-4', titulo: 'La respiración como ancla',       subtitulo: 'Ujjayi',                              duracion: 15, nivel: 1, descripcion: 'La respiración deja de ser pasiva y se convierte en un punto de apoyo activo, útil también fuera del mat.',                                        imagen: '/images/respiracionconsciente1.jpg' },
+      { id: 'g2-5', titulo: 'El espacio entre respiraciones',  subtitulo: 'Kumbhaka suave · retención breve',    duracion: 18, nivel: 1, descripcion: 'La quietud no es ausencia de respiración, es un tipo distinto de presencia.',                                                                      imagen: '/images/respiracionconsciente1.jpg' },
     ],
   },
+]
+
+// ── Catálogo exclusivo de "Explora a tu aire" ─────────────────────────────
+// Incluye todas las clases de los grupos temáticos + clases sueltas.
+// Las clases de La Travesía (CLASES, ids 1-50) nunca aparecen aquí.
+const CLASES_EXPLORAR = [
+  ...GRUPOS.flatMap(g => g.clases.map(c => ({ ...c, tipo: g.tipo }))),
+  { id: 51, tipo: 'vinyasa', titulo: 'Del cuerpo al silencio',  duracion: 60, nivel: 2, descripcion: 'Del cuerpo al silencio: una práctica que va soltando capas hasta llegar a la quietud interior.', imagen: '/images/yoga11.jpg', vimeo_id: '1206825714' },
+  { id: 52, tipo: 'vinyasa', titulo: 'La fuerza silenciosa',    duracion: 30, nivel: 2, descripcion: 'No para lucir un abdomen fuerte, sino para descubrir la fuerza que casi nunca se ve: la que sostiene la columna, estabiliza cada equilibrio y hace que cada transición sea firme sin ser rígida. Activamos el centro profundo en cada movimiento.', imagen: '/images/yoga13.jpg', imgCropTop: '15%' },
+  { id: 53, tipo: 'vinyasa', titulo: 'El regreso constante',      duracion: 30, nivel: 2, descripcion: 'Una clase para practicar el gesto más honesto del yoga: darte cuenta de que la mente se fue, y volver. Sin culpa, sin esperar quedarte quieta para siempre, solo notar y regresar al cuerpo, una y otra vez, tantas veces como haga falta.', imagen: '/images/yoga14.jpg' },
+  { id: 54, tipo: 'vinyasa', titulo: 'Desapego en movimiento',    duracion: 30, nivel: 2, descripcion: 'Equilibrios inestables como práctica de Vairagya, el desapego. Si el cuerpo cae, no ha fallado — está diciendo la verdad del momento. Practicamos soltar el resultado sin dejar de intentarlo.', imagen: '/images/yoga15.jpg' },
 ]
 
 const NIVEL_LABEL = { 1: 'Todos los niveles', 2: 'Intermedio', 3: 'Avanzado' }
@@ -879,7 +892,7 @@ function ClaseCard({ clase: c, subscribed, onOpen }) {
     return (
       <article className="clase-card">
         <div className="clase-card-img">
-          <img src={c.imagen} alt={c.titulo} />
+          <img src={c.imagen} alt={c.titulo} style={c.imgCropTop ? { marginTop: `-${c.imgCropTop}` } : undefined} />
         </div>
         <div className="clase-card-body">
           {badges}
@@ -894,7 +907,7 @@ function ClaseCard({ clase: c, subscribed, onOpen }) {
   return (
     <article className="clase-card clase-locked">
       <div className="clase-card-img">
-        <img src={c.imagen} alt={c.titulo} />
+        <img src={c.imagen} alt={c.titulo} style={c.imgCropTop ? { marginTop: `-${c.imgCropTop}` } : undefined} />
         <div className="lock-overlay">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <rect x="3" y="11" width="18" height="11" rx="2"/>
@@ -908,7 +921,7 @@ function ClaseCard({ clase: c, subscribed, onOpen }) {
         <h3>{c.titulo}</h3>
         {c.subtitulo && <p className="clase-subtitulo">{c.subtitulo}</p>}
         <p>{c.descripcion}</p>
-        <Link to="/suscripcion" className="btn btn-sm">Desbloquear · 7 días gratis</Link>
+        <Link to="/suscripcion" className="btn btn-sm">Desbloquear</Link>
       </div>
     </article>
   )
@@ -1410,7 +1423,8 @@ function CalendarioPanel({ plan, progressWithDates, clasesArray, userName, onCam
 
 // ── Página principal ──────────────────────────────────────────────────────
 export default function ClasesOnlinePage() {
-  const { isSubscribed, refreshSubscription, user, token } = useAuth()
+  const { isSubscribed: _isSubscribed, refreshSubscription, user, token } = useAuth()
+  const isSubscribed = _isSubscribed
   const [searchParams] = useSearchParams()
   const location = useLocation()
   const [vista, setVista] = useState(() => {
@@ -1427,6 +1441,7 @@ export default function ClasesOnlinePage() {
   const [grupoSeleccionado, setGrupoSeleccionado] = useState(null)
   const [filtroDuracion, setFiltroDuracion] = useState('todos')
   const [filtroNivel, setFiltroNivel] = useState('todos')
+  const [filtroTipo, setFiltroTipo] = useState('todos')
   const [showProxModal, setShowProxModal] = useState(false)
   const [modalClase, setModalClase] = useState(null)
   const [videoActive, setVideoActive] = useState(false)
@@ -1537,6 +1552,10 @@ export default function ClasesOnlinePage() {
   }, [modalClase?.clase?.vimeo_id])
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [vista])
+
+  useEffect(() => {
     if (vista !== 'grupos') setGrupoSeleccionado(null)
   }, [vista])
 
@@ -1589,10 +1608,11 @@ export default function ClasesOnlinePage() {
     }
   }
 
-  const visibles = CLASES.filter(c => {
-    const okDur = filtroDuracion === 'todos' || String(c.duracion) === filtroDuracion
-    const okNiv = filtroNivel   === 'todos' || String(c.nivel)    === filtroNivel
-    return okDur && okNiv
+  const visibles = CLASES_EXPLORAR.filter(c => {
+    const okDur  = filtroDuracion === 'todos' || String(c.duracion) === filtroDuracion
+    const okNiv  = filtroNivel    === 'todos' || String(c.nivel)    === filtroNivel
+    const okTipo = filtroTipo     === 'todos' || c.tipo             === filtroTipo
+    return okDur && okNiv && okTipo
   })
 
   const abrirModal = (clase, conCompletar = false) =>
@@ -1615,7 +1635,7 @@ export default function ClasesOnlinePage() {
                 <span className="aula-acceso-icono">✦</span>
                 <div className="aula-acceso-texto">
                   <strong>Hola, {user.nombre.split(' ')[0]}</strong>
-                  <span>Activa tu suscripción para desbloquear todas las clases · 7 días gratis</span>
+                  <span>Activa tu suscripción para desbloquear todas las clases</span>
                 </div>
                 <Link to="/suscripcion" className="btn btn-sm aula-acceso-btn">
                   Activar ahora →
@@ -1626,7 +1646,7 @@ export default function ClasesOnlinePage() {
                 <span className="aula-acceso-icono">✦</span>
                 <div className="aula-acceso-texto">
                   <strong>Zona exclusiva para suscriptoras</strong>
-                  <span>19€/mes · 7 días gratis · Cancela cuando quieras</span>
+                  <span>19€/mes · Cancela cuando quieras</span>
                 </div>
                 <Link to="/suscripcion" className="btn btn-sm aula-acceso-btn">
                   Ver planes →
@@ -1664,7 +1684,7 @@ export default function ClasesOnlinePage() {
               cta="Comenzar la travesía"
               icon={<IconTravesia />}
               decoracion={<TravesiaMapDecor progreso={progreso} />}
-              onClick={() => setShowProxModal(true)}
+              onClick={() => setVista('travesia')}
             />
             <MetodoCard
               tipo="explorar"
@@ -1674,7 +1694,7 @@ export default function ClasesOnlinePage() {
               cta="Explorar clases"
               icon={<IconExplorar />}
               decoracion={<ExplorarDecor />}
-              onClick={() => setShowProxModal(true)}
+              onClick={() => setVista('filtros')}
             />
             <MetodoCard
               tipo="grupos"
@@ -1684,7 +1704,7 @@ export default function ClasesOnlinePage() {
               cta="Ver los grupos"
               icon={<IconGrupos />}
               decoracion={<GruposDecor />}
-              onClick={() => setShowProxModal(true)}
+              onClick={() => setVista('grupos')}
             />
           </div>
         </section>
@@ -1837,6 +1857,14 @@ export default function ClasesOnlinePage() {
                 <div className="filtro-pills">
                   {[['todos', 'Todos'], ['1', 'Todos los niveles'], ['2', 'Intermedio'], ['3', 'Avanzado']].map(([val, label]) => (
                     <button key={val} className={`pill${filtroNivel === val ? ' active' : ''}`} onClick={() => setFiltroNivel(val)}>{label}</button>
+                  ))}
+                </div>
+              </div>
+              <div className="filtro-group">
+                <span className="filtro-label">Tipo</span>
+                <div className="filtro-pills">
+                  {[['todos', 'Todos'], ['vinyasa', 'Vinyasa'], ['pranayama', 'Pranayama']].map(([val, label]) => (
+                    <button key={val} className={`pill${filtroTipo === val ? ' active' : ''}`} onClick={() => setFiltroTipo(val)}>{label}</button>
                   ))}
                 </div>
               </div>
