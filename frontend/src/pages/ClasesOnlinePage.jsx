@@ -883,47 +883,44 @@ function GrupoSelectorCard({ grupo, icono, onSelect }) {
 
 // ── Tarjeta de clase (vista filtros y grupos) ─────────────────────────────
 function ClaseCard({ clase: c, subscribed, onOpen }) {
-  const badges = (
-    <div className="clase-badges">
-      <span className="badge badge-dur">{c.duracion} min</span>
-      <span className={`badge nivel-${c.nivel}`}>{NIVEL_LABEL[c.nivel]}</span>
-    </div>
+  const imgStyle = c.imgCropTop ? { objectPosition: 'center bottom' } : undefined
+
+  const inner = (
+    <>
+      <div className="clase-card-img">
+        <img src={c.imagen} alt={c.titulo} style={imgStyle} />
+        {!subscribed && (
+          <div className="lock-overlay">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <rect x="3" y="11" width="18" height="11" rx="2"/>
+              <path d="M7 11V7a5 5 0 0110 0v4"/>
+            </svg>
+            <span className="lock-overlay-text">Plan Mensual</span>
+          </div>
+        )}
+      </div>
+      <div className="clase-card-overlay">
+        <div className="clase-badges">
+          <span className="badge badge-dur">{c.duracion} min</span>
+          <span className={`badge nivel-${c.nivel}`}>{NIVEL_LABEL[c.nivel]}</span>
+        </div>
+        <h3>{c.titulo}</h3>
+        {c.subtitulo && <p className="clase-subtitulo">{c.subtitulo}</p>}
+        <span className="clase-card-ver">{subscribed ? 'Ver clase →' : 'Desbloquear →'}</span>
+      </div>
+    </>
   )
+
   if (subscribed) {
     return (
-      <article className="clase-card">
-        <div className="clase-card-img">
-          <img src={c.imagen} alt={c.titulo} style={c.imgCropTop ? { marginTop: `-${c.imgCropTop}` } : undefined} />
-        </div>
-        <div className="clase-card-body">
-          {badges}
-          <h3>{c.titulo}</h3>
-          {c.subtitulo && <p className="clase-subtitulo">{c.subtitulo}</p>}
-          <p>{c.descripcion}</p>
-          <button className="btn btn-sm" onClick={onOpen}>Ver clase →</button>
-        </div>
+      <article className="clase-card" onClick={onOpen} role="button" tabIndex={0} onKeyDown={e => e.key === 'Enter' && onOpen()}>
+        {inner}
       </article>
     )
   }
   return (
     <article className="clase-card clase-locked">
-      <div className="clase-card-img">
-        <img src={c.imagen} alt={c.titulo} style={c.imgCropTop ? { marginTop: `-${c.imgCropTop}` } : undefined} />
-        <div className="lock-overlay">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <rect x="3" y="11" width="18" height="11" rx="2"/>
-            <path d="M7 11V7a5 5 0 0110 0v4"/>
-          </svg>
-          <span className="lock-overlay-text">Plan Mensual</span>
-        </div>
-      </div>
-      <div className="clase-card-body">
-        {badges}
-        <h3>{c.titulo}</h3>
-        {c.subtitulo && <p className="clase-subtitulo">{c.subtitulo}</p>}
-        <p>{c.descripcion}</p>
-        <Link to="/suscripcion" className="btn btn-sm">Desbloquear</Link>
-      </div>
+      <Link to="/suscripcion" className="clase-card-link">{inner}</Link>
     </article>
   )
 }

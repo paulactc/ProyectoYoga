@@ -15,12 +15,7 @@ export default function SobreMiPage() {
         <div className="sobre-bio-inner sobre-bio-inner--full">
           <div className="sobre-bio-texto">
             <h2>Qué es <em>Yoga Tierra Viva</em></h2>
-            <p>
-              El yoga te despierta, te hace sentirte y aprender de ti mismo.
-              Mi camino en él nació de la necesidad de escucharme, y hoy acompaño
-              a otras personas a descubrir que el brillo siempre va desde dentro hacia fuera.
-            </p>
-            <p>
+<p>
               Soy una persona empática y social, con una profunda sensibilidad
               hacia el bienestar común. Me motiva crear vínculos significativos
               y construir espacios más humanos, conscientes y cohesionados.
@@ -29,6 +24,21 @@ export default function SobreMiPage() {
               Desde <strong>2019</strong> imparto clases presenciales en distintos
               centros, combinando metodología Hatha y Vinyasa adaptada
               a cada grupo y ritmo de vida.
+            </p>
+            <p>
+              Mi forma de enseñar y de acompañar se apoya en la sencillez y la cercanía,
+              en que puedas llevarlo a tu día a día.
+              Todo lo que comparto lo he caminado yo primero, en mi propio proceso.
+              Y en él sigo, como tú.
+              Nuestras historias serán distintas, y al final
+              buscamos lo mismo: paz en el corazón.
+            </p>
+            <p>
+              Este camino consiste en aprender a abrazarte entera, sin dejar fuera nada
+              de lo que fuiste ni de lo que eres ahora.
+              Es un gesto de ternura hacia ti misma: al emprender este viaje hacia dentro,
+              lo que duele se va integrando y transformando por el camino — abriendo paso
+              a una manera más propia, más auténtica, de relacionarte contigo mism@ y con el mundo.
             </p>
           </div>
         </div>

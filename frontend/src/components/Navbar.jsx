@@ -14,7 +14,7 @@ export default function Navbar({ onOpenLogin }) {
   return (
     <nav className="navbar">
       <a href="/#inicio" className="nav-logo" onClick={closeMenu}>
-        <svg className="nav-logo-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <svg className="nav-logo-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           {/* tierra / ground */}
           <path d="M6 26 Q18 23 30 26" opacity="0.7"/>
           {/* raíz / stem */}
@@ -56,7 +56,7 @@ export default function Navbar({ onOpenLogin }) {
       <div className="nav-actions">
         {user ? (
           <>
-            <Link to="/mi-cuenta" className={`btn btn-sm btn-outline${location.pathname === '/mi-cuenta' ? ' btn-outline-active' : ''}`}>
+            <Link to="/mi-cuenta" className={`btn btn-sm btn-outline${location.pathname === '/mi-cuenta' ? ' btn-tierra' : ''}`}>
               Mi cuenta
             </Link>
             <button className="btn btn-sm btn-ghost" onClick={logout}>Salir</button>
@@ -64,7 +64,7 @@ export default function Navbar({ onOpenLogin }) {
         ) : (
           <>
             <button className="btn btn-sm btn-ghost" onClick={onOpenLogin}>Iniciar sesión</button>
-            <Link to="/suscripcion" className="btn btn-sm">Prueba gratuita</Link>
+            <Link to="/suscripcion" className={`btn btn-sm${location.pathname === '/suscripcion' ? ' btn-tierra' : ''}`}>Prueba gratuita</Link>
           </>
         )}
       </div>
