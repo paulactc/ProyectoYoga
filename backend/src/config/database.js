@@ -576,6 +576,13 @@ async function runMigrations() {
     );
   });
 
+  await runSafeMigration('Video Movilidad Funcional clase 3 hombros', async () => {
+    await pool.execute(
+      `UPDATE clases SET vimeo_id = '1209932441', disponible = 1
+       WHERE grupo_id = 1 AND orden = 3`
+    );
+  });
+
   await runSafeMigration('Imagenes clases 2-5 Respiracion Consciente', async () => {
     await pool.execute(
       `UPDATE clases SET imagen = '/images/respiracionconsciente1.jpg'
