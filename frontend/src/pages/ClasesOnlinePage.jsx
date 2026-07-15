@@ -1458,6 +1458,9 @@ export default function ClasesOnlinePage() {
   const [showCalOnboarding, setShowCalOnboarding] = useState(false)
   const [planError, setPlanError] = useState('')
   const calOnboardingShown = useRef(false)
+  const [claseFeedbacks, setClaseFeedbacks] = useState({})
+  const [reviewTexto, setReviewTexto] = useState('')
+  const [reviewStatus, setReviewStatus] = useState(null)
 
   // Cargar progreso desde la API (con fechas)
   useEffect(() => {
@@ -1519,8 +1522,25 @@ export default function ClasesOnlinePage() {
     setPlanLoading(false)
   }
 
-  // Resetear poster al abrir una clase nueva
-  useEffect(() => { setVideoActive(false) }, [modalClase])
+  // Resetear poster y reseña al abrir una clase nueva
+  useEffect(() => {
+    setVideoActive(false)
+    setReviewTexto('')
+    setReviewStatus(null)
+  }, [modalClase])
+
+  // Cargar reseñas cuando se abre el modal
+  useEffect(() => {
+    const id = modalClase?.clase?.id
+    if (!id) return
+    if (claseFeedbacks[id] !== undefined) return
+    fetch(`/api/clases/${encodeURIComponent(id)}/feedback`)
+      .then(r => r.json())
+      .then(data => {
+        if (data.success) setClaseFeedbacks(prev => ({ ...prev, [id]: data.data }))
+      })
+      .catch(() => {})
+  }, [modalClase?.clase?.id])
 
   // Detectar fin de vídeo Vimeo via postMessage
   useEffect(() => {
@@ -1615,6 +1635,31 @@ export default function ClasesOnlinePage() {
 
   const abrirModal = (clase, conCompletar = false) =>
     setModalClase({ clase, onCompletar: conCompletar ? () => pedirConfirmacion(clase.id) : null })
+
+  const handleSubmitResena = async (e) => {
+    e.preventDefault()
+    const id = modalClase?.clase?.id
+    if (!id || !token) return
+    setReviewStatus('loading')
+    try {
+      const res = await fetch(`/api/clases/${encodeURIComponent(id)}/feedback`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ texto: reviewTexto }),
+      })
+      const data = await res.json()
+      if (data.success) {
+        setReviewStatus('success')
+        const nueva = { id: Date.now(), texto: reviewTexto, nombre: user?.nombre || 'Tú', created_at: new Date().toISOString() }
+        setClaseFeedbacks(prev => ({ ...prev, [id]: [nueva, ...(prev[id] || [])] }))
+        setReviewTexto('')
+      } else {
+        setReviewStatus(data.message || 'error')
+      }
+    } catch {
+      setReviewStatus('error')
+    }
+  }
 
   const handleNodeClick = (slot) => {
     if (!slot.clase) return
@@ -2012,6 +2057,58 @@ export default function ClasesOnlinePage() {
                 <p className="completar-hint">Completa el vídeo para marcar la clase como hecha.</p>
               )
             )}
+
+            {/* ── Reseñas ── */}
+            <div className="modal-resenas">
+              <h4 className="modal-resenas-titulo">Experiencias de la comunidad</h4>
+              {(() => {
+                const feedbacks = claseFeedbacks[modalClase.clase.id]
+                if (!feedbacks) return <p className="modal-resenas-empty">Cargando…</p>
+                if (feedbacks.length === 0)
+                  return <p className="modal-resenas-empty">Todavía no hay reseñas. ¡Comparte la tuya!</p>
+                return (
+                  <ul className="modal-resenas-list">
+                    {feedbacks.map(r => (
+                      <li key={r.id} className="modal-resena-item">
+                        <p className="modal-resena-texto">"{r.texto}"</p>
+                        <span className="modal-resena-autor">{r.nombre}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )
+              })()}
+
+              {isSubscribed && reviewStatus !== 'success' && (
+                <form className="modal-resena-form" onSubmit={handleSubmitResena}>
+                  <textarea
+                    className="modal-resena-input"
+                    placeholder="¿Cómo te ha sentado esta práctica?"
+                    value={reviewTexto}
+                    onChange={e => setReviewTexto(e.target.value)}
+                    rows={3}
+                    required
+                    maxLength={1000}
+                  />
+                  {reviewStatus && reviewStatus !== 'loading' && (
+                    <p className="modal-resena-error">
+                      {reviewStatus === 'Ya has compartido tu experiencia en esta clase'
+                        ? 'Ya has compartido tu experiencia en esta clase.'
+                        : 'Algo ha ido mal. Inténtalo de nuevo.'}
+                    </p>
+                  )}
+                  <button
+                    type="submit"
+                    className="modal-resena-btn"
+                    disabled={reviewStatus === 'loading' || reviewTexto.trim().length < 2}
+                  >
+                    {reviewStatus === 'loading' ? 'Enviando…' : 'Compartir mi experiencia →'}
+                  </button>
+                </form>
+              )}
+              {isSubscribed && reviewStatus === 'success' && (
+                <p className="modal-resena-ok">¡Gracias por compartir!</p>
+              )}
+            </div>
           </div>
         </div>
       )}

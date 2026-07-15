@@ -118,18 +118,21 @@ export default function HomePage() {
         <div className="online-teaser-text">
           <p className="hero-eyebrow">Aula Online</p>
           <h2>Tu esterilla te espera,<br /><em>donde estés</em></h2>
-          <div className="teaser-disciplinas">
-            <Link to="/aula-online?vista=travesia" className="teaser-disciplina teaser-disciplina--highlight">
-              <p className="teaser-disc-nombre">✦ La Travesía</p>
-              <p className="teaser-disc-desc">Un camino de 50 clases que avanza contigo. Ponte un ritmo, elige tus días y si la vida se complica, el plan se reorganiza solo. Sin agobios, sin perder el hilo.</p>
+          <div className="teaser-pastel-grid">
+            <Link to="/aula-online?vista=travesia" className="teaser-pastel-box teaser-pastel-box--1">
+              <p className="teaser-pastel-nombre">La Travesía</p>
+              <p className="teaser-pastel-desc">50 clases que avanzan contigo, a tu ritmo y sin perder el hilo.</p>
+              <span className="teaser-pastel-cta">Empezar →</span>
             </Link>
-            <Link to="/aula-online?vista=filtros" className="teaser-disciplina">
-              <p className="teaser-disc-nombre">Explora a tu aire</p>
-              <p className="teaser-disc-desc">¿Tienes 20 minutos? ¿Necesitas soltar las caderas o relajar la espalda? Elige lo que te pide el cuerpo hoy y empieza sin más.</p>
+            <Link to="/aula-online?vista=filtros" className="teaser-pastel-box teaser-pastel-box--2">
+              <p className="teaser-pastel-nombre">Explora</p>
+              <p className="teaser-pastel-desc">Elige lo que te pide el cuerpo hoy. Sin programa, sin compromisos.</p>
+              <span className="teaser-pastel-cta">Explorar →</span>
             </Link>
-            <Link to="/aula-online?vista=grupos" className="teaser-disciplina">
-              <p className="teaser-disc-nombre">Grupos de Clases</p>
-              <p className="teaser-disc-desc">Programas cortos con un propósito claro: movilidad, fuerza, respiración... Sigue el hilo de semana en semana y empieza a notar la diferencia de verdad.</p>
+            <Link to="/aula-online?vista=grupos" className="teaser-pastel-box teaser-pastel-box--3">
+              <p className="teaser-pastel-nombre">Grupos</p>
+              <p className="teaser-pastel-desc">Programas temáticos por semanas. Movilidad, fuerza, respiración.</p>
+              <span className="teaser-pastel-cta">Ver grupos →</span>
             </Link>
           </div>
           <Link to="/suscripcion" className="btn">Ver planes →</Link>

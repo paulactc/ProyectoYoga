@@ -331,6 +331,22 @@ async function runMigrations() {
     );
   });
 
+  await runSafeMigration('Tabla feedback_clases', () =>
+    pool.execute(`
+      CREATE TABLE IF NOT EXISTS feedback_clases (
+        id         INT AUTO_INCREMENT PRIMARY KEY,
+        usuario_id INT NOT NULL,
+        clase_id   VARCHAR(50) NOT NULL,
+        texto      TEXT NOT NULL,
+        visible    BOOLEAN DEFAULT TRUE,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+        UNIQUE KEY uk_fb_clase (usuario_id, clase_id),
+        INDEX idx_fb_clase (clase_id)
+      )
+    `)
+  );
+
   await runSafeMigration('Tabla clases', () =>
     pool.execute(`
       CREATE TABLE IF NOT EXISTS clases (

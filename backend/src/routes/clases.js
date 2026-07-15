@@ -2,6 +2,7 @@ const express    = require('express');
 const router     = express.Router();
 const { verifyToken } = require('../middleware/auth');
 const { pool }   = require('../config/database');
+const { getFeedback, postFeedback } = require('../controllers/clasesController');
 
 // Clases por grupo (desde BD, incluye vimeo_id)
 router.get('/grupo/:grupoId', async (req, res) => {
@@ -36,5 +37,8 @@ router.get('/:id', verifyToken, (req, res) => {
   if (!clase) return res.status(404).json({ success: false, message: 'Clase no encontrada' });
   res.json({ success: true, data: clase });
 });
+
+router.get('/:id/feedback', getFeedback);
+router.post('/:id/feedback', verifyToken, postFeedback);
 
 module.exports = router;
