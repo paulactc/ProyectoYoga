@@ -619,6 +619,22 @@ async function runMigrations() {
       console.log('  -> Admin creado:', process.env.ADMIN_EMAIL || 'admin@yogatierraviva.es');
     }
   });
+
+  await runSafeMigration('Tabla compras_pack', () =>
+    pool.execute(`
+      CREATE TABLE IF NOT EXISTS compras_pack (
+        id                INT AUTO_INCREMENT PRIMARY KEY,
+        usuario_id        INT NOT NULL,
+        pack_slug         VARCHAR(50) NOT NULL,
+        stripe_session_id VARCHAR(200) NULL,
+        importe           DECIMAL(8,2) NOT NULL,
+        created_at        TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+        UNIQUE KEY uk_compra_usuario_pack (usuario_id, pack_slug),
+        INDEX idx_compras_pack_usuario (usuario_id)
+      )
+    `)
+  );
 }
 
 async function testConnection(retries = 5, delay = 3000) {

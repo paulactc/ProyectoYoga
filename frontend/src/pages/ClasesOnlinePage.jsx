@@ -154,6 +154,10 @@ const CLASES_EXPLORAR = [
 
 const NIVEL_LABEL = { 1: 'Todos los niveles', 2: 'Intermedio', 3: 'Avanzado' }
 
+// Clases incluidas en el Pack Raíz (10 clases): grupos 1 y 2 completos.
+// En "Explora a tu aire" conviven con clases sueltas (51-54) que no están en el pack.
+const enPackRaiz = (c) => typeof c.id === 'string' && /^g[12]-/.test(c.id)
+
 // ── Zonas del camino (9 fases pedagógicas) ────────────────────────────────
 const PATH_ZONES = [
   { desde: 1,  hasta: 8,  nombre: 'Cimientos y Alineación',    subtitulo: 'Fase 1 · Conciencia postural',    color: '#c4784a', bg: 'rgba(140,78,47,0.14)',   particle: '#d4a060' },
@@ -882,7 +886,7 @@ function GrupoSelectorCard({ grupo, icono, onSelect }) {
 }
 
 // ── Tarjeta de clase (vista filtros y grupos) ─────────────────────────────
-function ClaseCard({ clase: c, subscribed, onOpen }) {
+function ClaseCard({ clase: c, subscribed, lockLabel = 'Plan Mensual', onOpen }) {
   const imgStyle = c.imgCropTop ? { objectPosition: 'center bottom' } : undefined
 
   const inner = (
@@ -895,7 +899,7 @@ function ClaseCard({ clase: c, subscribed, onOpen }) {
               <rect x="3" y="11" width="18" height="11" rx="2"/>
               <path d="M7 11V7a5 5 0 0110 0v4"/>
             </svg>
-            <span className="lock-overlay-text">Plan Mensual</span>
+            <span className="lock-overlay-text">{lockLabel}</span>
           </div>
         )}
       </div>
@@ -1421,7 +1425,7 @@ function CalendarioPanel({ plan, progressWithDates, clasesArray, userName, onCam
 
 // ── Página principal ──────────────────────────────────────────────────────
 export default function ClasesOnlinePage() {
-  const { isSubscribed: _isSubscribed, refreshSubscription, user, token } = useAuth()
+  const { isSubscribed: _isSubscribed, ownsPack, refreshSubscription, user, token } = useAuth()
   const isSubscribed = _isSubscribed
   const [searchParams] = useSearchParams()
   const location = useLocation()
@@ -1670,7 +1674,7 @@ export default function ClasesOnlinePage() {
   return (
     <>
       {/* ── Banner de acceso para no suscritas ── */}
-      {!isSubscribed && (
+      {!isSubscribed && !ownsPack && (
         <div className="aula-acceso-banner">
           <div className="aula-acceso-inner">
             {user ? (
@@ -1678,21 +1682,21 @@ export default function ClasesOnlinePage() {
                 <span className="aula-acceso-icono">✦</span>
                 <div className="aula-acceso-texto">
                   <strong>Hola, {user.nombre.split(' ')[0]}</strong>
-                  <span>Activa tu suscripción para desbloquear todas las clases</span>
+                  <span>Consigue el Pack Raíz (15€, para siempre) para desbloquear tus clases</span>
                 </div>
                 <Link to="/suscripcion" className="btn btn-sm aula-acceso-btn">
-                  Activar ahora →
+                  Ver el pack →
                 </Link>
               </>
             ) : (
               <>
                 <span className="aula-acceso-icono">✦</span>
                 <div className="aula-acceso-texto">
-                  <strong>Zona exclusiva para suscriptoras</strong>
-                  <span>19€/mes · Cancela cuando quieras</span>
+                  <strong>Zona exclusiva</strong>
+                  <span>Pack Raíz desde 15€, un único pago</span>
                 </div>
                 <Link to="/suscripcion" className="btn btn-sm aula-acceso-btn">
-                  Ver planes →
+                  Ver el pack →
                 </Link>
               </>
             )}
@@ -1918,7 +1922,13 @@ export default function ClasesOnlinePage() {
               {visibles.length === 0 ? (
                 <p className="no-results">No hay clases con estos filtros. Prueba otra combinación.</p>
               ) : visibles.map(c => (
-                <ClaseCard key={c.id} clase={c} subscribed={isSubscribed} onOpen={() => abrirModal(c)} />
+                <ClaseCard
+                  key={c.id}
+                  clase={c}
+                  subscribed={isSubscribed || (ownsPack && enPackRaiz(c))}
+                  lockLabel={enPackRaiz(c) ? 'Pack Raíz' : 'Plan Mensual'}
+                  onOpen={() => abrirModal(c)}
+                />
               ))}
             </div>
           </section>
@@ -1972,7 +1982,13 @@ export default function ClasesOnlinePage() {
               </div>
               <div className="clases-grid">
                 {(grupoClases[grupo.id]?.length ? grupoClases[grupo.id] : grupo.clases).map(c => (
-                  <ClaseCard key={c.id} clase={c} subscribed={isSubscribed} onOpen={() => abrirModal(c)} />
+                  <ClaseCard
+                    key={c.id}
+                    clase={c}
+                    subscribed={isSubscribed || ownsPack}
+                    lockLabel="Pack Raíz"
+                    onOpen={() => abrirModal(c)}
+                  />
                 ))}
               </div>
             </div>

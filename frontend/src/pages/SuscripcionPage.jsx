@@ -2,13 +2,14 @@ import { useState, useEffect } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
-// Cambia a true cuando el Aula Online esté lista para abrir
-const AULA_DISPONIBLE = true
+// El Pack Raíz está a la venta; la suscripción mensual queda en construcción (ver MonthlyCard)
+const PACK_DISPONIBLE = true
+const PACK_PRECIO = 15
 
 const FAQS = [
   {
-    q: '¿Puedo cancelar cuando quiera?',
-    a: 'Sí, sin penalizaciones ni periodos de permanencia. Puedes cancelar en cualquier momento desde tu cuenta y no se te cobrará el siguiente mes.'
+    q: '¿El Pack Raíz caduca?',
+    a: 'No. Es un pago único y el acceso a esas 10 clases es tuyo para siempre, sin renovaciones ni suscripción.'
   },
   {
     q: '¿En qué dispositivos puedo practicar?',
@@ -31,37 +32,23 @@ const BENEFICIOS_GRATIS = [
   'Sin coste, para siempre',
 ]
 
-const BENEFICIOS_PAGO = [
+const BENEFICIOS_PACK = [
   'Todo lo del plan gratuito',
-  'Acceso ilimitado al Aula Online',
-  'Más de 50 clases de yoga en vídeo',
-  'Niveles 1, 2 y 3: de principiante a avanzado',
-  'Movilidad, pranayama, meditación en movimiento',
-  'La Travesía: 50 etapas desbloqueadas por progreso real',
-  'Nuevas clases cada mes',
-  'Cancela cuando quieras, sin compromiso',
+  '10 clases completas de yoga en vídeo',
+  'Movilidad Funcional (5 clases)',
+  'Respiración Consciente (5 clases)',
+  'Acceso para siempre, un único pago',
+  'Sin renovación, sin suscripción',
 ]
 
-function CalendarHighlight() {
-  return (
-    <div className="plan-cal-highlight">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <rect x="3" y="4" width="18" height="18" rx="2"/>
-        <line x1="3" y1="9" x2="21" y2="9"/>
-        <line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/>
-        <line x1="8"  y1="14" x2="8"  y2="14" strokeWidth="2.5" strokeLinecap="round"/>
-        <line x1="12" y1="14" x2="12" y2="14" strokeWidth="2.5" strokeLinecap="round"/>
-        <line x1="16" y1="14" x2="16" y2="14" strokeWidth="2.5" strokeLinecap="round"/>
-        <line x1="8"  y1="18" x2="8"  y2="18" strokeWidth="2.5" strokeLinecap="round"/>
-        <line x1="12" y1="18" x2="12" y2="18" strokeWidth="2.5" strokeLinecap="round"/>
-      </svg>
-      <div>
-        <strong>Calendario personal de práctica</strong>
-        <span>Elige 3 meses (4 días/semana) o 6 meses (2 días/semana). Si te saltas una sesión, el calendario se reajusta solo — sin perder el hilo.</span>
-      </div>
-    </div>
-  )
-}
+const BENEFICIOS_PAGO = [
+  'Todo lo del Pack Raíz',
+  'Acceso ilimitado al Aula Online',
+  'Todas las clases nuevas cada mes',
+  'Niveles 1, 2 y 3: de principiante a avanzado',
+  'La Travesía: el camino completo de 50 etapas',
+  'Cancela cuando quieras, sin compromiso',
+]
 
 function FaqAccordion() {
   const [openIndex, setOpenIndex] = useState(null)
@@ -88,78 +75,105 @@ function PageHeader() {
     <header className="page-header page-header-pricing">
       <p className="hero-eyebrow">Elige tu camino</p>
       <h1>Empieza <em>gratis</em>,<br />crece cuando quieras</h1>
-      <p>Tierra en Calma siempre gratuita. El Aula Online, desde 19€/mes.</p>
+      <p>Tierra en Calma siempre gratuita. El Pack Raíz, un único pago de {PACK_PRECIO}€.</p>
     </header>
   )
 }
 
-// ── Vista para visitantes sin cuenta ──────────────────────────────────────────
-function VisitorPlans({ onCheckout, onOpenRegister, loading, error }) {
+// ── Tarjeta gratuita ───────────────────────────────────────────────────────
+function FreeCard({ onOpenRegister }) {
   return (
-    <>
-      <section className="plans-section">
-        <p className="clases-desc-eyebrow">Elige tu acceso</p>
-        <h2 className="plans-title">¿Por dónde <em>empezamos</em>?</h2>
-        <p className="plans-subtitle">Puedes empezar gratis y ampliar cuando quieras.</p>
-        <div className="plans-grid">
-
-          {/* Tarjeta gratuita */}
-          <div className="plan-card">
-            <span className="plan-badge plan-badge-popular">Gratis</span>
-            <p className="plan-name">Tierra en Calma</p>
-            <div className="plan-price">
-              <span className="plan-amount">0</span>
-              <span className="plan-precio-sym">€</span>
-            </div>
-            <p className="plan-billing">Para siempre gratuito</p>
-            <div className="plan-divider" />
-            <ul className="plan-features">
-              {BENEFICIOS_GRATIS.map(b => <li key={b}>{b}</li>)}
-            </ul>
-            <button
-              className="btn btn-outline"
-              style={{ width: '100%' }}
-              onClick={onOpenRegister}
-            >
-              Crear cuenta gratuita
-            </button>
-            <p className="plan-note">Solo tu email. Sin tarjeta.</p>
-          </div>
-
-          {/* Tarjeta de pago */}
-          <div className="plan-card plan-card-featured">
-            <span className="plan-badge">Aula Online</span>
-            <p className="plan-name">Plan Mensual</p>
-            <div className="plan-price">
-              <span className="plan-amount">19</span>
-              <span className="plan-precio-sym">€</span>
-              <span className="plan-period">/mes</span>
-            </div>
-            <p className="plan-billing">Facturado mensualmente</p>
-            <div className="plan-divider" />
-            <ul className="plan-features">
-              {BENEFICIOS_PAGO.map(b => <li key={b}>{b}</li>)}
-            </ul>
-            <CalendarHighlight />
-            {AULA_DISPONIBLE ? (
-              <button className="btn" style={{ width: '100%' }} onClick={onCheckout} disabled={loading}>
-                {loading ? 'Redirigiendo…' : 'Empezar ahora'}
-              </button>
-            ) : (
-              <p className="plan-proximamente">Disponible muy pronto</p>
-            )}
-            <p className="plan-note">19€/mes. Cancela cuando quieras.</p>
-          </div>
-
-        </div>
-        {error && <p className="plans-error">{error}</p>}
-      </section>
-    </>
+    <div className="plan-card">
+      <span className="plan-badge plan-badge-popular">Gratis</span>
+      <p className="plan-name">Tierra en Calma</p>
+      <div className="plan-price">
+        <span className="plan-amount">0</span>
+        <span className="plan-precio-sym">€</span>
+      </div>
+      <p className="plan-billing">Para siempre gratuito</p>
+      <div className="plan-divider" />
+      <ul className="plan-features">
+        {BENEFICIOS_GRATIS.map(b => <li key={b}>{b}</li>)}
+      </ul>
+      <button className="btn btn-outline" style={{ width: '100%' }} onClick={onOpenRegister}>
+        Crear cuenta gratuita
+      </button>
+      <p className="plan-note">Solo tu email. Sin tarjeta.</p>
+    </div>
   )
 }
 
-// ── Vista para usuaria con cuenta gratuita (sin suscripción) ──────────────────
-function FreeUserUpgrade({ user, onCheckout, loading, error }) {
+// ── Tarjeta del Pack Raíz (pago único) ─────────────────────────────────────
+function PackCard({ onBuy, loading, error, owned }) {
+  return (
+    <div className="plan-card plan-card-featured">
+      <span className="plan-badge">Pack Raíz</span>
+      <p className="plan-name">10 Clases</p>
+      <div className="plan-price">
+        <span className="plan-amount">{PACK_PRECIO}</span>
+        <span className="plan-precio-sym">€</span>
+      </div>
+      <p className="plan-billing">Pago único · acceso para siempre</p>
+      <div className="plan-divider" />
+      <ul className="plan-features">
+        {BENEFICIOS_PACK.map(b => <li key={b}>{b}</li>)}
+      </ul>
+      {owned ? (
+        <p className="plan-note" style={{ textAlign: 'center', fontWeight: 600, fontSize: '0.9rem', color: 'var(--tierra)' }}>
+          ✓ Ya tienes este pack
+        </p>
+      ) : PACK_DISPONIBLE ? (
+        <button className="btn" style={{ width: '100%' }} onClick={onBuy} disabled={loading}>
+          {loading ? 'Redirigiendo…' : 'Comprar pack'}
+        </button>
+      ) : (
+        <p className="plan-proximamente">Disponible muy pronto</p>
+      )}
+      <p className="plan-note">{PACK_PRECIO}€ pago único · 1,50€/clase</p>
+      {error && <p className="plans-error">{error}</p>}
+    </div>
+  )
+}
+
+// ── Tarjeta de suscripción mensual (en construcción) ───────────────────────
+function MonthlyCard() {
+  return (
+    <div className="plan-card">
+      <span className="plan-badge plan-badge-popular">En construcción</span>
+      <p className="plan-name">Plan Mensual</p>
+      <div className="plan-price">
+        <span className="plan-amount">19</span>
+        <span className="plan-precio-sym">€</span>
+        <span className="plan-period">/mes</span>
+      </div>
+      <p className="plan-billing">Próximamente</p>
+      <div className="plan-divider" />
+      <ul className="plan-features">
+        {BENEFICIOS_PAGO.map(b => <li key={b}>{b}</li>)}
+      </ul>
+      <p className="plan-proximamente">Disponible cuando el Aula tenga más clases</p>
+    </div>
+  )
+}
+
+// ── Vista para visitantes sin cuenta ──────────────────────────────────────────
+function VisitorPlans({ onBuyPack, onOpenRegister, loading, error }) {
+  return (
+    <section className="plans-section">
+      <p className="clases-desc-eyebrow">Elige tu acceso</p>
+      <h2 className="plans-title">¿Por dónde <em>empezamos</em>?</h2>
+      <p className="plans-subtitle">Puedes empezar gratis y ampliar cuando quieras.</p>
+      <div className="plans-grid plans-grid-3">
+        <FreeCard onOpenRegister={onOpenRegister} />
+        <PackCard onBuy={onBuyPack} loading={loading} error={error} owned={false} />
+        <MonthlyCard />
+      </div>
+    </section>
+  )
+}
+
+// ── Vista para usuaria con cuenta (sin suscripción) ────────────────────────
+function FreeUserUpgrade({ user, ownsPack, onBuyPack, loading, error }) {
   return (
     <section className="plans-section">
       <div className="free-user-banner">
@@ -170,40 +184,27 @@ function FreeUserUpgrade({ user, onCheckout, loading, error }) {
         </div>
       </div>
 
-      <p className="clases-desc-eyebrow" style={{ marginTop: '2.5rem' }}>Cuando estés lista</p>
-      <h2 className="plans-title">Accede al <em>Aula Online</em></h2>
-      <p className="plans-subtitle">50 clases de yoga en vídeo.</p>
-      <div className="plans-grid plans-grid-single">
-        <div className="plan-card plan-card-featured">
-          <span className="plan-badge">Aula Online</span>
-          <p className="plan-name">Plan Mensual</p>
-          <div className="plan-price">
-            <span className="plan-amount">19</span>
-            <span className="plan-precio-sym">€</span>
-            <span className="plan-period">/mes</span>
-          </div>
-          <p className="plan-billing">Facturado mensualmente</p>
-          <div className="plan-divider" />
-          <ul className="plan-features">
-            {BENEFICIOS_PAGO.map(b => <li key={b}>{b}</li>)}
-          </ul>
-          <CalendarHighlight />
-          {AULA_DISPONIBLE ? (
-            <button className="btn" style={{ width: '100%' }} onClick={onCheckout} disabled={loading}>
-              {loading ? 'Redirigiendo…' : 'Activar ahora'}
-            </button>
-          ) : (
-            <p className="plan-proximamente">Disponible muy pronto</p>
-          )}
-          <p className="plan-note">19€/mes. Cancela cuando quieras.</p>
-        </div>
+      <p className="clases-desc-eyebrow" style={{ marginTop: '2.5rem' }}>
+        {ownsPack ? 'Tu acceso' : 'Cuando estés lista'}
+      </p>
+      <h2 className="plans-title">
+        {ownsPack ? <>Tu <em>Pack Raíz</em></> : <>Consigue el <em>Pack Raíz</em></>}
+      </h2>
+      <p className="plans-subtitle">10 clases de yoga en vídeo, tuyas para siempre.</p>
+      <div className="plans-grid">
+        <PackCard onBuy={onBuyPack} loading={loading} error={error} owned={ownsPack} />
+        <MonthlyCard />
       </div>
-      {error && <p className="plans-error">{error}</p>}
+      {ownsPack && (
+        <p style={{ textAlign: 'center', marginTop: '2rem' }}>
+          <Link to="/aula-online" className="btn">Ir a mis clases →</Link>
+        </p>
+      )}
     </section>
   )
 }
 
-// ── Vista de éxito post-Stripe ────────────────────────────────────────────────
+// ── Vista de éxito post-Stripe (suscripción) ──────────────────────────────
 function SuccessPanel({ user, refreshing }) {
   return (
     <section style={{ textAlign: 'center', padding: '3rem 2rem 4rem' }}>
@@ -224,22 +225,45 @@ function SuccessPanel({ user, refreshing }) {
   )
 }
 
+// ── Vista de éxito post-Stripe (pack) ──────────────────────────────────────
+function PackSuccessPanel({ user, refreshing }) {
+  return (
+    <section style={{ textAlign: 'center', padding: '3rem 2rem 4rem' }}>
+      <div className="success-icon" style={{ margin: '0 auto 1.25rem', fontSize: '2rem' }}>✓</div>
+      <h2 style={{ marginBottom: '0.75rem' }}>
+        ¡Bienvenida{user?.nombre ? `, ${user.nombre.split(' ')[0]}` : ''}!
+      </h2>
+      <p style={{ color: 'var(--muted)', marginBottom: '1.5rem', maxWidth: '400px', margin: '0 auto 1.5rem' }}>
+        Tu Pack Raíz está activo. Ya tienes acceso para siempre a las 10 clases.
+      </p>
+      <Link to="/aula-online" className="btn">Ir a mis clases →</Link>
+      {refreshing && (
+        <p style={{ fontSize: '0.85rem', color: 'var(--muted)', marginTop: '1rem' }}>
+          Verificando compra…
+        </p>
+      )}
+    </section>
+  )
+}
+
 // ── Componente principal ──────────────────────────────────────────────────────
 export default function SuscripcionPage({ onOpenLogin, onOpenRegister }) {
-  const { user, token, isSubscribed, refreshSubscription } = useAuth()
+  const { user, token, isSubscribed, ownsPack, refreshSubscription, refreshPack } = useAuth()
   const [searchParams] = useSearchParams()
   const [loading, setLoading]   = useState(false)
   const [error, setError]       = useState('')
   const [refreshing, setRefreshing] = useState(false)
 
-  const comingFromStripe = searchParams.get('exito') === '1'
+  const comingFromStripe     = searchParams.get('exito') === '1'
+  const comingFromPackStripe = searchParams.get('pack_exito') === '1'
 
   useEffect(() => {
-    if (!comingFromStripe) return
+    if (!comingFromStripe && !comingFromPackStripe) return
     setRefreshing(true)
     let attempts = 0
     const poll = async () => {
-      await refreshSubscription()
+      if (comingFromPackStripe) await refreshPack()
+      else await refreshSubscription()
       attempts++
       if (attempts < 5) setTimeout(poll, 1500)
       else setRefreshing(false)
@@ -247,7 +271,7 @@ export default function SuscripcionPage({ onOpenLogin, onOpenRegister }) {
     poll()
   }, []) // eslint-disable-line
 
-  async function handleCheckout() {
+  async function handleBuyPack() {
     if (!user) {
       onOpenLogin()
       return
@@ -255,7 +279,7 @@ export default function SuscripcionPage({ onOpenLogin, onOpenRegister }) {
     setLoading(true)
     setError('')
     try {
-      const res = await fetch('/api/suscripcion/checkout', {
+      const res = await fetch('/api/pack/checkout', {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}` },
       })
@@ -289,7 +313,7 @@ export default function SuscripcionPage({ onOpenLogin, onOpenRegister }) {
     )
   }
 
-  // Estado 2: viene de Stripe con éxito
+  // Estado 2: viene de Stripe con éxito (suscripción)
   if (comingFromStripe) {
     return (
       <>
@@ -300,39 +324,49 @@ export default function SuscripcionPage({ onOpenLogin, onOpenRegister }) {
     )
   }
 
-  // Estado 3: logada pero sin suscripción de pago → mostrar upgrade
+  // Estado 3: viene de Stripe con éxito (pack)
+  if (comingFromPackStripe) {
+    return (
+      <>
+        <PageHeader />
+        <PackSuccessPanel user={user} refreshing={refreshing} />
+        <FaqAccordion />
+      </>
+    )
+  }
+
+  // Estado 4: logada (con o sin pack) pero sin suscripción → mostrar Pack Raíz
   if (user && !isSubscribed) {
     return (
       <>
         <PageHeader />
         <FreeUserUpgrade
           user={user}
-          onCheckout={handleCheckout}
+          ownsPack={ownsPack}
+          onBuyPack={handleBuyPack}
           loading={loading}
           error={error}
         />
         <FaqAccordion />
-        <div className="cta-final-banner">
-          <h2>Sin compromiso.</h2>
-          <p>Cancela cuando quieras. Sin permanencia.</p>
-          {AULA_DISPONIBLE ? (
-            <button className="btn" onClick={handleCheckout} disabled={loading}>
-              {loading ? 'Redirigiendo…' : 'Probar el Aula Online'}
+        {!ownsPack && (
+          <div className="cta-final-banner">
+            <h2>Sin compromiso.</h2>
+            <p>Pago único, acceso para siempre.</p>
+            <button className="btn" onClick={handleBuyPack} disabled={loading}>
+              {loading ? 'Redirigiendo…' : 'Comprar el Pack Raíz'}
             </button>
-          ) : (
-            <p className="plan-proximamente">Disponible muy pronto</p>
-          )}
-        </div>
+          </div>
+        )}
       </>
     )
   }
 
-  // Estado 4: visitante sin cuenta → dos tarjetas
+  // Estado 5: visitante sin cuenta → tres tarjetas
   return (
     <>
       <PageHeader />
       <VisitorPlans
-        onCheckout={handleCheckout}
+        onBuyPack={handleBuyPack}
         onOpenRegister={onOpenRegister}
         loading={loading}
         error={error}

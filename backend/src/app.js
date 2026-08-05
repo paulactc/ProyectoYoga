@@ -73,6 +73,7 @@ function makeApiLimiter(max = 300) {
 
 app.use('/api/auth',         authLimiter,       require('./routes/auth'));
 app.use('/api/suscripcion',  makeApiLimiter(),  require('./routes/suscripcion'));
+app.use('/api/pack',         makeApiLimiter(),  require('./routes/pack'));
 app.use('/api/cuenta',       makeApiLimiter(),  require('./routes/cuenta'));
 app.use('/api/clases',       makeApiLimiter(),  require('./routes/clases'));
 app.use('/api/travesia',     makeApiLimiter(),  require('./routes/travesia'));

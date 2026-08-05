@@ -11,6 +11,7 @@ export function AuthProvider({ children }) {
   const user = auth?.user || null
   const token = auth?.token || null
   const isSubscribed = !!user?.subscribed || user?.rol === 'admin'
+  const ownsPack = !!user?.ownsPack || user?.rol === 'admin'
 
   function saveAuth(token, user) {
     const data = { token, user }
@@ -60,12 +61,41 @@ export function AuthProvider({ children }) {
     }
   }, [token])
 
+  const refreshPack = useCallback(async () => {
+    if (!token) return
+    for (let attempt = 0; attempt < 3; attempt++) {
+      try {
+        const res = await fetch('/api/pack/estado', {
+          headers: { Authorization: `Bearer ${token}` }
+        })
+        if (res.status === 401) {
+          localStorage.removeItem(AUTH_KEY)
+          setAuth(null)
+          return
+        }
+        const data = await res.json()
+        if (data.success) {
+          setAuth(prev => {
+            if (!prev) return prev
+            if (prev.user?.ownsPack === data.data.owns) return prev
+            const updated = { ...prev, user: { ...prev.user, ownsPack: data.data.owns } }
+            localStorage.setItem(AUTH_KEY, JSON.stringify(updated))
+            return updated
+          })
+          return
+        }
+      } catch { /* sin conexión */ }
+      if (attempt < 2) await new Promise(r => setTimeout(r, 1500))
+    }
+  }, [token])
+
   useEffect(() => {
     refreshSubscription()
-  }, [refreshSubscription])
+    refreshPack()
+  }, [refreshSubscription, refreshPack])
 
   return (
-    <AuthContext.Provider value={{ user, token, isSubscribed, saveAuth, updateUser, logout, refreshSubscription }}>
+    <AuthContext.Provider value={{ user, token, isSubscribed, ownsPack, saveAuth, updateUser, logout, refreshSubscription, refreshPack }}>
       {children}
     </AuthContext.Provider>
   )

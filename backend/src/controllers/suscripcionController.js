@@ -1,4 +1,5 @@
 const { executeQuery } = require('../config/database');
+const PackController = require('./packController');
 
 let _stripe;
 function getStripe() {
@@ -118,6 +119,13 @@ class SuscripcionController {
 
         case 'checkout.session.completed': {
           const session = event.data.object;
+
+          // Pago único de un pack (no es una suscripción) — lo gestiona PackController
+          if (session.mode === 'payment' || session.metadata?.tipo === 'pack') {
+            await PackController.registrarCompra(session);
+            break;
+          }
+
           const usuarioId = parseInt(session.metadata?.usuario_id);
           const subscriptionId = session.subscription;
           if (!usuarioId || !subscriptionId) break;

@@ -4942,6 +4942,11 @@ a.nav-logo {
   max-width: 420px;
 }
 
+.plans-grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+  max-width: 1180px;
+}
+
 .plan-precio-sym {
   font-family: var(--font-heading);
   font-size: 2rem;
