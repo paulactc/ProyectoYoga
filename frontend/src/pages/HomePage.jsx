@@ -54,7 +54,7 @@ export default function HomePage() {
           <h1><em>Despierta.</em> <span className="hero-h1-main">Siente.</span> <em>Brilla.</em></h1>
           <p className="hero-sub">Construye espacios y caminos a nivel físico y mental, fuera y dentro de la esterilla.</p>
           <div className="hero-cta">
-            <Link to="/aula-online" className="btn btn-hero-secondary">Aula Online</Link>
+            <Link to="/aula-online" className="btn btn-hero-secondary">Practicar</Link>
           </div>
         </div>
         <div className="hero-image">
@@ -110,32 +110,71 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CLASES ONLINE — diseño profesional split */}
+      {/* EL PACK RAÍZ — presentación del producto principal */}
+      {/*
+        Antes esta sección era un teaser de 3 cajas (La Travesía / Explora / Grupos)
+        que enlazaban a distintas vistas del Aula Online con suscripción mensual.
+        Se archivó junto con esas vistas — ver frontend/src/pages/_archivo/.
+      */}
       <section className="online-teaser">
         <div className="online-teaser-img">
-          <img src="/images/yoga-18.jpg" alt="Clase de yoga online" />
+          <img src="/images/yoga11.jpg" alt="Ajuste físico preciso en clase de movilidad funcional" />
         </div>
         <div className="online-teaser-text">
-          <p className="hero-eyebrow">Aula Online</p>
-          <h2>Tu esterilla te espera,<br /><em>donde estés</em></h2>
+          <p className="hero-eyebrow">Pack Raíz</p>
+          <h2>Diez clases.<br /><em>Ajustes precisos, para siempre.</em></h2>
+          <p className="online-teaser-desc">
+            Nada de contenido infinito ni suscripción. Un recorrido cerrado de 10 clases,
+            pensado de menor a mayor exigencia, con instrucciones de ajuste físico
+            detalladas en cada postura.
+          </p>
           <div className="teaser-pastel-grid">
-            <Link to="/aula-online?vista=travesia" className="teaser-pastel-box teaser-pastel-box--1">
-              <p className="teaser-pastel-nombre">La Travesía</p>
-              <p className="teaser-pastel-desc">50 clases que avanzan contigo, a tu ritmo y sin perder el hilo.</p>
-              <span className="teaser-pastel-cta">Empezar →</span>
-            </Link>
-            <Link to="/aula-online?vista=filtros" className="teaser-pastel-box teaser-pastel-box--2">
-              <p className="teaser-pastel-nombre">Explora</p>
-              <p className="teaser-pastel-desc">Elige lo que te pide el cuerpo hoy. Sin programa, sin compromisos.</p>
-              <span className="teaser-pastel-cta">Explorar →</span>
-            </Link>
-            <Link to="/aula-online?vista=grupos" className="teaser-pastel-box teaser-pastel-box--3">
-              <p className="teaser-pastel-nombre">Grupos</p>
-              <p className="teaser-pastel-desc">Programas temáticos por semanas. Movilidad, fuerza, respiración.</p>
-              <span className="teaser-pastel-cta">Ver grupos →</span>
-            </Link>
+            <div className="teaser-pastel-box teaser-pastel-box--1">
+              <p className="teaser-pastel-nombre">Ajustes precisos</p>
+              <p className="teaser-pastel-desc">Indicaciones claras de alineación en cada clase, no solo posturas.</p>
+            </div>
+            <div className="teaser-pastel-box teaser-pastel-box--2">
+              <p className="teaser-pastel-nombre">Movilidad funcional</p>
+              <p className="teaser-pastel-desc">Patrones de movimiento que tu cuerpo usa de verdad, cada día.</p>
+            </div>
+            <div className="teaser-pastel-box teaser-pastel-box--3">
+              <p className="teaser-pastel-nombre">Pago único</p>
+              <p className="teaser-pastel-desc">15€, sin renovaciones. El pack es tuyo para siempre.</p>
+            </div>
           </div>
-          <Link to="/suscripcion" className="btn">Ver planes →</Link>
+          <Link to="/suscripcion" className="btn">Ver el Pack Raíz →</Link>
+        </div>
+      </section>
+
+      {/* CLASES PARTICULARES Y EN DIRECTO */}
+      <section className="servicios-section">
+        <p className="clases-desc-eyebrow">Trato personal, tú a tú</p>
+        <h2 className="servicios-titulo">Otras formas de <em>practicar conmigo</em></h2>
+        <p className="servicios-sub">
+          Cada cuerpo y cada historia son distintos — a veces el vídeo no basta.
+          Estas dos opciones son para cuando quieres una práctica pensada solo para ti.
+        </p>
+        <div className="servicios-grid">
+          <div className="servicio-card">
+            <div className="servicio-card-img">
+              <img src="/images/yoga-21.jpg" alt="Clase particular de yoga uno a uno" />
+            </div>
+            <div className="servicio-card-body">
+              <h3>Clases particulares, 1 a 1</h3>
+              <p>Sesiones diseñadas solo para ti: tu cuerpo, tu historia, tu ritmo. Trabajamos exactamente lo que necesitas, sin encajar en un molde ni compartir el tiempo con nadie más.</p>
+              <a href="#contacto" className="btn btn-outline">Consultar disponibilidad →</a>
+            </div>
+          </div>
+          <div className="servicio-card">
+            <div className="servicio-card-img">
+              <img src="/images/avanzadoa2.jpg" alt="Clase de yoga online en directo por videollamada" />
+            </div>
+            <div className="servicio-card-body">
+              <h3>Clases en directo, online</h3>
+              <p>Practica conmigo en tiempo real por videollamada, en sesión individual o en grupo reducido. La cercanía de una clase presencial, desde donde estés.</p>
+              <a href="#contacto" className="btn btn-outline">Consultar disponibilidad →</a>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -150,7 +189,7 @@ export default function HomePage() {
             <Link to="/sobre-mi" className="btn btn-outline" style={{ marginTop: '1rem', display: 'inline-block', alignSelf: 'center' }}>Saber más</Link>
           </div>
           <div className="sobre-mi-img">
-            <img src="/images/yo.jpg" alt="Instructora de yoga" />
+            <img src="/images/latravesia1.jpg" alt="Instructora de yoga" />
           </div>
         </div>
       </section>
@@ -168,8 +207,8 @@ export default function HomePage() {
                 <path d="M9 11.5a1.5 1.5 0 0 0-3 0V17a6 6 0 0 0 12 0v-2a1.5 1.5 0 0 0-3 0"/>
               </svg>
             </span>
-            <span className="stat-label">Todos los niveles</span>
-            <span className="stat-detail">Principiante · Medio · Avanzado</span>
+            <span className="stat-label">Trato personal, tú a tú</span>
+            <span className="stat-detail">practicas adaptadas a tu cuerpo y tu historia</span>
           </div>
 
           <div className="stat-item">
@@ -179,8 +218,8 @@ export default function HomePage() {
                 <rect x="2" y="6" width="13" height="12" rx="2"/>
               </svg>
             </span>
-            <span className="stat-label">+30 clases grabadas</span>
-            <span className="stat-detail">de 30 y 60 minutos</span>
+            <span className="stat-label">10 clases del Pack Raíz</span>
+            <span className="stat-detail">de 30 y 60 minutos, a tu ritmo</span>
           </div>
 
           <div className="stat-item">
@@ -190,8 +229,8 @@ export default function HomePage() {
                 <polygon points="10,8 16,12 10,16" fill="currentColor" stroke="none"/>
               </svg>
             </span>
-            <span className="stat-label">Contenido nuevo</span>
-            <span className="stat-detail">cada mes</span>
+            <span className="stat-label">Ajustes físicos precisos</span>
+            <span className="stat-detail">en cada clase</span>
           </div>
 
           <div className="stat-item">
@@ -201,8 +240,8 @@ export default function HomePage() {
                 <path d="M9 21V12h6v9"/>
               </svg>
             </span>
-            <span className="stat-label">Desde casa, cuando quieras</span>
-            <span className="stat-detail">móvil, tablet y ordenador</span>
+            <span className="stat-label">Presencial, en directo o grabado</span>
+            <span className="stat-detail">elige cómo practicar conmigo</span>
           </div>
 
         </div>
@@ -236,7 +275,7 @@ export default function HomePage() {
           <h2>Contáctame</h2>
           <p className="contacto-sub">Da el primer paso. Tu camino empieza aquí.</p>
           <div className="contacto-foto">
-            <img src="/images/saltamontes.jpg" alt="Yoga Tierra Viva" />
+            <img src="/images/yoga8.jpg" alt="Yoga Tierra Viva" />
           </div>
           <form className="contact-form" onSubmit={handleContact}>
             <input type="text" placeholder="Tu nombre" required value={form.nombre} onChange={e => setForm(f => ({ ...f, nombre: e.target.value }))} />

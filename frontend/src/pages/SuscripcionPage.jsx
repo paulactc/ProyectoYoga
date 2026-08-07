@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
-// El Pack Raíz está a la venta; la suscripción mensual queda en construcción (ver MonthlyCard)
+// El Pack Raíz es el producto principal. La suscripción mensual queda en standby
+// (código comentado más abajo) hasta que haya suficiente contenido para reactivarla.
 const PACK_DISPONIBLE = true
 const PACK_PRECIO = 15
 
@@ -21,7 +22,7 @@ const FAQS = [
   },
   {
     q: '¿Para qué nivel son las clases?',
-    a: 'Tenemos niveles 1 (principiante), 2 (intermedio) y 3 (avanzado). Puedes empezar desde cero o retomar tu práctica donde la dejaste.'
+    a: 'El Pack Raíz está pensado para empezar desde cero: las 10 clases están ordenadas de menor a mayor exigencia, con instrucciones precisas de ajuste físico en cada una.'
   },
 ]
 
@@ -34,21 +35,24 @@ const BENEFICIOS_GRATIS = [
 
 const BENEFICIOS_PACK = [
   'Todo lo del plan gratuito',
-  '10 clases completas de yoga en vídeo',
+  '10 clases con ajustes físicos precisos',
   'Movilidad Funcional (5 clases)',
   'Respiración Consciente (5 clases)',
+  'Ordenadas de menor a mayor exigencia',
   'Acceso para siempre, un único pago',
-  'Sin renovación, sin suscripción',
 ]
 
-const BENEFICIOS_PAGO = [
-  'Todo lo del Pack Raíz',
-  'Acceso ilimitado al Aula Online',
-  'Todas las clases nuevas cada mes',
-  'Niveles 1, 2 y 3: de principiante a avanzado',
-  'La Travesía: el camino completo de 50 etapas',
-  'Cancela cuando quieras, sin compromiso',
-]
+// BENEFICIOS_PAGO y <MonthlyCard/> (más abajo) quedan sin usar mientras la
+// suscripción mensual está en standby — ver frontend/src/pages/_archivo/.
+// Reactivar cuando el Aula tenga suficiente contenido nuevo.
+// const BENEFICIOS_PAGO = [
+//   'Todo lo del Pack Raíz',
+//   'Acceso ilimitado al Aula Online',
+//   'Todas las clases nuevas cada mes',
+//   'Niveles 1, 2 y 3: de principiante a avanzado',
+//   'La Travesía: el camino completo de 50 etapas',
+//   'Cancela cuando quieras, sin compromiso',
+// ]
 
 function FaqAccordion() {
   const [openIndex, setOpenIndex] = useState(null)
@@ -135,26 +139,26 @@ function PackCard({ onBuy, loading, error, owned }) {
   )
 }
 
-// ── Tarjeta de suscripción mensual (en construcción) ───────────────────────
-function MonthlyCard() {
-  return (
-    <div className="plan-card">
-      <span className="plan-badge plan-badge-popular">En construcción</span>
-      <p className="plan-name">Plan Mensual</p>
-      <div className="plan-price">
-        <span className="plan-amount">19</span>
-        <span className="plan-precio-sym">€</span>
-        <span className="plan-period">/mes</span>
-      </div>
-      <p className="plan-billing">Próximamente</p>
-      <div className="plan-divider" />
-      <ul className="plan-features">
-        {BENEFICIOS_PAGO.map(b => <li key={b}>{b}</li>)}
-      </ul>
-      <p className="plan-proximamente">Disponible cuando el Aula tenga más clases</p>
-    </div>
-  )
-}
+// ── Tarjeta de suscripción mensual (en standby, sin usar — ver nota arriba) ─
+// function MonthlyCard() {
+//   return (
+//     <div className="plan-card">
+//       <span className="plan-badge plan-badge-popular">En construcción</span>
+//       <p className="plan-name">Plan Mensual</p>
+//       <div className="plan-price">
+//         <span className="plan-amount">19</span>
+//         <span className="plan-precio-sym">€</span>
+//         <span className="plan-period">/mes</span>
+//       </div>
+//       <p className="plan-billing">Próximamente</p>
+//       <div className="plan-divider" />
+//       <ul className="plan-features">
+//         {BENEFICIOS_PAGO.map(b => <li key={b}>{b}</li>)}
+//       </ul>
+//       <p className="plan-proximamente">Disponible cuando el Aula tenga más clases</p>
+//     </div>
+//   )
+// }
 
 // ── Vista para visitantes sin cuenta ──────────────────────────────────────────
 function VisitorPlans({ onBuyPack, onOpenRegister, loading, error }) {
@@ -163,10 +167,9 @@ function VisitorPlans({ onBuyPack, onOpenRegister, loading, error }) {
       <p className="clases-desc-eyebrow">Elige tu acceso</p>
       <h2 className="plans-title">¿Por dónde <em>empezamos</em>?</h2>
       <p className="plans-subtitle">Puedes empezar gratis y ampliar cuando quieras.</p>
-      <div className="plans-grid plans-grid-3">
+      <div className="plans-grid">
         <FreeCard onOpenRegister={onOpenRegister} />
         <PackCard onBuy={onBuyPack} loading={loading} error={error} owned={false} />
-        <MonthlyCard />
       </div>
     </section>
   )
@@ -191,9 +194,8 @@ function FreeUserUpgrade({ user, ownsPack, onBuyPack, loading, error }) {
         {ownsPack ? <>Tu <em>Pack Raíz</em></> : <>Consigue el <em>Pack Raíz</em></>}
       </h2>
       <p className="plans-subtitle">10 clases de yoga en vídeo, tuyas para siempre.</p>
-      <div className="plans-grid">
+      <div className="plans-grid plans-grid-single">
         <PackCard onBuy={onBuyPack} loading={loading} error={error} owned={ownsPack} />
-        <MonthlyCard />
       </div>
       {ownsPack && (
         <p style={{ textAlign: 'center', marginTop: '2rem' }}>

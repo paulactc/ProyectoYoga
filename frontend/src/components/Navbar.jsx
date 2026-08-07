@@ -36,10 +36,11 @@ export default function Navbar({ onOpenLogin }) {
             Tierra en Calma
           </Link>
         </li>
-        <li><Link to="/aula-online" className={isActive('/aula-online')} onClick={closeMenu}>Aula Online</Link></li>
+        <li><Link to="/aula-online" className={isActive('/aula-online')} onClick={closeMenu}>Practicar</Link></li>
         <li><a href="/#sobre-mi" onClick={closeMenu}>Qué es Yoga Tierra</a></li>
+        <li><Link to="/blog" className={isActive('/blog')} onClick={closeMenu}>Blog</Link></li>
         <li><a href="/#contacto" onClick={closeMenu}>Contacto</a></li>
-        <li><Link to="/suscripcion" className={isActive('/suscripcion')} onClick={closeMenu}>Suscripción</Link></li>
+        <li><Link to="/suscripcion" className={isActive('/suscripcion')} onClick={closeMenu}>El Pack</Link></li>
         {user ? (
           <>
             <li><Link to="/mi-cuenta" className={isActive('/mi-cuenta')} onClick={closeMenu}>Mi cuenta</Link></li>
@@ -62,10 +63,7 @@ export default function Navbar({ onOpenLogin }) {
             <button className="btn btn-sm btn-ghost" onClick={logout}>Salir</button>
           </>
         ) : (
-          <>
-            <button className="btn btn-sm btn-ghost" onClick={onOpenLogin}>Iniciar sesión</button>
-            <Link to="/suscripcion" className={`btn btn-sm${location.pathname === '/suscripcion' ? ' btn-tierra' : ''}`}>Prueba gratuita</Link>
-          </>
+          <button className="btn btn-sm btn-ghost" onClick={onOpenLogin}>Iniciar sesión</button>
         )}
       </div>
 

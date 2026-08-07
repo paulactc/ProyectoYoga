@@ -35,7 +35,7 @@ export default function MiCuentaPage({ onOpenLogin }) {
           <p className="cuenta-login-sub">Accede a tu cuenta para ver tus pedidos, suscripción y detalles.</p>
           <button className="btn" onClick={onOpenLogin}>Iniciar sesión</button>
           <p className="auth-modal-foot" style={{ marginTop: '1.5rem' }}>
-            ¿Aún no tienes cuenta? <Link to="/suscripcion">Prueba gratuita →</Link>
+            ¿Aún no tienes cuenta? <Link to="/suscripcion">Crear cuenta gratis →</Link>
           </p>
         </div>
       </main>
@@ -119,9 +119,9 @@ function PanelPedidos({ token }) {
             return (
               <div className="pedido-card" key={p.id}>
                 <div className="pedido-card-info">
-                  <p className="pedido-titulo">Suscripción mensual</p>
+                  <p className="pedido-titulo">{p.tipo === 'pack' ? 'Pack Raíz' : 'Suscripción mensual'}</p>
                   <p className="pedido-fecha">
-                    {fmtDate(p.fecha_inicio)} — {fmtDate(p.fecha_fin)}
+                    {p.tipo === 'pack' ? fmtDate(p.created_at) : `${fmtDate(p.fecha_inicio)} — ${fmtDate(p.fecha_fin)}`}
                   </p>
                   <span className={`pedido-estado ${estado.cls}`}>{estado.label}</span>
                 </div>

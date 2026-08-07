@@ -4,14 +4,24 @@ const { executeQuery, executeTransaction } = require('../config/database');
 
 class CuentaController {
   // ── Pedidos ──────────────────────────────────────────────────────────
+  // Un "pedido" puede venir de la suscripción mensual (tabla `suscripciones`,
+  // en standby) o del Pack Raíz (tabla `compras_pack`, la compra principal
+  // hoy). Se combinan con UNION y se distinguen por el prefijo del id
+  // ('sub-'/'pack-') para poder pedir la factura correcta después.
   static async getPedidos(req, res) {
     try {
       const result = await executeQuery(
-        `SELECT id, estado, importe, fecha_inicio, fecha_fin, created_at
+        `SELECT CONCAT('sub-', id) AS id, 'suscripcion' AS tipo, estado, importe,
+                fecha_inicio, fecha_fin, created_at
          FROM suscripciones
          WHERE usuario_id = ?
+         UNION ALL
+         SELECT CONCAT('pack-', id) AS id, 'pack' AS tipo, 'activa' AS estado, importe,
+                NULL AS fecha_inicio, NULL AS fecha_fin, created_at
+         FROM compras_pack
+         WHERE usuario_id = ?
          ORDER BY created_at DESC`,
-        [req.user.id]
+        [req.user.id, req.user.id]
       );
       res.json({ success: true, data: result.success ? result.data : [] });
     } catch (err) {
@@ -23,20 +33,38 @@ class CuentaController {
   static async getFactura(req, res) {
     try {
       const { id } = req.params;
-      const result = await executeQuery(
-        `SELECT s.id, s.estado, s.importe, s.fecha_inicio, s.fecha_fin, s.created_at,
-                u.nombre, u.apellidos, u.email
-         FROM suscripciones s
-         JOIN usuarios u ON u.id = s.usuario_id
-         WHERE s.id = ? AND s.usuario_id = ?`,
-        [id, req.user.id]
-      );
+      const esPack = String(id).startsWith('pack-');
+      const rawId = esPack ? id.slice(5) : id.replace(/^sub-/, '');
+
+      const result = esPack
+        ? await executeQuery(
+            `SELECT cp.id, 'activa' AS estado, cp.importe, cp.created_at, cp.pack_slug,
+                    u.nombre, u.apellidos, u.email
+             FROM compras_pack cp
+             JOIN usuarios u ON u.id = cp.usuario_id
+             WHERE cp.id = ? AND cp.usuario_id = ?`,
+            [rawId, req.user.id]
+          )
+        : await executeQuery(
+            `SELECT s.id, s.estado, s.importe, s.fecha_inicio, s.fecha_fin, s.created_at,
+                    u.nombre, u.apellidos, u.email
+             FROM suscripciones s
+             JOIN usuarios u ON u.id = s.usuario_id
+             WHERE s.id = ? AND s.usuario_id = ?`,
+            [rawId, req.user.id]
+          );
 
       if (!result.success || result.data.length === 0) {
         return res.status(404).json({ success: false, message: 'Pedido no encontrado' });
       }
 
       const sub = result.data[0];
+      const concepto = esPack
+        ? 'Pack Raíz – Yoga Tierra Viva (10 clases, pago único)'
+        : 'Suscripción mensual – Yoga Tierra Viva';
+      const periodoTexto = esPack
+        ? 'Pago único'
+        : `${fmtDate(sub.fecha_inicio)} – ${fmtDate(sub.fecha_fin)}`;
 
       const dirResult = await executeQuery(
         'SELECT nombre, apellidos, nif, calle, ciudad, provincia, cp, pais FROM direcciones WHERE usuario_id = ?',
@@ -47,7 +75,7 @@ class CuentaController {
       // Factura completa si tiene NIF + dirección; simplificada en caso contrario
       const esCompleta = dir && dir.nif && dir.calle && dir.ciudad;
 
-      const numFactura = `FAC-${new Date(sub.created_at).getFullYear()}-${String(sub.id).padStart(4, '0')}`;
+      const numFactura = `FAC-${new Date(sub.created_at).getFullYear()}-${esPack ? 'P' : 'S'}${String(sub.id).padStart(4, '0')}`;
       const tipoLabel = esCompleta ? 'FACTURA' : 'FACTURA SIMPLIFICADA';
 
       const doc = new PDFDocument({ size: 'A4', margin: 50 });
@@ -109,8 +137,8 @@ class CuentaController {
       const rowY = tableTop + 24;
       doc.rect(50, rowY, 495, 30).fill('#fdf8f2');
       doc.fillColor('#000').font('Helvetica').fontSize(10)
-        .text('Suscripción mensual – Yoga Tierra Viva', 60, rowY + 10)
-        .text(`${fmtDate(sub.fecha_inicio)} – ${fmtDate(sub.fecha_fin)}`, 270, rowY + 10)
+        .text(concepto, 60, rowY + 10)
+        .text(periodoTexto, 270, rowY + 10)
         .text(`${Number(sub.importe).toFixed(2)} €`, 470, rowY + 10);
 
       // ── Total ──

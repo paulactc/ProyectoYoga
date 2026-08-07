@@ -30,6 +30,8 @@ import PoliticaPrivacidadPage from './pages/PoliticaPrivacidadPage'
 import AudiosPage from './pages/AudiosPage'
 import SobreMiPage from './pages/SobreMiPage'
 import AdminPage from './pages/AdminPage'
+import BlogPage from './pages/BlogPage'
+import BlogPostPage from './pages/BlogPostPage'
 
 export default function App() {
   const [loginOpen, setLoginOpen] = useState(false)
@@ -55,6 +57,8 @@ export default function App() {
         <Route path="/aviso-legal" element={<AvisoLegalPage />} />
         <Route path="/politica-privacidad" element={<PoliticaPrivacidadPage />} />
         <Route path="/sobre-mi" element={<SobreMiPage />} />
+        <Route path="/blog" element={<BlogPage />} />
+        <Route path="/blog/:slug" element={<BlogPostPage />} />
         <Route path="/admin" element={<AdminPage />} />
       </Routes>
       <Footer />
