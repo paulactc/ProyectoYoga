@@ -1,3 +1,59 @@
+import { useEffect, useRef, useState } from 'react'
+
+function StatCounter({ valor, etiqueta }) {
+  const [conteo, setConteo] = useState(0)
+  const ref = useRef(null)
+  const animado = useRef(false)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+
+    const animar = () => {
+      if (animado.current) return
+      animado.current = true
+      const duracion = 1400
+      const inicio = performance.now()
+      const paso = (ahora) => {
+        const progreso = Math.min((ahora - inicio) / duracion, 1)
+        const facilitado = 1 - Math.pow(1 - progreso, 3)
+        setConteo(Math.round(facilitado * valor))
+        if (progreso < 1) requestAnimationFrame(paso)
+      }
+      requestAnimationFrame(paso)
+    }
+
+    if (typeof IntersectionObserver === 'undefined') {
+      animar()
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) animar()
+      },
+      { threshold: 0.2 }
+    )
+    observer.observe(el)
+
+    // Red de seguridad: si el elemento ya está visible al montar, algunos
+    // navegadores retrasan el primer callback del observer más de la cuenta.
+    const rect = el.getBoundingClientRect()
+    if (rect.top < window.innerHeight && rect.bottom > 0) animar()
+
+    return () => observer.disconnect()
+  }, [valor])
+
+  return (
+    <div className="sobre-stat" ref={ref}>
+      <p className="sobre-stat-numero">
+        {conteo}<span className="sobre-stat-plus">+</span>
+      </p>
+      <p className="sobre-stat-label">{etiqueta}</p>
+    </div>
+  )
+}
+
 export default function SobreMiPage() {
   return (
     <div className="sobre-page">
@@ -16,14 +72,18 @@ export default function SobreMiPage() {
           <div className="sobre-bio-texto">
             <h2>Qué es <em>Yoga Tierra Viva</em></h2>
 <p>
-              Soy una persona empática y social, con una profunda sensibilidad
-              hacia el bienestar común. Me motiva crear vínculos significativos
-              y construir espacios más humanos, conscientes y cohesionados.
+              Desde siempre me ha movido el bienestar común, y eso es lo que
+              me lleva a crear vínculos significativos y a construir espacios
+              más humanos, conscientes y cohesionados.
             </p>
             <p>
-              Desde <strong>2019</strong> imparto clases presenciales en distintos
+              Desde <strong>2017</strong> imparto clases presenciales en distintos
               centros, combinando metodología Hatha y Vinyasa adaptada
-              a cada grupo y ritmo de vida.
+              a cada grupo y ritmo de vida. A esto se suman colaboraciones
+              habituales impartiendo talleres monográficos de temática variada,
+              que abarcan desde el trabajo físico y postural de las asanas
+              hasta planos más sutiles como la respiración, la meditación
+              y la gestión emocional.
             </p>
             <p>
               Mi forma de enseñar y de acompañar se apoya en la sencillez y la cercanía,
@@ -41,6 +101,14 @@ export default function SobreMiPage() {
               a una manera más propia, más auténtica, de relacionarte contigo mism@ y con el mundo.
             </p>
           </div>
+        </div>
+      </section>
+
+      <section className="sobre-stats">
+        <div className="sobre-stats-inner">
+          <StatCounter valor={9} etiqueta="Años de experiencia" />
+          <StatCounter valor={20} etiqueta="Talleres de formación" />
+          <StatCounter valor={50} etiqueta="Alumnos" />
         </div>
       </section>
 

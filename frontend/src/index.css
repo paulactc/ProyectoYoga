@@ -3759,12 +3759,15 @@ a.nav-logo {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 42%;
+  object-position: 60% 65%;
   display: block;
   transition: transform 0.6s ease;
 }
 
 .online-teaser-img:hover img { transform: scale(1.03); }
+
+.online-teaser-img--zoom img { transform: rotate(-2deg) scale(1.275); transform-origin: left 75%; }
+.online-teaser-img--zoom:hover img { transform: rotate(-2deg) scale(1.32); }
 
 .online-teaser-text {
   background: var(--sand);
@@ -5473,6 +5476,7 @@ a.nav-logo {
     min-height: auto;
   }
   .online-teaser-img { height: 55vw; min-height: 260px; }
+  .online-teaser-img img { object-position: 75% 65%; }
   .online-teaser-text {
     padding: 3rem 1.75rem;
   }
@@ -6636,6 +6640,50 @@ a.nav-logo {
   font-size: 1rem;
 }
 
+.sobre-stats {
+  padding: 3.5rem 2rem;
+  background: linear-gradient(135deg, #8b5e3c 0%, #6b4529 100%);
+}
+.sobre-stats-inner {
+  max-width: 780px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+.sobre-stat {
+  position: relative;
+  text-align: center;
+  padding: 0 1rem;
+}
+.sobre-stat:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 56%;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.2);
+}
+.sobre-stat-numero {
+  font-family: var(--font-heading);
+  font-size: clamp(2.6rem, 5vw, 3.4rem);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+.sobre-stat-plus { color: #d4a060; }
+.sobre-stat-label {
+  margin: 0.65rem 0 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.75);
+  font-family: var(--font-body);
+}
+
 .sobre-formacion {
   padding: 4rem 2rem 5rem;
   background: #fdf9f5;
@@ -6758,6 +6806,8 @@ a.nav-logo {
   .sobre-bio-foto img { aspect-ratio: 4/3; max-height: 280px; }
   .sobre-cert-grid { grid-template-columns: 1fr; }
   .sobre-cert-anno { font-size: 2.8rem; }
+  .sobre-stats-inner { grid-template-columns: 1fr; gap: 1.75rem; }
+  .sobre-stat:not(:last-child)::after { display: none; }
 }
 
 @media (max-width: 860px) {
@@ -7044,9 +7094,9 @@ a.nav-logo {
 }
 .servicios-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  max-width: 960px;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1.75rem;
+  max-width: 1180px;
   margin: 2.75rem auto 0;
   text-align: left;
 }
@@ -7075,6 +7125,9 @@ a.nav-logo {
   margin: 0 0 1.25rem;
 }
 
+@media (max-width: 1024px) {
+  .servicios-grid { grid-template-columns: 1fr 1fr; max-width: 720px; }
+}
 @media (max-width: 760px) {
   .servicios-grid { grid-template-columns: 1fr; }
 }

@@ -72,28 +72,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* TIERRA EN CALMA — showcase */}
-      <section className="tq-showcase">
-        <div className="tq-showcase-bg" />
-        <div className="tq-showcase-inner">
-          <div className="tq-showcase-text">
-            <h2 className="tq-titulo">Tierra <em>en Calma</em></h2>
-            <p className="tq-desc">Meditaciones guiadas de noche para soltar la tensión del día y preparar el cuerpo y la mente para el descanso profundo.</p>
-            <Link to="/audios" className="tq-cta">
-              Escuchar ahora GRATIS <span>→</span>
-            </Link>
-          </div>
-          <div className="tq-feature">
-            <div className="tq-feature-glow" />
-            <span className="tq-feature-moon">☽</span>
-            <p className="tq-feature-nombre">Antes de dormir</p>
-            <p className="tq-feature-desc">Una meditación guiada para soltar la tensión del día, calmar el sistema nervioso y preparar el cuerpo y la mente para el descanso.</p>
-            <span className="tq-feature-sep" />
-            <p className="tq-feature-hint">Cierra el día con calma · 10-15 min</p>
-          </div>
-        </div>
-      </section>
-
       {/* NUESTRA FORMA DE PRACTICAR */}
       <section id="clases" className="clases-desc-section">
         <p className="clases-desc-eyebrow">Nuestra forma de practicar</p>
@@ -106,74 +84,6 @@ export default function HomePage() {
           <div className="clases-desc-item">
             <h3>La respiración y la mente</h3>
             <p>La respiración conecta el cuerpo y la mente de formas que sorprenden. Aprenderás a usarla para calmarte, centrarte y encontrar tu propio equilibrio cuando el día se complica.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* EL PACK RAÍZ — presentación del producto principal */}
-      {/*
-        Antes esta sección era un teaser de 3 cajas (La Travesía / Explora / Grupos)
-        que enlazaban a distintas vistas del Aula Online con suscripción mensual.
-        Se archivó junto con esas vistas — ver frontend/src/pages/_archivo/.
-      */}
-      <section className="online-teaser">
-        <div className="online-teaser-img">
-          <img src="/images/yoga11.jpg" alt="Ajuste físico preciso en clase de movilidad funcional" />
-        </div>
-        <div className="online-teaser-text">
-          <p className="hero-eyebrow">Pack Raíz</p>
-          <h2>Diez clases.<br /><em>Ajustes precisos, para siempre.</em></h2>
-          <p className="online-teaser-desc">
-            Nada de contenido infinito ni suscripción. Un recorrido cerrado de 10 clases,
-            pensado de menor a mayor exigencia, con instrucciones de ajuste físico
-            detalladas en cada postura.
-          </p>
-          <div className="teaser-pastel-grid">
-            <div className="teaser-pastel-box teaser-pastel-box--1">
-              <p className="teaser-pastel-nombre">Ajustes precisos</p>
-              <p className="teaser-pastel-desc">Indicaciones claras de alineación en cada clase, no solo posturas.</p>
-            </div>
-            <div className="teaser-pastel-box teaser-pastel-box--2">
-              <p className="teaser-pastel-nombre">Movilidad funcional</p>
-              <p className="teaser-pastel-desc">Patrones de movimiento que tu cuerpo usa de verdad, cada día.</p>
-            </div>
-            <div className="teaser-pastel-box teaser-pastel-box--3">
-              <p className="teaser-pastel-nombre">Pago único</p>
-              <p className="teaser-pastel-desc">15€, sin renovaciones. El pack es tuyo para siempre.</p>
-            </div>
-          </div>
-          <Link to="/suscripcion" className="btn">Ver el Pack Raíz →</Link>
-        </div>
-      </section>
-
-      {/* CLASES PARTICULARES Y EN DIRECTO */}
-      <section className="servicios-section">
-        <p className="clases-desc-eyebrow">Trato personal, tú a tú</p>
-        <h2 className="servicios-titulo">Otras formas de <em>practicar conmigo</em></h2>
-        <p className="servicios-sub">
-          Cada cuerpo y cada historia son distintos — a veces el vídeo no basta.
-          Estas dos opciones son para cuando quieres una práctica pensada solo para ti.
-        </p>
-        <div className="servicios-grid">
-          <div className="servicio-card">
-            <div className="servicio-card-img">
-              <img src="/images/yoga-21.jpg" alt="Clase particular de yoga uno a uno" />
-            </div>
-            <div className="servicio-card-body">
-              <h3>Clases particulares, 1 a 1</h3>
-              <p>Sesiones diseñadas solo para ti: tu cuerpo, tu historia, tu ritmo. Trabajamos exactamente lo que necesitas, sin encajar en un molde ni compartir el tiempo con nadie más.</p>
-              <a href="#contacto" className="btn btn-outline">Consultar disponibilidad →</a>
-            </div>
-          </div>
-          <div className="servicio-card">
-            <div className="servicio-card-img">
-              <img src="/images/avanzadoa2.jpg" alt="Clase de yoga online en directo por videollamada" />
-            </div>
-            <div className="servicio-card-body">
-              <h3>Clases en directo, online</h3>
-              <p>Practica conmigo en tiempo real por videollamada, en sesión individual o en grupo reducido. La cercanía de una clase presencial, desde donde estés.</p>
-              <a href="#contacto" className="btn btn-outline">Consultar disponibilidad →</a>
-            </div>
           </div>
         </div>
       </section>
@@ -191,6 +101,84 @@ export default function HomePage() {
           <div className="sobre-mi-img">
             <img src="/images/latravesia1.jpg" alt="Instructora de yoga" />
           </div>
+        </div>
+      </section>
+
+      {/* FORMAS DE PRACTICAR CONMIGO — presencial, privada u online */}
+      <section className="servicios-section">
+        <p className="clases-desc-eyebrow">Cómo practicar conmigo</p>
+        <h2 className="servicios-titulo">Distintas formas de <em>practicar conmigo</em></h2>
+        <p className="servicios-sub">
+          Presencial, en sesión privada o en directo por videollamada — elige el
+          formato que mejor encaja con tu momento y tu ritmo de vida.
+        </p>
+        <div className="servicios-grid">
+          <div className="servicio-card">
+            <div className="servicio-card-img">
+              <img src="/images/grupomovilidad1.jpg" alt="Clase de yoga presencial en grupo" />
+            </div>
+            <div className="servicio-card-body">
+              <h3>Clases presenciales, en grupo</h3>
+              <p>En distintos centros, con metodología adaptada a cada grupo y ajustes físicos precisos en cada postura. Mi forma habitual de dar clase desde 2017.</p>
+              <a href="#contacto" className="btn btn-outline">Consultar horarios y centros →</a>
+            </div>
+          </div>
+          <div className="servicio-card">
+            <div className="servicio-card-img">
+              <img src="/images/yoga-21.jpg" alt="Clase privada de yoga uno a uno" />
+            </div>
+            <div className="servicio-card-body">
+              <h3>Clases privadas, 1 a 1</h3>
+              <p>Sesiones diseñadas solo para ti: tu cuerpo, tu historia, tu ritmo. Trabajamos exactamente lo que necesitas, sin encajar en un molde ni compartir el tiempo con nadie más.</p>
+              <a href="#contacto" className="btn btn-outline">Consultar disponibilidad →</a>
+            </div>
+          </div>
+          <div className="servicio-card">
+            <div className="servicio-card-img">
+              <img src="/images/avanzadoa2.jpg" alt="Clase de yoga online en directo por videollamada" />
+            </div>
+            <div className="servicio-card-body">
+              <h3>Clases en directo, online</h3>
+              <p>Practica conmigo en tiempo real por videollamada, en sesión individual o en grupo reducido. La cercanía de una clase presencial, desde donde estés.</p>
+              <a href="#contacto" className="btn btn-outline">Consultar disponibilidad →</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* EL PACK RAÍZ — apoyo a la práctica, no el centro de la web */}
+      {/*
+        Antes esta sección era un teaser de 3 cajas (La Travesía / Explora / Grupos)
+        que enlazaban a distintas vistas del Aula Online con suscripción mensual.
+        Se archivó junto con esas vistas — ver frontend/src/pages/_archivo/.
+      */}
+      <section className="online-teaser">
+        <div className="online-teaser-img online-teaser-img--zoom">
+          <img src="/images/yoga17.jpg" alt="Ajuste físico preciso en clase de movilidad funcional" />
+        </div>
+        <div className="online-teaser-text">
+          <p className="hero-eyebrow">Un apoyo para tu práctica</p>
+          <h2>Diez clases para<br /><em>practicar en casa, a tu ritmo</em></h2>
+          <p className="online-teaser-desc">
+            Mi foco es acompañarte en persona. El Pack Raíz es un extra: pensado
+            para esos momentos puntuales en los que quieres practicar en casa
+            a tu ritmo, o para conocer mi forma de enseñar antes de venir a clase.
+          </p>
+          <div className="teaser-pastel-grid">
+            <div className="teaser-pastel-box teaser-pastel-box--1">
+              <p className="teaser-pastel-nombre">Ajustes precisos</p>
+              <p className="teaser-pastel-desc">Indicaciones claras de alineación en cada clase, no solo posturas.</p>
+            </div>
+            <div className="teaser-pastel-box teaser-pastel-box--2">
+              <p className="teaser-pastel-nombre">Movilidad funcional</p>
+              <p className="teaser-pastel-desc">Patrones de movimiento que tu cuerpo usa de verdad, cada día.</p>
+            </div>
+            <div className="teaser-pastel-box teaser-pastel-box--3">
+              <p className="teaser-pastel-nombre">Pago único</p>
+              <p className="teaser-pastel-desc">15€, sin renovaciones. El pack es tuyo para siempre.</p>
+            </div>
+          </div>
+          <Link to="/suscripcion" className="btn">Ver el Pack Raíz →</Link>
         </div>
       </section>
 
@@ -218,8 +206,8 @@ export default function HomePage() {
                 <rect x="2" y="6" width="13" height="12" rx="2"/>
               </svg>
             </span>
-            <span className="stat-label">10 clases del Pack Raíz</span>
-            <span className="stat-detail">de 30 y 60 minutos, a tu ritmo</span>
+            <span className="stat-label">Pack Raíz de apoyo</span>
+            <span className="stat-detail">10 clases para practicar en casa, a tu ritmo</span>
           </div>
 
           <div className="stat-item">
@@ -266,6 +254,28 @@ export default function HomePage() {
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* TIERRA EN CALMA — showcase, en segundo plano al final del recorrido */}
+      <section className="tq-showcase">
+        <div className="tq-showcase-bg" />
+        <div className="tq-showcase-inner">
+          <div className="tq-showcase-text">
+            <h2 className="tq-titulo">Tierra <em>en Calma</em></h2>
+            <p className="tq-desc">Meditaciones guiadas de noche para soltar la tensión del día y preparar el cuerpo y la mente para el descanso profundo.</p>
+            <Link to="/audios" className="tq-cta">
+              Escuchar ahora GRATIS <span>→</span>
+            </Link>
+          </div>
+          <div className="tq-feature">
+            <div className="tq-feature-glow" />
+            <span className="tq-feature-moon">☽</span>
+            <p className="tq-feature-nombre">Antes de dormir</p>
+            <p className="tq-feature-desc">Una meditación guiada para soltar la tensión del día, calmar el sistema nervioso y preparar el cuerpo y la mente para el descanso.</p>
+            <span className="tq-feature-sep" />
+            <p className="tq-feature-hint">Cierra el día con calma · 10-15 min</p>
+          </div>
         </div>
       </section>
 
