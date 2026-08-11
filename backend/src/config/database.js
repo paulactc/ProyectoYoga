@@ -603,6 +603,24 @@ async function runMigrations() {
     );
   });
 
+  await runSafeMigration('Seed clases grupo 3 Vinyasa', async () => {
+    const [[{ cnt }]] = await pool.execute(
+      `SELECT COUNT(*) as cnt FROM clases WHERE grupo_id = 3`
+    );
+    if (cnt === 0) {
+      const clases = [
+        ['Del cuerpo al silencio',      'Del cuerpo al silencio: una práctica que va soltando capas hasta llegar a la quietud interior.', 60, 2, '/images/yoga11.jpg', '1206825714', 1, 1],
+        ['El regreso constante',        'Una clase para practicar el gesto más honesto del yoga: darte cuenta de que la mente se fue, y volver. Sin culpa, sin esperar quedarte quieta para siempre, solo notar y regresar al cuerpo, una y otra vez, tantas veces como haga falta.', 30, 2, '/images/yoga14.jpg', '1210240715', 2, 1],
+      ];
+      for (const [titulo, descripcion, duracion, nivel, imagen, vimeo_id, orden, disponible] of clases) {
+        await pool.execute(
+          `INSERT INTO clases (grupo_id, titulo, descripcion, duracion, nivel, imagen, vimeo_id, orden, disponible) VALUES (3, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          [titulo, descripcion, duracion, nivel, imagen, vimeo_id, orden, disponible]
+        );
+      }
+    }
+  });
+
   await runSafeMigration('Usuario admin por defecto', async () => {
     const [rows] = await pool.execute("SELECT id FROM usuarios WHERE rol = 'admin' LIMIT 1");
     if (rows.length === 0) {

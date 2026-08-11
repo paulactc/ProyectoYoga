@@ -60,7 +60,7 @@ class CuentaController {
 
       const sub = result.data[0];
       const concepto = esPack
-        ? 'Pack Raíz – Yoga Tierra Viva (10 clases, pago único)'
+        ? 'Pack Raíz – Yoga Tierra Viva (7 clases, pago único)'
         : 'Suscripción mensual – Yoga Tierra Viva';
       const periodoTexto = esPack
         ? 'Pago único'

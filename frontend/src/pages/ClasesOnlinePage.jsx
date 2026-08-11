@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext'
 // El sistema de "La Travesía" (50 clases) y el selector de métodos con
 // Explora/Grupos quedaron archivados en ./_archivo/TravesiaSuscripcionMensual.jsx
 // (ver cabecera de ese fichero). Esta página ahora muestra un único recorrido:
-// las 10 clases del Pack Raíz, en el orden en que están pensadas para practicarse.
+// las 7 clases del Pack Raíz, en el orden en que están pensadas para practicarse.
 const GRUPOS = [
   {
     id: 1,
@@ -22,17 +22,14 @@ const GRUPOS = [
     ],
   },
   {
-    id: 2,
-    tipo: 'pranayama',
-    nombre: 'Respiración Consciente',
-    descripcion: 'El pranayama es la puerta entre el cuerpo y la mente. Aprende a usar la respiración como herramienta de regulación, enfoque y calma profunda.',
-    meta: '5 clases · 10-18 min · Todos los niveles',
+    id: 3,
+    tipo: 'vinyasa',
+    nombre: 'Vinyasa',
+    descripcion: 'Flujo continuo de posturas coordinadas con la respiración. Secuencias para llevar la conciencia del cuerpo a un movimiento más fluido.',
+    meta: '2 clases · 30-60 min · Nivel intermedio',
     clases: [
-      { id: 'g2-1', titulo: 'Volver al aire',                   subtitulo: 'Respiración diafragmática',           duracion: 10, nivel: 1, descripcion: 'Solo observación. Notar cómo respiras cuando nadie te está mirando, sin cambiar nada.',                                                              imagen: '/images/respiracionconsciente1.jpg' },
-      { id: 'g2-2', titulo: 'Alargar el camino de vuelta',     subtitulo: 'Dirga pranayama · 3 partes',          duracion: 12, nivel: 1, descripcion: 'Exhalar más despacio le dice al cuerpo que puede soltar.',                                                                                          imagen: '/images/yoga1.jpg' },
-      { id: 'g2-3', titulo: 'Encontrar el equilibrio',         subtitulo: 'Nadi Shodhana · respiración alterna', duracion: 15, nivel: 1, descripcion: 'Equilibrio entre esfuerzo y descanso, activación y calma.',                                                                                        imagen: '/images/yoga3.jpg' },
-      { id: 'g2-4', titulo: 'La respiración como ancla',       subtitulo: 'Ujjayi',                              duracion: 15, nivel: 1, descripcion: 'La respiración deja de ser pasiva y se convierte en un punto de apoyo activo, útil también fuera del mat.',                                        imagen: '/images/yoga5.jpg' },
-      { id: 'g2-5', titulo: 'El espacio entre respiraciones',  subtitulo: 'Kumbhaka suave · retención breve',    duracion: 18, nivel: 1, descripcion: 'La quietud no es ausencia de respiración, es un tipo distinto de presencia.',                                                                      imagen: '/images/yoga13.jpg' },
+      { id: 'g3-1', titulo: 'Del cuerpo al silencio',        duracion: 60, nivel: 2, descripcion: 'Del cuerpo al silencio: una práctica que va soltando capas hasta llegar a la quietud interior.', imagen: '/images/yoga11.jpg', vimeo_id: '1206825714' },
+      { id: 'g3-2', titulo: 'El regreso constante',          duracion: 30, nivel: 2, descripcion: 'Una clase para practicar el gesto más honesto del yoga: darte cuenta de que la mente se fue, y volver. Sin culpa, sin esperar quedarte quieta para siempre, solo notar y regresar al cuerpo, una y otra vez, tantas veces como haga falta.', imagen: '/images/yoga14.jpg', vimeo_id: '1210240715' },
     ],
   },
 ]
@@ -101,8 +98,8 @@ export default function ClasesOnlinePage() {
     window.scrollTo({ top: 0 })
   }, [])
 
-  // Datos en vivo desde el backend por grupo — si se suben vídeos nuevos
-  // (p.ej. a las clases de Respiración Consciente), aparecen sin tocar el frontend.
+  // Datos en vivo desde el backend por grupo — si se suben vídeos nuevos,
+  // aparecen sin tocar el frontend.
   useEffect(() => {
     GRUPOS.forEach(async g => {
       try {
@@ -113,8 +110,8 @@ export default function ClasesOnlinePage() {
     })
   }, [])
 
-  // Las 10 clases del pack, en el orden de práctica: Movilidad Funcional primero,
-  // Respiración Consciente después.
+  // Las 7 clases del pack, en el orden de práctica: Movilidad Funcional primero,
+  // Vinyasa después.
   const clasesPack = GRUPOS.flatMap(g => {
     const clases = grupoClases[g.id]?.length ? grupoClases[g.id] : g.clases
     return clases.map(c => ({ ...c, tipo: g.tipo }))
@@ -195,11 +192,11 @@ export default function ClasesOnlinePage() {
       {/* ── Header ── */}
       <header className="page-header--aula">
         <div className="aula-strip">
-          <span className="aula-strip-eyebrow">Pack Raíz · 10 clases</span>
+          <span className="aula-strip-eyebrow">Pack Raíz · 7 clases</span>
           <span className="aula-strip-sep" aria-hidden="true">✦</span>
           <h1 className="aula-strip-h1">Tu <em>Pack</em></h1>
           <span className="aula-strip-sep" aria-hidden="true">✦</span>
-          <span className="aula-strip-sub">Ajustes físicos precisos, movilidad funcional</span>
+          <span className="aula-strip-sub">Ajustes físicos precisos, movilidad funcional y flujo</span>
         </div>
       </header>
 
@@ -208,9 +205,9 @@ export default function ClasesOnlinePage() {
         <p className="clases-desc-eyebrow">Un pack cerrado, no una plataforma infinita</p>
         <h2 className="pack-intro-titulo">Las clases justas, en el orden que tu cuerpo necesita</h2>
         <p className="pack-intro-desc">
-          10 clases pensadas como un único recorrido: primero <strong>Movilidad Funcional</strong>, para
-          activar y alinear el cuerpo con instrucciones precisas de ajuste — luego <strong>Respiración
-          Consciente</strong>, para llevar esa misma atención a la respiración. Sin suscripción y sin
+          7 clases pensadas como un único recorrido: primero <strong>Movilidad Funcional</strong>, para
+          activar y alinear el cuerpo con instrucciones precisas de ajuste — después
+          <strong> vinyasa</strong>, para llevar ese cuerpo a un flujo más continuo. Sin suscripción y sin
           contenido infinito: un pago único, acceso para siempre.
         </p>
       </section>
