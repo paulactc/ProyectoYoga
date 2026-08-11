@@ -87,7 +87,7 @@ export default function HomePage() {
           </div>
           <div className="servicio-card">
             <div className="servicio-card-img servicio-card-img--taller">
-              <img src="/images/yoga8.jpg" alt="Clase privada de yoga uno a uno" />
+              <img src="/images/yogaprivadas.jpg" alt="Clase privada de yoga uno a uno" />
               <span className="servicio-card-tag">Clases privadas</span>
             </div>
             <div className="servicio-card-body">
