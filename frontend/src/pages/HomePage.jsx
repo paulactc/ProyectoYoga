@@ -53,9 +53,6 @@ export default function HomePage() {
           <p className="hero-eyebrow">Movilidad como terapia natural</p>
           <h1><em>Despierta.</em> <span className="hero-h1-main">Siente.</span> <em>Brilla.</em></h1>
           <p className="hero-sub">Construye espacios y caminos a nivel físico y mental, fuera y dentro de la esterilla.</p>
-          <div className="hero-cta">
-            <Link to="/aula-online" className="btn btn-hero-secondary">Practicar</Link>
-          </div>
         </div>
         <div className="hero-image">
           <div className="hero-overlay" />
@@ -69,6 +66,83 @@ export default function HomePage() {
           >
             <source src="/images/hero-video.mp4" type="video/mp4" />
           </video>
+        </div>
+      </section>
+
+      {/* FORMAS DE PRACTICAR CONMIGO — presencial, privada u online */}
+      <section className="servicios-section">
+        <p className="clases-desc-eyebrow">Cómo practicar conmigo</p>
+        <h2 className="servicios-titulo">Distintas formas de <em>practicar conmigo</em></h2>
+        <div className="servicios-grid">
+          <div className="servicio-card">
+            <div className="servicio-card-img servicio-card-img--tall">
+              <img src="/images/yoga-18.jpg" alt="Clase de yoga presencial en grupo" />
+              <span className="servicio-card-tag">Presencial</span>
+            </div>
+            <div className="servicio-card-body">
+              <h3>Clases presenciales, en grupo</h3>
+              <p>En distintos centros, con metodología adaptada a cada grupo y ajustes físicos precisos en cada postura. Mi forma habitual de dar clase desde 2017.</p>
+              <a href="#contacto" className="servicio-card-cta">Consultar horarios y centros <span aria-hidden="true">→</span></a>
+            </div>
+          </div>
+          <div className="servicio-card">
+            <div className="servicio-card-img servicio-card-img--taller">
+              <img src="/images/yoga8.jpg" alt="Clase privada de yoga uno a uno" />
+              <span className="servicio-card-tag">Clases privadas</span>
+            </div>
+            <div className="servicio-card-body">
+              <h3>Clases privadas, 1 a 1</h3>
+              <p>Sesiones diseñadas solo para ti: tu cuerpo, tu historia, tu ritmo. Trabajamos exactamente lo que necesitas, sin encajar en un molde ni compartir el tiempo con nadie más.</p>
+              <a href="#contacto" className="servicio-card-cta">Consultar disponibilidad <span aria-hidden="true">→</span></a>
+            </div>
+          </div>
+          <div className="servicio-card">
+            <div className="servicio-card-img">
+              <img src="/images/avanzadoa2.jpg" alt="Clase de yoga online en directo por videollamada" />
+              <span className="servicio-card-tag">Online</span>
+            </div>
+            <div className="servicio-card-body">
+              <h3>Clases en directo, online</h3>
+              <p>Practica conmigo en tiempo real por videollamada, en sesión individual o en grupo reducido. La cercanía de una clase presencial, desde donde estés.</p>
+              <a href="#contacto" className="servicio-card-cta">Consultar disponibilidad <span aria-hidden="true">→</span></a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* EL PACK RAÍZ — apoyo a la práctica, no el centro de la web */}
+      {/*
+        Antes esta sección era un teaser de 3 cajas (La Travesía / Explora / Grupos)
+        que enlazaban a distintas vistas del Aula Online con suscripción mensual.
+        Se archivó junto con esas vistas — ver frontend/src/pages/_archivo/.
+      */}
+      <section className="online-teaser">
+        <div className="online-teaser-img online-teaser-img--derecha">
+          <img src="/images/yoga17.jpg" alt="Ajuste físico preciso en clase de movilidad funcional" />
+        </div>
+        <div className="online-teaser-text">
+          <p className="hero-eyebrow">Un apoyo para tu práctica</p>
+          <h2>Diez clases para<br /><em>practicar en casa, a tu ritmo</em></h2>
+          <p className="online-teaser-desc">
+            Mi foco es acompañarte en persona. El Pack Raíz es un extra: pensado
+            para esos momentos puntuales en los que quieres practicar en casa
+            a tu ritmo, o para conocer mi forma de enseñar antes de venir a clase.
+          </p>
+          <div className="teaser-pastel-grid">
+            <div className="teaser-pastel-box teaser-pastel-box--1">
+              <p className="teaser-pastel-nombre">Ajustes precisos</p>
+              <p className="teaser-pastel-desc">Indicaciones claras de alineación en cada clase, no solo posturas.</p>
+            </div>
+            <div className="teaser-pastel-box teaser-pastel-box--2">
+              <p className="teaser-pastel-nombre">Movilidad funcional</p>
+              <p className="teaser-pastel-desc">Patrones de movimiento que tu cuerpo usa de verdad, cada día.</p>
+            </div>
+            <div className="teaser-pastel-box teaser-pastel-box--3">
+              <p className="teaser-pastel-nombre">Pago único</p>
+              <p className="teaser-pastel-desc">15€, sin renovaciones. El pack es tuyo para siempre.</p>
+            </div>
+          </div>
+          <Link to="/suscripcion" className="btn">Ver el Pack Raíz →</Link>
         </div>
       </section>
 
@@ -99,86 +173,8 @@ export default function HomePage() {
             <Link to="/sobre-mi" className="btn btn-outline" style={{ marginTop: '1rem', display: 'inline-block', alignSelf: 'center' }}>Saber más</Link>
           </div>
           <div className="sobre-mi-img">
-            <img src="/images/latravesia1.jpg" alt="Instructora de yoga" />
+            <img src="/images/yoga11.jpg" alt="Instructora de yoga" />
           </div>
-        </div>
-      </section>
-
-      {/* FORMAS DE PRACTICAR CONMIGO — presencial, privada u online */}
-      <section className="servicios-section">
-        <p className="clases-desc-eyebrow">Cómo practicar conmigo</p>
-        <h2 className="servicios-titulo">Distintas formas de <em>practicar conmigo</em></h2>
-        <p className="servicios-sub">
-          Presencial, en sesión privada o en directo por videollamada — elige el
-          formato que mejor encaja con tu momento y tu ritmo de vida.
-        </p>
-        <div className="servicios-grid">
-          <div className="servicio-card">
-            <div className="servicio-card-img">
-              <img src="/images/grupomovilidad1.jpg" alt="Clase de yoga presencial en grupo" />
-            </div>
-            <div className="servicio-card-body">
-              <h3>Clases presenciales, en grupo</h3>
-              <p>En distintos centros, con metodología adaptada a cada grupo y ajustes físicos precisos en cada postura. Mi forma habitual de dar clase desde 2017.</p>
-              <a href="#contacto" className="btn btn-outline">Consultar horarios y centros →</a>
-            </div>
-          </div>
-          <div className="servicio-card">
-            <div className="servicio-card-img">
-              <img src="/images/yoga-21.jpg" alt="Clase privada de yoga uno a uno" />
-            </div>
-            <div className="servicio-card-body">
-              <h3>Clases privadas, 1 a 1</h3>
-              <p>Sesiones diseñadas solo para ti: tu cuerpo, tu historia, tu ritmo. Trabajamos exactamente lo que necesitas, sin encajar en un molde ni compartir el tiempo con nadie más.</p>
-              <a href="#contacto" className="btn btn-outline">Consultar disponibilidad →</a>
-            </div>
-          </div>
-          <div className="servicio-card">
-            <div className="servicio-card-img">
-              <img src="/images/avanzadoa2.jpg" alt="Clase de yoga online en directo por videollamada" />
-            </div>
-            <div className="servicio-card-body">
-              <h3>Clases en directo, online</h3>
-              <p>Practica conmigo en tiempo real por videollamada, en sesión individual o en grupo reducido. La cercanía de una clase presencial, desde donde estés.</p>
-              <a href="#contacto" className="btn btn-outline">Consultar disponibilidad →</a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* EL PACK RAÍZ — apoyo a la práctica, no el centro de la web */}
-      {/*
-        Antes esta sección era un teaser de 3 cajas (La Travesía / Explora / Grupos)
-        que enlazaban a distintas vistas del Aula Online con suscripción mensual.
-        Se archivó junto con esas vistas — ver frontend/src/pages/_archivo/.
-      */}
-      <section className="online-teaser">
-        <div className="online-teaser-img online-teaser-img--zoom">
-          <img src="/images/yoga17.jpg" alt="Ajuste físico preciso en clase de movilidad funcional" />
-        </div>
-        <div className="online-teaser-text">
-          <p className="hero-eyebrow">Un apoyo para tu práctica</p>
-          <h2>Diez clases para<br /><em>practicar en casa, a tu ritmo</em></h2>
-          <p className="online-teaser-desc">
-            Mi foco es acompañarte en persona. El Pack Raíz es un extra: pensado
-            para esos momentos puntuales en los que quieres practicar en casa
-            a tu ritmo, o para conocer mi forma de enseñar antes de venir a clase.
-          </p>
-          <div className="teaser-pastel-grid">
-            <div className="teaser-pastel-box teaser-pastel-box--1">
-              <p className="teaser-pastel-nombre">Ajustes precisos</p>
-              <p className="teaser-pastel-desc">Indicaciones claras de alineación en cada clase, no solo posturas.</p>
-            </div>
-            <div className="teaser-pastel-box teaser-pastel-box--2">
-              <p className="teaser-pastel-nombre">Movilidad funcional</p>
-              <p className="teaser-pastel-desc">Patrones de movimiento que tu cuerpo usa de verdad, cada día.</p>
-            </div>
-            <div className="teaser-pastel-box teaser-pastel-box--3">
-              <p className="teaser-pastel-nombre">Pago único</p>
-              <p className="teaser-pastel-desc">15€, sin renovaciones. El pack es tuyo para siempre.</p>
-            </div>
-          </div>
-          <Link to="/suscripcion" className="btn">Ver el Pack Raíz →</Link>
         </div>
       </section>
 
@@ -285,7 +281,7 @@ export default function HomePage() {
           <h2>Contáctame</h2>
           <p className="contacto-sub">Da el primer paso. Tu camino empieza aquí.</p>
           <div className="contacto-foto">
-            <img src="/images/yoga8.jpg" alt="Yoga Tierra Viva" />
+            <img src="/images/yoga6.jpg" alt="Yoga Tierra Viva" />
           </div>
           <form className="contact-form" onSubmit={handleContact}>
             <input type="text" placeholder="Tu nombre" required value={form.nombre} onChange={e => setForm(f => ({ ...f, nombre: e.target.value }))} />
