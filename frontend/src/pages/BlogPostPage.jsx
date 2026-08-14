@@ -32,8 +32,12 @@ export default function BlogPostPage() {
 
   return (
     <article className="blog-post">
-      <header className="blog-post-hero">
-        <img src={post.imagenPortada} alt={post.imagenPortadaAlt || post.titulo} className="blog-post-hero-img" />
+      <header className={`blog-post-hero${slug === 'el-ego-espiritual' ? ' blog-post-hero--ego' : ''}`}>
+        <img
+          src={post.imagenPortada}
+          alt={post.imagenPortadaAlt || post.titulo}
+          className={`blog-post-hero-img${slug === 'el-ego-espiritual' ? ' blog-post-hero-img--ego' : ''}`}
+        />
         <div className="blog-post-hero-overlay" />
         <div className="blog-post-hero-content">
           <Link to="/blog" className="blog-post-back">← Volver al blog</Link>

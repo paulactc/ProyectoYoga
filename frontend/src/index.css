@@ -7284,6 +7284,12 @@ a.nav-logo {
   height: 100%;
   object-fit: cover;
 }
+.blog-post-hero--ego {
+  min-height: 85vh;
+}
+.blog-post-hero-img--ego {
+  object-position: center 20%;
+}
 .blog-post-hero-overlay {
   position: absolute;
   inset: 0;

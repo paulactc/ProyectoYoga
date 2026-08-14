@@ -77,7 +77,7 @@ export const BLOG_POSTS = [
     slug: 'el-ego-espiritual',
     titulo: 'El ego espiritual',
     resumen: 'La práctica también puede convertirse en otro escenario para el ego: comparar, coleccionar posturas, sentirte "más consciente" que los demás. Cómo reconocerlo y volver al cuerpo como maestro.',
-    imagenPortada: '/images/yoga15.jpg',
+    imagenPortada: '/images/yoga24.jpg',
     imagenPortadaAlt: 'Practicante de yoga en equilibrio, trabajando el desapego',
     fecha: '2026-08-07',
     tiempoLectura: '6 min de lectura',
