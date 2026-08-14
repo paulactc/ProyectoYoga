@@ -110,7 +110,7 @@ export default function PoliticaPrivacidadPage() {
             <br />
             Teléfono: <a href="tel:+34722439479">722 439 479</a><br />
             Email: <a href="mailto:paula_ctc@hotmail.es">paula_ctc@hotmail.es</a><br />
-            Web: <a href="https://proyectoyoga-production.up.railway.app/">proyectoyoga-production.up.railway.app</a>
+            Web: <a href="https://yogatierraviva.up.railway.app/">yogatierraviva.up.railway.app</a>
           </address>
         </section>
       </div>

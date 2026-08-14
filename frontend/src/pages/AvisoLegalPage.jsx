@@ -15,7 +15,7 @@ export default function AvisoLegalPage() {
             <p><strong>Domicilio:</strong> Urbanización Aldea del Coto, portal 2, escalera 2, Chiclana de la Frontera (Cádiz)</p>
             <p><strong>Teléfono:</strong> <a href="tel:+34722439479">722 439 479</a></p>
             <p><strong>Email:</strong> <a href="mailto:paula_ctc@hotmail.es">paula_ctc@hotmail.es</a></p>
-            <p><strong>Sitio Web:</strong> <a href="https://proyectoyoga-production.up.railway.app/">proyectoyoga-production.up.railway.app</a></p>
+            <p><strong>Sitio Web:</strong> <a href="https://yogatierraviva.up.railway.app/">yogatierraviva.up.railway.app</a></p>
           </div>
         </section>
 

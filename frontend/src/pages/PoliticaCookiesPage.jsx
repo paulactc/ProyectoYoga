@@ -9,7 +9,7 @@ export default function PoliticaCookiesPage() {
         <section className="legal-section">
           <h2>1. Introducción</h2>
           <p>
-            Esta web, <strong>https://proyectoyoga-production.up.railway.app/</strong> (en adelante: «la web»), utiliza cookies y otras tecnologías relacionadas (para mayor comodidad, todas las tecnologías se denominan «cookies»). En el siguiente documento te informamos sobre el uso de cookies en esta web.
+            Esta web, <strong>https://yogatierraviva.up.railway.app/</strong> (en adelante: «la web»), utiliza cookies y otras tecnologías relacionadas (para mayor comodidad, todas las tecnologías se denominan «cookies»). En el siguiente documento te informamos sobre el uso de cookies en esta web.
           </p>
         </section>
 
@@ -137,7 +137,7 @@ export default function PoliticaCookiesPage() {
             Chiclana de la Frontera, Cádiz<br />
             <br />
             Teléfono: <a href="tel:+34722439479">722 439 479</a><br />
-            Web: <a href="https://proyectoyoga-production.up.railway.app/">proyectoyoga-production.up.railway.app</a><br />
+            Web: <a href="https://yogatierraviva.up.railway.app/">yogatierraviva.up.railway.app</a><br />
             Email: <a href="mailto:paula_ctc@hotmail.es">paula_ctc@hotmail.es</a>
           </address>
         </section>
