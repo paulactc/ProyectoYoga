@@ -30,6 +30,7 @@ import PoliticaPrivacidadPage from './pages/PoliticaPrivacidadPage'
 import AudiosPage from './pages/AudiosPage'
 import SobreMiPage from './pages/SobreMiPage'
 import AdminPage from './pages/AdminPage'
+import TestimoniosPage from './pages/TestimoniosPage'
 import BlogPage from './pages/BlogPage'
 import BlogPostPage from './pages/BlogPostPage'
 
@@ -60,6 +61,7 @@ export default function App() {
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/blog/:slug" element={<BlogPostPage />} />
         <Route path="/admin" element={<AdminPage />} />
+        <Route path="/opiniones" element={<TestimoniosPage />} />
       </Routes>
       <Footer />
     </AuthProvider>

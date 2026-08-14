@@ -6,6 +6,14 @@ export default function HomePage() {
   const heroSectionRef = useRef(null)
   const [form, setForm] = useState({ nombre: '', email: '', mensaje: '' })
   const [contactStatus, setContactStatus] = useState(null)
+  const [testimoniosAlumnas, setTestimoniosAlumnas] = useState([])
+
+  useEffect(() => {
+    fetch('/api/testimonios')
+      .then(r => r.json())
+      .then(data => { if (data.success) setTestimoniosAlumnas(data.data) })
+      .catch(() => {})
+  }, [])
 
   useEffect(() => {
     function onScroll() {
@@ -81,7 +89,7 @@ export default function HomePage() {
             </div>
             <div className="servicio-card-body">
               <h3>Clases presenciales, en grupo</h3>
-              <p>En distintos centros, con metodología adaptada a cada grupo y ajustes físicos precisos en cada postura. Mi forma habitual de dar clase desde 2017.</p>
+              <p>Con metodología adaptada a cada grupo y ajustes físicos precisos en cada postura. Mi forma habitual de dar clase desde 2017.</p>
               <a href="#contacto" className="servicio-card-cta">Consultar horarios y centros <span aria-hidden="true">→</span></a>
             </div>
           </div>
@@ -122,7 +130,7 @@ export default function HomePage() {
         </div>
         <div className="online-teaser-text">
           <p className="hero-eyebrow">Un apoyo para tu práctica</p>
-          <h2>Siete clases para<br /><em>practicar en casa, a tu ritmo</em></h2>
+          <h2>Ocho clases para<br /><em>practicar en casa, a tu ritmo</em></h2>
           <p className="online-teaser-desc">
             Mi foco es acompañarte en persona. El Pack Raíz es un extra: pensado
             para esos momentos puntuales en los que quieres practicar en casa
@@ -142,7 +150,7 @@ export default function HomePage() {
               <p className="teaser-pastel-desc">15,99€, sin renovaciones. El pack es tuyo para siempre.</p>
             </div>
           </div>
-          <Link to="/suscripcion" className="btn">Ver el Pack Raíz →</Link>
+          <Link to="/aula-online" className="btn">Ver el Pack Raíz →</Link>
         </div>
       </section>
 
@@ -203,7 +211,7 @@ export default function HomePage() {
               </svg>
             </span>
             <span className="stat-label">Pack Raíz de apoyo</span>
-            <span className="stat-detail">7 clases para practicar en casa, a tu ritmo</span>
+            <span className="stat-detail">8 clases para practicar en casa, a tu ritmo</span>
           </div>
 
           <div className="stat-item">
@@ -240,8 +248,9 @@ export default function HomePage() {
             { texto: 'Yo nunca había hecho yoga en mi vida y la verdad es que me dio un poco de miedo al principio. Pero con Paula desde el primer día me sentí en casa. Ahora no me la quita nadie.', nombre: 'Laura M.', detalle: 'Alumna desde 2021' },
             { texto: 'Vine porque tenía la espalda fatal y me quedé por todo lo demás. Paula te escucha, adapta la clase a cómo estás ese día y encima te lo pasas bien. Eso no lo encuentras en todos lados.', nombre: 'Sofía R.', detalle: 'Alumna desde 2022' },
             { texto: 'Lo de la respiración me parecía un rollo hasta que lo probé. Salí de esa clase sin ansiedad por primera vez en meses. No sé cómo explicarlo pero funciona, y Paula sabe muy bien lo que hace.', nombre: 'Ana P.', detalle: 'Alumna desde 2023' },
-          ].map(({ texto, nombre, detalle }) => (
-            <div className="testimonio-card" key={nombre}>
+            ...testimoniosAlumnas.map(t => ({ texto: t.texto, nombre: t.nombre, detalle: '' })),
+          ].map(({ texto, nombre, detalle }, i) => (
+            <div className="testimonio-card" key={`${nombre}-${i}`}>
               <div className="testimonio-stars">★★★★★</div>
               <p className="testimonio-quote">"{texto}"</p>
               <div className="testimonio-autor">

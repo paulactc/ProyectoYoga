@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext'
 // El sistema de "La Travesía" (50 clases) y el selector de métodos con
 // Explora/Grupos quedaron archivados en ./_archivo/TravesiaSuscripcionMensual.jsx
 // (ver cabecera de ese fichero). Esta página ahora muestra un único recorrido:
-// las 7 clases del Pack Raíz, en el orden en que están pensadas para practicarse.
+// las 8 clases del Pack Raíz, en el orden en que están pensadas para practicarse.
 const GRUPOS = [
   {
     id: 1,
@@ -26,10 +26,11 @@ const GRUPOS = [
     tipo: 'vinyasa',
     nombre: 'Vinyasa',
     descripcion: 'Flujo continuo de posturas coordinadas con la respiración. Secuencias para llevar la conciencia del cuerpo a un movimiento más fluido.',
-    meta: '2 clases · 30-60 min · Nivel intermedio',
+    meta: '3 clases · 30-60 min · Nivel intermedio',
     clases: [
       { id: 'g3-1', titulo: 'Del cuerpo al silencio',        duracion: 60, nivel: 2, descripcion: 'Del cuerpo al silencio: una práctica que va soltando capas hasta llegar a la quietud interior.', imagen: '/images/yoga11.jpg', vimeo_id: '1206825714' },
       { id: 'g3-2', titulo: 'El regreso constante',          duracion: 30, nivel: 2, descripcion: 'Una clase para practicar el gesto más honesto del yoga: darte cuenta de que la mente se fue, y volver. Sin culpa, sin esperar quedarte quieta para siempre, solo notar y regresar al cuerpo, una y otra vez, tantas veces como haga falta.', imagen: '/images/yoga14.jpg', vimeo_id: '1210240715' },
+      { id: 'g3-3', titulo: 'Fuerza silenciosa',              duracion: 40, nivel: 2, descripcion: 'La fuerza que no necesita hacer ruido: posturas sostenidas con control, para encontrar estabilidad sin tensión de más.', imagen: '/images/yoga14.jpg', vimeo_id: '1218287865' },
     ],
   },
 ]
@@ -110,7 +111,7 @@ export default function ClasesOnlinePage() {
     })
   }, [])
 
-  // Las 7 clases del pack, en el orden de práctica: Movilidad Funcional primero,
+  // Las 8 clases del pack, en el orden de práctica: Movilidad Funcional primero,
   // Vinyasa después.
   const clasesPack = GRUPOS.flatMap(g => {
     const clases = grupoClases[g.id]?.length ? grupoClases[g.id] : g.clases
@@ -192,7 +193,7 @@ export default function ClasesOnlinePage() {
       {/* ── Header ── */}
       <header className="page-header--aula">
         <div className="aula-strip">
-          <span className="aula-strip-eyebrow">Pack Raíz · 7 clases</span>
+          <span className="aula-strip-eyebrow">Pack Raíz · 8 clases</span>
           <span className="aula-strip-sep" aria-hidden="true">✦</span>
           <h1 className="aula-strip-h1">Tu <em>Pack</em></h1>
           <span className="aula-strip-sep" aria-hidden="true">✦</span>
@@ -205,7 +206,7 @@ export default function ClasesOnlinePage() {
         <p className="clases-desc-eyebrow">Un pack cerrado, no una plataforma infinita</p>
         <h2 className="pack-intro-titulo">Las clases justas, en el orden que tu cuerpo necesita</h2>
         <p className="pack-intro-desc">
-          7 clases pensadas como un único recorrido: primero <strong>Movilidad Funcional</strong>, para
+          8 clases pensadas como un único recorrido: primero <strong>Movilidad Funcional</strong>, para
           activar y alinear el cuerpo con instrucciones precisas de ajuste — después
           <strong> vinyasa</strong>, para llevar ese cuerpo a un flujo más continuo. Sin suscripción y sin
           contenido infinito: un pago único, acceso para siempre.

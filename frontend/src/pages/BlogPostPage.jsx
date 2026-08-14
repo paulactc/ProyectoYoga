@@ -47,9 +47,9 @@ export default function BlogPostPage() {
       </div>
 
       <div className="blog-post-cta">
-        <p>Si te apetece llevar esto al cuerpo, el Pack Raíz te espera con 7 clases para empezar.</p>
+        <p>Si te apetece llevar esto al cuerpo, el Pack Raíz te espera con 8 clases para empezar.</p>
         <div className="blog-post-cta-actions">
-          <Link to="/suscripcion" className="btn">Ver el Pack Raíz →</Link>
+          <Link to="/aula-online" className="btn">Ver el Pack Raíz →</Link>
           <a href="/#contacto" className="btn btn-outline">O escríbeme →</a>
         </div>
       </div>

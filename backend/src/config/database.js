@@ -638,6 +638,39 @@ async function runMigrations() {
     }
   });
 
+  await runSafeMigration('Vinyasa clase 3: Fuerza silenciosa', async () => {
+    const [[{ cnt }]] = await pool.execute(
+      `SELECT COUNT(*) as cnt FROM clases WHERE grupo_id = 3 AND orden = 3`
+    );
+    if (cnt === 0) {
+      await pool.execute(
+        `INSERT INTO clases (grupo_id, titulo, descripcion, duracion, nivel, imagen, vimeo_id, orden, disponible)
+         VALUES (3, ?, ?, ?, ?, ?, ?, 3, 1)`,
+        [
+          'Fuerza silenciosa',
+          'La fuerza que no necesita hacer ruido: posturas sostenidas con control, para encontrar estabilidad sin tensión de más.',
+          40,
+          2,
+          '/images/yoga14.jpg',
+          '1218287865',
+        ]
+      );
+    }
+  });
+
+  await runSafeMigration('Tabla testimonios', () =>
+    pool.execute(`
+      CREATE TABLE IF NOT EXISTS testimonios (
+        id         INT AUTO_INCREMENT PRIMARY KEY,
+        nombre     VARCHAR(100) NOT NULL,
+        texto      TEXT NOT NULL,
+        aprobado   BOOLEAN DEFAULT FALSE,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        INDEX idx_testimonios_aprobado (aprobado)
+      )
+    `)
+  );
+
   await runSafeMigration('Tabla compras_pack', () =>
     pool.execute(`
       CREATE TABLE IF NOT EXISTS compras_pack (

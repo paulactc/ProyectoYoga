@@ -15,8 +15,7 @@ export default function Footer() {
       </div>
 
       <div className="footer-social">
-        <a href="#">Instagram</a>
-        <a href="#">WhatsApp</a>
+        <a href="https://www.instagram.com/paula_ctc" target="_blank" rel="noopener noreferrer">Instagram</a>
       </div>
 
       <div className="footer-legal">

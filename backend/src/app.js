@@ -79,6 +79,7 @@ app.use('/api/clases',       makeApiLimiter(),  require('./routes/clases'));
 app.use('/api/travesia',     makeApiLimiter(),  require('./routes/travesia'));
 app.use('/api/admin',        makeApiLimiter(),  require('./routes/admin'));
 app.use('/api/meditaciones', makeApiLimiter(),  require('./routes/meditaciones'));
+app.use('/api/testimonios',  makeApiLimiter(),  require('./routes/testimonios'));
 app.use('/api/contact',      contactLimiter, require('./routes/contact'));
 
 // Serve compiled frontend in production

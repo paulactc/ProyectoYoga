@@ -10,7 +10,7 @@ const PACK_PRECIO = '15,99'
 const FAQS = [
   {
     q: '¿El Pack Raíz caduca?',
-    a: 'No. Es un pago único y el acceso a esas 7 clases es tuyo para siempre, sin renovaciones ni suscripción.'
+    a: 'No. Es un pago único y el acceso a esas 8 clases es tuyo para siempre, sin renovaciones ni suscripción.'
   },
   {
     q: '¿En qué dispositivos puedo practicar?',
@@ -22,7 +22,7 @@ const FAQS = [
   },
   {
     q: '¿Para qué nivel son las clases?',
-    a: 'El Pack Raíz está pensado para empezar desde cero: las 7 clases están ordenadas de menor a mayor exigencia, con instrucciones precisas de ajuste físico en cada una.'
+    a: 'El Pack Raíz está pensado para empezar desde cero: las 8 clases están ordenadas de menor a mayor exigencia, con instrucciones precisas de ajuste físico en cada una.'
   },
 ]
 
@@ -35,9 +35,9 @@ const BENEFICIOS_GRATIS = [
 
 const BENEFICIOS_PACK = [
   'Todo lo del plan gratuito',
-  '7 clases con ajustes físicos precisos',
+  '8 clases con ajustes físicos precisos',
   'Movilidad Funcional (5 clases)',
-  'Vinyasa suave (2 clases)',
+  'Vinyasa suave (3 clases)',
   'Ordenadas de menor a mayor exigencia',
   'Acceso para siempre, un único pago',
 ]
@@ -77,9 +77,9 @@ function FaqAccordion() {
 function PageHeader() {
   return (
     <header className="page-header page-header-pricing">
-      <p className="hero-eyebrow">Elige tu camino</p>
-      <h1>Empieza <em>gratis</em>,<br />crece cuando quieras</h1>
-      <p>Tierra en Calma siempre gratuita. El Pack Raíz, un único pago de {PACK_PRECIO}€.</p>
+      <p className="hero-eyebrow">Opciones disponibles</p>
+      <h1>Tierra en Calma <em>y</em><br />el Pack Raíz</h1>
+      <p>Tierra en Calma, gratuita. El Pack Raíz, un único pago de {PACK_PRECIO}€.</p>
     </header>
   )
 }
@@ -112,7 +112,7 @@ function PackCard({ onBuy, loading, error, owned }) {
   return (
     <div className="plan-card plan-card-featured">
       <span className="plan-badge">Pack Raíz</span>
-      <p className="plan-name">7 Clases</p>
+      <p className="plan-name">8 Clases</p>
       <div className="plan-price">
         <span className="plan-amount">{PACK_PRECIO}</span>
         <span className="plan-precio-sym">€</span>
@@ -133,7 +133,7 @@ function PackCard({ onBuy, loading, error, owned }) {
       ) : (
         <p className="plan-proximamente">Disponible muy pronto</p>
       )}
-      <p className="plan-note">{PACK_PRECIO}€ pago único · 2,28€/clase</p>
+      <p className="plan-note">{PACK_PRECIO}€ pago único · 2€/clase</p>
       {error && <p className="plans-error">{error}</p>}
     </div>
   )
@@ -165,8 +165,8 @@ function VisitorPlans({ onBuyPack, onOpenRegister, loading, error }) {
   return (
     <section className="plans-section">
       <p className="clases-desc-eyebrow">Elige tu acceso</p>
-      <h2 className="plans-title">¿Por dónde <em>empezamos</em>?</h2>
-      <p className="plans-subtitle">Puedes empezar gratis y ampliar cuando quieras.</p>
+      <h2 className="plans-title">Lo que tienes <em>disponible</em></h2>
+      <p className="plans-subtitle">Tierra en Calma es gratuita. El Pack Raíz es un pago único, aparte.</p>
       <div className="plans-grid">
         <FreeCard onOpenRegister={onOpenRegister} />
         <PackCard onBuy={onBuyPack} loading={loading} error={error} owned={false} />
@@ -193,7 +193,7 @@ function FreeUserUpgrade({ user, ownsPack, onBuyPack, loading, error }) {
       <h2 className="plans-title">
         {ownsPack ? <>Tu <em>Pack Raíz</em></> : <>Consigue el <em>Pack Raíz</em></>}
       </h2>
-      <p className="plans-subtitle">7 clases de yoga en vídeo, tuyas para siempre.</p>
+      <p className="plans-subtitle">8 clases de yoga en vídeo, tuyas para siempre.</p>
       <div className="plans-grid plans-grid-single">
         <PackCard onBuy={onBuyPack} loading={loading} error={error} owned={ownsPack} />
       </div>
@@ -236,7 +236,7 @@ function PackSuccessPanel({ user, refreshing }) {
         ¡Bienvenida{user?.nombre ? `, ${user.nombre.split(' ')[0]}` : ''}!
       </h2>
       <p style={{ color: 'var(--muted)', marginBottom: '1.5rem', maxWidth: '400px', margin: '0 auto 1.5rem' }}>
-        Tu Pack Raíz está activo. Ya tienes acceso para siempre a las 7 clases.
+        Tu Pack Raíz está activo. Ya tienes acceso para siempre a las 8 clases.
       </p>
       <Link to="/aula-online" className="btn">Ir a mis clases →</Link>
       {refreshing && (
@@ -374,11 +374,6 @@ export default function SuscripcionPage({ onOpenLogin, onOpenRegister }) {
         error={error}
       />
       <FaqAccordion />
-      <div className="cta-final-banner">
-        <h2>Empieza hoy.<br /><em>Es gratis.</em></h2>
-        <p>Crea tu cuenta y accede a Tierra en Calma sin coste.</p>
-        <button className="btn" onClick={onOpenRegister}>Crear cuenta gratuita</button>
-      </div>
     </>
   )
 }

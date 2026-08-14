@@ -11,6 +11,9 @@ export default function AdminPage() {
   const [error, setError] = useState('')
   const [accionando, setAccionando] = useState(null)
 
+  const [testimonios, setTestimonios] = useState([])
+  const [loadingTestimonios, setLoadingTestimonios] = useState(true)
+
   useEffect(() => {
     if (!user) return
     if (user.rol !== 'admin') { navigate('/'); return }
@@ -36,6 +39,52 @@ export default function AdminPage() {
   useEffect(() => {
     if (user?.rol === 'admin') cargarUsuarios()
   }, [user, cargarUsuarios])
+
+  const cargarTestimonios = useCallback(async () => {
+    setLoadingTestimonios(true)
+    try {
+      const r = await fetch('/api/admin/testimonios', {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      const data = await r.json()
+      if (data.success) setTestimonios(data.data)
+    } catch {
+      // silencioso, no es crítico para el resto del panel
+    } finally {
+      setLoadingTestimonios(false)
+    }
+  }, [token])
+
+  useEffect(() => {
+    if (user?.rol === 'admin') cargarTestimonios()
+  }, [user, cargarTestimonios])
+
+  async function aprobarTestimonio(id) {
+    setAccionando('t' + id + '_aprobar')
+    try {
+      await fetch(`/api/admin/testimonios/${id}/aprobar`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      await cargarTestimonios()
+    } finally {
+      setAccionando(null)
+    }
+  }
+
+  async function borrarTestimonio(id) {
+    if (!confirm('¿Eliminar esta opinión?')) return
+    setAccionando('t' + id + '_borrar')
+    try {
+      await fetch(`/api/admin/testimonios/${id}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      await cargarTestimonios()
+    } finally {
+      setAccionando(null)
+    }
+  }
 
   async function activar(userId) {
     setAccionando(userId + '_activar')
@@ -168,6 +217,63 @@ export default function AdminPage() {
                     </tr>
                   )
                 })}
+              </tbody>
+            </table>
+          </div>
+        )}
+
+        <h2 className="admin-titulo" style={{ fontSize: '1.4rem', marginTop: '3rem' }}>Opiniones de alumnas</h2>
+        <p className="admin-subtitulo">
+          Formulario público en <code>/opiniones</code> — comparte ese enlace con tus alumnas. Las opiniones aprobadas aparecen en la home.
+        </p>
+
+        {loadingTestimonios ? (
+          <p className="admin-loading">Cargando...</p>
+        ) : testimonios.length === 0 ? (
+          <p className="admin-loading">Todavía no hay opiniones enviadas.</p>
+        ) : (
+          <div className="admin-table-wrap">
+            <table className="admin-table">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Opinión</th>
+                  <th>Estado</th>
+                  <th>Fecha</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {testimonios.map(t => (
+                  <tr key={t.id}>
+                    <td>{t.nombre}</td>
+                    <td style={{ maxWidth: 360, whiteSpace: 'pre-wrap' }}>{t.texto}</td>
+                    <td>
+                      {t.aprobado
+                        ? <span className="admin-badge admin-badge--pago">Publicada</span>
+                        : <span className="admin-badge admin-badge--free">Pendiente</span>}
+                    </td>
+                    <td>{formatFecha(t.created_at)}</td>
+                    <td className="admin-acciones">
+                      {!t.aprobado && (
+                        <button
+                          className="admin-btn admin-btn--activar"
+                          onClick={() => aprobarTestimonio(t.id)}
+                          disabled={accionando !== null}
+                        >
+                          {accionando === 't' + t.id + '_aprobar' ? '...' : 'Aprobar'}
+                        </button>
+                      )}
+                      <button
+                        className="admin-btn admin-btn--cancelar"
+                        onClick={() => borrarTestimonio(t.id)}
+                        disabled={accionando !== null}
+                      >
+                        {accionando === 't' + t.id + '_borrar' ? '...' : 'Eliminar'}
+                      </button>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>

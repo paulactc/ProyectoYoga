@@ -7103,12 +7103,17 @@ a.nav-logo {
   background: #fff;
   border-radius: 22px;
   overflow: hidden;
+  border: 1px solid rgba(212,160,96,0.14);
   box-shadow: 0 8px 26px rgba(140,78,47,0.10);
-  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
   display: flex;
   flex-direction: column;
 }
-.servicio-card:hover { transform: translateY(-6px); box-shadow: 0 22px 42px rgba(140,78,47,0.18); }
+.servicio-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(212,160,96,0.4);
+  box-shadow: 0 22px 42px rgba(140,78,47,0.18), 0 0 0 1px rgba(212,160,96,0.18);
+}
 .servicio-card-img {
   position: relative;
   aspect-ratio: 4 / 5;
@@ -7140,9 +7145,8 @@ a.nav-logo {
   top: 1.1rem;
   left: 1.1rem;
   z-index: 1;
-  background: rgba(255,255,255,0.94);
-  backdrop-filter: blur(4px);
-  color: var(--tierra);
+  background: linear-gradient(120deg, var(--accent), var(--tierra));
+  color: #fff;
   font-family: var(--font-body);
   font-size: 0.68rem;
   font-weight: 600;
@@ -7150,6 +7154,7 @@ a.nav-logo {
   text-transform: uppercase;
   padding: 0.42rem 0.95rem;
   border-radius: 50px;
+  box-shadow: 0 4px 14px rgba(140,78,47,0.32);
 }
 .servicio-card-body {
   padding: 1.75rem 1.75rem 2rem;
@@ -7163,6 +7168,15 @@ a.nav-logo {
   font-weight: 500;
   color: var(--dark);
   margin: 0 0 0.7rem;
+}
+.servicio-card-body h3::before {
+  content: '';
+  display: block;
+  width: 30px;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--tierra));
+  margin-bottom: 0.75rem;
 }
 .servicio-card-body p {
   font-size: 0.9rem;
@@ -7185,10 +7199,10 @@ a.nav-logo {
   text-decoration: none;
   padding-bottom: 3px;
   border-bottom: 1.5px solid rgba(140,78,47,0.35);
-  transition: border-color 0.2s ease;
+  transition: border-color 0.2s ease, color 0.2s ease;
 }
 .servicio-card-cta span { display: inline-block; transition: transform 0.25s ease; }
-.servicio-card-cta:hover { border-color: var(--tierra); }
+.servicio-card-cta:hover { border-color: var(--accent); color: var(--accent); }
 .servicio-card-cta:hover span { transform: translateX(4px); }
 
 @media (max-width: 1024px) {

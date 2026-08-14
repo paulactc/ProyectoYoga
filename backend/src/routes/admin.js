@@ -89,4 +89,33 @@ router.post('/suscripcion/:userId/cancelar', async (req, res) => {
   res.json({ success: true });
 });
 
+// GET /api/admin/testimonios — todas las opiniones, pendientes primero
+router.get('/testimonios', async (req, res) => {
+  const result = await executeQuery(
+    `SELECT id, nombre, texto, aprobado, created_at FROM testimonios ORDER BY aprobado ASC, created_at DESC`
+  );
+  if (!result.success) return res.status(500).json({ success: false });
+  res.json({ success: true, data: result.data });
+});
+
+// POST /api/admin/testimonios/:id/aprobar
+router.post('/testimonios/:id/aprobar', async (req, res) => {
+  const id = parseUserId(req.params.id);
+  if (!id) return res.status(400).json({ success: false, message: 'id inválido' });
+
+  const result = await executeQuery(`UPDATE testimonios SET aprobado = TRUE WHERE id = ?`, [id]);
+  if (!result.success) return res.status(500).json({ success: false });
+  res.json({ success: true });
+});
+
+// DELETE /api/admin/testimonios/:id
+router.delete('/testimonios/:id', async (req, res) => {
+  const id = parseUserId(req.params.id);
+  if (!id) return res.status(400).json({ success: false, message: 'id inválido' });
+
+  const result = await executeQuery(`DELETE FROM testimonios WHERE id = ?`, [id]);
+  if (!result.success) return res.status(500).json({ success: false });
+  res.json({ success: true });
+});
+
 module.exports = router;

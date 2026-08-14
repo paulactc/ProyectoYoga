@@ -160,10 +160,10 @@ export default function SobreMiPage() {
             </div>
 
             <div className="sobre-cert-card sobre-cert-card--activo">
-              <span className="sobre-cert-anno">2019</span>
+              <span className="sobre-cert-anno">2017</span>
               <h3 className="sobre-cert-titulo">Clases <em>presenciales</em></h3>
               <p className="sobre-cert-rol">En activo</p>
-              <p className="sobre-cert-escuela">Diferentes centros de yoga, metodología adaptada a cada grupo.</p>
+              <p className="sobre-cert-escuela">Diferentes centros de yoga, metodología adaptada a cada grupo. También talleres y retiros.</p>
             </div>
 
           </div>
