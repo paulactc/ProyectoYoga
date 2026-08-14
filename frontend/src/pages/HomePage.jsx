@@ -139,7 +139,7 @@ export default function HomePage() {
             </div>
             <div className="teaser-pastel-box teaser-pastel-box--3">
               <p className="teaser-pastel-nombre">Pago único</p>
-              <p className="teaser-pastel-desc">15€, sin renovaciones. El pack es tuyo para siempre.</p>
+              <p className="teaser-pastel-desc">15,99€, sin renovaciones. El pack es tuyo para siempre.</p>
             </div>
           </div>
           <Link to="/suscripcion" className="btn">Ver el Pack Raíz →</Link>

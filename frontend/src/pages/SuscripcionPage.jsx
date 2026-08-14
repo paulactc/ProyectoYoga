@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext'
 // El Pack Raíz es el producto principal. La suscripción mensual queda en standby
 // (código comentado más abajo) hasta que haya suficiente contenido para reactivarla.
 const PACK_DISPONIBLE = true
-const PACK_PRECIO = 15
+const PACK_PRECIO = '15,99'
 
 const FAQS = [
   {
@@ -133,7 +133,7 @@ function PackCard({ onBuy, loading, error, owned }) {
       ) : (
         <p className="plan-proximamente">Disponible muy pronto</p>
       )}
-      <p className="plan-note">{PACK_PRECIO}€ pago único · 2,14€/clase</p>
+      <p className="plan-note">{PACK_PRECIO}€ pago único · 2,28€/clase</p>
       {error && <p className="plans-error">{error}</p>}
     </div>
   )

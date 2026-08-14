@@ -171,7 +171,7 @@ export default function ClasesOnlinePage() {
                 <span className="aula-acceso-icono">✦</span>
                 <div className="aula-acceso-texto">
                   <strong>Hola, {user.nombre.split(' ')[0]}</strong>
-                  <span>Consigue el Pack Raíz (15€, para siempre) para desbloquear tus clases</span>
+                  <span>Consigue el Pack Raíz (15,99€, para siempre) para desbloquear tus clases</span>
                 </div>
                 <Link to="/suscripcion" className="btn btn-sm aula-acceso-btn">Ver el pack →</Link>
               </>
@@ -180,7 +180,7 @@ export default function ClasesOnlinePage() {
                 <span className="aula-acceso-icono">✦</span>
                 <div className="aula-acceso-texto">
                   <strong>Zona exclusiva</strong>
-                  <span>Pack Raíz desde 15€, un único pago</span>
+                  <span>Pack Raíz desde 15,99€, un único pago</span>
                 </div>
                 <Link to="/suscripcion" className="btn btn-sm aula-acceso-btn">Ver el pack →</Link>
               </>

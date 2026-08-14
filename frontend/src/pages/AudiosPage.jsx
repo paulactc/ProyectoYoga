@@ -376,7 +376,7 @@ function CtaSection() {
           pranayama y más — todo diseñado para que construyas una práctica real, sostenible y tuya.
         </p>
         <div className="audios-cta-btns">
-          <Link to="/suscripcion" className="btn">Ver planes · desde 19€/mes</Link>
+          <Link to="/suscripcion" className="btn">Ver el Pack Raíz · 15,99€</Link>
           <Link to="/aula-online" className="btn btn-outline-dark">Explorar clases →</Link>
         </div>
       </div>
