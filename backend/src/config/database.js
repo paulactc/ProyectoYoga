@@ -658,6 +658,10 @@ async function runMigrations() {
     }
   });
 
+  await runSafeMigration('Imagen Vinyasa clase 3 Fuerza silenciosa yoga25', () =>
+    pool.execute(`UPDATE clases SET imagen = '/images/yoga25.jpg' WHERE grupo_id = 3 AND orden = 3`)
+  );
+
   await runSafeMigration('Tabla testimonios', () =>
     pool.execute(`
       CREATE TABLE IF NOT EXISTS testimonios (

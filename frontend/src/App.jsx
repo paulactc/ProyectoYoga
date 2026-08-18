@@ -61,7 +61,7 @@ export default function App() {
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/blog/:slug" element={<BlogPostPage />} />
         <Route path="/admin" element={<AdminPage />} />
-        <Route path="/opiniones" element={<TestimoniosPage onOpenLogin={openLogin} onOpenRegister={openRegister} />} />
+        <Route path="/opiniones" element={<TestimoniosPage />} />
       </Routes>
       <Footer />
     </AuthProvider>

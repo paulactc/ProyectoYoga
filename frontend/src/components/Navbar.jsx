@@ -26,7 +26,7 @@ export default function Navbar({ onOpenLogin }) {
           {/* brote / bloom */}
           <path d="M18 16 C17 13 15 11 18 10 C21 11 19 13 18 16"/>
         </svg>
-        Yoga Tierra Viva
+        <span className="nav-logo-text">Yoga Tierra Viva</span>
         <span className="firma-paula">Paula</span>
       </a>
 

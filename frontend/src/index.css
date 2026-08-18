@@ -5498,8 +5498,9 @@ a.nav-logo {
   .contact-form .btn { align-self: stretch; }
 
   /* Nuevos bloques responsive */
-  .nav-actions { gap: 0.5rem; }
-  .nav-actions .btn-sm { padding: 0.28rem 0.6rem; font-size: 0.68rem; letter-spacing: 0.04em; }
+  .nav-actions { gap: 0.5rem; flex-shrink: 0; }
+  .nav-actions .btn-sm { padding: 0.28rem 0.6rem; font-size: 0.68rem; letter-spacing: 0.04em; white-space: nowrap; }
+  .firma-paula { font-size: 1.1rem; margin-left: 0.1rem; }
 
   .online-teaser {
     grid-template-columns: 1fr;
@@ -5588,6 +5589,14 @@ a.nav-logo {
 
   .pricing-form-section { padding: 3rem 1.25rem 4rem; }
   .pricing-form-card { padding: 1.75rem 1.5rem; }
+}
+
+@media (max-width: 480px) {
+  .navbar { padding: 0.65rem 0.75rem; gap: 0.4rem; }
+  .nav-logo { gap: 0.35rem; }
+  .nav-logo-icon { width: 34px; height: 34px; }
+  .nav-logo-text { display: none; }
+  .firma-paula { font-size: 1.25rem; margin-left: 0; }
 }
 
 /* ── Tierra en Calma showcase (homepage) ── */

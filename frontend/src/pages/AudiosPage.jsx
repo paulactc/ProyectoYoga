@@ -372,12 +372,11 @@ function CtaSection() {
           El movimiento completa<br />lo que el audio empieza
         </h2>
         <p className="audios-cta-texto">
-          Estos audios son solo el principio. En el Aula Online encontrarás clases de yoga,
-          pranayama y más — todo diseñado para que construyas una práctica real, sostenible y tuya.
+          Estos audios son solo el principio. El Pack Raíz añade 8 clases de Movilidad Funcional
+          y Vinyasa en vídeo — todo diseñado para que construyas una práctica real, sostenible y tuya.
         </p>
         <div className="audios-cta-btns">
           <Link to="/aula-online" className="btn">Ver el Pack Raíz · 15,99€</Link>
-          <Link to="/aula-online" className="btn btn-outline-dark">Explorar clases →</Link>
         </div>
       </div>
     </section>

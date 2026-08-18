@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useAuth } from '../context/AuthContext'
 
-export default function TestimoniosPage({ onOpenLogin, onOpenRegister }) {
+export default function TestimoniosPage() {
   const { user } = useAuth()
   const [form, setForm] = useState({ nombre: '', texto: '' })
   const [status, setStatus] = useState(null)
@@ -54,19 +54,7 @@ export default function TestimoniosPage({ onOpenLogin, onOpenRegister }) {
           <p>Si te apetece compartir cómo ha sido tu experiencia en las clases, aquí puedes dejar tu opinión. Con tu permiso, la publicaré en la web para que otras personas la vean.</p>
         </header>
 
-        {!user ? (
-          <div className="legal-wrap" style={{ textAlign: 'center', maxWidth: 480, margin: '0 auto' }}>
-            <p style={{ color: 'var(--muted)', marginBottom: '1.5rem' }}>
-              Para dejar tu opinión necesitas tener una cuenta.
-            </p>
-            <button type="button" className="btn" onClick={onOpenRegister} style={{ marginRight: '0.75rem' }}>
-              Crear cuenta gratis →
-            </button>
-            <button type="button" className="forgot-link" onClick={onOpenLogin}>
-              Ya tengo cuenta, iniciar sesión
-            </button>
-          </div>
-        ) : status === 'success' ? (
+        {status === 'success' ? (
           <p className="legal-updated" style={{ textAlign: 'center', fontSize: '1.05rem' }}>
             ¡Gracias por tu tiempo! He recibido tu opinión.
           </p>
