@@ -12,5 +12,6 @@ router.post('/metodos-pago',             verifyToken, CuentaController.addMetodo
 router.delete('/metodos-pago/:id',       verifyToken, CuentaController.deleteMetodoPago);
 router.put('/metodos-pago/:id/predeterminado', verifyToken, CuentaController.setMetodoPredeterminado);
 router.put('/password',                  verifyToken, CuentaController.changePassword);
+router.delete('/eliminar',               verifyToken, CuentaController.eliminarCuenta);
 
 module.exports = router;

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
 const PANELES = [
@@ -69,7 +69,7 @@ export default function MiCuentaPage({ onOpenLogin }) {
           {panel === 'pedidos'      && <PanelPedidos token={token} />}
           {panel === 'direccion'    && <PanelDireccion token={token} user={user} />}
           {panel === 'metodos-pago' && <PanelMetodosPago token={token} />}
-          {panel === 'detalles'     && <PanelDetalles token={token} user={user} updateUser={updateUser} />}
+          {panel === 'detalles'     && <PanelDetalles token={token} user={user} updateUser={updateUser} logout={logout} />}
         </section>
       </div>
     </main>
@@ -353,7 +353,8 @@ function PanelMetodosPago({ token }) {
 }
 
 // ── Panel Detalles de la cuenta ──────────────────────────────────────────────
-function PanelDetalles({ token, user, updateUser }) {
+function PanelDetalles({ token, user, updateUser, logout }) {
+  const navigate = useNavigate()
   const [nombre, setNombre] = useState(user.nombre || '')
   const [apellidos, setApellidos] = useState(user.apellidos || '')
   const [email, setEmail] = useState(user.email || '')
@@ -364,6 +365,11 @@ function PanelDetalles({ token, user, updateUser }) {
   const [passConfirm, setPassConfirm] = useState('')
   const [passStatus, setPassStatus] = useState(null)
   const [passError, setPassError] = useState('')
+
+  const [showBaja, setShowBaja] = useState(false)
+  const [bajaPassword, setBajaPassword] = useState('')
+  const [bajaStatus, setBajaStatus] = useState(null)
+  const [bajaError, setBajaError] = useState('')
 
   async function handleSaveInfo(e) {
     e.preventDefault()
@@ -408,6 +414,26 @@ function PanelDetalles({ token, user, updateUser }) {
     }
   }
 
+  async function handleEliminarCuenta(e) {
+    e.preventDefault()
+    if (!confirm('Esto eliminará tu cuenta y todos tus datos de forma permanente. ¿Continuar?')) return
+    setBajaError('')
+    setBajaStatus('loading')
+    const res = await fetch('/api/cuenta/eliminar', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ password: bajaPassword })
+    })
+    const data = await res.json()
+    if (data.success) {
+      logout()
+      navigate('/')
+    } else {
+      setBajaError(data.message || 'Error al eliminar la cuenta')
+      setBajaStatus(null)
+    }
+  }
+
   return (
     <div className="cuenta-panel-content active">
       <h2>Detalles de la cuenta</h2>
@@ -435,6 +461,31 @@ function PanelDetalles({ token, user, updateUser }) {
           {passStatus === 'loading' ? 'Actualizando…' : passStatus === 'saved' ? 'Contraseña actualizada ✓' : 'Actualizar contraseña'}
         </button>
       </form>
+
+      <div className="cuenta-divider" />
+
+      <h3 className="cuenta-h3">Eliminar cuenta</h3>
+      <p className="cuenta-panel-desc">
+        Esto borrará tu cuenta y todos tus datos (pedidos, dirección, tarjetas guardadas) de forma permanente. No se puede deshacer.
+      </p>
+      {!showBaja ? (
+        <button type="button" className="btn-outline" onClick={() => setShowBaja(true)}>
+          Eliminar mi cuenta
+        </button>
+      ) : (
+        <form className="cuenta-form" onSubmit={handleEliminarCuenta}>
+          <Field label="Confirma tu contraseña" type="password" value={bajaPassword} onChange={setBajaPassword} required autoComplete="current-password" />
+          {bajaError && <p className="cuenta-form-error">{bajaError}</p>}
+          <div className="add-tarjeta-actions">
+            <button type="submit" className="btn" disabled={bajaStatus === 'loading'}>
+              {bajaStatus === 'loading' ? 'Eliminando…' : 'Eliminar mi cuenta definitivamente'}
+            </button>
+            <button type="button" className="btn-link" onClick={() => { setShowBaja(false); setBajaPassword(''); setBajaError('') }}>
+              Cancelar
+            </button>
+          </div>
+        </form>
+      )}
     </div>
   )
 }

@@ -245,10 +245,10 @@ export default function HomePage() {
         <h2 className="testimonios-titulo">Cuando compartimos energía,<br /><em>las distancias desaparecen</em></h2>
         <div className="testimonios-grid">
           {[
-            { texto: 'Yo nunca había hecho yoga en mi vida y la verdad es que me dio un poco de miedo al principio. Pero con Paula desde el primer día me sentí en casa. Ahora no me la quita nadie.', nombre: 'Laura M.', detalle: 'Alumna desde 2021' },
-            { texto: 'Vine porque tenía la espalda fatal y me quedé por todo lo demás. Paula te escucha, adapta la clase a cómo estás ese día y encima te lo pasas bien. Eso no lo encuentras en todos lados.', nombre: 'Sofía R.', detalle: 'Alumna desde 2022' },
-            { texto: 'Lo de la respiración me parecía un rollo hasta que lo probé. Salí de esa clase sin ansiedad por primera vez en meses. No sé cómo explicarlo pero funciona, y Paula sabe muy bien lo que hace.', nombre: 'Ana P.', detalle: 'Alumna desde 2023' },
-            ...testimoniosAlumnas.map(t => ({ texto: t.texto, nombre: t.nombre, detalle: '' })),
+            { texto: 'Yo nunca había hecho yoga en mi vida y la verdad es que me dio un poco de miedo al principio. Pero con Paula desde el primer día me sentí en casa. Ahora no me la quita nadie.', nombre: 'Laura M.', detalle: 'Junio 2026' },
+            { texto: 'Vine porque tenía la espalda fatal y me quedé por todo lo demás. Paula te escucha, adapta la clase a cómo estás ese día y encima te lo pasas bien. Eso no lo encuentras en todos lados.', nombre: 'Sofía R.', detalle: 'Julio 2026' },
+            { texto: 'Lo de la respiración me parecía un rollo hasta que lo probé. Salí de esa clase sin ansiedad por primera vez en meses. No sé cómo explicarlo pero funciona, y Paula sabe muy bien lo que hace.', nombre: 'Ana P.', detalle: 'Agosto 2026' },
+            ...testimoniosAlumnas.map(t => ({ texto: t.texto, nombre: t.nombre, detalle: formatFechaTestimonio(t.created_at) })),
           ].map(({ texto, nombre, detalle }, i) => (
             <div className="testimonio-card" key={`${nombre}-${i}`}>
               <div className="testimonio-stars">★★★★★</div>
@@ -302,4 +302,10 @@ export default function HomePage() {
       </section>
     </>
   )
+}
+
+function formatFechaTestimonio(fecha) {
+  if (!fecha) return ''
+  const texto = new Date(fecha).toLocaleDateString('es-ES', { month: 'long', year: 'numeric' })
+  return texto.charAt(0).toUpperCase() + texto.slice(1)
 }

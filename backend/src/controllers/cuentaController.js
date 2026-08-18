@@ -2,6 +2,12 @@ const bcrypt = require('bcryptjs');
 const PDFDocument = require('pdfkit');
 const { executeQuery, executeTransaction } = require('../config/database');
 
+let _stripe;
+function getStripe() {
+  if (!_stripe) _stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+  return _stripe;
+}
+
 class CuentaController {
   // ── Pedidos ──────────────────────────────────────────────────────────
   // Un "pedido" puede venir de la suscripción mensual (tabla `suscripciones`,
@@ -323,6 +329,49 @@ class CuentaController {
       res.json({ success: true, message: 'Contraseña actualizada correctamente' });
     } catch (err) {
       console.error('Error en changePassword:', err);
+      res.status(500).json({ success: false, message: 'Error interno del servidor' });
+    }
+  }
+
+  // ── Baja definitiva ──────────────────────────────────────────────────
+  static async eliminarCuenta(req, res) {
+    try {
+      const { password } = req.body;
+      if (!password) {
+        return res.status(400).json({ success: false, message: 'Introduce tu contraseña para confirmar' });
+      }
+      const result = await executeQuery('SELECT password, email FROM usuarios WHERE id = ?', [req.user.id]);
+      if (!result.success || result.data.length === 0) {
+        return res.status(404).json({ success: false, message: 'Usuario no encontrado' });
+      }
+      const valid = await bcrypt.compare(password, result.data[0].password);
+      if (!valid) {
+        return res.status(401).json({ success: false, message: 'La contraseña no es correcta' });
+      }
+      const { email } = result.data[0];
+
+      const activaSub = await executeQuery(
+        `SELECT stripe_subscription_id FROM suscripciones WHERE usuario_id = ? AND estado = 'activa'`,
+        [req.user.id]
+      );
+      const stripeSubId = activaSub.success && activaSub.data.length > 0 ? activaSub.data[0].stripe_subscription_id : null;
+      if (stripeSubId) {
+        try {
+          await getStripe().subscriptions.cancel(stripeSubId);
+        } catch (stripeErr) {
+          console.error('Error cancelando suscripción de Stripe al eliminar cuenta:', stripeErr.message);
+        }
+      }
+
+      // Las tablas con usuario_id tienen ON DELETE CASCADE; password_resets y
+      // email_verifications se identifican por email, sin FK, así que se limpian a mano.
+      await executeQuery('DELETE FROM password_resets WHERE email = ?', [email]);
+      await executeQuery('DELETE FROM email_verifications WHERE email = ?', [email]);
+      await executeQuery('DELETE FROM usuarios WHERE id = ?', [req.user.id]);
+
+      res.json({ success: true, message: 'Tu cuenta ha sido eliminada' });
+    } catch (err) {
+      console.error('Error en eliminarCuenta:', err);
       res.status(500).json({ success: false, message: 'Error interno del servidor' });
     }
   }
