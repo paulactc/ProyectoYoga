@@ -80,13 +80,33 @@ export default function MiCuentaPage({ onOpenLogin }) {
 function PanelPedidos({ token }) {
   const [pedidos, setPedidos] = useState([])
   const [loading, setLoading] = useState(true)
+  const [cancelando, setCancelando] = useState(false)
 
-  useEffect(() => {
-    fetch('/api/cuenta/pedidos', { headers: { Authorization: `Bearer ${token}` } })
+  const cargarPedidos = useCallback(() => {
+    return fetch('/api/cuenta/pedidos', { headers: { Authorization: `Bearer ${token}` } })
       .then(r => r.json())
       .then(d => { if (d.success) setPedidos(d.data) })
-      .finally(() => setLoading(false))
   }, [token])
+
+  useEffect(() => {
+    cargarPedidos().finally(() => setLoading(false))
+  }, [cargarPedidos])
+
+  async function handleCancelarSuscripcion() {
+    if (!confirm('¿Seguro que quieres cancelar tu suscripción?')) return
+    setCancelando(true)
+    const res = await fetch('/api/suscripcion/cancelar', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}` }
+    })
+    const data = await res.json()
+    if (data.success) {
+      await cargarPedidos()
+    } else {
+      alert(data.message || 'Error al cancelar la suscripción')
+    }
+    setCancelando(false)
+  }
 
   function handleDescargar(id) {
     const a = document.createElement('a')
@@ -130,6 +150,11 @@ function PanelPedidos({ token }) {
                   <button className="btn-factura" onClick={() => handleDescargar(p.id)}>
                     Descargar factura
                   </button>
+                  {p.tipo !== 'pack' && p.estado === 'activa' && (
+                    <button className="btn-factura" onClick={handleCancelarSuscripcion} disabled={cancelando}>
+                      {cancelando ? 'Cancelando…' : 'Cancelar suscripción'}
+                    </button>
+                  )}
                 </div>
               </div>
             )

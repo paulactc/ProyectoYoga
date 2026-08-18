@@ -39,6 +39,7 @@ export default function Navbar({ onOpenLogin }) {
         <li><Link to="/aula-online" className={isActive('/aula-online')} onClick={closeMenu}>Practicar</Link></li>
         <li><a href="/#sobre-mi" onClick={closeMenu}>Qué es Yoga Tierra</a></li>
         <li><Link to="/blog" className={isActive('/blog')} onClick={closeMenu}>Blog</Link></li>
+        <li><Link to="/opiniones" className={isActive('/opiniones')} onClick={closeMenu}>Opiniones</Link></li>
         <li><a href="/#contacto" onClick={closeMenu}>Contacto</a></li>
         <li><Link to="/suscripcion" className={isActive('/suscripcion')} onClick={closeMenu}>El Pack</Link></li>
         {user ? (

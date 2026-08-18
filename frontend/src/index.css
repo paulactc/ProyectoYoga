@@ -7134,6 +7134,7 @@ a.nav-logo {
 }
 .servicio-card:hover .servicio-card-img img { transform: scale(1.07); }
 .servicio-card-img--tall { aspect-ratio: 0.64; }
+.servicio-card-img--online { aspect-ratio: 0.56; }
 .servicio-card-img--taller {
   aspect-ratio: 0.75;
   background: #1d1611;

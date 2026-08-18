@@ -105,8 +105,8 @@ export default function HomePage() {
             </div>
           </div>
           <div className="servicio-card">
-            <div className="servicio-card-img">
-              <img src="/images/avanzadoa2.jpg" alt="Clase de yoga online en directo por videollamada" />
+            <div className="servicio-card-img servicio-card-img--online">
+              <img src="/images/yoga19.jpg" alt="Clase de yoga online en directo por videollamada" />
               <span className="servicio-card-tag">Online</span>
             </div>
             <div className="servicio-card-body">

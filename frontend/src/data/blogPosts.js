@@ -96,7 +96,7 @@ export const BLOG_POSTS = [
         tipo: 'parrafo',
         texto: 'Otra forma, más silenciosa, es usar la espiritualidad para no sentir. "Suelto lo que no puedo controlar", decimos, y a veces es verdadera sabiduría — y otras veces es una manera elegante de no enfadarnos, no llorar, no reconocer que algo nos ha dolido. Cuando la calma se convierte en una máscara para no estar presente con lo difícil, deja de ser calma. Se llama spiritual bypassing, y es más común de lo que parece, sobre todo en quienes llevamos tiempo practicando.',
       },
-      { tipo: 'imagen', src: '/images/yoga14.jpg', alt: 'Práctica de yoga sobre el regreso constante de la atención' },
+      { tipo: 'imagen', src: '/images/yoga22.jpg', alt: 'Práctica de yoga sobre el regreso constante de la atención' },
       { tipo: 'subtitulo', texto: 'Señales para reconocerlo' },
       {
         tipo: 'parrafo',
@@ -107,7 +107,7 @@ export const BLOG_POSTS = [
         tipo: 'parrafo',
         texto: 'La forma que he encontrado de trabajar con esto no es dramática: es volver, una y otra vez, al cuerpo tal y como está hoy. El cuerpo no miente ni compara — simplemente está donde está. Cuando la práctica se apoya de verdad en el cuerpo, y no en la idea de quién quieres ser, el ego tiene mucho menos donde agarrarse. Por eso insisto tanto en empezar desde cero cada vez, sin exigencias: no como humillación, sino como el gesto más honesto que existe.',
       },
-      { tipo: 'imagen', src: '/images/yoga-30.jpg', alt: 'Yoga Tierra Viva, práctica desde la calma' },
+      { tipo: 'imagen', src: '/images/yoga23.jpg', alt: 'Yoga Tierra Viva, práctica desde la calma' },
       {
         tipo: 'parrafo',
         texto: 'Esto conecta directamente con dos de las clases del Aula: "El regreso constante" practica exactamente ese gesto — notar que la mente se fue, y volver, sin culpa. Y "Desapego en movimiento" trabaja el equilibrio inestable como forma de soltar el apego al resultado. Si el cuerpo cae, no ha fallado: está diciendo la verdad del momento. El ego espiritual no se combate con más disciplina — se disuelve, poco a poco, cada vez que elegimos la verdad del cuerpo por encima de la imagen que queremos dar de nosotras mismas.',
