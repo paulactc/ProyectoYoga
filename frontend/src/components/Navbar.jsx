@@ -27,6 +27,7 @@ export default function Navbar({ onOpenLogin }) {
           <path d="M18 16 C17 13 15 11 18 10 C21 11 19 13 18 16"/>
         </svg>
         Yoga Tierra Viva
+        <span className="firma-paula">Paula</span>
       </a>
 
       <ul className={`nav-links${menuOpen ? ' open' : ''}`}>
@@ -41,7 +42,6 @@ export default function Navbar({ onOpenLogin }) {
         <li><Link to="/blog" className={isActive('/blog')} onClick={closeMenu}>Blog</Link></li>
         <li><Link to="/opiniones" className={isActive('/opiniones')} onClick={closeMenu}>Opiniones</Link></li>
         <li><a href="/#contacto" onClick={closeMenu}>Contacto</a></li>
-        <li><Link to="/suscripcion" className={isActive('/suscripcion')} onClick={closeMenu}>El Pack</Link></li>
         {user ? (
           <>
             <li><Link to="/mi-cuenta" className={isActive('/mi-cuenta')} onClick={closeMenu}>Mi cuenta</Link></li>

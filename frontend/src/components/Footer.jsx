@@ -12,6 +12,7 @@ export default function Footer() {
           <path d="M18 16 C17 13 15 11 18 10 C21 11 19 13 18 16"/>
         </svg>
         <span>Yoga Tierra Viva</span>
+        <span className="firma-paula">Paula</span>
       </div>
 
       <div className="footer-social">

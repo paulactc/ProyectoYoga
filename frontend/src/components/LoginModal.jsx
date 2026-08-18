@@ -254,11 +254,11 @@ export default function LoginModal({ isOpen, onClose, initialView = 'login' }) {
               <div className="check-group">
                 <label className="check-label">
                   <input type="checkbox" required />
-                  <span>Acepto los <Link to="/aviso-legal" onClick={handleClose} className="link-legal">Términos y condiciones</Link></span>
+                  <span>Acepto los <Link to="/aviso-legal" target="_blank" rel="noopener noreferrer" className="link-legal">Términos y condiciones</Link></span>
                 </label>
                 <label className="check-label">
                   <input type="checkbox" required />
-                  <span>He leído la <Link to="/politica-privacidad" onClick={handleClose} className="link-legal">Política de privacidad</Link></span>
+                  <span>He leído la <Link to="/politica-privacidad" target="_blank" rel="noopener noreferrer" className="link-legal">Política de privacidad</Link></span>
                 </label>
               </div>
               <p style={{ color: '#b04040', fontSize: '0.85rem', minHeight: '1.2em', textAlign: 'center' }}>{regError}</p>

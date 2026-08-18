@@ -30,7 +30,7 @@ const GRUPOS = [
     clases: [
       { id: 'g3-1', titulo: 'Del cuerpo al silencio',        duracion: 60, nivel: 2, descripcion: 'Del cuerpo al silencio: una práctica que va soltando capas hasta llegar a la quietud interior.', imagen: '/images/yoga11.jpg', vimeo_id: '1206825714' },
       { id: 'g3-2', titulo: 'El regreso constante',          duracion: 30, nivel: 2, descripcion: 'Una clase para practicar el gesto más honesto del yoga: darte cuenta de que la mente se fue, y volver. Sin culpa, sin esperar quedarte quieta para siempre, solo notar y regresar al cuerpo, una y otra vez, tantas veces como haga falta.', imagen: '/images/yoga14.jpg', vimeo_id: '1210240715' },
-      { id: 'g3-3', titulo: 'Fuerza silenciosa',              duracion: 40, nivel: 2, descripcion: 'La fuerza que no necesita hacer ruido: posturas sostenidas con control, para encontrar estabilidad sin tensión de más.', imagen: '/images/yoga14.jpg', vimeo_id: '1218287865' },
+      { id: 'g3-3', titulo: 'Fuerza silenciosa',              duracion: 40, nivel: 2, descripcion: 'La fuerza que no necesita hacer ruido: posturas sostenidas con control, para encontrar estabilidad sin tensión de más.', imagen: '/images/yoga25.jpg', vimeo_id: '1218287865' },
     ],
   },
 ]
@@ -174,7 +174,7 @@ export default function ClasesOnlinePage() {
                   <strong>Hola, {user.nombre.split(' ')[0]}</strong>
                   <span>Consigue el Pack Raíz (15,99€, para siempre) para desbloquear tus clases</span>
                 </div>
-                <Link to="/suscripcion" className="btn btn-sm aula-acceso-btn">Ver el pack →</Link>
+                <Link to="/suscripcion" className="btn btn-sm aula-acceso-btn">Consigue el Pack Raíz →</Link>
               </>
             ) : (
               <>

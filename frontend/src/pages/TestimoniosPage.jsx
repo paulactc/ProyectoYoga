@@ -1,8 +1,22 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useAuth } from '../context/AuthContext'
 
-export default function TestimoniosPage() {
+export default function TestimoniosPage({ onOpenLogin, onOpenRegister }) {
+  const { user } = useAuth()
   const [form, setForm] = useState({ nombre: '', texto: '' })
   const [status, setStatus] = useState(null)
+  const [opiniones, setOpiniones] = useState([])
+
+  useEffect(() => {
+    fetch('/api/testimonios')
+      .then(r => r.json())
+      .then(data => { if (data.success) setOpiniones(data.data) })
+      .catch(() => {})
+  }, [])
+
+  useEffect(() => {
+    if (user?.nombre) setForm(f => ({ ...f, nombre: user.nombre }))
+  }, [user])
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -40,7 +54,19 @@ export default function TestimoniosPage() {
           <p>Si te apetece compartir cómo ha sido tu experiencia en las clases, aquí puedes dejar tu opinión. Con tu permiso, la publicaré en la web para que otras personas la vean.</p>
         </header>
 
-        {status === 'success' ? (
+        {!user ? (
+          <div className="legal-wrap" style={{ textAlign: 'center', maxWidth: 480, margin: '0 auto' }}>
+            <p style={{ color: 'var(--muted)', marginBottom: '1.5rem' }}>
+              Para dejar tu opinión necesitas tener una cuenta.
+            </p>
+            <button type="button" className="btn" onClick={onOpenRegister} style={{ marginRight: '0.75rem' }}>
+              Crear cuenta gratis →
+            </button>
+            <button type="button" className="forgot-link" onClick={onOpenLogin}>
+              Ya tengo cuenta, iniciar sesión
+            </button>
+          </div>
+        ) : status === 'success' ? (
           <p className="legal-updated" style={{ textAlign: 'center', fontSize: '1.05rem' }}>
             ¡Gracias por tu tiempo! He recibido tu opinión.
           </p>
@@ -66,7 +92,28 @@ export default function TestimoniosPage() {
             {status === 'error' && <p className="plans-error">No se pudo enviar. Inténtalo de nuevo.</p>}
           </form>
         )}
+
+        {opiniones.length > 0 && (
+          <div className="testimonios-grid" style={{ marginTop: '4rem' }}>
+            {opiniones.map((t, i) => (
+              <div className="testimonio-card" key={`${t.nombre}-${i}`}>
+                <div className="testimonio-stars">★★★★★</div>
+                <p className="testimonio-quote">"{t.texto}"</p>
+                <div className="testimonio-autor">
+                  <strong>{t.nombre}</strong>
+                  {formatFechaTestimonio(t.created_at)}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </main>
   )
+}
+
+function formatFechaTestimonio(fecha) {
+  if (!fecha) return ''
+  const texto = new Date(fecha).toLocaleDateString('es-ES', { month: 'long', year: 'numeric' })
+  return texto.charAt(0).toUpperCase() + texto.slice(1)
 }
