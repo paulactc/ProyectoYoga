@@ -19,7 +19,7 @@ function parseUserId(param) {
   return Number.isFinite(id) && id > 0 ? id : null;
 }
 
-// GET /api/admin/usuarios — lista todas las usuarias con estado de suscripción
+// GET /api/admin/usuarios — lista todas las usuarias con estado de suscripción y packs comprados
 router.get('/usuarios', async (req, res) => {
   const result = await executeQuery(`
     SELECT
@@ -30,12 +30,19 @@ router.get('/usuarios', async (req, res) => {
       s.estado       AS sub_estado,
       s.fecha_inicio AS sub_inicio,
       s.fecha_fin    AS sub_fin,
-      s.stripe_subscription_id
+      s.stripe_subscription_id,
+      cp.packs       AS pack_slugs,
+      cp.pack_fecha  AS pack_created_at
     FROM usuarios u
     LEFT JOIN suscripciones s
       ON s.usuario_id = u.id
       AND s.estado = 'activa'
       AND s.fecha_fin >= CURDATE()
+    LEFT JOIN (
+      SELECT usuario_id, GROUP_CONCAT(pack_slug) AS packs, MAX(created_at) AS pack_fecha
+      FROM compras_pack
+      GROUP BY usuario_id
+    ) cp ON cp.usuario_id = u.id
     ORDER BY u.created_at DESC
   `);
   if (!result.success) return res.status(500).json({ success: false });

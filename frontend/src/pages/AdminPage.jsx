@@ -124,8 +124,9 @@ export default function AdminPage() {
 
   if (!user || user.rol !== 'admin') return null
 
-  const pagadas  = usuarios.filter(u => u.sub_estado === 'activa')
-  const gratuitas = usuarios.filter(u => u.sub_estado !== 'activa')
+  const pagadas   = usuarios.filter(u => u.sub_estado === 'activa')
+  const conPack   = usuarios.filter(u => u.sub_estado !== 'activa' && !!u.pack_slugs)
+  const gratuitas = usuarios.filter(u => u.sub_estado !== 'activa' && !u.pack_slugs)
 
   function formatFecha(iso) {
     if (!iso) return '—'
@@ -146,6 +147,10 @@ export default function AdminPage() {
           <div className="admin-stat admin-stat--pago">
             <span className="admin-stat-num">{pagadas.length}</span>
             <span className="admin-stat-label">Con suscripción activa</span>
+          </div>
+          <div className="admin-stat admin-stat--pago">
+            <span className="admin-stat-num">{conPack.length}</span>
+            <span className="admin-stat-label">Con Pack Raíz</span>
           </div>
           <div className="admin-stat">
             <span className="admin-stat-num">{gratuitas.length}</span>
@@ -175,8 +180,9 @@ export default function AdminPage() {
                 {usuarios.map(u => {
                   const esPago = u.sub_estado === 'activa'
                   const esManual = u.stripe_subscription_id === 'manual_admin'
+                  const tienePack = !esPago && !!u.pack_slugs
                   return (
-                    <tr key={u.id} className={esPago ? 'admin-row--pago' : ''}>
+                    <tr key={u.id} className={esPago || tienePack ? 'admin-row--pago' : ''}>
                       <td>{u.nombre}</td>
                       <td className="admin-email">{u.email}</td>
                       <td>
@@ -184,15 +190,17 @@ export default function AdminPage() {
                           <span className="admin-badge admin-badge--pago">
                             {esManual ? 'Pago (manual)' : 'Pago'}
                           </span>
+                        ) : tienePack ? (
+                          <span className="admin-badge admin-badge--pago">Pack Raíz</span>
                         ) : (
                           <span className="admin-badge admin-badge--free">Gratuita</span>
                         )}
                       </td>
-                      <td>{formatFecha(u.sub_fin)}</td>
+                      <td>{esPago ? formatFecha(u.sub_fin) : tienePack ? formatFecha(u.pack_created_at) : '—'}</td>
                       <td className="admin-metodo">
-                        {u.stripe_subscription_id
-                          ? (esManual ? 'Admin' : 'Stripe')
-                          : '—'}
+                        {esPago
+                          ? (u.stripe_subscription_id ? (esManual ? 'Admin' : 'Stripe') : '—')
+                          : tienePack ? 'Stripe (pack)' : '—'}
                       </td>
                       <td>{formatFecha(u.created_at)}</td>
                       <td className="admin-acciones">
