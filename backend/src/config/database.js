@@ -690,6 +690,16 @@ async function runMigrations() {
       )
     `)
   );
+
+  await runSafeMigration('Columna last_welcome_msg_index en usuarios', async () => {
+    const [[{ cnt }]] = await pool.execute(
+      `SELECT COUNT(*) as cnt FROM INFORMATION_SCHEMA.COLUMNS
+       WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'usuarios' AND COLUMN_NAME = 'last_welcome_msg_index'`
+    );
+    if (cnt === 0) {
+      await pool.execute(`ALTER TABLE usuarios ADD COLUMN last_welcome_msg_index TINYINT UNSIGNED NOT NULL DEFAULT 0`);
+    }
+  });
 }
 
 async function testConnection(retries = 5, delay = 3000) {

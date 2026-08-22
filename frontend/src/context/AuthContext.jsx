@@ -7,16 +7,32 @@ export function AuthProvider({ children }) {
   const [auth, setAuth] = useState(() => {
     try { return JSON.parse(localStorage.getItem(AUTH_KEY)) } catch { return null }
   })
+  const [welcomeMessageIndex, setWelcomeMessageIndex] = useState(null)
 
   const user = auth?.user || null
   const token = auth?.token || null
   const isSubscribed = !!user?.subscribed || user?.rol === 'admin'
   const ownsPack = !!user?.ownsPack || user?.rol === 'admin'
 
+  async function fetchWelcomeMessage(tok) {
+    try {
+      const res = await fetch('/api/cuenta/bienvenida', {
+        headers: { Authorization: `Bearer ${tok}` }
+      })
+      const data = await res.json()
+      if (data.success) setWelcomeMessageIndex(data.data.index)
+    } catch { /* sin conexión: no bloquea el login */ }
+  }
+
+  function clearWelcomeMessage() {
+    setWelcomeMessageIndex(null)
+  }
+
   function saveAuth(token, user) {
     const data = { token, user }
     localStorage.setItem(AUTH_KEY, JSON.stringify(data))
     setAuth(data)
+    fetchWelcomeMessage(token)
   }
 
   function updateUser(fields) {
@@ -31,6 +47,7 @@ export function AuthProvider({ children }) {
   function logout() {
     localStorage.removeItem(AUTH_KEY)
     setAuth(null)
+    setWelcomeMessageIndex(null)
   }
 
   const refreshSubscription = useCallback(async () => {
@@ -95,7 +112,10 @@ export function AuthProvider({ children }) {
   }, [refreshSubscription, refreshPack])
 
   return (
-    <AuthContext.Provider value={{ user, token, isSubscribed, ownsPack, saveAuth, updateUser, logout, refreshSubscription, refreshPack }}>
+    <AuthContext.Provider value={{
+      user, token, isSubscribed, ownsPack, saveAuth, updateUser, logout, refreshSubscription, refreshPack,
+      welcomeMessageIndex, clearWelcomeMessage,
+    }}>
       {children}
     </AuthContext.Provider>
   )

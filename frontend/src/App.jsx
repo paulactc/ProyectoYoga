@@ -17,6 +17,7 @@ import { AuthProvider } from './context/AuthContext'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import LoginModal from './components/LoginModal'
+import WelcomeModal from './components/WelcomeModal'
 import HomePage from './pages/HomePage'
 import ClasesOnlinePage from './pages/ClasesOnlinePage'
 import ProximamentePage from './pages/ProximamentePage'
@@ -46,6 +47,7 @@ export default function App() {
       <ScrollToTop />
       <Navbar onOpenLogin={openLogin} />
       <LoginModal isOpen={loginOpen} onClose={() => setLoginOpen(false)} initialView={loginInitialView} />
+      <WelcomeModal />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/aula-online" element={<ClasesOnlinePage />} />

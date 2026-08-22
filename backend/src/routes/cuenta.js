@@ -3,6 +3,7 @@ const router = express.Router();
 const CuentaController = require('../controllers/cuentaController');
 const { verifyToken } = require('../middleware/auth');
 
+router.get('/bienvenida',                 verifyToken, CuentaController.getBienvenida);
 router.get('/pedidos',                    verifyToken, CuentaController.getPedidos);
 router.get('/pedidos/:id/factura',        verifyToken, CuentaController.getFactura);
 router.get('/direccion',                  verifyToken, CuentaController.getDireccion);

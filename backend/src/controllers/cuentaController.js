@@ -8,6 +8,8 @@ function getStripe() {
   return _stripe;
 }
 
+const WELCOME_MESSAGES_TOTAL = 20;
+
 class CuentaController {
   // ── Pedidos ──────────────────────────────────────────────────────────
   // Un "pedido" puede venir de la suscripción mensual (tabla `suscripciones`,
@@ -372,6 +374,31 @@ class CuentaController {
       res.json({ success: true, message: 'Tu cuenta ha sido eliminada' });
     } catch (err) {
       console.error('Error en eliminarCuenta:', err);
+      res.status(500).json({ success: false, message: 'Error interno del servidor' });
+    }
+  }
+
+  // ── Mensaje de bienvenida ────────────────────────────────────────────
+  // Devuelve el índice (0-19) del mensaje que toca mostrar en este login y
+  // avanza el contador para el siguiente, dando la vuelta al llegar a 20.
+  static async getBienvenida(req, res) {
+    try {
+      const result = await executeQuery(
+        'SELECT last_welcome_msg_index FROM usuarios WHERE id = ?',
+        [req.user.id]
+      );
+      if (!result.success || result.data.length === 0) {
+        return res.status(404).json({ success: false, message: 'Usuario no encontrado' });
+      }
+      const index = result.data[0].last_welcome_msg_index;
+      const nextIndex = (index + 1) % WELCOME_MESSAGES_TOTAL;
+      await executeQuery(
+        'UPDATE usuarios SET last_welcome_msg_index = ? WHERE id = ?',
+        [nextIndex, req.user.id]
+      );
+      res.json({ success: true, data: { index } });
+    } catch (err) {
+      console.error('Error en getBienvenida:', err);
       res.status(500).json({ success: false, message: 'Error interno del servidor' });
     }
   }

@@ -54,6 +54,21 @@ class PackController {
           'UPDATE usuarios SET stripe_customer_id = ? WHERE id = ?',
           [stripeCustomerId, usuarioId]
         );
+      } else {
+        // El pago pudo completarse ya en Stripe sin que el webhook haya llegado
+        // todavía a nuestra BD (compras_pack). Preguntamos a Stripe directamente
+        // antes de abrir un segundo cobro para el mismo pack.
+        const recentSessions = await getStripe().checkout.sessions.list({
+          customer: stripeCustomerId,
+          limit: 10,
+        });
+        const paidSession = recentSessions.data.find(s =>
+          s.metadata?.pack_slug === PACK_SLUG && s.payment_status === 'paid'
+        );
+        if (paidSession) {
+          await PackController.registrarCompra(paidSession);
+          return res.status(409).json({ success: false, message: 'Ya tienes el Pack Raíz' });
+        }
       }
 
       const baseUrl = process.env.FRONTEND_URL
