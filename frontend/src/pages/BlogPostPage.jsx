@@ -32,11 +32,11 @@ export default function BlogPostPage() {
 
   return (
     <article className="blog-post">
-      <header className={`blog-post-hero${slug === 'el-ego-espiritual' ? ' blog-post-hero--ego' : ''}`}>
+      <header className={`blog-post-hero${slug === 'el-ego-espiritual' ? ' blog-post-hero--ego' : ''}${slug === 'abhyasa-y-vairagya' ? ' blog-post-hero--abhyasa' : ''}`}>
         <img
           src={post.imagenPortada}
           alt={post.imagenPortadaAlt || post.titulo}
-          className={`blog-post-hero-img${slug === 'el-ego-espiritual' ? ' blog-post-hero-img--ego' : ''}`}
+          className={`blog-post-hero-img${slug === 'el-ego-espiritual' ? ' blog-post-hero-img--ego' : ''}${slug === 'abhyasa-y-vairagya' ? ' blog-post-hero-img--abhyasa' : ''}`}
         />
         <div className="blog-post-hero-overlay" />
         <div className="blog-post-hero-content">

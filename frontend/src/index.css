@@ -3625,11 +3625,35 @@ a.nav-logo {
 .modal-close:hover { color: var(--dark); }
 
 .welcome-modal {
-  max-width: 420px;
-  padding: 3rem 2.5rem 2.5rem;
+  max-width: 440px;
+  padding: 3rem 2.75rem 2.75rem;
   text-align: center;
-  background: #faf5ef;
-  border-radius: 1.25rem;
+  background: radial-gradient(120% 140% at 50% 0%, #fff9f2 0%, #faf1e6 55%, #f5e9da 100%);
+  border-radius: 1.5rem;
+  box-shadow: 0 24px 60px rgba(140,78,47,0.22), 0 0 0 1px rgba(212,160,96,0.18);
+}
+
+.welcome-modal-icon-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.1rem;
+}
+
+.welcome-modal-icon {
+  width: 40px;
+  height: 40px;
+  color: var(--tierra);
+}
+
+.welcome-modal-eyebrow {
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  font-style: italic;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--accent);
+  opacity: 0.85;
+  margin: 0 0 1.3rem;
 }
 
 .welcome-modal-text {
@@ -7357,6 +7381,12 @@ a.nav-logo {
 .blog-post-hero-img--ego {
   object-position: center 20%;
 }
+.blog-post-hero--abhyasa {
+  min-height: 78vh;
+}
+.blog-post-hero-img--abhyasa {
+  object-position: center 68%;
+}
 .blog-post-hero-overlay {
   position: absolute;
   inset: 0;
@@ -7395,25 +7425,43 @@ a.nav-logo {
 }
 
 .blog-post-body {
-  max-width: 680px;
+  max-width: 700px;
   margin: 0 auto;
   padding: 3.5rem 2rem 2rem;
 }
 .blog-post-parrafo {
-  font-size: 1.02rem;
-  line-height: 1.85;
-  color: #4a4a4a;
-  margin: 0 0 1.4rem;
+  font-size: 1.16rem;
+  line-height: 1.9;
+  color: #3d3d3d;
+  margin: 0 0 1.5rem;
+}
+.blog-post-body > .blog-post-parrafo:first-child {
+  font-size: 1.3rem;
+  line-height: 1.75;
+  color: var(--dark);
+  font-weight: 500;
 }
 .blog-post-subtitulo {
-  font-family: var(--font-heading);
-  font-size: 1.4rem;
-  font-weight: 500;
-  color: var(--dark);
-  margin: 2.2rem 0 1rem;
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--tierra);
+  margin: 3rem 0 1.2rem;
+  position: relative;
+}
+.blog-post-subtitulo::before {
+  content: '';
+  display: block;
+  width: 36px;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--tierra));
+  margin-bottom: 1rem;
 }
 .blog-post-imagen {
-  margin: 2rem 0;
+  margin: 2.25rem 0;
 }
 .blog-post-imagen img {
   width: 100%;
@@ -7455,4 +7503,5 @@ a.nav-logo {
 @media (max-width: 640px) {
   .blog-post-hero-content { padding: 4.5rem 1.25rem 2rem; }
   .blog-post-body { padding: 2.5rem 1.25rem 1rem; }
+  .blog-post-hero-img--abhyasa { object-position: center 88%; }
 }
