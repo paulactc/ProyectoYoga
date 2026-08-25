@@ -18,6 +18,7 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import LoginModal from './components/LoginModal'
 import WelcomeModal from './components/WelcomeModal'
+import Analytics from './components/Analytics'
 import HomePage from './pages/HomePage'
 import ClasesOnlinePage from './pages/ClasesOnlinePage'
 import ProximamentePage from './pages/ProximamentePage'
@@ -44,6 +45,7 @@ export default function App() {
 
   return (
     <AuthProvider>
+      <Analytics />
       <ScrollToTop />
       <Navbar onOpenLogin={openLogin} />
       <LoginModal isOpen={loginOpen} onClose={() => setLoginOpen(false)} initialView={loginInitialView} />

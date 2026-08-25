@@ -4,7 +4,7 @@ export default function PoliticaCookiesPage() {
       <div className="legal-wrap">
         <p className="hero-eyebrow">Legal</p>
         <h1>Política de Cookies</h1>
-        <p className="legal-updated">Última actualización: junio de 2026</p>
+        <p className="legal-updated">Última actualización: agosto de 2026</p>
 
         <section className="legal-section">
           <h2>1. Introducción</h2>
@@ -45,17 +45,15 @@ export default function PoliticaCookiesPage() {
             Esta web utiliza almacenamiento local (<em>localStorage</em>) para mantener tu sesión iniciada de forma segura. Esta información permanece en tu dispositivo y no se transmite a terceros salvo para verificar tu identidad con nuestros servidores.
           </p>
 
-          <h3>5.2 Cookies analíticas</h3>
+          <h3>5.2 Analítica web sin cookies</h3>
           <p>
-            Actualmente esta web no utiliza cookies analíticas de terceros. Si en el futuro se implementaran, te informaremos y solicitaremos tu consentimiento.
+            Esta web puede utilizar Cloudflare Web Analytics para conocer el número de visitas, las páginas más vistas y de qué país o web proceden los visitantes. Esta herramienta funciona sin cookies, sin almacenamiento en tu dispositivo y sin generar una huella digital (fingerprinting) que permita identificarte, por lo que no se considera un dato personal ni requiere tu consentimiento previo según el RGPD y la LSSICE. Puedes consultar la política de privacidad de esta herramienta en{' '}
+            <a href="https://www.cloudflare.com/web-analytics/" target="_blank" rel="noopener noreferrer">cloudflare.com/web-analytics</a>.
           </p>
 
-          <h3>5.3 Botones de medios sociales</h3>
+          <h3>5.3 Enlaces a redes sociales</h3>
           <p>
-            En la web se han incluido botones para Instagram que permiten compartir contenido en redes sociales. Estos botones funcionan usando código de Instagram. Este código puede incrustar cookies y almacenar cierta información para mostrar anuncios personalizados.
-          </p>
-          <p>
-            Por favor, lee la política de privacidad de Instagram (que puede cambiar frecuentemente) para saber qué hacen con tus datos personales. Instagram está ubicado en los Estados Unidos.
+            En el pie de página encontrarás un enlace a nuestro perfil de Instagram. Es un enlace normal que abre Instagram en una pestaña nueva: no hay ningún botón ni contenido de Instagram incrustado en esta web, por lo que no coloca cookies mientras navegas por aquí. Si haces clic y visitas Instagram, será esa web la que gestione sus propias cookies según su política de privacidad; Instagram está ubicado en los Estados Unidos.
           </p>
         </section>
 
@@ -78,21 +76,18 @@ export default function PoliticaCookiesPage() {
                   <td>Mantener la sesión del usuario iniciada (almacenado en localStorage, no en cookie)</td>
                   <td>7 días</td>
                 </tr>
-                <tr>
-                  <td>Cookies de Instagram</td>
-                  <td>Social / Marketing</td>
-                  <td>Botón de compartir en Instagram</td>
-                  <td>Variable (gestionado por Instagram)</td>
-                </tr>
               </tbody>
             </table>
           </div>
+          <p>
+            Esta web no coloca ninguna cookie de analítica, publicidad o redes sociales. Si en el futuro se incorporara alguna, actualizaríamos esta política y solicitaríamos tu consentimiento mediante un aviso antes de activarla.
+          </p>
         </section>
 
         <section className="legal-section">
           <h2>7. Consentimiento</h2>
           <p>
-            Cuando visites esta web por primera vez, te mostraremos una notificación sobre el uso de cookies. Al continuar navegando o hacer clic en «Aceptar», consientes el uso de las cookies descritas en esta política. Puedes desactivar el uso de cookies a través de tu navegador, aunque ten en cuenta que algunas funciones de la web pueden dejar de funcionar correctamente.
+            La única cookie que usamos (<code>ytv_auth</code>) es estrictamente funcional: sirve únicamente para mantener tu sesión iniciada y se coloca solo cuando tú creas una cuenta o inicias sesión de forma voluntaria. Según la LSSICE, este tipo de cookies no requiere tu consentimiento previo, por lo que no mostramos un aviso emergente al entrar en la web. Si en el futuro incorporamos cookies que sí lo requieran (publicidad, redes sociales, etc.), te lo pediremos expresamente antes de activarlas. Puedes desactivar el uso de cookies a través de tu navegador, aunque ten en cuenta que algunas funciones de la web, como mantener la sesión iniciada, pueden dejar de funcionar correctamente.
           </p>
         </section>
 
