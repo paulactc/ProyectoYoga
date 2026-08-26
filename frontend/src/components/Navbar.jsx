@@ -7,7 +7,10 @@ export default function Navbar({ onOpenLogin }) {
   const { user, logout } = useAuth()
   const location = useLocation()
 
-  const isActive = (path) => location.pathname === path ? 'nav-active' : ''
+  const isActive = (path) => {
+    const activo = path === '/admin' ? location.pathname.startsWith('/admin') : location.pathname === path
+    return activo ? 'nav-active' : ''
+  }
 
   function closeMenu() { setMenuOpen(false) }
 

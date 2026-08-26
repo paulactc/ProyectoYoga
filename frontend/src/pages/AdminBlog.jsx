@@ -161,7 +161,7 @@ export default function AdminBlog({ token }) {
 
   return (
     <>
-      <h2 className="admin-titulo" style={{ fontSize: '1.4rem', marginTop: '3rem' }}>Blog</h2>
+      <h2 className="admin-titulo" style={{ fontSize: '1.4rem' }}>Blog</h2>
       <p className="admin-subtitulo">Escribe y publica tus propios artículos, sin tocar código.</p>
 
       {!editId && (
