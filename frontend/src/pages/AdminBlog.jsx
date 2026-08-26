@@ -262,14 +262,14 @@ export default function AdminBlog({ token }) {
             <tbody>
               {posts.map(p => (
                 <tr key={p.id}>
-                  <td>{p.titulo}</td>
-                  <td>
+                  <td data-label="Título" className="admin-td--texto">{p.titulo}</td>
+                  <td data-label="Estado">
                     {p.publicado
                       ? <span className="admin-badge admin-badge--pago">Publicado</span>
                       : <span className="admin-badge admin-badge--free">Borrador</span>}
                   </td>
-                  <td>{formatFecha(p.created_at)}</td>
-                  <td className="admin-acciones">
+                  <td data-label="Fecha">{formatFecha(p.created_at)}</td>
+                  <td data-label="Acciones" className="admin-acciones">
                     <button className="admin-btn admin-btn--activar" onClick={() => abrirEditar(p.id)} disabled={accionando !== null}>
                       Editar
                     </button>

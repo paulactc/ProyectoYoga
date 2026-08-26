@@ -116,9 +116,9 @@ export default function AdminUsuarios({ token }) {
                 const tienePack = !esPago && !!u.pack_slugs
                 return (
                   <tr key={u.id} className={esPago || tienePack ? 'admin-row--pago' : ''}>
-                    <td>{u.nombre}</td>
-                    <td className="admin-email">{u.email}</td>
-                    <td>
+                    <td data-label="Nombre">{u.nombre}</td>
+                    <td data-label="Email" className="admin-email">{u.email}</td>
+                    <td data-label="Tipo">
                       {esPago ? (
                         <span className="admin-badge admin-badge--pago">
                           {esManual ? 'Pago (manual)' : 'Pago'}
@@ -129,14 +129,14 @@ export default function AdminUsuarios({ token }) {
                         <span className="admin-badge admin-badge--free">Gratuita</span>
                       )}
                     </td>
-                    <td>{esPago ? formatFecha(u.sub_fin) : tienePack ? formatFecha(u.pack_created_at) : '—'}</td>
-                    <td className="admin-metodo">
+                    <td data-label="Válida hasta">{esPago ? formatFecha(u.sub_fin) : tienePack ? formatFecha(u.pack_created_at) : '—'}</td>
+                    <td data-label="Método" className="admin-metodo">
                       {esPago
                         ? (u.stripe_subscription_id ? (esManual ? 'Admin' : 'Stripe') : '—')
                         : tienePack ? 'Stripe (pack)' : '—'}
                     </td>
-                    <td>{formatFecha(u.created_at)}</td>
-                    <td className="admin-acciones">
+                    <td data-label="Registro">{formatFecha(u.created_at)}</td>
+                    <td data-label="Acciones" className="admin-acciones">
                       {esPago ? (
                         <button
                           className="admin-btn admin-btn--cancelar"

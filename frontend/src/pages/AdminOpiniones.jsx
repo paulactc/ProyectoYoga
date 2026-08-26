@@ -82,16 +82,16 @@ export default function AdminOpiniones({ token }) {
             <tbody>
               {testimonios.map(t => (
                 <tr key={t.tipo + t.id}>
-                  <td>{t.nombre}</td>
-                  <td>{t.origen}</td>
-                  <td style={{ maxWidth: 360, whiteSpace: 'pre-wrap' }}>{t.texto}</td>
-                  <td>
+                  <td data-label="Nombre">{t.nombre}</td>
+                  <td data-label="Origen">{t.origen}</td>
+                  <td data-label="Opinión" className="admin-td--texto" style={{ maxWidth: 360, whiteSpace: 'pre-wrap' }}>{t.texto}</td>
+                  <td data-label="Estado">
                     {t.visible
                       ? <span className="admin-badge admin-badge--pago">Publicada</span>
                       : <span className="admin-badge admin-badge--free">Pendiente</span>}
                   </td>
-                  <td>{formatFecha(t.created_at)}</td>
-                  <td className="admin-acciones">
+                  <td data-label="Fecha">{formatFecha(t.created_at)}</td>
+                  <td data-label="Acciones" className="admin-acciones">
                     {!t.visible && (
                       <button
                         className="admin-btn admin-btn--activar"
