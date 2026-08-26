@@ -77,6 +77,26 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* TIERRA EN CALMA — gratis, justo debajo del hero, con enlace explícito al Pack Raíz de pago */}
+      <section className="tq-showcase">
+        <div className="tq-showcase-bg" />
+        <div className="tq-showcase-inner">
+          <div className="tq-showcase-text">
+            <h2 className="tq-titulo">Tierra <em>en Calma</em></h2>
+            <Link to="/audios" className="tq-cta">
+              Escuchar ahora GRATIS <span>→</span>
+            </Link>
+            <Link to="/aula-online" className="tq-siguiente-paso">¿Quieres más? Descubre el Pack Raíz →</Link>
+          </div>
+          <div className="tq-feature">
+            <div className="tq-feature-glow" />
+            <span className="tq-feature-moon">☽</span>
+            <p className="tq-feature-nombre">Antes de dormir</p>
+            <p className="tq-feature-desc">Una meditación guiada para soltar la tensión del día, calmar el sistema nervioso y preparar el cuerpo y la mente para el descanso.</p>
+          </div>
+        </div>
+      </section>
+
       {/* FORMAS DE PRACTICAR CONMIGO — presencial, privada u online */}
       <section className="servicios-section">
         <p className="clases-desc-eyebrow">Cómo practicar conmigo</p>
@@ -259,28 +279,6 @@ export default function HomePage() {
               </div>
             </div>
           ))}
-        </div>
-      </section>
-
-      {/* TIERRA EN CALMA — showcase, en segundo plano al final del recorrido */}
-      <section className="tq-showcase">
-        <div className="tq-showcase-bg" />
-        <div className="tq-showcase-inner">
-          <div className="tq-showcase-text">
-            <h2 className="tq-titulo">Tierra <em>en Calma</em></h2>
-            <p className="tq-desc">Meditaciones guiadas de noche para soltar la tensión del día y preparar el cuerpo y la mente para el descanso profundo.</p>
-            <Link to="/audios" className="tq-cta">
-              Escuchar ahora GRATIS <span>→</span>
-            </Link>
-          </div>
-          <div className="tq-feature">
-            <div className="tq-feature-glow" />
-            <span className="tq-feature-moon">☽</span>
-            <p className="tq-feature-nombre">Antes de dormir</p>
-            <p className="tq-feature-desc">Una meditación guiada para soltar la tensión del día, calmar el sistema nervioso y preparar el cuerpo y la mente para el descanso.</p>
-            <span className="tq-feature-sep" />
-            <p className="tq-feature-hint">Cierra el día con calma · 10-15 min</p>
-          </div>
         </div>
       </section>
 
