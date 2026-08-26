@@ -89,7 +89,7 @@ async function postFeedback(req, res) {
   }
 
   const result = await executeQuery(
-    'INSERT INTO feedback_meditacion (usuario_id, meditacion_id, texto) VALUES (?, ?, ?)',
+    'INSERT INTO feedback_meditacion (usuario_id, meditacion_id, texto, visible) VALUES (?, ?, ?, FALSE)',
     [usuario_id, id, texto.trim()]
   );
 
@@ -97,7 +97,7 @@ async function postFeedback(req, res) {
     return res.status(500).json({ success: false, message: 'Error al guardar el feedback' });
   }
 
-  return res.status(201).json({ success: true, message: '¡Gracias por tu feedback!' });
+  return res.status(201).json({ success: true, message: '¡Gracias por tu feedback! Se publicará en cuanto lo revise.' });
 }
 
 module.exports = { getSeries, getFeedback, postFeedback };

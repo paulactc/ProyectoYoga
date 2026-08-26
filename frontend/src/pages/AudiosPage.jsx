@@ -334,7 +334,7 @@ function AudioCard({ audio, acento, isLoggedIn, token, onOpenLogin, numero }) {
           )}
           {isLoggedIn && (
             feedbackEnviado ? (
-              <p className="audio-feedback-gracias">¡Gracias por compartir tu experiencia! 🌿</p>
+              <p className="audio-feedback-gracias">¡Gracias por compartir tu experiencia! Se publicará en cuanto la revise. 🌿</p>
             ) : (
               <form className="audio-feedback-form" onSubmit={handleFeedbackSubmit}>
                 <label className="audio-feedback-label">¿Qué te ha parecido?</label>

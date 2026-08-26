@@ -150,8 +150,6 @@ export default function ClasesOnlinePage() {
       const data = await res.json()
       if (data.success) {
         setReviewStatus('success')
-        const nueva = { id: Date.now(), texto: reviewTexto, nombre: user?.nombre || 'Tú', created_at: new Date().toISOString() }
-        setClaseFeedbacks(prev => ({ ...prev, [id]: [nueva, ...(prev[id] || [])] }))
         setReviewTexto('')
       } else {
         setReviewStatus(data.message || 'error')
@@ -333,7 +331,7 @@ export default function ClasesOnlinePage() {
                 </form>
               )}
               {desbloqueado && reviewStatus === 'success' && (
-                <p className="modal-resena-ok">¡Gracias por compartir!</p>
+                <p className="modal-resena-ok">¡Gracias por compartir! Se publicará en cuanto la revise.</p>
               )}
             </div>
           </div>

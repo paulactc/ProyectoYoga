@@ -43,7 +43,7 @@ export default function AdminPage() {
   const cargarTestimonios = useCallback(async () => {
     setLoadingTestimonios(true)
     try {
-      const r = await fetch('/api/admin/testimonios', {
+      const r = await fetch('/api/admin/opiniones', {
         headers: { Authorization: `Bearer ${token}` },
       })
       const data = await r.json()
@@ -59,10 +59,10 @@ export default function AdminPage() {
     if (user?.rol === 'admin') cargarTestimonios()
   }, [user, cargarTestimonios])
 
-  async function aprobarTestimonio(id) {
-    setAccionando('t' + id + '_aprobar')
+  async function aprobarTestimonio(tipo, id) {
+    setAccionando(tipo + id + '_aprobar')
     try {
-      await fetch(`/api/admin/testimonios/${id}/aprobar`, {
+      await fetch(`/api/admin/opiniones/${tipo}/${id}/aprobar`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}` },
       })
@@ -72,11 +72,11 @@ export default function AdminPage() {
     }
   }
 
-  async function borrarTestimonio(id) {
+  async function borrarTestimonio(tipo, id) {
     if (!confirm('¿Eliminar esta opinión?')) return
-    setAccionando('t' + id + '_borrar')
+    setAccionando(tipo + id + '_borrar')
     try {
-      await fetch(`/api/admin/testimonios/${id}`, {
+      await fetch(`/api/admin/opiniones/${tipo}/${id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       })
@@ -230,9 +230,10 @@ export default function AdminPage() {
           </div>
         )}
 
-        <h2 className="admin-titulo" style={{ fontSize: '1.4rem', marginTop: '3rem' }}>Opiniones de alumnas</h2>
+        <h2 className="admin-titulo" style={{ fontSize: '1.4rem', marginTop: '3rem' }}>Opiniones</h2>
         <p className="admin-subtitulo">
-          Formulario público en <code>/opiniones</code> — comparte ese enlace con tus alumnas. Las opiniones aprobadas aparecen en la home.
+          Todo el feedback de la web: el formulario público en <code>/opiniones</code>, las reseñas de meditaciones
+          y las de clases del Pack Raíz. Nada se publica hasta que lo apruebes aquí.
         </p>
 
         {loadingTestimonios ? (
@@ -245,6 +246,7 @@ export default function AdminPage() {
               <thead>
                 <tr>
                   <th>Nombre</th>
+                  <th>Origen</th>
                   <th>Opinión</th>
                   <th>Estado</th>
                   <th>Fecha</th>
@@ -253,31 +255,32 @@ export default function AdminPage() {
               </thead>
               <tbody>
                 {testimonios.map(t => (
-                  <tr key={t.id}>
+                  <tr key={t.tipo + t.id}>
                     <td>{t.nombre}</td>
+                    <td>{t.origen}</td>
                     <td style={{ maxWidth: 360, whiteSpace: 'pre-wrap' }}>{t.texto}</td>
                     <td>
-                      {t.aprobado
+                      {t.visible
                         ? <span className="admin-badge admin-badge--pago">Publicada</span>
                         : <span className="admin-badge admin-badge--free">Pendiente</span>}
                     </td>
                     <td>{formatFecha(t.created_at)}</td>
                     <td className="admin-acciones">
-                      {!t.aprobado && (
+                      {!t.visible && (
                         <button
                           className="admin-btn admin-btn--activar"
-                          onClick={() => aprobarTestimonio(t.id)}
+                          onClick={() => aprobarTestimonio(t.tipo, t.id)}
                           disabled={accionando !== null}
                         >
-                          {accionando === 't' + t.id + '_aprobar' ? '...' : 'Aprobar'}
+                          {accionando === t.tipo + t.id + '_aprobar' ? '...' : 'Aprobar'}
                         </button>
                       )}
                       <button
                         className="admin-btn admin-btn--cancelar"
-                        onClick={() => borrarTestimonio(t.id)}
+                        onClick={() => borrarTestimonio(t.tipo, t.id)}
                         disabled={accionando !== null}
                       >
-                        {accionando === 't' + t.id + '_borrar' ? '...' : 'Eliminar'}
+                        {accionando === t.tipo + t.id + '_borrar' ? '...' : 'Eliminar'}
                       </button>
                     </td>
                   </tr>

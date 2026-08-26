@@ -25,10 +25,15 @@ const allowedOrigins = [
   'http://localhost:5173',
 ].filter(Boolean);
 
+// Railway siempre inyecta RAILWAY_PUBLIC_DOMAIN en producción; si no está presente
+// es que corremos en local, donde Vite puede elegir otro puerto si el 5173 está ocupado.
+const isLocalDev = !process.env.RAILWAY_PUBLIC_DOMAIN;
+
 app.use(cors({
   origin: (origin, cb) => {
     // allow server-to-server calls (no origin) and any listed origin
     if (!origin || allowedOrigins.includes(origin)) return cb(null, true);
+    if (isLocalDev && /^http:\/\/localhost:\d+$/.test(origin)) return cb(null, true);
     cb(new Error(`CORS: origin not allowed — ${origin}`));
   },
   credentials: true,

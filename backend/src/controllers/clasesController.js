@@ -38,14 +38,14 @@ async function postFeedback(req, res) {
   }
 
   const result = await executeQuery(
-    'INSERT INTO feedback_clases (usuario_id, clase_id, texto) VALUES (?, ?, ?)',
+    'INSERT INTO feedback_clases (usuario_id, clase_id, texto, visible) VALUES (?, ?, ?, FALSE)',
     [usuario_id, id, texto.trim()]
   );
   if (!result.success) {
     return res.status(500).json({ success: false, message: 'Error al guardar la reseña' });
   }
 
-  return res.status(201).json({ success: true, message: '¡Gracias por compartir!' });
+  return res.status(201).json({ success: true, message: '¡Gracias por compartir! Se publicará en cuanto la revise.' });
 }
 
 module.exports = { getFeedback, postFeedback };

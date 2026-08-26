@@ -96,31 +96,62 @@ router.post('/suscripcion/:userId/cancelar', async (req, res) => {
   res.json({ success: true });
 });
 
-// GET /api/admin/testimonios — todas las opiniones, pendientes primero
-router.get('/testimonios', async (req, res) => {
-  const result = await executeQuery(
-    `SELECT id, nombre, texto, aprobado, created_at FROM testimonios ORDER BY aprobado ASC, created_at DESC`
-  );
-  if (!result.success) return res.status(500).json({ success: false });
-  res.json({ success: true, data: result.data });
+// GET /api/admin/opiniones — todo el feedback de la web (formulario general,
+// meditaciones y clases), pendientes primero
+router.get('/opiniones', async (req, res) => {
+  const [testimonios, feedbackMed, feedbackClases] = await Promise.all([
+    executeQuery(`SELECT id, nombre, texto, aprobado AS visible, created_at FROM testimonios`),
+    executeQuery(`
+      SELECT f.id, u.nombre, f.texto, f.visible, f.created_at, m.titulo AS contexto
+      FROM feedback_meditacion f
+      JOIN usuarios u ON u.id = f.usuario_id
+      JOIN meditaciones m ON m.id = f.meditacion_id
+    `),
+    executeQuery(`
+      SELECT f.id, u.nombre, f.texto, f.visible, f.created_at, c.titulo AS contexto
+      FROM feedback_clases f
+      JOIN usuarios u ON u.id = f.usuario_id
+      LEFT JOIN clases c ON c.id = CAST(f.clase_id AS UNSIGNED)
+    `),
+  ]);
+
+  if (!testimonios.success || !feedbackMed.success || !feedbackClases.success) {
+    return res.status(500).json({ success: false });
+  }
+
+  const data = [
+    ...testimonios.data.map(t => ({ ...t, tipo: 'general', origen: 'Opinión general' })),
+    ...feedbackMed.data.map(f => ({ ...f, tipo: 'meditacion', origen: `Meditación: ${f.contexto}` })),
+    ...feedbackClases.data.map(f => ({ ...f, tipo: 'clase', origen: f.contexto ? `Clase: ${f.contexto}` : 'Clase' })),
+  ].sort((a, b) => Number(a.visible) - Number(b.visible) || new Date(b.created_at) - new Date(a.created_at));
+
+  res.json({ success: true, data });
 });
 
-// POST /api/admin/testimonios/:id/aprobar
-router.post('/testimonios/:id/aprobar', async (req, res) => {
-  const id = parseUserId(req.params.id);
-  if (!id) return res.status(400).json({ success: false, message: 'id inválido' });
+const TABLAS_OPINION = {
+  general: { tabla: 'testimonios', campoVisible: 'aprobado' },
+  meditacion: { tabla: 'feedback_meditacion', campoVisible: 'visible' },
+  clase: { tabla: 'feedback_clases', campoVisible: 'visible' },
+};
 
-  const result = await executeQuery(`UPDATE testimonios SET aprobado = TRUE WHERE id = ?`, [id]);
+// POST /api/admin/opiniones/:tipo/:id/aprobar
+router.post('/opiniones/:tipo/:id/aprobar', async (req, res) => {
+  const cfg = TABLAS_OPINION[req.params.tipo];
+  const id = parseUserId(req.params.id);
+  if (!cfg || !id) return res.status(400).json({ success: false, message: 'Parámetros inválidos' });
+
+  const result = await executeQuery(`UPDATE ${cfg.tabla} SET ${cfg.campoVisible} = TRUE WHERE id = ?`, [id]);
   if (!result.success) return res.status(500).json({ success: false });
   res.json({ success: true });
 });
 
-// DELETE /api/admin/testimonios/:id
-router.delete('/testimonios/:id', async (req, res) => {
+// DELETE /api/admin/opiniones/:tipo/:id
+router.delete('/opiniones/:tipo/:id', async (req, res) => {
+  const cfg = TABLAS_OPINION[req.params.tipo];
   const id = parseUserId(req.params.id);
-  if (!id) return res.status(400).json({ success: false, message: 'id inválido' });
+  if (!cfg || !id) return res.status(400).json({ success: false, message: 'Parámetros inválidos' });
 
-  const result = await executeQuery(`DELETE FROM testimonios WHERE id = ?`, [id]);
+  const result = await executeQuery(`DELETE FROM ${cfg.tabla} WHERE id = ?`, [id]);
   if (!result.success) return res.status(500).json({ success: false });
   res.json({ success: true });
 });

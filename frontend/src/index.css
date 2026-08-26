@@ -6072,17 +6072,16 @@ a.nav-logo {
   margin: 0 0 0.6rem;
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
-  max-height: 72px;
+  gap: 0.5rem;
+  max-height: 180px;
   overflow-y: auto;
 }
 .audio-feedback-item {
   font-size: 0.75rem;
   color: #666;
   line-height: 1.4;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: normal;
+  overflow-wrap: break-word;
 }
 .audio-feedback-item strong {
   color: #3a2a1a;
