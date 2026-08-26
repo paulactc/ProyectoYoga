@@ -156,4 +156,118 @@ router.delete('/opiniones/:tipo/:id', async (req, res) => {
   res.json({ success: true });
 });
 
+function slugify(texto) {
+  return texto
+    .normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+function calcularTiempoLectura(contenido) {
+  const palabras = contenido
+    .map(b => b.texto || '')
+    .join(' ')
+    .split(/\s+/)
+    .filter(Boolean).length;
+  const minutos = Math.max(1, Math.round(palabras / 200));
+  return `${minutos} min de lectura`;
+}
+
+function validarPost(body) {
+  const { titulo, resumen, contenido } = body;
+  if (!titulo || !titulo.trim()) return 'El título es obligatorio';
+  if (titulo.length > 300) return 'El título es demasiado largo';
+  if (resumen && resumen.length > 1000) return 'El resumen es demasiado largo';
+  if (!Array.isArray(contenido) || contenido.length === 0) return 'El artículo necesita al menos un bloque de contenido';
+  for (const b of contenido) {
+    if (!['parrafo', 'subtitulo', 'imagen'].includes(b.tipo)) return 'Tipo de bloque inválido';
+    if (b.tipo === 'imagen' && !b.src) return 'Cada bloque de imagen necesita una URL';
+    if (b.tipo !== 'imagen' && !b.texto) return 'Cada párrafo o subtítulo necesita texto';
+  }
+  return null;
+}
+
+// GET /api/admin/blog — todos los artículos, borradores incluidos
+router.get('/blog', async (req, res) => {
+  const result = await executeQuery(
+    `SELECT id, slug, titulo, resumen, imagen_portada, imagen_portada_alt, tiempo_lectura, publicado, created_at
+     FROM blog_posts ORDER BY created_at DESC`
+  );
+  if (!result.success) return res.status(500).json({ success: false });
+  res.json({ success: true, data: result.data });
+});
+
+// GET /api/admin/blog/:id — un artículo completo, para editar
+router.get('/blog/:id', async (req, res) => {
+  const id = parseUserId(req.params.id);
+  if (!id) return res.status(400).json({ success: false, message: 'id inválido' });
+
+  const result = await executeQuery(`SELECT * FROM blog_posts WHERE id = ?`, [id]);
+  if (!result.success) return res.status(500).json({ success: false });
+  if (result.data.length === 0) return res.status(404).json({ success: false });
+
+  const post = result.data[0];
+  post.contenido = JSON.parse(post.contenido);
+  res.json({ success: true, data: post });
+});
+
+// POST /api/admin/blog — crear artículo nuevo
+router.post('/blog', async (req, res) => {
+  const error = validarPost(req.body);
+  if (error) return res.status(400).json({ success: false, message: error });
+
+  const { titulo, resumen, imagen_portada, imagen_portada_alt, contenido, publicado } = req.body;
+  const tiempo_lectura = req.body.tiempo_lectura?.trim() || calcularTiempoLectura(contenido);
+
+  const base = slugify(titulo) || 'articulo';
+  let slug = base;
+  let intento = 1;
+  while (true) {
+    const existe = await executeQuery('SELECT id FROM blog_posts WHERE slug = ?', [slug]);
+    if (existe.success && existe.data.length === 0) break;
+    intento += 1;
+    slug = `${base}-${intento}`;
+  }
+
+  const result = await executeQuery(
+    `INSERT INTO blog_posts (slug, titulo, resumen, imagen_portada, imagen_portada_alt, tiempo_lectura, contenido, publicado)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+    [slug, titulo.trim(), resumen?.trim() || '', imagen_portada || null, imagen_portada_alt || null, tiempo_lectura, JSON.stringify(contenido), !!publicado]
+  );
+  if (!result.success) return res.status(500).json({ success: false });
+  res.json({ success: true, data: { id: result.data.insertId, slug } });
+});
+
+// PUT /api/admin/blog/:id — editar artículo existente (el slug no cambia)
+router.put('/blog/:id', async (req, res) => {
+  const id = parseUserId(req.params.id);
+  if (!id) return res.status(400).json({ success: false, message: 'id inválido' });
+
+  const error = validarPost(req.body);
+  if (error) return res.status(400).json({ success: false, message: error });
+
+  const { titulo, resumen, imagen_portada, imagen_portada_alt, contenido, publicado } = req.body;
+  const tiempo_lectura = req.body.tiempo_lectura?.trim() || calcularTiempoLectura(contenido);
+
+  const result = await executeQuery(
+    `UPDATE blog_posts SET titulo = ?, resumen = ?, imagen_portada = ?, imagen_portada_alt = ?, tiempo_lectura = ?, contenido = ?, publicado = ?
+     WHERE id = ?`,
+    [titulo.trim(), resumen?.trim() || '', imagen_portada || null, imagen_portada_alt || null, tiempo_lectura, JSON.stringify(contenido), !!publicado, id]
+  );
+  if (!result.success) return res.status(500).json({ success: false });
+  res.json({ success: true });
+});
+
+// DELETE /api/admin/blog/:id
+router.delete('/blog/:id', async (req, res) => {
+  const id = parseUserId(req.params.id);
+  if (!id) return res.status(400).json({ success: false, message: 'id inválido' });
+
+  const result = await executeQuery(`DELETE FROM blog_posts WHERE id = ?`, [id]);
+  if (!result.success) return res.status(500).json({ success: false });
+  res.json({ success: true });
+});
+
 module.exports = router;

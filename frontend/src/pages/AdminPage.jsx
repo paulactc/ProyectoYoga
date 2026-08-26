@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import AdminBlog from './AdminBlog'
 
 export default function AdminPage() {
   const { user, token } = useAuth()
@@ -289,6 +290,8 @@ export default function AdminPage() {
             </table>
           </div>
         )}
+
+        <AdminBlog token={token} />
       </div>
     </main>
   )

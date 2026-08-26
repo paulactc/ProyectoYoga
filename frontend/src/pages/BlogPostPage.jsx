@@ -1,5 +1,5 @@
+import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { getPostBySlug } from '../data/blogPosts'
 
 function fmtFecha(iso) {
   return new Date(iso).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })
@@ -19,9 +19,19 @@ function Bloque({ bloque }) {
 
 export default function BlogPostPage() {
   const { slug } = useParams()
-  const post = getPostBySlug(slug)
+  const [post, setPost] = useState(undefined) // undefined = cargando, null = no encontrado
 
-  if (!post) {
+  useEffect(() => {
+    setPost(undefined)
+    fetch(`/api/blog/${encodeURIComponent(slug)}`)
+      .then(r => r.json())
+      .then(data => setPost(data.success ? data.data : null))
+      .catch(() => setPost(null))
+  }, [slug])
+
+  if (post === undefined) return null
+
+  if (post === null) {
     return (
       <section className="blog-post-notfound">
         <h1>No hemos encontrado este artículo</h1>
@@ -34,14 +44,14 @@ export default function BlogPostPage() {
     <article className="blog-post">
       <header className={`blog-post-hero${slug === 'el-ego-espiritual' ? ' blog-post-hero--ego' : ''}${slug === 'abhyasa-y-vairagya' ? ' blog-post-hero--abhyasa' : ''}`}>
         <img
-          src={post.imagenPortada}
-          alt={post.imagenPortadaAlt || post.titulo}
+          src={post.imagen_portada}
+          alt={post.imagen_portada_alt || post.titulo}
           className={`blog-post-hero-img${slug === 'el-ego-espiritual' ? ' blog-post-hero-img--ego' : ''}${slug === 'abhyasa-y-vairagya' ? ' blog-post-hero-img--abhyasa' : ''}`}
         />
         <div className="blog-post-hero-overlay" />
         <div className="blog-post-hero-content">
           <Link to="/blog" className="blog-post-back">← Volver al blog</Link>
-          <p className="blog-post-meta">{fmtFecha(post.fecha)} · {post.tiempoLectura}</p>
+          <p className="blog-post-meta">{fmtFecha(post.created_at)} · {post.tiempo_lectura}</p>
           <h1>{post.titulo}</h1>
         </div>
       </header>

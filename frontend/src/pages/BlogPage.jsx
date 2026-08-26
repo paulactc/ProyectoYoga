@@ -1,11 +1,20 @@
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { BLOG_POSTS } from '../data/blogPosts'
 
 function fmtFecha(iso) {
   return new Date(iso).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })
 }
 
 export default function BlogPage() {
+  const [posts, setPosts] = useState([])
+
+  useEffect(() => {
+    fetch('/api/blog')
+      .then(r => r.json())
+      .then(data => { if (data.success) setPosts(data.data) })
+      .catch(() => {})
+  }, [])
+
   return (
     <>
       <header className="page-header">
@@ -16,13 +25,13 @@ export default function BlogPage() {
 
       <section className="blog-grid-section">
         <div className="blog-grid">
-          {BLOG_POSTS.map(post => (
+          {posts.map(post => (
             <Link key={post.slug} to={`/blog/${post.slug}`} className="blog-card">
               <div className="blog-card-img">
-                <img src={post.imagenPortada} alt={post.imagenPortadaAlt || post.titulo} />
+                <img src={post.imagen_portada} alt={post.imagen_portada_alt || post.titulo} />
               </div>
               <div className="blog-card-body">
-                <p className="blog-card-meta">{fmtFecha(post.fecha)} · {post.tiempoLectura}</p>
+                <p className="blog-card-meta">{fmtFecha(post.created_at)} · {post.tiempo_lectura}</p>
                 <h2>{post.titulo}</h2>
                 <p className="blog-card-resumen">{post.resumen}</p>
                 <span className="blog-card-cta">Leer más →</span>
