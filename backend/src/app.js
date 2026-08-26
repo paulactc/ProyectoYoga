@@ -13,7 +13,8 @@ app.use(helmet({
     directives: {
       ...helmet.contentSecurityPolicy.getDefaultDirectives(),
       'frame-src':  ["'self'", 'https://player.vimeo.com'],
-      'script-src': ["'self'", "'unsafe-inline'", 'https://player.vimeo.com', 'https://f.vimeocdn.com'],
+      'script-src': ["'self'", "'unsafe-inline'", 'https://player.vimeo.com', 'https://f.vimeocdn.com', 'https://static.cloudflareinsights.com'],
+      'connect-src': ["'self'", 'https://cloudflareinsights.com'],
     },
   },
 }));
