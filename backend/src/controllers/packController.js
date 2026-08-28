@@ -7,7 +7,7 @@ function getStripe() {
 }
 
 const PACK_SLUG    = 'pack-raiz';
-const PACK_NOMBRE  = 'Yoga Tierra Viva · Pack Raíz (7 clases)';
+const PACK_NOMBRE  = 'Yoga Tierra Viva · Pack Raíz (10 clases)';
 const PRICE_CENTS  = 1599; // 15,99 €
 
 class PackController {

@@ -662,6 +662,46 @@ async function runMigrations() {
     pool.execute(`UPDATE clases SET imagen = '/images/yoga25.jpg' WHERE grupo_id = 3 AND orden = 3`)
   );
 
+  await runSafeMigration('Vinyasa clase 4: Los cimientos en Vinyasa', async () => {
+    const [[{ cnt }]] = await pool.execute(
+      `SELECT COUNT(*) as cnt FROM clases WHERE grupo_id = 3 AND orden = 4`
+    );
+    if (cnt === 0) {
+      await pool.execute(
+        `INSERT INTO clases (grupo_id, titulo, descripcion, duracion, nivel, imagen, vimeo_id, orden, disponible)
+         VALUES (3, ?, ?, ?, ?, ?, ?, 4, 1)`,
+        [
+          'Los cimientos en Vinyasa',
+          'Trabaja la cadena de tobillo, rodilla y cadera para construir un enraizamiento sólido en Tadasana, la postura base de la que nacen gran parte de las demás.',
+          30,
+          2,
+          '/images/yoga28.jpg',
+          '1221525071',
+        ]
+      );
+    }
+  });
+
+  await runSafeMigration('Vinyasa clase 5: Vinyasa construyendo Janu Sirsasana', async () => {
+    const [[{ cnt }]] = await pool.execute(
+      `SELECT COUNT(*) as cnt FROM clases WHERE grupo_id = 3 AND orden = 5`
+    );
+    if (cnt === 0) {
+      await pool.execute(
+        `INSERT INTO clases (grupo_id, titulo, descripcion, duracion, nivel, imagen, vimeo_id, orden, disponible)
+         VALUES (3, ?, ?, ?, ?, ?, ?, 5, 1)`,
+        [
+          'Vinyasa construyendo Janu Sirsasana',
+          'Una secuencia que prepara cadera, isquiotibiales y columna para llegar con seguridad a Janu Sirsasana, la flexión hacia la pierna extendida que calma el sistema nervioso y invita a soltar el control.',
+          30,
+          2,
+          '/images/yoga29.jpg',
+          '1222049222',
+        ]
+      );
+    }
+  });
+
   await runSafeMigration('Tabla testimonios', () =>
     pool.execute(`
       CREATE TABLE IF NOT EXISTS testimonios (

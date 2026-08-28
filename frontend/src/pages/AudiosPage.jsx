@@ -372,7 +372,7 @@ function CtaSection() {
           El movimiento completa<br />lo que el audio empieza
         </h2>
         <p className="audios-cta-texto">
-          Estos audios son solo el principio. El Pack Raíz añade 8 clases de Movilidad Funcional
+          Estos audios son solo el principio. El Pack Raíz añade 10 clases de Movilidad Funcional
           y Vinyasa en vídeo — todo diseñado para que construyas una práctica real, sostenible y tuya.
         </p>
         <div className="audios-cta-btns">

@@ -150,7 +150,7 @@ export default function HomePage() {
         </div>
         <div className="online-teaser-text">
           <p className="hero-eyebrow">Un apoyo para tu práctica</p>
-          <h2>Ocho clases para<br /><em>practicar en casa, a tu ritmo</em></h2>
+          <h2>Diez clases para<br /><em>practicar en casa, a tu ritmo</em></h2>
           <p className="online-teaser-desc">
             Mi foco es acompañarte en persona. El Pack Raíz es un extra: pensado
             para esos momentos puntuales en los que quieres practicar en casa
@@ -231,7 +231,7 @@ export default function HomePage() {
               </svg>
             </span>
             <span className="stat-label">Pack Raíz de apoyo</span>
-            <span className="stat-detail">8 clases para practicar en casa, a tu ritmo</span>
+            <span className="stat-detail">10 clases para practicar en casa, a tu ritmo</span>
           </div>
 
           <div className="stat-item">

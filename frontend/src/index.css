@@ -1007,7 +1007,8 @@ a.nav-logo {
   margin-top: 64px;
 }
 
-.aula-acceso-banner + .page-header--aula { margin-top: 0; }
+.aula-acceso-banner + .page-header--aula,
+.aula-novedad-banner + .page-header--aula { margin-top: 0; }
 .page-header--aula::before {
   content: '';
   position: absolute;
@@ -1199,6 +1200,56 @@ a.nav-logo {
 .aula-acceso-btn:hover {
   background: #2d2924 !important;
   border-color: #2d2924 !important;
+}
+
+/* ── Aviso de novedades para quien ya tiene el pack ── */
+.aula-novedad-banner {
+  margin-top: 64px;
+  background: linear-gradient(135deg, #fbf3e4 0%, #f6e9d1 100%);
+  border-bottom: 1px solid #e8d5ab;
+  padding: 0.7rem 2rem;
+}
+
+.aula-novedad-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.aula-novedad-badge {
+  flex-shrink: 0;
+  background: var(--accent);
+  color: var(--white);
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+}
+
+.aula-novedad-texto {
+  flex: 1;
+  font-size: 0.85rem;
+  color: var(--dark);
+}
+
+.aula-novedad-cerrar {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  line-height: 1;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 0.15rem 0.3rem;
+}
+
+.aula-novedad-cerrar:hover {
+  color: var(--dark);
 }
 
 /* ── Selector de métodos (landing del aula) ── */

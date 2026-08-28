@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext'
 // El sistema de "La Travesía" (50 clases) y el selector de métodos con
 // Explora/Grupos quedaron archivados en ./_archivo/TravesiaSuscripcionMensual.jsx
 // (ver cabecera de ese fichero). Esta página ahora muestra un único recorrido:
-// las 8 clases del Pack Raíz, en el orden en que están pensadas para practicarse.
+// las 10 clases del Pack Raíz, en el orden en que están pensadas para practicarse.
 const GRUPOS = [
   {
     id: 1,
@@ -26,11 +26,13 @@ const GRUPOS = [
     tipo: 'vinyasa',
     nombre: 'Vinyasa',
     descripcion: 'Flujo continuo de posturas coordinadas con la respiración. Secuencias para llevar la conciencia del cuerpo a un movimiento más fluido.',
-    meta: '3 clases · 30-60 min · Nivel intermedio',
+    meta: '5 clases · 30-60 min · Nivel intermedio',
     clases: [
       { id: 'g3-1', titulo: 'Del cuerpo al silencio',        duracion: 60, nivel: 2, descripcion: 'Del cuerpo al silencio: una práctica que va soltando capas hasta llegar a la quietud interior.', imagen: '/images/yoga11.jpg', vimeo_id: '1206825714' },
       { id: 'g3-2', titulo: 'El regreso constante',          duracion: 30, nivel: 2, descripcion: 'Una clase para practicar el gesto más honesto del yoga: darte cuenta de que la mente se fue, y volver. Sin culpa, sin esperar quedarte quieta para siempre, solo notar y regresar al cuerpo, una y otra vez, tantas veces como haga falta.', imagen: '/images/yoga14.jpg', vimeo_id: '1210240715' },
       { id: 'g3-3', titulo: 'Fuerza silenciosa',              duracion: 40, nivel: 2, descripcion: 'La fuerza que no necesita hacer ruido: posturas sostenidas con control, para encontrar estabilidad sin tensión de más.', imagen: '/images/yoga25.jpg', vimeo_id: '1218287865' },
+      { id: 'g3-4', titulo: 'Los cimientos en Vinyasa',       duracion: 30, nivel: 2, descripcion: 'Trabaja la cadena de tobillo, rodilla y cadera para construir un enraizamiento sólido en Tadasana, la postura base de la que nacen gran parte de las demás.', imagen: '/images/yoga28.jpg', vimeo_id: '1221525071' },
+      { id: 'g3-5', titulo: 'Vinyasa construyendo Janu Sirsasana', duracion: 30, nivel: 2, descripcion: 'Una secuencia que prepara cadera, isquiotibiales y columna para llegar con seguridad a Janu Sirsasana, la flexión hacia la pierna extendida que calma el sistema nervioso y invita a soltar el control.', imagen: '/images/yoga29.jpg', vimeo_id: '1222049222' },
     ],
   },
 ]
@@ -95,9 +97,23 @@ export default function ClasesOnlinePage() {
   const [reviewTexto, setReviewTexto] = useState('')
   const [reviewStatus, setReviewStatus] = useState(null)
 
+  // Aviso de novedades para quien ya tiene el pack — una vez por novedad,
+  // se marca como vista en localStorage al cerrarla.
+  const NOVEDAD_KEY = 'novedad-vinyasa-2026-08'
+  const [showNovedad, setShowNovedad] = useState(false)
+
   useEffect(() => {
     window.scrollTo({ top: 0 })
   }, [])
+
+  useEffect(() => {
+    if (desbloqueado && !localStorage.getItem(NOVEDAD_KEY)) setShowNovedad(true)
+  }, [desbloqueado])
+
+  const cerrarNovedad = () => {
+    localStorage.setItem(NOVEDAD_KEY, '1')
+    setShowNovedad(false)
+  }
 
   // Datos en vivo desde el backend por grupo — si se suben vídeos nuevos,
   // aparecen sin tocar el frontend.
@@ -111,7 +127,7 @@ export default function ClasesOnlinePage() {
     })
   }, [])
 
-  // Las 8 clases del pack, en el orden de práctica: Movilidad Funcional primero,
+  // Las 10 clases del pack, en el orden de práctica: Movilidad Funcional primero,
   // Vinyasa después.
   const clasesPack = GRUPOS.flatMap(g => {
     const clases = grupoClases[g.id]?.length ? grupoClases[g.id] : g.clases
@@ -188,10 +204,21 @@ export default function ClasesOnlinePage() {
         </div>
       )}
 
+      {/* ── Aviso de novedades para quien ya tiene el pack ── */}
+      {desbloqueado && showNovedad && (
+        <div className="aula-novedad-banner">
+          <div className="aula-novedad-inner">
+            <span className="aula-novedad-badge">Nuevo</span>
+            <span className="aula-novedad-texto">2 clases nuevas de Vinyasa en tu pack, ya disponibles.</span>
+            <button className="aula-novedad-cerrar" onClick={cerrarNovedad} aria-label="Cerrar aviso">×</button>
+          </div>
+        </div>
+      )}
+
       {/* ── Header ── */}
       <header className="page-header--aula">
         <div className="aula-strip">
-          <span className="aula-strip-eyebrow">Pack Raíz · 8 clases</span>
+          <span className="aula-strip-eyebrow">Pack Raíz · 10 clases</span>
           <span className="aula-strip-sep" aria-hidden="true">✦</span>
           <h1 className="aula-strip-h1">Tu <em>Pack</em></h1>
           <span className="aula-strip-sep" aria-hidden="true">✦</span>
@@ -204,7 +231,7 @@ export default function ClasesOnlinePage() {
         <p className="clases-desc-eyebrow">Un pack cerrado, no una plataforma infinita</p>
         <h2 className="pack-intro-titulo">Las clases justas, en el orden que tu cuerpo necesita</h2>
         <p className="pack-intro-desc">
-          8 clases pensadas como un único recorrido: primero <strong>Movilidad Funcional</strong>, para
+          10 clases pensadas como un único recorrido: primero <strong>Movilidad Funcional</strong>, para
           activar y alinear el cuerpo con instrucciones precisas de ajuste — después
           <strong> vinyasa</strong>, para llevar ese cuerpo a un flujo más continuo. Sin suscripción y sin
           contenido infinito: un pago único, acceso para siempre.
