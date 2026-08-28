@@ -673,13 +673,19 @@ async function runMigrations() {
         [
           'Los cimientos en Vinyasa',
           'Trabaja la cadena de tobillo, rodilla y cadera para construir un enraizamiento sólido en Tadasana, la postura base de la que nacen gran parte de las demás.',
-          30,
+          40,
           2,
           '/images/yoga28.jpg',
           '1221525071',
         ]
       );
     }
+  });
+
+  await runSafeMigration('Duracion Los cimientos en Vinyasa a 40min', async () => {
+    await pool.execute(
+      `UPDATE clases SET duracion = 40 WHERE grupo_id = 3 AND orden = 4`
+    );
   });
 
   await runSafeMigration('Vinyasa clase 5: Vinyasa construyendo Janu Sirsasana', async () => {
