@@ -8,6 +8,7 @@ function parseEmail(str) {
 }
 const FROM_EMAIL = parseEmail(process.env.SMTP_FROM);
 const FROM_NAME  = 'Yoga Tierra Viva';
+const ADMIN_EMAIL = process.env.CONTACT_EMAIL || 'paulact39@gmail.com';
 
 function escapeHtml(str) {
   return String(str)
@@ -97,4 +98,37 @@ async function sendPasswordResetEmail(email, resetUrl) {
   console.log('Email de recuperación enviado a:', email);
 }
 
-module.exports = { sendVerificationEmail, sendPasswordResetEmail };
+async function notifyAdminNewUser(nombre, email) {
+  const safeName = escapeHtml(nombre);
+  await sendBrevo({
+    to:      ADMIN_EMAIL,
+    subject: `Nueva usuaria registrada: ${safeName}`,
+    html: `
+      <div style="font-family:Georgia,serif;max-width:560px;margin:0 auto;padding:32px 24px;color:#2c2c2c;">
+        <h2 style="font-size:1.3rem;font-weight:400;color:#8b5e3c;margin-bottom:1.5rem">Nueva usuaria registrada</h2>
+        <p><strong>Nombre:</strong> ${safeName}</p>
+        <p><strong>Email:</strong> <a href="mailto:${escapeHtml(email)}" style="color:#8b5e3c">${escapeHtml(email)}</a></p>
+      </div>
+    `,
+  });
+}
+
+async function notifyAdminNuevaOpinion({ nombre, texto, origen }) {
+  await sendBrevo({
+    to:      ADMIN_EMAIL,
+    subject: `Nueva opinión pendiente de aprobar · ${origen}`,
+    html: `
+      <div style="font-family:Georgia,serif;max-width:560px;margin:0 auto;padding:32px 24px;color:#2c2c2c;">
+        <h2 style="font-size:1.3rem;font-weight:400;color:#8b5e3c;margin-bottom:1.5rem">Nueva opinión pendiente</h2>
+        <p><strong>Nombre:</strong> ${escapeHtml(nombre)}</p>
+        <p><strong>Origen:</strong> ${escapeHtml(origen)}</p>
+        <hr style="border:none;border-top:1px solid #e8e2da;margin:1.25rem 0"/>
+        <p style="white-space:pre-wrap;line-height:1.7;color:#444">${escapeHtml(texto)}</p>
+        <hr style="border:none;border-top:1px solid #e8e2da;margin:1.25rem 0"/>
+        <p style="font-size:0.78rem;color:#bbb">Apruébala o elimínala desde el panel admin, pestaña Opiniones.</p>
+      </div>
+    `,
+  });
+}
+
+module.exports = { sendVerificationEmail, sendPasswordResetEmail, notifyAdminNewUser, notifyAdminNuevaOpinion };

@@ -347,6 +347,23 @@ async function runMigrations() {
     `)
   );
 
+  await runSafeMigration('Tabla vistas_clase', () =>
+    pool.execute(`
+      CREATE TABLE IF NOT EXISTS vistas_clase (
+        id            INT AUTO_INCREMENT PRIMARY KEY,
+        usuario_id    INT NOT NULL,
+        clase_id      VARCHAR(50) NOT NULL,
+        veces_vista   INT NOT NULL DEFAULT 1,
+        primera_vista TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        ultima_vista  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+        UNIQUE KEY uk_vista_clase (usuario_id, clase_id),
+        INDEX idx_vista_usuario (usuario_id),
+        INDEX idx_vista_clase (clase_id)
+      )
+    `)
+  );
+
   await runSafeMigration('Tabla clases', () =>
     pool.execute(`
       CREATE TABLE IF NOT EXISTS clases (
@@ -867,6 +884,18 @@ async function runMigrations() {
         [post.slug, post.titulo, post.resumen, post.imagenPortada, post.imagenPortadaAlt, post.tiempoLectura, JSON.stringify(post.contenido), post.fecha]
       );
     }
+  });
+
+  await runSafeMigration('Titulo Fuerza silenciosa: activando nuestro centro', async () => {
+    await pool.execute(
+      `UPDATE clases SET titulo = 'Fuerza silenciosa: activando nuestro centro' WHERE grupo_id = 3 AND orden = 3`
+    );
+  });
+
+  await runSafeMigration('Titulo El regreso constante: a habitarte', async () => {
+    await pool.execute(
+      `UPDATE clases SET titulo = 'El regreso constante: a habitarte' WHERE grupo_id = 3 AND orden = 2`
+    );
   });
 }
 

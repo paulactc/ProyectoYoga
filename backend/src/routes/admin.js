@@ -96,6 +96,28 @@ router.post('/suscripcion/:userId/cancelar', async (req, res) => {
   res.json({ success: true });
 });
 
+// GET /api/admin/actividad — qué clases ha visto cada usuaria y cuándo, más recientes primero
+router.get('/actividad', async (req, res) => {
+  const result = await executeQuery(`
+    SELECT
+      v.usuario_id,
+      u.nombre,
+      u.email,
+      v.clase_id,
+      COALESCE(c.titulo, v.clase_id) AS clase_titulo,
+      v.veces_vista,
+      v.primera_vista,
+      v.ultima_vista
+    FROM vistas_clase v
+    JOIN usuarios u ON u.id = v.usuario_id
+    LEFT JOIN clases c ON c.id = CAST(v.clase_id AS UNSIGNED)
+    ORDER BY v.ultima_vista DESC
+    LIMIT 300
+  `);
+  if (!result.success) return res.status(500).json({ success: false });
+  res.json({ success: true, data: result.data });
+});
+
 // GET /api/admin/opiniones — todo el feedback de la web (formulario general,
 // meditaciones y clases), pendientes primero
 router.get('/opiniones', async (req, res) => {

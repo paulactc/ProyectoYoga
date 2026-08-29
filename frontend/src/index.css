@@ -3675,6 +3675,32 @@ a.nav-logo {
 
 .modal-close:hover { color: var(--dark); }
 
+.reserva-fechas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 0.6rem;
+}
+
+.reserva-fecha-btn {
+  padding: 0.7rem 0.5rem;
+  border: 1px solid rgba(139,94,60,0.25);
+  border-radius: var(--radius);
+  background: #fff;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--dark);
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.reserva-fecha-btn:hover { border-color: var(--tierra); }
+
+.reserva-fecha-btn.selected {
+  background: var(--tierra);
+  border-color: var(--tierra);
+  color: #fff;
+}
+
 .welcome-modal {
   max-width: 440px;
   padding: 3rem 2.75rem 2.75rem;
@@ -7518,8 +7544,11 @@ a.nav-logo {
   text-transform: uppercase;
   color: var(--tierra);
   text-decoration: none;
-  padding-bottom: 3px;
+  background: none;
+  border: none;
+  padding: 0 0 3px;
   border-bottom: 1.5px solid rgba(140,78,47,0.35);
+  cursor: pointer;
   transition: border-color 0.2s ease, color 0.2s ease;
 }
 .servicio-card-cta span { display: inline-block; transition: transform 0.25s ease; }
@@ -7733,5 +7762,5 @@ a.nav-logo {
 @media (max-width: 640px) {
   .blog-post-hero-content { padding: 4.5rem 1.25rem 2rem; }
   .blog-post-body { padding: 2.5rem 1.25rem 1rem; }
-  .blog-post-hero-img--abhyasa { object-position: center 88%; }
+  .blog-post-hero-img--abhyasa { object-position: center 100%; }
 }

@@ -1,4 +1,5 @@
 const { executeQuery } = require('../config/database');
+const { notifyAdminNuevaOpinion } = require('../services/emailService');
 
 async function getFeedback(req, res) {
   const { id } = req.params;
@@ -45,7 +46,29 @@ async function postFeedback(req, res) {
     return res.status(500).json({ success: false, message: 'Error al guardar la reseña' });
   }
 
+  try {
+    await notifyAdminNuevaOpinion({ nombre: req.user.nombre, texto: texto.trim(), origen: `Clase: ${id}` });
+  } catch (notifyErr) {
+    console.error('Error notificando nueva opinión al admin:', notifyErr.message);
+  }
+
   return res.status(201).json({ success: true, message: '¡Gracias por compartir! Se publicará en cuanto la revise.' });
 }
 
-module.exports = { getFeedback, postFeedback };
+async function registrarVista(req, res) {
+  const { id } = req.params;
+  const usuario_id = req.user.id;
+
+  const result = await executeQuery(
+    `INSERT INTO vistas_clase (usuario_id, clase_id, veces_vista, primera_vista, ultima_vista)
+     VALUES (?, ?, 1, NOW(), NOW())
+     ON DUPLICATE KEY UPDATE veces_vista = veces_vista + 1, ultima_vista = NOW()`,
+    [usuario_id, id]
+  );
+  if (!result.success) {
+    return res.status(500).json({ success: false, message: 'Error al registrar la vista' });
+  }
+  return res.json({ success: true });
+}
+
+module.exports = { getFeedback, postFeedback, registrarVista };

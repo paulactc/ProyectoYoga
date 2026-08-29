@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt    = require('jsonwebtoken');
 const crypto = require('crypto');
 const { executeQuery } = require('../config/database');
-const { sendVerificationEmail, sendPasswordResetEmail } = require('../services/emailService');
+const { sendVerificationEmail, sendPasswordResetEmail, notifyAdminNewUser } = require('../services/emailService');
 
 class AuthController {
   static async checkEmail(req, res) {
@@ -113,6 +113,12 @@ class AuthController {
       }
 
       await executeQuery('UPDATE email_verifications SET used = TRUE WHERE id = ?', [pending.id]);
+
+      try {
+        await notifyAdminNewUser(pending.nombre, pending.email);
+      } catch (notifyErr) {
+        console.error('Error notificando nueva usuaria al admin:', notifyErr.message);
+      }
 
       const userId = createResult.data.insertId;
       const jwtToken = jwt.sign(

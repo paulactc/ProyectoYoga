@@ -1,4 +1,5 @@
 const { executeQuery } = require('../config/database');
+const { notifyAdminNuevaOpinion } = require('../services/emailService');
 
 async function getSeries(req, res) {
   const result = await executeQuery(`
@@ -95,6 +96,12 @@ async function postFeedback(req, res) {
 
   if (!result.success) {
     return res.status(500).json({ success: false, message: 'Error al guardar el feedback' });
+  }
+
+  try {
+    await notifyAdminNuevaOpinion({ nombre: req.user.nombre, texto: texto.trim(), origen: `Meditación: ${id}` });
+  } catch (notifyErr) {
+    console.error('Error notificando nueva opinión al admin:', notifyErr.message);
   }
 
   return res.status(201).json({ success: true, message: '¡Gracias por tu feedback! Se publicará en cuanto lo revise.' });

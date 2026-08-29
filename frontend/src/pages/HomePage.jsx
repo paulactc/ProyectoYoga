@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import ReservaPresencialModal from '../components/ReservaPresencialModal'
 
 export default function HomePage() {
   const heroImgRef = useRef(null)
@@ -7,6 +8,7 @@ export default function HomePage() {
   const [form, setForm] = useState({ nombre: '', email: '', mensaje: '' })
   const [contactStatus, setContactStatus] = useState(null)
   const [testimoniosAlumnas, setTestimoniosAlumnas] = useState([])
+  const [reservaOpen, setReservaOpen] = useState(false)
 
   useEffect(() => {
     fetch('/api/testimonios')
@@ -109,8 +111,8 @@ export default function HomePage() {
             </div>
             <div className="servicio-card-body">
               <h3>Clases presenciales, en grupo</h3>
-              <p>Con metodología adaptada a cada grupo y ajustes físicos precisos en cada postura. Mi forma habitual de dar clase desde 2017.</p>
-              <a href="#contacto" className="servicio-card-cta">Consultar horarios y centros <span aria-hidden="true">→</span></a>
+              <p>Vinyasa Yoga en Chiclana de la Frontera. Lunes y miércoles, 19:00h (1h15), todos los niveles. Plazas abiertas.</p>
+              <button type="button" onClick={() => setReservaOpen(true)} className="servicio-card-cta">Reservar mi plaza <span aria-hidden="true">→</span></button>
             </div>
           </div>
           <div className="servicio-card">
@@ -298,6 +300,8 @@ export default function HomePage() {
           </form>
         </div>
       </section>
+
+      <ReservaPresencialModal isOpen={reservaOpen} onClose={() => setReservaOpen(false)} />
     </>
   )
 }

@@ -2,6 +2,7 @@ const express = require('express');
 const rateLimit = require('express-rate-limit');
 const router = express.Router();
 const { executeQuery } = require('../config/database');
+const { notifyAdminNuevaOpinion } = require('../services/emailService');
 
 const submitLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hora
@@ -39,6 +40,12 @@ router.post('/', submitLimiter, async (req, res) => {
     [nombre.trim(), texto.trim()]
   );
   if (!result.success) return res.status(500).json({ success: false, message: 'No se pudo enviar. Inténtalo de nuevo.' });
+
+  try {
+    await notifyAdminNuevaOpinion({ nombre: nombre.trim(), texto: texto.trim(), origen: 'Opinión general' });
+  } catch (notifyErr) {
+    console.error('Error notificando nueva opinión al admin:', notifyErr.message);
+  }
 
   res.json({ success: true });
 });

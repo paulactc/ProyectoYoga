@@ -88,6 +88,7 @@ app.use('/api/meditaciones', makeApiLimiter(),  require('./routes/meditaciones')
 app.use('/api/testimonios',  makeApiLimiter(),  require('./routes/testimonios'));
 app.use('/api/blog',         makeApiLimiter(),  require('./routes/blog'));
 app.use('/api/contact',      contactLimiter, require('./routes/contact'));
+app.use('/api/reserva',      contactLimiter, require('./routes/reserva'));
 
 // Serve compiled frontend in production
 const distPath = path.join(__dirname, '../../frontend/dist');

@@ -2,7 +2,7 @@ const express    = require('express');
 const router     = express.Router();
 const { verifyToken } = require('../middleware/auth');
 const { pool }   = require('../config/database');
-const { getFeedback, postFeedback } = require('../controllers/clasesController');
+const { getFeedback, postFeedback, registrarVista } = require('../controllers/clasesController');
 
 // Clases por grupo (desde BD, incluye vimeo_id)
 router.get('/grupo/:grupoId', async (req, res) => {
@@ -40,5 +40,6 @@ router.get('/:id', verifyToken, (req, res) => {
 
 router.get('/:id/feedback', getFeedback);
 router.post('/:id/feedback', verifyToken, postFeedback);
+router.post('/:id/vista', verifyToken, registrarVista);
 
 module.exports = router;

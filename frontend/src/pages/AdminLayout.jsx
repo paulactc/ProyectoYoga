@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext'
 import AdminUsuarios from './AdminUsuarios'
 import AdminOpiniones from './AdminOpiniones'
 import AdminBlog from './AdminBlog'
+import AdminActividad from './AdminActividad'
 
 function tabClase({ isActive }) {
   return isActive ? 'admin-tab admin-tab--activa' : 'admin-tab'
@@ -29,12 +30,14 @@ export default function AdminLayout() {
         <nav className="admin-tabs">
           <NavLink to="/admin" end className={tabClase}>Suscriptoras</NavLink>
           <NavLink to="/admin/opiniones" className={tabClase}>Opiniones</NavLink>
+          <NavLink to="/admin/actividad" className={tabClase}>Actividad</NavLink>
           <NavLink to="/admin/blog" className={tabClase}>Blog</NavLink>
         </nav>
 
         <Routes>
           <Route index element={<AdminUsuarios token={token} />} />
           <Route path="opiniones" element={<AdminOpiniones token={token} />} />
+          <Route path="actividad" element={<AdminActividad token={token} />} />
           <Route path="blog" element={<AdminBlog token={token} />} />
         </Routes>
       </div>

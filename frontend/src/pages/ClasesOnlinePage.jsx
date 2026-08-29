@@ -29,8 +29,8 @@ const GRUPOS = [
     meta: '5 clases · 30-60 min · Nivel intermedio',
     clases: [
       { id: 'g3-1', titulo: 'Del cuerpo al silencio',        duracion: 60, nivel: 2, descripcion: 'Del cuerpo al silencio: una práctica que va soltando capas hasta llegar a la quietud interior.', imagen: '/images/yoga11.jpg', vimeo_id: '1206825714' },
-      { id: 'g3-2', titulo: 'El regreso constante',          duracion: 30, nivel: 2, descripcion: 'Una clase para practicar el gesto más honesto del yoga: darte cuenta de que la mente se fue, y volver. Sin culpa, sin esperar quedarte quieta para siempre, solo notar y regresar al cuerpo, una y otra vez, tantas veces como haga falta.', imagen: '/images/yoga14.jpg', vimeo_id: '1210240715' },
-      { id: 'g3-3', titulo: 'Fuerza silenciosa',              duracion: 40, nivel: 2, descripcion: 'La fuerza que no necesita hacer ruido: posturas sostenidas con control, para encontrar estabilidad sin tensión de más.', imagen: '/images/yoga25.jpg', vimeo_id: '1218287865' },
+      { id: 'g3-2', titulo: 'El regreso constante: a habitarte', duracion: 30, nivel: 2, descripcion: 'Una clase para practicar el gesto más honesto del yoga: darte cuenta de que la mente se fue, y volver. Sin culpa, sin esperar quedarte quieta para siempre, solo notar y regresar al cuerpo, una y otra vez, tantas veces como haga falta.', imagen: '/images/yoga14.jpg', vimeo_id: '1210240715' },
+      { id: 'g3-3', titulo: 'Fuerza silenciosa: activando nuestro centro', duracion: 40, nivel: 2, descripcion: 'La fuerza que no necesita hacer ruido: posturas sostenidas con control, para encontrar estabilidad sin tensión de más.', imagen: '/images/yoga25.jpg', vimeo_id: '1218287865' },
       { id: 'g3-4', titulo: 'Los cimientos en Vinyasa',       duracion: 40, nivel: 2, descripcion: 'Trabaja la cadena de tobillo, rodilla y cadera para construir un enraizamiento sólido en Tadasana, la postura base de la que nacen gran parte de las demás.', imagen: '/images/yoga28.jpg', vimeo_id: '1221525071' },
       { id: 'g3-5', titulo: 'Vinyasa construyendo Janu Sirsasana', duracion: 30, nivel: 2, descripcion: 'Una secuencia que prepara cadera, isquiotibiales y columna para llegar con seguridad a Janu Sirsasana, la flexión hacia la pierna extendida que calma el sistema nervioso y invita a soltar el control.', imagen: '/images/yoga29.jpg', vimeo_id: '1222049222' },
     ],
@@ -175,6 +175,16 @@ export default function ClasesOnlinePage() {
     }
   }
 
+  const handlePlay = () => {
+    setVideoActive(true)
+    const id = modalClase?.id
+    if (!id || !token) return
+    fetch(`/api/clases/${encodeURIComponent(id)}/vista`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}` },
+    }).catch(() => {})
+  }
+
   return (
     <>
       {/* ── Banner de acceso para quien no tiene el pack ── */}
@@ -267,7 +277,7 @@ export default function ClasesOnlinePage() {
             {modalClase.vimeo_id ? (
               <div className="video-embed-wrap">
                 {!videoActive ? (
-                  <button className="video-poster" onClick={() => setVideoActive(true)} aria-label="Reproducir vídeo">
+                  <button className="video-poster" onClick={handlePlay} aria-label="Reproducir vídeo">
                     {modalClase.imagen && (
                       <img src={modalClase.imagen} alt={modalClase.titulo} className="video-poster-img" />
                     )}

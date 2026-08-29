@@ -6,7 +6,7 @@ export default function PoliticaPrivacidadPage() {
       <div className="legal-wrap">
         <p className="hero-eyebrow">Legal</p>
         <h1>Política de Privacidad</h1>
-        <p className="legal-updated">Última actualización: junio de 2026</p>
+        <p className="legal-updated">Última actualización: agosto de 2026</p>
 
         <section className="legal-section">
           <p>
@@ -17,6 +17,9 @@ export default function PoliticaPrivacidadPage() {
           </p>
           <p>
             A efectos de lo que prevé la LOPDGDD, Paula Castillo Toldos informa que los datos que voluntariamente estás facilitando serán incorporados al sistema de información con el fin de realizar las gestiones comerciales y administrativas necesarias con los usuarios de la web. Las operaciones previstas son: responder a las consultas y/o proporcionar informaciones requeridas por el usuario; realizar las prestaciones de servicios y/o productos contratados o suscritos; y remitir el boletín de noticias de la página web.
+          </p>
+          <p>
+            Si te registras y accedes al Aula Online, también tratamos datos de uso del servicio —qué clases del Pack Raíz reproduces y cuándo fue la última vez— con la finalidad de prestarte soporte y mejorar el contenido y la experiencia del servicio contratado. La base legal de este tratamiento es el interés legítimo del Prestador en la mejora del servicio, así como la propia ejecución del contrato cuando se trata de darte seguimiento del Pack que has adquirido. Estos datos no se comparten con terceros y puedes ejercer tus derechos de acceso, rectificación u oposición sobre ellos de la misma forma indicada más abajo.
           </p>
           <p>
             El firmante garantiza la veracidad de los datos aportados y se compromete a comunicar cualquier cambio que se produzca en los mismos.
